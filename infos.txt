@@ -1,0 +1,4 @@
+Mongoose infos :
+nom de la database : Atilyst
+username : joey
+mdp : mdpjoey

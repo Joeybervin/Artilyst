@@ -1,9 +1,22 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
+var request = require('sync-request');
+
+
+// * Create a account
+router.post('/sign-up', function(req, res, next) {
+
+
   res.render('index', { title: 'Express' });
 });
+
+// * Connexion
+router.post('/sign-in', function(req, res, next) {
+
+  
+  res.render('index', { title: 'Express' });
+});
+
 
 module.exports = router;

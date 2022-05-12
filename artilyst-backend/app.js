@@ -17,7 +17,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+/* Pour le déploiement sur Heroku */
+//app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'artilyst-backend')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

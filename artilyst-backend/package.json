@@ -5,6 +5,11 @@
   "scripts": {
     "start": "node ./bin/www"
   },
+  "nodemonConfig": {
+    "ignore": [
+      "client/*"
+    ]
+  },
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cookie-parser": "~1.4.4",
@@ -17,6 +22,7 @@
     "morgan": "~1.9.1",
     "react-redux": "^8.0.1",
     "redux": "^4.2.0",
+    "socket.io": "^4.5.0",
     "sync-request": "^6.1.0",
     "uid2": "^1.0.0"
   }
