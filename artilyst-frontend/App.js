@@ -9,14 +9,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 //^ Components
 /* connexion screens */
-import ConnexionScreen from './screens/connection/ConnexionScreen';
-import ConnexionFormScreen from './screens/connection/ConnexionFormScreen';
+import ConnectionScreen from './screens/connection/ConnectionScreen';
+import ConnectionFormScreen from './screens/connection/ConnectionFormScreen';
 import RegisterFormScreen1 from './screens/connection/RegisterFormScreen1';
 import RegisterFormScreen2 from './screens/connection/RegisterFormScreen2';
 
 /* app screens */
 import CreationProjectScreen from './screens/CreationProjectScreen';
-import AnnonceScreen from './screens/AnnonceScreen';
+import AnnoncesScreen from './screens/AnnoncesScreen';
 import LikesScreen from './screens/LikesScreen';
 
 //^ Redux
@@ -60,7 +60,7 @@ function PagesStacks() {
       
       }}>
         <TabNavigator.Screen name="Mes projets" component={CreationProjectScreen} />
-        <TabNavigator.Screen name="Annonces" component={AnnonceScreen} />
+        <TabNavigator.Screen name="Annonces" component={AnnoncesScreen} />
         <TabNavigator.Screen name="Likes" component={LikesScreen} />
       </TabNavigator.Navigator>
   );
@@ -77,8 +77,8 @@ export default function App() {
         <StackNavigator.Navigator screenOptions={{headerShown: false}}>
 
           {/* Sign-in / Sign-up nested navigation */}
-          <StackNavigator.Screen  name="ConnexionScreen" component={ConnexionScreen}/>
-          <StackNavigator.Screen  name="ConnexionFormScreen" component={ConnexionFormScreen}/>
+          <StackNavigator.Screen  name="ConnectionScreen" component={ConnectionScreen}/>
+          <StackNavigator.Screen  name="ConnectionFormScreen" component={ConnectionFormScreen}/>
           <StackNavigator.Screen  name="RegisterFormScreen1" component={RegisterFormScreen1}/>
           <StackNavigator.Screen  name="RegisterFormScreen2" component={RegisterFormScreen2}/>
 

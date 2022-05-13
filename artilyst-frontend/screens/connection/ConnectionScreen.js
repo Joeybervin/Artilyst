@@ -1,10 +1,12 @@
 import React from 'react';
 
 //^ Module de balise
-import { StyleSheet, Text,  View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Text, Button } from '@rneui/base';
+
 /* import { Text } from '@rneui/base'; */
 
-export default function ConnexionFormScreen(props) {
+export default function ConnectionScreen(props) {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
@@ -18,11 +20,23 @@ export default function ConnexionFormScreen(props) {
 
 
     // * ___________________________ PAGE ___________________________
-    
+
     return (
         <View style={styles.container}>
-        
-            <Text onPress={() => props.navigation.navigate('PagesStacks')}>ConnexionFormScreen</Text>
+
+            <Text onPress={() => props.navigation.navigate('PagesStacks')}>ConnectionScreen</Text>
+
+            <Button
+                title="Se connecter"
+                onPress={() => props.navigation.navigate('ConnectionFormScreen')}
+                containerStyle={{ margin: 5 }}
+            />
+
+            <Button
+                title="Créer un compte"
+                onPress={() => props.navigation.navigate('RegisterFormScreen1')}
+                containerStyle={{ margin: 5 }}
+            />
 
         </View>
 

@@ -1,12 +1,10 @@
 import React from 'react';
 
 //^ Module de balise
-import { StyleSheet, View } from 'react-native';
-import { Text, Button } from '@rneui/base';
-
+import { StyleSheet, Text,  View } from 'react-native';
 /* import { Text } from '@rneui/base'; */
 
-export default function ConnexionScreen(props) {
+export default function AnnoncesScreen() {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
@@ -20,23 +18,11 @@ export default function ConnexionScreen(props) {
 
 
     // * ___________________________ PAGE ___________________________
-
+    
     return (
         <View style={styles.container}>
-
-            <Text>ConnexionScreen</Text>
-
-            <Button
-                title="Se connecter"
-                onPress={() => props.navigation.navigate('ConnexionFormScreen')}
-                containerStyle={{ margin: 5 }}
-            />
-
-            <Button
-                title="Créer un compte"
-                onPress={() => props.navigation.navigate('RegisterFormScreen1')}
-                containerStyle={{ margin: 5 }}
-            />
+        
+            <Text>AnnoncesScreen</Text>
 
         </View>
 
