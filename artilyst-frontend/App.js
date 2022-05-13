@@ -1,3 +1,4 @@
+// ^ Wanings messages
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']);
 
