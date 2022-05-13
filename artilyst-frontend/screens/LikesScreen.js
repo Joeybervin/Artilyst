@@ -1,5 +1,9 @@
 import React from 'react';
 
+// ^ Wanings messages
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...', "EventEmitter.removeListener('keyboardDidHide', ...):"]);
+
 //^ Module de balise
 import { StyleSheet, Text,  View } from 'react-native';
 /* import { Text } from '@rneui/base'; */

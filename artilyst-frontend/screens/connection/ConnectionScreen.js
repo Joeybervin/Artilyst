@@ -1,5 +1,9 @@
 import React from 'react';
 
+// ^ Wanings messages
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']);
+
 //^ Module de balise
 import { StyleSheet, View } from 'react-native';
 import { Text, Button } from '@rneui/base';
