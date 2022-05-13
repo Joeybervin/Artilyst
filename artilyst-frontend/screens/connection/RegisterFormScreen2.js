@@ -4,7 +4,7 @@ import React from 'react';
 import { StyleSheet, Text,  View } from 'react-native';
 /* import { Text } from '@rneui/base'; */
 
-export default function ConnexionScreen(props) {
+export default function RegisterFormScreen2(props) {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
@@ -22,7 +22,7 @@ export default function ConnexionScreen(props) {
     return (
         <View style={styles.container}>
         
-            <Text onPress={() => props.navigation.navigate('ConnexionFormScreen')}>ConnexionScreen</Text>
+            <Text onPress={() => props.navigation.navigate('#')}>RegisterFormScreen2</Text>
 
         </View>
 
