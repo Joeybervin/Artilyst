@@ -11,7 +11,7 @@ export default function ConnexionScreen(props) {
     /* VARIABLES */
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
-    /* SECONDE */
+    /* SECONDE */ggtftf
     // * ___________________________ FUNCTIONS ___________________________
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
