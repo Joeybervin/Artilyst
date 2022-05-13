@@ -1,3 +1,7 @@
+// ^ Wanings messages
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']);
+
 import React from 'react';
 
 //^ Module de balise
@@ -11,7 +15,7 @@ export default function ConnexionScreen(props) {
     /* VARIABLES */
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
-    /* SECONDE */ggtftf
+    /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */

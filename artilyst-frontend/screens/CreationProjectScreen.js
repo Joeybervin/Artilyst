@@ -1,3 +1,7 @@
+// ^ Wanings messages
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']);
+
 import React from 'react';
 
 //^ Module de balise
