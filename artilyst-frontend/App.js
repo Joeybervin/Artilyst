@@ -8,11 +8,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 //^ Components
-/* connexion components */
-import ConnexionScreen from './screens/ConnexionScreen';
-import ConnexionFormScreen from './screens/ConnexionFormScreen';
+/* connexion screens */
+import ConnexionScreen from './screens/connection/ConnexionScreen';
+import ConnexionFormScreen from './screens/connection/ConnexionFormScreen';
+import RegisterFormScreen1 from './screens/connection/RegisterFormScreen1';
+import RegisterFormScreen2 from './screens/connection/RegisterFormScreen2';
 
-/* app components */
+/* app screens */
 import CreationProjectScreen from './screens/CreationProjectScreen';
 import AnnonceScreen from './screens/AnnonceScreen';
 import LikesScreen from './screens/LikesScreen';
@@ -36,10 +38,10 @@ function PagesStacks() {
         
         tabBarIcon: ({ color }) => {
           let iconName;
-          if (route.name === 'Project') {
+          if (route.name === 'Mes projets') {
             iconName = 'ios-create'
             
-          } else if (route.name === 'Annonce') {
+          } else if (route.name === 'Annonces') {
             iconName = 'ios-search'
           }
           else if (route.name === 'Likes') {
@@ -57,8 +59,8 @@ function PagesStacks() {
         }
       
       }}>
-        <TabNavigator.Screen name="Project" component={CreationProjectScreen} />
-        <TabNavigator.Screen name="Annonce" component={AnnonceScreen} />
+        <TabNavigator.Screen name="Mes projets" component={CreationProjectScreen} />
+        <TabNavigator.Screen name="Annonces" component={AnnonceScreen} />
         <TabNavigator.Screen name="Likes" component={LikesScreen} />
       </TabNavigator.Navigator>
   );
@@ -74,8 +76,13 @@ export default function App() {
       <NavigationContainer >
         <StackNavigator.Navigator screenOptions={{headerShown: false}}>
 
+          {/* Sign-in / Sign-up nested navigation */}
           <StackNavigator.Screen  name="ConnexionScreen" component={ConnexionScreen}/>
           <StackNavigator.Screen  name="ConnexionFormScreen" component={ConnexionFormScreen}/>
+          <StackNavigator.Screen  name="RegisterFormScreen1" component={RegisterFormScreen1}/>
+          <StackNavigator.Screen  name="RegisterFormScreen2" component={RegisterFormScreen2}/>
+
+
           <StackNavigator.Screen  name="PagesStacks" component={PagesStacks}/>
 
         </StackNavigator.Navigator>
