@@ -11,23 +11,9 @@ var request = require('sync-request');
 // * Création d'un compte
 router.post('/sign-up', async function (req, res, next) {
 
-  let alreadyMember = false;
-  /* Véfificaton si le compte éxiste déjà */
-  var user_account = await userModel.findOne({ email: req.body.signUpEmail });
+  const userInfos = req.body.userInfos
 
-  /* Ajout de l'utilisateur à la base de données */
-  if (!user_account && req.body.signUpEmail !== "" && req.body.signUpPassword !== "" && req.body.signUpUsername !== "") {
-    alreadyMember = true
-    var newUser = new userModel({
-      email: req.body.signUpEmail,
-      password: req.body.signUpPassword,
-    })
-
-    /* J'enregistre dans la base de données */
-    await newUser.save()
-  }
-  
-  res.json({alreadyMember})
+  console.log(userInfos);
 
 });
 
