@@ -13,6 +13,8 @@ import { Text, Input, Button } from '@rneui/base';
 //^ module bonus (icons)
 import { Ionicons } from '@expo/vector-icons'; 
 
+import { Ionicons } from '@expo/vector-icons'; 
+
 // ^ React navigation
 import { Link } from '@react-navigation/native';
 
@@ -27,7 +29,9 @@ function ConnectionFormScreen(props) {
     const [emailError, setEmailError] = useState(""); // message d'erreur de l'email
     const [password, setPassword] = useState("");// champs du mot de passe
     const [passwordError, setPasswordError] = useState(""); // message d'erreur du mot de passe
+
     const [passwordVisibility, setPasswordVisibility] = useState(true); // Changement de la visibilité du mot de passe
+
     const [login, setLogin] = useState(false); // condition pour envoyer la donné au back-end
     const [newMemberMessage, setNewMemberMessage] = useState("") // renvoie d'un message si la base de données n'a pas trouvé l'utilisateur
     
@@ -37,14 +41,11 @@ function ConnectionFormScreen(props) {
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
 
-    /* Check des erreurs possible */
+    /* Check des erreurs possible à la submission du formulaire de connexion*/
     const handleSubmit = () => {
         var emailValid = false;
         if(email.length == 0){
             setEmailError("Ce champs est obligatoire");
-        }        
-        else if(email.length < 6){
-            setEmailError("Attention , champs invalide !");
         }      
         else if(email.indexOf(' ') >= 0){        
             setEmailError('Un email ne peut contenit d\'espaces');                          
@@ -57,10 +58,7 @@ function ConnectionFormScreen(props) {
         var passwordValid = false;
         if(password.length == 0){
             setPasswordError("Ce champs est obligatoire");
-        }        
-        else if(password.length < 6){
-            setPasswordError("Attention , champs invalide !");
-        }      
+        }       
         else if(password.indexOf(' ') >= 0){        
             setPasswordError('Un email ne peut contenit d\'espaces');                          
         }    
@@ -125,9 +123,10 @@ function ConnectionFormScreen(props) {
             <Input
                 placeholder="Password (min 6 caractères)"
                 onChangeText={setPassword} value={password}
-                errorMessage={passwordError}
                 rightIcon={<Ionicons name={passwordVisibility ? 'eye-outline' : 'eye-off-outline'} size={24} color='black' onPress={() => setPasswordVisibility(passwordVisibility ? false : true) } />}
-                secureTextEntry={passwordVisibility} // Pour cacher ou montrer le mot de passe
+                secureTextEntry={passwordVisibility} // Pour cacher ou ontrer le mot de passe
+                errorMessage={passwordError}
+
             />
 
             {/* Message d'erreur compte inexistant dans la base de données */}

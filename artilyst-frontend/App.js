@@ -104,6 +104,7 @@ export default function App() {
           <StackNavigator.Screen  name="ConnectionFormScreen" component={ConnectionFormScreen} options={{headerShown: false}} />
           <StackNavigator.Screen  name="RegisterFormScreen1" component={RegisterFormScreen1} options={{headerShown: false}} />
           <StackNavigator.Screen  name="RegisterFormScreen2" component={RegisterFormScreen2} options={{headerShown: false}} />
+          
 
           <StackNavigator.Screen  name="PagesStacks" component={PagesStacks} 
           /* Créer une navigation depuis le header de l'app pour naviguer vers la page du profil + la page messages */
