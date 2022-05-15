@@ -1,5 +1,5 @@
 export default function( userInfos = {}, action) {
-    if(action.type === "addUser") {
+    if(action.type === "userConnection") {
 
         return action.user
         

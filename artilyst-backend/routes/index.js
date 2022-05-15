@@ -49,28 +49,25 @@ router.post('/sign-up', async function (req, res, next) {
 
 });
 
-// * Connexion
+// * Connexion à un compte déjà existant
 router.post('/sign-in', async function(req, res, next) {
 
-  let alreadyMember = false;
+  let email = req.body.email;
+  let password = req.body.password;
 
   /* Vérifications des informations données */
-  var account = await userModel.findOne({
-    email: req.body.signInEmail,
-    password: req.body.signInPassword
+  let user_account = await userModel.findOne({
+    email: email,
   });
 
 
-  if (account !== null) {
-    alreadyMember = true
+  if (user_account !== null && bcrypt.compareSync(password, user_account.password)) {
+    res.json({already_member : true, token : user_account.token})
     
   }
   else {
-    alreadyMember = false
+    res.json({already_member : false})
   }
- 
-
-  res.json({alreadyMember})
   
 });
 

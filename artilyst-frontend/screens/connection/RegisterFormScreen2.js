@@ -38,7 +38,7 @@ function RegisterFormScreen2(props) {
     }
 
     /* fonction pour sauvegarder un utilisateur dans la base de données */
-    const saveNewUser = async () => {
+    const signUpUser = async () => {
         const rawResponse = await fetch(`http://${expoUrlJoey}/sign-up`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
@@ -51,10 +51,10 @@ function RegisterFormScreen2(props) {
         if (response.new_user === true) {
             setLogin(true)
             props.navigation.navigate('PagesStacks') // redirection vers le profil
-            props.addnewUser({user_token : response.token}) // J'ajoute les informations dans mon store
+            props.getUser({user_token : response.token}) // J'ajoute les informations dans mon store
         }
         else {
-            console.lopg("Ce compte existe déjà")
+            console.log("Ce compte existe déjà")
         }
         
     }
@@ -127,7 +127,7 @@ function RegisterFormScreen2(props) {
                 <Button
                     buttonStyle={{ backgroundColor: '#3BA58B', margin: 5 }}
                     title="Créer un compte"
-                    onPress={() => saveNewUser()}
+                    onPress={() => signUpUser()}
                 />
 
 
@@ -156,8 +156,8 @@ const styles = StyleSheet.create({
 // * ___________________________ REDUX ___________________________
 function mapDispatchToProps(dispatch) {
     return {
-        addnewUser: function (user) {
-            dispatch({ type: 'addUser', user })
+        getUser: function (user) {
+            dispatch({ type: 'userConnection', user })
 
         }
     }
