@@ -34,22 +34,17 @@ const store = createStore(combineReducers({user}));
 //^ module bonus (style + icons)
 import { Ionicons } from '@expo/vector-icons'; 
 
-import { Button } from '@rneui/base';
-import {IoniconsHeaderButton} from './screens/components/header/headerButtonsComponent'
+import { Button, Badge } from '@rneui/base';
 
-// * LINK NAVIGATION
-const StackNavigator = createStackNavigator();
 
 // * BOTTOMTAB NAVIGATION
 const TabNavigator = createBottomTabNavigator();
 
 function PagesStacks() {
-
-  
   return (
     
       <TabNavigator.Navigator 
-      
+      initialRouteName="Annonces" // Première page qui s'affiche après sign_in / sign-up
       screenOptions={({ route }) => ({
         
         tabBarIcon: ({ color }) => {
@@ -68,36 +63,37 @@ function PagesStacks() {
         },
         
       })}
+      
       tabBarOptions={{
-        activeTintColor: '#9AB6FF',
+        activeTintColor: '#1ADBAC',
         inactiveTintColor: '#FFFFFF',
         style: {
           backgroundColor: '#000000'
         }
         
-      
       }}>
 
-        
-
-
         <TabNavigator.Screen name="Mes projets" component={CreationProjectScreen}  />
-        <TabNavigator.Screen name="Annonces" component={AnnoncesScreen} />
-        <TabNavigator.Screen name="Likes" component={LikesScreen} />
+        <TabNavigator.Screen name="Annonces" component={AnnoncesScreen}  options={{ initialRouteName: true }}  />
+        <TabNavigator.Screen name="Likes" component={LikesScreen}  
+        options={{
+          tabBarBadge: 0 ,
+          tabBarBadgeStyle:{backgroundColor:"#1ADBAC", color:"#fff"}}}  />
 
         <TabNavigator.Screen name="UserScreen" component={UserScreen}  options={{
         tabBarButton: () => null
         }} />
           <TabNavigator.Screen name="MessagesScreen" component={MessagesScreen}  options={{
         tabBarButton: () => null
-
     }}/>
       </TabNavigator.Navigator>
   );
 } 
+// * LINK NAVIGATION
+const StackNavigator = createStackNavigator();
 
 
-export default function App(props) {
+export default function App() {
   return (
     <Provider store={store}>
       <StatusBar barStyle="light-content" backgroundColor="#333333" />
@@ -110,7 +106,6 @@ export default function App(props) {
           <StackNavigator.Screen  name="RegisterFormScreen1" component={RegisterFormScreen1}/>
           <StackNavigator.Screen  name="RegisterFormScreen2" component={RegisterFormScreen2}/>
 
-         
           <StackNavigator.Screen  name="PagesStacks" component={PagesStacks} 
           /* Créer une navigation depuis le header de l'app pour naviguer vers la page du profil + la page messages */
           options={({ navigation }) => ({
@@ -137,8 +132,15 @@ export default function App(props) {
               icon={<Ionicons name={"mail"} size={20} color="white" />}
               buttonStyle= {{marginHorizontal : 25, borderRadius : 100}}
               color="#BBBBBB"
+              
               onPress={() => navigation.navigate('MessagesScreen')}
-            />
+            >
+              <Badge
+            badgeStyle={{backgroundColor :"#1ADBAC"}}
+            value={0}
+            containerStyle={{ position: 'absolute', top: 0, left: 30 }}
+          />
+            </Button>
           ),
       })}/>
 
