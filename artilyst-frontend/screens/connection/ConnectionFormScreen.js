@@ -10,6 +10,8 @@ LogBox.ignoreLogs(['Warning: ...']);
 //^ Module de balise
 import { StyleSheet,  View} from 'react-native';
 import { Text, Input, Button } from '@rneui/base';
+//^ module bonus (icons)
+import { Ionicons } from '@expo/vector-icons'; 
 
 import { Ionicons } from '@expo/vector-icons'; 
 
@@ -27,9 +29,11 @@ function ConnectionFormScreen(props) {
     const [emailError, setEmailError] = useState(""); // message d'erreur de l'email
     const [password, setPassword] = useState("");// champs du mot de passe
     const [passwordError, setPasswordError] = useState(""); // message d'erreur du mot de passe
-    const [passwordVisibility, setPasswordVisibility] = useState(true); //
+
+    const [passwordVisibility, setPasswordVisibility] = useState(true); // Changement de la visibilité du mot de passe
+
     const [login, setLogin] = useState(false); // condition pour envoyer la donné au back-end
-    const [newMemberMessage, setNewMemberMessage] = useState("")
+    const [newMemberMessage, setNewMemberMessage] = useState("") // renvoie d'un message si la base de données n'a pas trouvé l'utilisateur
     
     /* VARIABLES */
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
@@ -93,7 +97,7 @@ function ConnectionFormScreen(props) {
         }
         else {
             /* MARCHE PAS */
-            returnsetNewMemberMessage("Ce compte n'existe pas dans notre base de données")
+            setNewMemberMessage("Ce compte n'existe pas dans notre base de données")
         }
         }
     }
@@ -122,6 +126,7 @@ function ConnectionFormScreen(props) {
                 rightIcon={<Ionicons name={passwordVisibility ? 'eye-outline' : 'eye-off-outline'} size={24} color='black' onPress={() => setPasswordVisibility(passwordVisibility ? false : true) } />}
                 secureTextEntry={passwordVisibility} // Pour cacher ou ontrer le mot de passe
                 errorMessage={passwordError}
+
             />
 
             {/* Message d'erreur compte inexistant dans la base de données */}
