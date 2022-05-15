@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // & import des urls de chacune
-import {expoUrlJoey} from '../url';
+import {expoUrlJoey} from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
@@ -10,8 +10,6 @@ LogBox.ignoreLogs(['Warning: ...']);
 //^ Module de balise
 import { StyleSheet, View } from 'react-native';
 import { Button, Text, Divider } from '@rneui/base';
-//^ module bonus (icons)
-import { Ionicons } from '@expo/vector-icons';
 
 // ^Redux
 import { connect } from 'react-redux';
