@@ -48,7 +48,6 @@ export default function RegisterFormScreen1(props) {
 
 
     /* Check des erreurs possible à la submission du formulaire de connexion*/
-    console.log('1 : ',birthdayDate)
     const handleSubmit = () => {
 
         let today = new Date() // Je récupère la date d'aujourd'hui
@@ -73,7 +72,7 @@ export default function RegisterFormScreen1(props) {
             setBirthdayDateError("Toujours en vie ? Félicitations !")
         }
         else {
-          
+        
             birthdayDateValid = true;
         }
 
@@ -85,7 +84,7 @@ export default function RegisterFormScreen1(props) {
         else if (email.length === 0) {
             setEmailError("Ce champs est obligatoire");
         }        
-        else if(email.length < 6){
+        else if(email.length < 2){
             setEmailError("Attention , champs invalide !");
         }      
         else if(email.indexOf(' ') >= 0){        
@@ -104,7 +103,7 @@ export default function RegisterFormScreen1(props) {
         else if (password.length == 0 ){
             setPasswordError("Ce champs est obligatoire");
         }        
-        else if(password.length < 6){
+        else if(password.length < 2){
             setPasswordError("Attention , champs invalide !");
         }      
         else if(password.indexOf(' ') >= 0){        

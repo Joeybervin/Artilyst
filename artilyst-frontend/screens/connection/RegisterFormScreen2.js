@@ -24,6 +24,7 @@ function RegisterFormScreen2(props) {
     const [userInfos, setUserInfos] = useState(props.route.params)// récupération des données entrées par l'utilisateur sur la screen précédente avec les paramètres
     const [userOccupation, setUserOccupation] = useState("")
     const [login, setLogin] = useState(false)
+    const [userOccupationClicked, setUserOccupationClicked]  = useState(true) // vérifie si l'utilisateur à bien clické suur un bouton
     /* VARIABLES */
 
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
@@ -34,11 +35,13 @@ function RegisterFormScreen2(props) {
     /* Pour ajouter le métier de l'utilisateur au données qui seront envoyées à la base de données  */
     const addUserOccupation = (userOccupation) => {
         setUserOccupation(userOccupation)
-        userInfos['occupation'] = userOccupation
+        userInfos['occupation'] = userOccupation // Ajour=t du choix à l'objet qui sera transmis à la base de données
+        setUserOccupationClicked(false) // Rend le button "créer un compte" cliquable
     }
 
     /* fonction pour sauvegarder un utilisateur dans la base de données */
     const signUpUser = async () => {
+        console.log("USERINFOS : ",userInfos)
         const rawResponse = await fetch(`http://${expoUrlJoey}/sign-up`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
@@ -50,7 +53,8 @@ function RegisterFormScreen2(props) {
         /* Si l'utilisateur n'existe pas */
         if (response.new_user === true) {
             setLogin(true)
-            props.navigation.navigate('ProfilScreen') // redirection vers le profil
+            /* NE MARCHE PAS */
+            props.navigation.navigate('PagesStacks') // redirection vers le Annonce
             props.getUserInformations({user_token : response.token}) // J'ajoute les informations dans mon store
         }
         else {
@@ -73,30 +77,31 @@ function RegisterFormScreen2(props) {
             <View dir="row" align="center" spacing={4}>
 
                 <Button
-                    buttonStyle={{ backgroundColor: '#229EE6' }}
+                    buttonStyle={{ backgroundColor: '#1ADBAC' }}
                     title="Comédien/ne"
                     onPress={() => addUserOccupation("Comédien/ne")}
                 />
 
                 <Button
-                    buttonStyle={{ backgroundColor: '#B36FDB' }}
+                    buttonStyle={{ backgroundColor: '#16B88F' }}
                     title="Modèle"
                     onPress={() => addUserOccupation("Modèle")}
                 />
                 <Button
-                    buttonStyle={{ backgroundColor: '#F3DC5C' }}
+                    buttonStyle={{ backgroundColor: '#109171' }}
                     title="Photographe"
                     onPress={() => addUserOccupation("Photographe")}
                 />
 
                 <Button
-                    buttonStyle={{ backgroundColor: '#D8568C' }}
+                    buttonStyle={{ backgroundColor: '#0B664F' }}
                     title="Styliste"
                     onPress={() => addUserOccupation("Styliste")}
                 />
 
                 <Button
-                    buttonStyle={{ backgroundColor: '#3711A1' }}
+                
+                    buttonStyle={{ backgroundColor: '#074233' }}
                     title="Réalisateur/ice vidéaste"
                     onPress={() => addUserOccupation("Réalisateur/ice vidéaste")}
                 />
@@ -110,7 +115,8 @@ function RegisterFormScreen2(props) {
             />
 
             <Button
-                buttonStyle={{ backgroundColor: '#508CB4' }}
+            containerStyle={{width : 210}}
+                buttonStyle={{ backgroundColor: '#AD4DB9' }}
                 title="recruteur"
 
                 onPress={() => addUserOccupation("recruteur")}
@@ -125,9 +131,10 @@ function RegisterFormScreen2(props) {
                 />
 
                 <Button
-                    buttonStyle={{ backgroundColor: '#3BA58B', margin: 5 }}
+                    buttonStyle={{ backgroundColor: '#3268DD', margin: 5 }}
                     title="Créer un compte"
                     onPress={() => signUpUser()}
+                    disabled={userOccupationClicked}
                 />
 
 

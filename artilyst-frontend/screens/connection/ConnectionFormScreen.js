@@ -42,9 +42,6 @@ function ConnectionFormScreen(props) {
         var emailValid = false;
         if(email.length == 0){
             setEmailError("Ce champs est obligatoire");
-        }        
-        else if(email.length < 6){
-            setEmailError("Attention , champs invalide !");
         }      
         else if(email.indexOf(' ') >= 0){        
             setEmailError('Un email ne peut contenit d\'espaces');                          
@@ -57,10 +54,7 @@ function ConnectionFormScreen(props) {
         var passwordValid = false;
         if(password.length == 0){
             setPasswordError("Ce champs est obligatoire");
-        }        
-        else if(password.length < 6){
-            setPasswordError("Attention , champs invalide !");
-        }      
+        }       
         else if(password.indexOf(' ') >= 0){        
             setPasswordError('Un email ne peut contenit d\'espaces');                          
         }    
