@@ -10,7 +10,7 @@ export default IoniconsHeaderButton = (props) => {
             icon={<Ionicons name={"person"} size={20} color="white" />}
             size={20}
             color="#BBBBBB"
-            onPress={() =>  {props.navigation.navigate('UserScreen')}}
+            onPress={() =>  {props.navigation.navigate('ProfilScreen')}}
                 {...props}
             />;
 };

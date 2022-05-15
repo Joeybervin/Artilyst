@@ -50,8 +50,8 @@ function RegisterFormScreen2(props) {
         /* Si l'utilisateur n'existe pas */
         if (response.new_user === true) {
             setLogin(true)
-            props.navigation.navigate('PagesStacks') // redirection vers le profil
-            props.getUser({user_token : response.token}) // J'ajoute les informations dans mon store
+            props.navigation.navigate('ProfilScreen') // redirection vers le profil
+            props.getUserInformations({user_token : response.token}) // J'ajoute les informations dans mon store
         }
         else {
             console.log("Ce compte existe déjà")
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
 // * ___________________________ REDUX ___________________________
 function mapDispatchToProps(dispatch) {
     return {
-        getUser: function (user) {
+        getUserInformations: function (user) {
             dispatch({ type: 'userConnection', user })
 
         }

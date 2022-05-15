@@ -1,11 +1,15 @@
 import React from 'react';
 
 //^ Module de balise
-import { StyleSheet, Text,  View } from 'react-native';
-/* import { Text } from '@rneui/base'; */
+import { StyleSheet, View } from 'react-native';
+import { Text } from '@rneui/base'; 
 
-export default function UserScreen() {
+// ^Redux
+import { connect } from 'react-redux';
 
+function ProfilScreen(props) {
+
+    let informations = props.user;
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
     /* VARIABLES */
@@ -18,11 +22,12 @@ export default function UserScreen() {
 
 
     // * ___________________________ PAGE ___________________________
-    
+
     return (
         <View style={styles.container}>
-        
-            <Text>UserScreen</Text>
+
+            <Text>ProfilScreen</Text>
+            <Text>User token : {informations.user_token}</Text>
 
         </View>
 
@@ -41,3 +46,11 @@ const styles = StyleSheet.create({
 });
 
 // * ___________________________ REDUX ___________________________
+function mapStateToProps(state) {
+    return { user: state.user }
+}
+
+export default connect(
+    mapStateToProps,
+    null
+)(ProfilScreen);

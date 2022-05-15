@@ -20,7 +20,7 @@ import AnnoncesScreen from './screens/AnnoncesScreen';
 import LikesScreen from './screens/LikesScreen';
 
 /* headers screens */
-import UserScreen from './screens/UserScreen';
+import ProfilScreen from './screens/ProfilScreen';
 import MessagesScreen from './screens/MessagesScreen';
 
 //^ Redux
@@ -33,7 +33,6 @@ const store = createStore(combineReducers({user}));
 
 //^ module bonus (style + icons)
 import { Ionicons } from '@expo/vector-icons'; 
-
 import { Button, Badge } from '@rneui/base';
 
 
@@ -44,9 +43,9 @@ function PagesStacks() {
   return (
     
       <TabNavigator.Navigator 
+      
       initialRouteName="Annonces" // Première page qui s'affiche après sign_in / sign-up
       screenOptions={({ route }) => ({
-        
         tabBarIcon: ({ color }) => {
           let iconName;
           if (route.name === 'Mes projets') {
@@ -68,7 +67,7 @@ function PagesStacks() {
         activeTintColor: '#1ADBAC',
         inactiveTintColor: '#FFFFFF',
         style: {
-          backgroundColor: '#000000'
+          backgroundColor: '#333333'
         }
         
       }}>
@@ -80,7 +79,7 @@ function PagesStacks() {
           tabBarBadge: 0 ,
           tabBarBadgeStyle:{backgroundColor:"#1ADBAC", color:"#fff"}}}  />
 
-        <TabNavigator.Screen name="UserScreen" component={UserScreen}  options={{
+        <TabNavigator.Screen name="ProfilScreen" component={ProfilScreen}  options={{
         tabBarButton: () => null
         }} />
           <TabNavigator.Screen name="MessagesScreen" component={MessagesScreen}  options={{
@@ -98,13 +97,13 @@ export default function App() {
     <Provider store={store}>
       <StatusBar barStyle="light-content" backgroundColor="#333333" />
       <NavigationContainer >
-        <StackNavigator.Navigator screenOptions={{headerShown: true}}>
+        <StackNavigator.Navigator >
 
           {/* Connexion screens */}
-          <StackNavigator.Screen  name="ConnectionScreen" component={ConnectionScreen}/>
-          <StackNavigator.Screen  name="ConnectionFormScreen" component={ConnectionFormScreen}/>
-          <StackNavigator.Screen  name="RegisterFormScreen1" component={RegisterFormScreen1}/>
-          <StackNavigator.Screen  name="RegisterFormScreen2" component={RegisterFormScreen2}/>
+          <StackNavigator.Screen  name="ConnectionScreen" component={ConnectionScreen} options={{headerShown: false}} />
+          <StackNavigator.Screen  name="ConnectionFormScreen" component={ConnectionFormScreen} options={{headerShown: false}} />
+          <StackNavigator.Screen  name="RegisterFormScreen1" component={RegisterFormScreen1} options={{headerShown: false}} />
+          <StackNavigator.Screen  name="RegisterFormScreen2" component={RegisterFormScreen2} options={{headerShown: false}} />
 
           <StackNavigator.Screen  name="PagesStacks" component={PagesStacks} 
           /* Créer une navigation depuis le header de l'app pour naviguer vers la page du profil + la page messages */
@@ -124,7 +123,7 @@ export default function App() {
               icon={<Ionicons name={"person"} size={20} color="white" />}
               buttonStyle= {{marginHorizontal : 25, borderRadius : 100}}
               color="#BBBBBB"
-              onPress={() => navigation.navigate('UserScreen')}
+              onPress={() => navigation.navigate('ProfilScreen')}
             />
           ),
           headerRight: () => (
