@@ -28,7 +28,7 @@ export default function RegisterFormScreen1(props) {
     const [email, setEmail] = useState(params === undefined ? "" : props.route.params.email);
     const [name, setName] = useState(params === undefined ? "" : props.route.params.name);
     const [password, setPassword] = useState("");
-    const [date, setDate] = useState(params === undefined ? new Date() : props.route.params.date);
+    const [birthdayDate, setBirthdayDate] = useState(params === undefined ? new Date() : props.route.params.birthday_date);
     
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
@@ -71,11 +71,11 @@ export default function RegisterFormScreen1(props) {
                 labelMonth="MM"
                 labelYear="AAAA"
                 styleInput={styles.inputDate}
-                onSubmit={(value) => setDate(value)}
+                onSubmit={(value) => setBirthdayDate(value)}
             />
 
             {/* Navigation sur la page suivante + envoie des données remplie sur la partie 1/2 */}
-            <Ionicons name="chevron-forward-outline" size={45} color="black" onPress={() => props.navigation.navigate('RegisterFormScreen2', {name : name , email : email, password : password, date : date, work: params === undefined ? "" : params.work})}
+            <Ionicons name="chevron-forward-outline" size={45} color="black" onPress={() => props.navigation.navigate('RegisterFormScreen2', {name : name , email : email, password : password, birthday_date : birthdayDate, occupation: params === undefined ? "" : params.occupation})}
             />
 
 

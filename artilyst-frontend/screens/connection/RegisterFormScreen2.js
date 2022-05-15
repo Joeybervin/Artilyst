@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // & import des urls de chacune
-import {expoUrlRaf, expoUrlBertin, expoUrlJoey, expoUrlMustafa} from '../url';
+import {expoUrlJoey} from '../url';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
@@ -13,7 +13,10 @@ import { Button, Text, Divider } from '@rneui/base';
 //^ module bonus (icons)
 import { Ionicons } from '@expo/vector-icons';
 
-export default function RegisterFormScreen2(props) {
+// ^Redux
+import { connect } from 'react-redux';
+
+function RegisterFormScreen2(props) {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
 
@@ -21,7 +24,7 @@ export default function RegisterFormScreen2(props) {
     /* VARIABLES D'ÉTAT  */
 
     const [userInfos, setUserInfos] = useState(props.route.params)// récupération des données entrées par l'utilisateur sur la screen précédente avec les paramètres
-    const [userWork, setUserWork] = useState("")
+    const [userOccupation, setUserOccupation] = useState("")
     const [login, setLogin] = useState(false)
     /* VARIABLES */
 
@@ -31,9 +34,9 @@ export default function RegisterFormScreen2(props) {
     // * ___________________________ FUNCTIONS ___________________________
 
     /* Pour ajouter le métier de l'utilisateur au données qui seront envoyées à la base de données  */
-    const addUserWork = (userWork) => {
-        setUserWork(userWork)
-        userInfos['work'] = userWork
+    const addUserOccupation = (userOccupation) => {
+        setUserOccupation(userOccupation)
+        userInfos['occupation'] = userOccupation
     }
 
     /* fonction pour sauvegarder un utilisateur dans la base de données */
@@ -43,13 +46,19 @@ export default function RegisterFormScreen2(props) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({userInfos : userInfos}),
         })
-        let response = await rawResponse.json()
+
+        let response = await rawResponse.json() // Object : Réponse du back-end
 
         /* Si l'utilisateur n'existe pas */
-        if (response.alreadyMember === true) {
+        if (response.new_user === true) {
             setLogin(true)
+            props.navigation.navigate('PagesStacks') // redirection vers le profil
+            props.addnewUser({user_token : response.token}) // J'ajoute les informations dans mon store
         }
-        //props.navigation.navigate('')  Je redirige l'utilisateur vers sa page de profile
+        else {
+            console.lopg("Ce compte existe déjà")
+        }
+        
     }
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
@@ -68,30 +77,30 @@ export default function RegisterFormScreen2(props) {
                 <Button
                     buttonStyle={{ backgroundColor: '#229EE6' }}
                     title="Comédien/ne"
-                    onPress={() => addUserWork("Comédien/ne")}
+                    onPress={() => addUserOccupation("Comédien/ne")}
                 />
 
                 <Button
                     buttonStyle={{ backgroundColor: '#B36FDB' }}
                     title="Modèle"
-                    onPress={() => addUserWork("Modèle")}
+                    onPress={() => addUserOccupation("Modèle")}
                 />
                 <Button
                     buttonStyle={{ backgroundColor: '#F3DC5C' }}
                     title="Photographe"
-                    onPress={() => addUserWork("Photographe")}
+                    onPress={() => addUserOccupation("Photographe")}
                 />
 
                 <Button
                     buttonStyle={{ backgroundColor: '#D8568C' }}
                     title="Styliste"
-                    onPress={() => addUserWork("Styliste")}
+                    onPress={() => addUserOccupation("Styliste")}
                 />
 
                 <Button
                     buttonStyle={{ backgroundColor: '#3711A1' }}
                     title="Réalisateur/ice vidéaste"
-                    onPress={() => addUserWork("Réalisateur/ice vidéaste")}
+                    onPress={() => addUserOccupation("Réalisateur/ice vidéaste")}
                 />
 
             </View>
@@ -106,7 +115,7 @@ export default function RegisterFormScreen2(props) {
                 buttonStyle={{ backgroundColor: '#508CB4' }}
                 title="recruteur"
 
-                onPress={() => addUserWork("recruteur")}
+                onPress={() => addUserOccupation("recruteur")}
             />
 
             <View style={{ flexDirection: 'row', marginTop: 50 }}>
@@ -147,3 +156,17 @@ const styles = StyleSheet.create({
 });
 
 // * ___________________________ REDUX ___________________________
+function mapDispatchToProps(dispatch) {
+    return {
+        addnewUser: function (user) {
+            dispatch({ type: 'addUser', user })
+
+        }
+    }
+}
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(RegisterFormScreen2);
+

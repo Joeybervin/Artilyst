@@ -1,5 +1,5 @@
 // ^ Wanings messages
-import { LogBox } from 'react-native';
+import { LogBox, StatusBar } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']);
 
 //^ Navigation
@@ -19,22 +19,36 @@ import CreationProjectScreen from './screens/CreationProjectScreen';
 import AnnoncesScreen from './screens/AnnoncesScreen';
 import LikesScreen from './screens/LikesScreen';
 
+import UserScreen from './screens/UserScreen';
+
 //^ Redux
-// import {createStore, combineReducers} from 'redux';
-// import {Provider} from 'react-redux';
+/* reducers */
+import user from './reducers/userReducer';
+import {createStore, combineReducers} from 'redux';
+import {Provider} from 'react-redux';
 /* store */
-//const store = createStore(combineReducers({}));
+const store = createStore(combineReducers({user}));
 
 //^ module bonus (style + icons)
 import { Ionicons } from '@expo/vector-icons'; 
 
+import { Button } from '@rneui/base';
+
+
+// * LINK NAVIGATION
+const StackNavigator = createStackNavigator();
 
 // * BOTTOMTAB NAVIGATION
 const TabNavigator = createBottomTabNavigator();
 
 function PagesStacks() {
+
+  
   return (
-      <TabNavigator.Navigator  screenOptions={({ route }) => ({
+    
+      <TabNavigator.Navigator 
+      
+      screenOptions={({ route }) => ({
         
         tabBarIcon: ({ color }) => {
           let iconName;
@@ -50,6 +64,7 @@ function PagesStacks() {
 
           return <Ionicons name={iconName} size={25} color={color} />;
         },
+        
       })}
       tabBarOptions={{
         activeTintColor: '#9AB6FF',
@@ -57,8 +72,10 @@ function PagesStacks() {
         style: {
           backgroundColor: '#000000'
         }
+        
       
       }}>
+
         <TabNavigator.Screen name="Mes projets" component={CreationProjectScreen} />
         <TabNavigator.Screen name="Annonces" component={AnnoncesScreen} />
         <TabNavigator.Screen name="Likes" component={LikesScreen} />
@@ -67,27 +84,57 @@ function PagesStacks() {
 } 
 
 
-// * LINK NAVIGATION
-const StackNavigator = createStackNavigator();
-
-export default function App() {
+export default function App(props) {
   return (
-    
+    <Provider store={store}>
+      <StatusBar barStyle="light-content" backgroundColor="#333333" />
       <NavigationContainer >
-        <StackNavigator.Navigator screenOptions={{headerShown: false}}>
+        <StackNavigator.Navigator screenOptions={{headerShown: true}}>
 
-          {/* Sign-in / Sign-up nested navigation */}
+          {/* Connexion screens */}
           <StackNavigator.Screen  name="ConnectionScreen" component={ConnectionScreen}/>
           <StackNavigator.Screen  name="ConnectionFormScreen" component={ConnectionFormScreen}/>
           <StackNavigator.Screen  name="RegisterFormScreen1" component={RegisterFormScreen1}/>
           <StackNavigator.Screen  name="RegisterFormScreen2" component={RegisterFormScreen2}/>
 
+          <StackNavigator.Screen name="UserScreen" component={UserScreen} />
 
-          <StackNavigator.Screen  name="PagesStacks" component={PagesStacks}/>
+          <StackNavigator.Screen  name="PagesStacks" component={PagesStacks} 
+          options={{
+            headerTitle: "ARTILYST",
+            headerTitleAlign: 'center',
+            headerStyle: {
+              backgroundColor: '#333333',
+              height : 70, 
+            },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: '#FFFFFF',
+            marginHorizontal: 'auto'
+          },
+          headerLeft: () => (
+            <Button
+              icon={<Ionicons name={"person"} size={20} color="white" />}
+              buttonStyle= {{marginHorizontal : 20, borderRadius : 5}}
+              color="#BBBBBB"
+              onPress={() =>  {props.navigation.navigate('UserScreen')}}
+            />
+          ),
+          headerRight: () => (
+            <Button
+              icon={<Ionicons name={"mail"} size={20} color="white" />}
+              buttonStyle= {{marginHorizontal : 20, borderRadius : 5}}
+              color="#BBBBBB"
+              onPress={() => alert('This is a button!')}
+            />
+          ),
+      }}/>
 
+
+        
         </StackNavigator.Navigator>
       </NavigationContainer>
-  
+      </Provider>
   );
 }
 

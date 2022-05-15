@@ -5,12 +5,13 @@ var userSchema = mongoose.Schema({
     email :  String,
     password :  String,
     gender :  String,
-    category : String,
+    occupation : String,
     description: String,
     expérience : String,
     photos :  Object, // photos_profil : Array, portofolios : Array => Object
     projects_selected :  Array , // On=bjeect => id du projet + match en booleen
     projects_created : [ {type: mongoose.Schema.Types.ObjectId, ref: 'projects' }],
+    insert_date: Date,
 
     date_of_birth :  Date,
     user_caracteristics : Object,
