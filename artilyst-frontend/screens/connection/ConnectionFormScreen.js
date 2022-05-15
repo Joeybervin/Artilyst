@@ -11,6 +11,8 @@ LogBox.ignoreLogs(['Warning: ...']);
 import { StyleSheet,  View} from 'react-native';
 import { Text, Input, Button } from '@rneui/base';
 
+import { Ionicons } from '@expo/vector-icons'; 
+
 // ^ React navigation
 import { Link } from '@react-navigation/native';
 
@@ -25,6 +27,7 @@ function ConnectionFormScreen(props) {
     const [emailError, setEmailError] = useState(""); // message d'erreur de l'email
     const [password, setPassword] = useState("");// champs du mot de passe
     const [passwordError, setPasswordError] = useState(""); // message d'erreur du mot de passe
+    const [passwordVisibility, setPasswordVisibility] = useState(true); //
     const [login, setLogin] = useState(false); // condition pour envoyer la donné au back-end
     const [newMemberMessage, setNewMemberMessage] = useState("")
     
@@ -34,7 +37,7 @@ function ConnectionFormScreen(props) {
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
 
-    /* Check des erreurs possible */
+    /* Check des erreurs possible à la submission du formulaire de connexion*/
     const handleSubmit = () => {
         var emailValid = false;
         if(email.length == 0){
@@ -122,8 +125,9 @@ function ConnectionFormScreen(props) {
             <Input
                 placeholder="Password (min 6 caractères)"
                 onChangeText={setPassword} value={password}
+                rightIcon={<Ionicons name={passwordVisibility ? 'eye-outline' : 'eye-off-outline'} size={24} color='black' onPress={() => setPasswordVisibility(passwordVisibility ? false : true) } />}
+                secureTextEntry={passwordVisibility} // Pour cacher ou ontrer le mot de passe
                 errorMessage={passwordError}
-                secureTextEntry={true} // Pour cacher le mot de passe
             />
 
             {/* Message d'erreur compte inexistant dans la base de données */}

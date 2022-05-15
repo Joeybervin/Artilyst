@@ -26,14 +26,123 @@ export default function RegisterFormScreen1(props) {
  
     /* VARIABLES D'ÉTAT  */
     const [email, setEmail] = useState(params === undefined ? "" : props.route.params.email);
+    const [emailError, setEmailError] = useState(""); // message d'erreur de l'email
+
     const [name, setName] = useState(params === undefined ? "" : props.route.params.name);
+    const [nameError, setNameError] = useState(""); // message d'erreur du mot de passe
+
     const [password, setPassword] = useState("");
+    const [passwordError, setPasswordError] = useState(""); // message d'erreur du mot de passe
+    const [passwordVisibility, setPasswordVisibility] = useState(true); //
+
     const [birthdayDate, setBirthdayDate] = useState(params === undefined ? new Date() : props.route.params.birthday_date);
+    const [birthdayDateError, setBirthdayDateError] = useState(""); // message d'erreur du mot de passe
+    let age = 0
+    let firstStepLogin = false // condition pour envoyer la donné au back-end 
+    const [oldMemberMessage, setOldMemberMessage] = useState("")
     
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
+
+
+    /* Check des erreurs possible à la submission du formulaire de connexion*/
+    console.log('1 : ',birthdayDate)
+    const handleSubmit = () => {
+
+        let today = new Date() // Je récupère la date d'aujourd'hui
+
+        if (birthdayDate !== undefined || birthdayDate !== today) {
+            let birthDate = new Date(birthdayDate)
+            let ageDiff = today.getTime() - birthDate.getTime() // je calcule la différence entre la date d'aujourd'hui et celle envoyé
+            var ageDate = new Date(ageDiff)// je met le résulta obtenue sous forme d'une date
+            age  = Math.abs(ageDate.getFullYear() - 1970) // je calcule le nombre d'année de différence avec 1970
+        }
+
+
+        var birthdayDateValid = false;
+
+        if (age == 0) {
+            setBirthdayDateError("Ce champs est obligatoire");
+        }
+        else if (age < 18 ) {
+            setBirthdayDateError("Il faut être majeur pour s'inscrire")
+        }
+        else if (age > 120) {
+            setBirthdayDateError("Toujours en vie ? Félicitations !")
+        }
+        else {
+          
+            birthdayDateValid = true;
+        }
+
+        var emailValid = false;
+
+        if (email === undefined) {
+            setEmailError("Ce champs est obligatoire");
+        }
+        else if (email.length === 0) {
+            setEmailError("Ce champs est obligatoire");
+        }        
+        else if(email.length < 6){
+            setEmailError("Attention , champs invalide !");
+        }      
+        else if(email.indexOf(' ') >= 0){        
+            setEmailError('Un email ne peut contenit d\'espaces');                          
+        }    
+        else{
+            setEmailError("")
+            emailValid = true
+        }
+    
+        var passwordValid = false;
+        
+        if (password === undefined) {
+            setPasswordError("Ce champs est obligatoire");
+        }
+        else if (password.length == 0 ){
+            setPasswordError("Ce champs est obligatoire");
+        }        
+        else if(password.length < 6){
+            setPasswordError("Attention , champs invalide !");
+        }      
+        else if(password.indexOf(' ') >= 0){        
+            setPasswordError('Un mot de passe ne peut contenit d\'espaces');                          
+        }    
+        else{
+            setPasswordError("")
+            passwordValid = true
+        }        
+
+        var nameValid = false;
+        if (name === undefined) {
+            setNameError("Ce champs est obligatoire");
+        }
+        else if(name.length < 2){
+            setNameError("Ce champs est obligatoire");
+        }        
+        else{
+            setNameError("")
+            nameValid = true
+        }        
+    
+        if(emailValid && passwordValid && nameValid && birthdayDateValid){     
+            setEmail("");
+            setPassword("");
+            setName("");
+            setBirthdayDate("");
+            firstStepLogin = true
+            
+        }        
+    
+    }
+    const validFirstStep = () =>  {
+        handleSubmit()
+        if (firstStepLogin) {
+            props.navigation.navigate('RegisterFormScreen2', {name : name , email : email, password : password, birthday_date : birthdayDate, occupation: params === undefined ? "" : params.occupation})
+        }
+    }
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
 
@@ -50,19 +159,23 @@ export default function RegisterFormScreen1(props) {
             <Input
                 placeholder='Email'
                 onChangeText={setEmail} value={email}
+                errorMessage={emailError}
             />
 
             {/* Mot de passe */}
             <Input
                 placeholder="Password"
                 onChangeText={setPassword} value={password}
-                secureTextEntry={true} // Pour cacher le mot de passe
+                rightIcon={<Ionicons name={passwordVisibility ? 'eye-outline' : 'eye-off-outline'} size={24} color='black' onPress={() => setPasswordVisibility(passwordVisibility ? false : true) } />}
+                secureTextEntry={passwordVisibility} // Pour cacher ou ontrer le mot de passe
+                errorMessage={passwordError}
             />
 
             {/* Nom : affiché sur le profil */}
             <Input
                 placeholder="name"
                 onChangeText={setName} value={name}
+                errorMessage={nameError}
             />
 
             {/* Date de naissance */}
@@ -71,14 +184,23 @@ export default function RegisterFormScreen1(props) {
                 labelMonth="MM"
                 labelYear="AAAA"
                 styleInput={styles.inputDate}
+                
                 onSubmit={(value) => setBirthdayDate(value)}
             />
+            <Text>{birthdayDateError}</Text>
 
-            {/* Navigation sur la page suivante + envoie des données remplie sur la partie 1/2 */}
-            <Ionicons name="chevron-forward-outline" size={45} color="black" onPress={() => props.navigation.navigate('RegisterFormScreen2', {name : name , email : email, password : password, birthday_date : birthdayDate, occupation: params === undefined ? "" : params.occupation})}
-            />
+            <View style={{ flexDirection: 'row', marginTop: 50, alignItems: 'center'}}>
 
+                {/* Navigation pour retourner en arrière*/}
+                <Ionicons name="chevron-back-outline" size={45} color="black" onPress={() => props.navigation.goBack()} />
 
+                <Text style={{ marginHorizontal : 50}}>1 / 2</Text>
+
+                {/* Navigation sur la page suivante + envoie des données remplie sur la partie 1/2 */}
+                <Ionicons name="chevron-forward-outline" size={45} color="black" onPress={() => validFirstStep()}
+                />
+
+            </View>
 
 
         </View>
