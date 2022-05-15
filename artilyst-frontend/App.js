@@ -14,12 +14,14 @@ import ConnectionFormScreen from './screens/connection/ConnectionFormScreen';
 import RegisterFormScreen1 from './screens/connection/RegisterFormScreen1';
 import RegisterFormScreen2 from './screens/connection/RegisterFormScreen2';
 
-/* app screens */
+/* bottom tabbar screens */
 import CreationProjectScreen from './screens/CreationProjectScreen';
 import AnnoncesScreen from './screens/AnnoncesScreen';
 import LikesScreen from './screens/LikesScreen';
 
+/* headers screens */
 import UserScreen from './screens/UserScreen';
+import MessagesScreen from './screens/MessagesScreen';
 
 //^ Redux
 /* reducers */
@@ -33,7 +35,7 @@ const store = createStore(combineReducers({user}));
 import { Ionicons } from '@expo/vector-icons'; 
 
 import { Button } from '@rneui/base';
-
+import {IoniconsHeaderButton} from './screens/components/header/headerButtonsComponent'
 
 // * LINK NAVIGATION
 const StackNavigator = createStackNavigator();
@@ -76,9 +78,20 @@ function PagesStacks() {
       
       }}>
 
-        <TabNavigator.Screen name="Mes projets" component={CreationProjectScreen} />
+        
+
+
+        <TabNavigator.Screen name="Mes projets" component={CreationProjectScreen}  />
         <TabNavigator.Screen name="Annonces" component={AnnoncesScreen} />
         <TabNavigator.Screen name="Likes" component={LikesScreen} />
+
+        <TabNavigator.Screen name="UserScreen" component={UserScreen}  options={{
+        tabBarButton: () => null
+        }} />
+          <TabNavigator.Screen name="MessagesScreen" component={MessagesScreen}  options={{
+        tabBarButton: () => null
+
+    }}/>
       </TabNavigator.Navigator>
   );
 } 
@@ -97,38 +110,37 @@ export default function App(props) {
           <StackNavigator.Screen  name="RegisterFormScreen1" component={RegisterFormScreen1}/>
           <StackNavigator.Screen  name="RegisterFormScreen2" component={RegisterFormScreen2}/>
 
-          <StackNavigator.Screen name="UserScreen" component={UserScreen} />
-
+         
           <StackNavigator.Screen  name="PagesStacks" component={PagesStacks} 
-          options={{
-            headerTitle: "ARTILYST",
+          /* Créer une navigation depuis le header de l'app pour naviguer vers la page du profil + la page messages */
+          options={({ navigation }) => ({
+            title: "ARTILYST",
             headerTitleAlign: 'center',
             headerStyle: {
               backgroundColor: '#333333',
               height : 70, 
             },
-          headerTitleStyle: {
-            fontWeight: 'bold',
-            color: '#FFFFFF',
-            marginHorizontal: 'auto'
-          },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: '#FFFFFF',
+            },
           headerLeft: () => (
             <Button
               icon={<Ionicons name={"person"} size={20} color="white" />}
-              buttonStyle= {{marginHorizontal : 20, borderRadius : 5}}
+              buttonStyle= {{marginHorizontal : 25, borderRadius : 100}}
               color="#BBBBBB"
-              onPress={() =>  {props.navigation.navigate('UserScreen')}}
+              onPress={() => navigation.navigate('UserScreen')}
             />
           ),
           headerRight: () => (
             <Button
               icon={<Ionicons name={"mail"} size={20} color="white" />}
-              buttonStyle= {{marginHorizontal : 20, borderRadius : 5}}
+              buttonStyle= {{marginHorizontal : 25, borderRadius : 100}}
               color="#BBBBBB"
-              onPress={() => alert('This is a button!')}
+              onPress={() => navigation.navigate('MessagesScreen')}
             />
           ),
-      }}/>
+      })}/>
 
 
         
