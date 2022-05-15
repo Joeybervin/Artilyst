@@ -1,33 +1,51 @@
 var express = require('express');
 var router = express.Router();
 
-// My models
+// ^ Models
 var userModel = require('../models/user');
 var projectModel = require('../models/project');
 
-var request = require('sync-request');
+// ^ Sécurité
+/* TOKEN : Module de création de token unique */
+var uid2 = require('uid2');
+/* MOT DE PASSE : Module de chiffrement de mot de passe + Nombre de tour */
+var bcrypt = require('bcrypt');
+const cost = 10;
+
+// var request = require('sync-request');
 
 
 // * Création d'un compte
 router.post('/sign-up', async function (req, res, next) {
 
-  let alreadyMember = false;
-  /* Véfificaton si le compte éxiste déjà */
-  var user_account = await userModel.findOne({ email: req.body.signUpEmail });
+  const userInfos = req.body.userInfos // Object : récupération des données envoyés par le front
+
+  const hash = bcrypt.hashSync(userInfos.password, cost); // String : Chiffrement du mot de passe reçut du front-end
+  
+  /* Véfificaton si le l'utilisateur n'existe pas déjà */
+  var user_account = await userModel.findOne({ email: userInfos.email });
 
   /* Ajout de l'utilisateur à la base de données */
-  if (!user_account && req.body.signUpEmail !== "" && req.body.signUpPassword !== "" && req.body.signUpUsername !== "") {
-    alreadyMember = true
+  if (!user_account && userInfos.email !== "" && userInfos.password !== "" && userInfos.name !== "") {
     var newUser = new userModel({
-      email: req.body.signUpEmail,
-      password: req.body.signUpPassword,
+      name : userInfos.name,
+      email: userInfos.email,
+      password: hash,
+      occupation : userInfos.occupation,
+      date_of_birth : new Date(userInfos.birthday_date),
+      insert_date : new Date(),
+      token : uid2(32)
     })
 
-    /* J'enregistre dans la base de données */
-    await newUser.save()
+    await newUser.save() // enregistrement dans la base de données
+
+    res.json({new_user : true, token : newUser.token }) // je r'envoie au front l'état de la connexion et le token de l'utilisateur me permettant de l'identifier tout au long de sa navigation
+    
   }
-  
-  res.json({alreadyMember})
+  else {
+
+    res.json({new_user : false })
+  }
 
 });
 
