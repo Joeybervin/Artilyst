@@ -10,6 +10,8 @@ LogBox.ignoreLogs(['Warning: ...']);
 //^ Module de balise
 import { StyleSheet,  View} from 'react-native';
 import { Text, Input, Button } from '@rneui/base';
+//^ module bonus (icons)
+import { Ionicons } from '@expo/vector-icons'; 
 
 // ^ React navigation
 import { Link } from '@react-navigation/native';
@@ -25,8 +27,9 @@ function ConnectionFormScreen(props) {
     const [emailError, setEmailError] = useState(""); // message d'erreur de l'email
     const [password, setPassword] = useState("");// champs du mot de passe
     const [passwordError, setPasswordError] = useState(""); // message d'erreur du mot de passe
+    const [passwordVisibility, setPasswordVisibility] = useState(true); // Changement de la visibilité du mot de passe
     const [login, setLogin] = useState(false); // condition pour envoyer la donné au back-end
-    const [newMemberMessage, setNewMemberMessage] = useState("")
+    const [newMemberMessage, setNewMemberMessage] = useState("") // renvoie d'un message si la base de données n'a pas trouvé l'utilisateur
     
     /* VARIABLES */
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
@@ -96,7 +99,7 @@ function ConnectionFormScreen(props) {
         }
         else {
             /* MARCHE PAS */
-            returnsetNewMemberMessage("Ce compte n'existe pas dans notre base de données")
+            setNewMemberMessage("Ce compte n'existe pas dans notre base de données")
         }
         }
     }
@@ -123,7 +126,8 @@ function ConnectionFormScreen(props) {
                 placeholder="Password (min 6 caractères)"
                 onChangeText={setPassword} value={password}
                 errorMessage={passwordError}
-                secureTextEntry={true} // Pour cacher le mot de passe
+                rightIcon={<Ionicons name={passwordVisibility ? 'eye-outline' : 'eye-off-outline'} size={24} color='black' onPress={() => setPasswordVisibility(passwordVisibility ? false : true) } />}
+                secureTextEntry={passwordVisibility} // Pour cacher ou montrer le mot de passe
             />
 
             {/* Message d'erreur compte inexistant dans la base de données */}
