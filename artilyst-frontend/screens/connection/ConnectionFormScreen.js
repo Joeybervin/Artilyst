@@ -3,14 +3,16 @@ import React, { useState } from 'react';
 // & import des urls de chacune
 import {expoUrlJoey} from '../../ExpoUrl';
 
-
 // ^ Wanings messages
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']);
 
 //^ Module de balise
-import { StyleSheet,  View } from 'react-native';
+import { StyleSheet,  View} from 'react-native';
 import { Text, Input, Button } from '@rneui/base';
+
+// ^ React navigation
+import { Link } from '@react-navigation/native';
 
 // ^Redux
 import { connect } from 'react-redux';
@@ -19,16 +21,66 @@ function ConnectionFormScreen(props) {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [login, setLogin] = useState(false)
+    const [email, setEmail] = useState(""); // champs de l'email
+    const [emailError, setEmailError] = useState(""); // message d'erreur de l'email
+    const [password, setPassword] = useState("");// champs du mot de passe
+    const [passwordError, setPasswordError] = useState(""); // message d'erreur du mot de passe
+    const [login, setLogin] = useState(false); // condition pour envoyer la donné au back-end
+    const [newMemberMessage, setNewMemberMessage] = useState("")
+    
     /* VARIABLES */
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
 
+    /* Check des erreurs possible */
+    const handleSubmit = () => {
+        var emailValid = false;
+        if(email.length == 0){
+            setEmailError("Ce champs est obligatoire");
+        }        
+        else if(email.length < 6){
+            setEmailError("Attention , champs invalide !");
+        }      
+        else if(email.indexOf(' ') >= 0){        
+            setEmailError('Un email ne peut contenit d\'espaces');                          
+        }    
+        else{
+            setEmailError("")
+            emailValid = true
+        }
+    
+        var passwordValid = false;
+        if(password.length == 0){
+            setPasswordError("Ce champs est obligatoire");
+        }        
+        else if(password.length < 6){
+            setPasswordError("Attention , champs invalide !");
+        }      
+        else if(password.indexOf(' ') >= 0){        
+            setPasswordError('Un email ne peut contenit d\'espaces');                          
+        }    
+        else{
+            setPasswordError("")
+            passwordValid = true
+        }        
+    
+        if(emailValid && passwordValid){     
+            setEmail("");
+            setPassword("");
+            setLogin(true)
+        }        
+    
+    }
+
+    /* Appuie sur le boutton connexion : envoie des données à la database */
     const signInUser = async () => {
+
+        handleSubmit() // Boolean :  Vérifications des inputs
+
+        /* Je n'envoie les données que si mes input sont bon */
+        if (login) {
         const rawResponse = await fetch(`http://${expoUrlJoey}/sign-in`, {
             method: 'POST',
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -39,12 +91,13 @@ function ConnectionFormScreen(props) {
 
         /* Si l'utilisateur n'existe pas */
         if (response.already_member === true) {
-            setLogin(true)
-            props.navigation.navigate('PagesStacks') // redirection vers le profil
-            props.getUser({user_token : response.token}) // J'ajoute les informations dans mon store
+            props.navigation.navigate('PagesStacks') // redirection vers toutes les annonces
+            props.getUserInformations({user_token : response.token}) // J'ajoute les informations dans mon store
         }
         else {
-            console.log("Ce compte existe déjà")
+            /* MARCHE PAS */
+            returnsetNewMemberMessage("Ce compte n'existe pas dans notre base de données")
+        }
         }
     }
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
@@ -62,20 +115,27 @@ function ConnectionFormScreen(props) {
             <Input
                 placeholder='Email'
                 onChangeText={setEmail} value={email}
+                errorMessage={emailError}
             />
 
             {/* Mot de passe */}
             <Input
-                placeholder="Password"
+                placeholder="Password (min 6 caractères)"
                 onChangeText={setPassword} value={password}
+                errorMessage={passwordError}
                 secureTextEntry={true} // Pour cacher le mot de passe
             />
 
+            {/* Message d'erreur compte inexistant dans la base de données */}
+            <Text>{newMemberMessage}</Text>
+
+            {/* Bouton => envoyé */}
             <Button
                 buttonStyle={{ backgroundColor: '#3BA58B', margin: 5 }}
                 title="Connexion"
                 onPress={() => signInUser()}
             />
+            <Link to={'/RegisterFormScreen1'}>Pas encore membre ? Créer un compte</Link>
 
         </View>
 
@@ -96,7 +156,7 @@ const styles = StyleSheet.create({
 // * ___________________________ REDUX ___________________________
 function mapDispatchToProps(dispatch) {
     return {
-        getUser: function (user) {
+        getUserInformations: function (user) {
             dispatch({ type: 'userConnection', user })
 
         }
