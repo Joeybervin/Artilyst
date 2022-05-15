@@ -11,7 +11,7 @@ import { Text, Input } from '@rneui/base';
 import { Ionicons } from '@expo/vector-icons'; 
 
 // ^ Module : date input
-/* doc : https://www.npmjs.com/package/react-native-datefield */
+// ? doc : https://www.npmjs.com/package/react-native-datefield
 import DateField from 'react-native-datefield';
 
 
@@ -44,7 +44,7 @@ export default function RegisterFormScreen1(props) {
     return (
         <View style={styles.container}>
 
-            <Text onPress={() => props.navigation.navigate('RegisterFormScreen2')}>RegisterFormScreen1</Text>
+            <Text>RegisterFormScreen1</Text>
 
             {/* Email */}
             <Input
