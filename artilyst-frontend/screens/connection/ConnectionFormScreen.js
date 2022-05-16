@@ -13,8 +13,6 @@ import { Text, Input, Button } from '@rneui/base';
 //^ module bonus (icons)
 import { Ionicons } from '@expo/vector-icons'; 
 
-import { Ionicons } from '@expo/vector-icons'; 
-
 // ^ React navigation
 import { Link } from '@react-navigation/native';
 
