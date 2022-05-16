@@ -71,5 +71,43 @@ router.post('/sign-in', async function(req, res, next) {
   
 });
 
+// * Pour afficher le profil de l'utilisateur
+router.post('/user_profile', async function(req, res, next){
+
+  let user_token = req.body.token // Je récupère le token de l'utilisateur envoyé par le front end
+
+    /* Je récupère toutes les infos de l'utilisateur */
+    let user_account = await userModel.findOne({
+      token: user_token,
+    });
+  
+  res.json({user_account}) // Object :  Je renvoie les informations au front-end
+  
+})
+  
+//* Pour modifier les informations du profil de l'utilisateur
+router.put('/update_user_profil', async function(req, res, next){
+
+  let user_token = req.body.token // Je récupère le token de l'utilisateur envoyé par le front end
+
+  let user_new_informations = req.body.unObject // Je récupère les infos entrées
+
+  await userModel.updateOne(
+    {token: user_token},
+     {
+      name : user_new_informations.name,
+      gender :  user_new_informations.gender,
+      description: user_new_informations.description,
+      work_experience : user_new_informations.work_experience,
+      photos :  {}, // photos_profil : Array, portofolios : Array => Object
+      projects_selected :  [] , // Object => id du projet + match en booleen
+      projects_created : [],
+      date_of_birth :  user_new_informations.birthday_date,
+      user_caracteristics : user_new_informations.user_caracteristics,
+      location : user_new_informations.location,
+      siren : user_new_informations.siren, // 14 chiffre
+    }
+    );
+})
 
 module.exports = router;
