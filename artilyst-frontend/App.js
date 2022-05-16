@@ -13,6 +13,13 @@ import ConnectionScreen from './screens/connection/ConnectionScreen';
 import ConnectionFormScreen from './screens/connection/ConnectionFormScreen';
 import RegisterFormScreen1 from './screens/connection/RegisterFormScreen1';
 import RegisterFormScreen2 from './screens/connection/RegisterFormScreen2';
+import CreerUnProjetScreen from './screens/projet/CreerUnProjetScreen';
+import CollaborateurDuProjetScreen from './screens/projet/CollaborateurDuProjetScreen';
+import PhotographCollaborateurScreen from './screens/projet/PhotographCollaborateurScreen';
+import CategorieDuProjetScreen from './screens/projet/CategorieDuProjetScreen';
+import CreationAnnonceScreen from './screens/projet/CreationAnnonceScreen';
+import StylisteCollaborateurScreen from './screens/projet/StylisteCollaborateurScreen';
+
 
 /* bottom tabbar screens */
 import CreationProjectScreen from './screens/CreationProjectScreen';
@@ -85,7 +92,35 @@ function PagesStacks() {
           <TabNavigator.Screen name="MessagesScreen" component={MessagesScreen}  options={{
         tabBarButton: () => null
     }}/>
+
+<TabNavigator.Screen name="CreerUnProjetScreen" component={CreerUnProjetScreen}  options={{
+        tabBarButton: () => null
+    }}/>
+
+<TabNavigator.Screen name="CollaborateurDuProjetScreen" component={CollaborateurDuProjetScreen}  options={{
+        tabBarButton: () => null
+    }}/>
+
+<TabNavigator.Screen name="PhotographCollaborateurScreen" component={PhotographCollaborateurScreen}  options={{
+        tabBarButton: () => null
+    }}/>
+
+<TabNavigator.Screen name="CategorieDuProjetScreen" component={CategorieDuProjetScreen}  options={{
+        tabBarButton: () => null
+    }}/>
+
+<TabNavigator.Screen name="CreationAnnonceScreen" component={CreationAnnonceScreen}  options={{
+        tabBarButton: () => null
+    }}/>
+
+<TabNavigator.Screen name="StylisteCollaborateurScreen" component={StylisteCollaborateurScreen}  options={{
+        tabBarButton: () => null
+    }}/>
       </TabNavigator.Navigator>
+
+      
+
+      
   );
 } 
 // * LINK NAVIGATION

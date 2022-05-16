@@ -28,7 +28,8 @@ export default function ConnectionScreen(props) {
     return (
         <View style={styles.container}>
 
-            <Text onPress={() => props.navigation.navigate('PagesStacks')}>ConnectionScreen</Text>
+            <Text onPress={() => {props.navigation.navigate('PagesStacks')
+            props.getUserInformations({user_token : "i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT"})}}>ConnectionScreen</Text>
 
             <Button
                 title="Se connecter"
