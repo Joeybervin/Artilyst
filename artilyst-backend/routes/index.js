@@ -88,18 +88,15 @@ router.post('/user_profile', async function(req, res, next){
 //* Pour modifier les informations du profil de l'utilisateur
 router.put('/update_user_profile', async function(req, res, next){
 
-  let user_token = req.body.token // Je récupère le token de l'utilisateur envoyé par le front end
-
   let user_new_informations = req.body.user_new_informations // Je récupère les infos entrées
 
   await userModel.updateOne(
-    {token: user_token},
+    {token: user_new_informations.user_token},
      {
       name : user_new_informations.name,
       gender :  user_new_informations.gender,
       description: user_new_informations.description,
       cv : user_new_informations.cv,
-      photos :  {}, // photos_profil : Array, portofolios : Array => Object
       user_caracteristics : user_new_informations.user_caracteristics,
       city : user_new_informations.city,
       siren : user_new_informations.siren, // 14 chiffre
