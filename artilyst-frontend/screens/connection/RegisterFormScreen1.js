@@ -139,7 +139,7 @@ export default function RegisterFormScreen1(props) {
     const validFirstStep = () =>  {
         handleSubmit()
         if (firstStepLogin) {
-            props.navigation.navigate('RegisterFormScreen2', {name : name , email : email, password : password, birthday_date : birthdayDate, occupation: params === undefined ? "" : params.occupation})
+            props.navigation.navigate('RegisterFormScreen2', {name : name , email : email, password : password, birthday_date : String(birthdayDate), occupation: params === undefined ? "" : params.occupation})
         }
     }
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
