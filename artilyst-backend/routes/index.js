@@ -71,5 +71,45 @@ router.post('/sign-in', async function(req, res, next) {
   
 });
 
+// Creer un projet 
+router.post('/project', async function (req, res, next) {
+
+  const projectInfos = req.body.projectInfo // Object : récupération des données du projet envoyées par le front
+
+
+  /* Ajout du projet à la base de données */
+  
+    var newProject = new projectModel({
+    title: projectInfos.name,
+    description : projectInfos.description,
+    collaborators : projectInfos.occupation,
+    gender : projectInfos.gender,
+    insert_date : new Date(),
+    project_dates: {start : projectInfos.date_start , end : projectInfos.date_end  } ,// début => fin
+    category : projectInfos.category,
+    remuneration : projectInfos.remuneration,
+    photos : '',
+    users_selected : projectInfos.userstable, // table de tokens des users selectionnées
+
+    age_range : {age_min : projectInfos.ageMin , age_max : projectInfos.ageMax},
+    collaborators_caracteristics : {} ,
+    localisation : projectInfos.location,
+
+    })
+
+    await newProject.save() // enregistrement dans la base de données
+
+    userModel.updateOne(
+      {token : projectInfos.token},
+      { $push: { projects_created: newProject._id} }
+      )
+
+    res.json({new_project : true}) // je renvoie au front l'état de l'enregistrement dans la BDD
+    
+  
+
+});
+
+
 
 module.exports = router;
