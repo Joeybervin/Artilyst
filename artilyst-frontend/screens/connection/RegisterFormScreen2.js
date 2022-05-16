@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // & import des urls de chacune
-import {expoUrlJoey} from '../../ExpoUrl';
+import {expoUrlMustafa} from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
@@ -42,7 +42,7 @@ function RegisterFormScreen2(props) {
     /* fonction pour sauvegarder un utilisateur dans la base de données */
     const signUpUser = async () => {
         console.log("USERINFOS : ",userInfos)
-        const rawResponse = await fetch(`http://${expoUrlJoey}/sign-up`, {
+        const rawResponse = await fetch(`http://${expoUrlMustafa}/sign-up`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({userInfos : userInfos}),

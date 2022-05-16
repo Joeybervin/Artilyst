@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // & import des urls de chacune
-import {expoUrlJoey} from '../../ExpoUrl';
+import {expoUrlMustafa} from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
@@ -80,7 +80,7 @@ function ConnectionFormScreen(props) {
 
         /* Je n'envoie les données que si mes input sont bon */
         if (login) {
-        const rawResponse = await fetch(`http://${expoUrlJoey}/sign-in`, {
+        const rawResponse = await fetch(`http://${expoUrlMustafa}/sign-in`, {
             method: 'POST',
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: `email=${email}&password=${password}`,
