@@ -80,7 +80,7 @@ router.post('/project', async function (req, res, next) {
   /* Ajout du projet à la base de données */
   
     var newProject = new projectModel({
-    title: projectInfos.name,
+    title: projectInfos.title,
     description : projectInfos.description,
     collaborators : projectInfos.occupation,
     gender : projectInfos.gender,
@@ -99,10 +99,13 @@ router.post('/project', async function (req, res, next) {
 
     await newProject.save() // enregistrement dans la base de données
 
-    userModel.updateOne(
+    console.log(newProject._id)
+    
+   await userModel.updateOne(
       {token : projectInfos.token},
-      { $push: { projects_created: newProject._id} }
+      { $push: {projects_created: newProject._id} }
       )
+
 
     res.json({new_project : true}) // je renvoie au front l'état de l'enregistrement dans la BDD
     
