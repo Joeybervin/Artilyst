@@ -32,8 +32,8 @@ export default function CategorieDuProjetScreen(props) {
     return (
         <View style={styles.container}>
 
-        <View><Text> Catégorie du projet </Text></View>
-            
+            <View><Text> Catégorie du projet </Text></View>
+
 
             <View dir="row" align="center" spacing={4}>
 
@@ -62,13 +62,12 @@ export default function CategorieDuProjetScreen(props) {
                 />
 
                 <Button
-                
+
                     buttonStyle={{ backgroundColor: '#074233' }}
                     title="Long Métrage"
                     onPress={() => addCategory("Long Métrage")}
                 />
 
-                
                 <Button
                 
                 buttonStyle={{ backgroundColor: '#074233' }}
@@ -93,7 +92,7 @@ export default function CategorieDuProjetScreen(props) {
 
             </View>
 
-         
+
 
 
             <View style={{ flexDirection: 'row', marginTop: 50 }}>
@@ -104,7 +103,7 @@ export default function CategorieDuProjetScreen(props) {
                     onPress={() => props.navigation.navigate('PhotographeCollaborateurScreen')}
                 />
 
-           
+
 
 
             </View>
@@ -113,7 +112,7 @@ export default function CategorieDuProjetScreen(props) {
 
 
         </View>
-      
+
 
 
 

@@ -5,15 +5,15 @@ import { LogBox, Button, TextInput } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']);
 
 //^ Module de balise
-import { StyleSheet, Text,  View, Slider  } from 'react-native';
+import { StyleSheet, Text, View, Slider } from 'react-native';
 /* import { Text } from '@rneui/base'; */
 
 import { Input, CheckBox, Icon } from "@rneui/themed";
 
 
 
-export default function CollaborateurDuProjetScreen(props) {
-  
+export default function PhotographCollaborateurScreen(props) {
+
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
@@ -122,7 +122,34 @@ export default function CollaborateurDuProjetScreen(props) {
      
        
 
-        <View style={{ flexDirection: 'row', marginTop: 50 }}>
+            <View>
+                <Text> Ville</Text>
+
+                <TextInput
+                    style={styles.input}
+
+                    placeholder="ville"
+                    keyboardType="text"
+                />
+            </View>
+
+            <Text> Age</Text>
+            <View>
+
+
+                <Slider
+                    style={{ width: 200, height: 40 }}
+                    minimumValue={0}
+                    maximumValue={1}
+                    minimumTrackTintColor="black"
+                    maximumTrackTintColor="black"
+                />
+
+            </View>
+
+
+
+            <View style={{ flexDirection: 'row', marginTop: 50 }}>
 
                 <Button
                     buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
@@ -139,10 +166,10 @@ export default function CollaborateurDuProjetScreen(props) {
 
 
             </View>
-       
+
         </View>
 
-    
+
 
 
 

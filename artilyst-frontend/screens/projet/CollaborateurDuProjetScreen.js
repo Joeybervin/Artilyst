@@ -75,8 +75,8 @@ export default function CollaborateurDuProjetScreen(props) {
             
              
     
-<View><Text>Collaborateur du projet  </Text></View>
-        <View><Text>De qui avez vous besoin  </Text></View>
+<View style={{ marginTop:20 }}><Text>Collaborateur du projet  </Text></View>
+        <View style={{ marginTop:20 }}><Text>De qui avez vous besoin  </Text></View>
 
 
 <View dir="row" align="center" spacing={4}>

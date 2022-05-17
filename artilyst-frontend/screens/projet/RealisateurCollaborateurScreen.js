@@ -1,19 +1,18 @@
 import React from 'react';
-import Slider from '@react-native-community/slider';
 
 // ^ Wanings messages
 import { LogBox, Button, TextInput } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']);
 
 //^ Module de balise
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Slider } from 'react-native';
 /* import { Text } from '@rneui/base'; */
 
 import { Input, CheckBox, Icon } from "@rneui/themed";
 
 
 
-export default function StylisteCollaborateurScreen(props) {
+export default function RealisateurCollaborateurScreen(props) {
 
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
@@ -40,7 +39,7 @@ export default function StylisteCollaborateurScreen(props) {
             </View>
 
             <View>
-                <Text>Styliste  </Text>
+                <Text>Realisateur.rice </Text>
             </View>
 
             <Text>Genre</Text>
@@ -50,17 +49,20 @@ export default function StylisteCollaborateurScreen(props) {
                 <CheckBox
                     center
                     title="Femme"
-               
+                //checked={check1}
+                //onPress={() => setCheck1(!check1)}
                 />
                 <CheckBox
                     center
                     title="Homme"
-               
+                //checked={check1}
+                //onPress={() => setCheck1(!check1)}
                 />
                 <CheckBox
                     center
                     title="Autres"
-                
+                //checked={check1}
+                //onPress={() => setCheck1(!check1)}
                 />
             </View>
 
@@ -86,30 +88,9 @@ export default function StylisteCollaborateurScreen(props) {
                     minimumTrackTintColor="black"
                     maximumTrackTintColor="black"
                 />
-                <Text> Spétialisation </Text>
+
             </View>
 
-            <View style={{ flexDirection: 'row' }}>
-
-
-                <Button
-                    buttonStyle={{ backgroundColor: '#3268DD', margin: 5 }}
-                    title="Femme"
-
-                />
-
-
-                <Button
-                    buttonStyle={{ backgroundColor: '#3268DD', margin: 5 }}
-                    title="Homme"
-
-                />
-                <Button
-                    buttonStyle={{ backgroundColor: '#3268DD', margin: 5 }}
-                    title="Enfant"
-
-                />
-            </View>
 
 
             <View style={{ flexDirection: 'row', marginTop: 50 }}>
@@ -167,4 +148,4 @@ const styles = StyleSheet.create({
 
 
 
-
+// * ___________________________ REDUX ___________________________
