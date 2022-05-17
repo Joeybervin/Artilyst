@@ -368,67 +368,77 @@ function ProfileEditScreen(props) {
 
                     {/* -------- TAILLE -------- */}
                     <Text>Taille</Text>
-
-                    <Slider
-                        animateTransitions
-                        animationType="timing"
-                        maximumTrackTintColor="#ccc"
-                        maximumValue={250}
-                        minimumTrackTintColor="#222"
-                        minimumValue={100}
-                        onSlidingComplete={() =>
-                            console.log("onSlidingComplete()")
-                        }
-                        onSlidingStart={() =>
-                            console.log("onSlidingStart()")
-                        }
-                        onValueChange={value => {
-                            setHeight(value)
-                            console.log("onValueChange()", value)
-                        }
-                        }
-                        orientation="horizontal"
-                        step={1}
-                        style={{ width: "80%", height: 80 }}
-                        thumbStyle={{ height: 20, width: 20 }}
-                        thumbTintColor="#0c0"
-                        thumbTouchSize={{ width: 40, height: 40 }}
-                        trackStyle={{ height: 10, borderRadius: 20 }}
-                        value={150}
-                    />
+                    <View>
+                        <Slider
+                            animateTransitions
+                            animationType="timing"
+                            maximumTrackTintColor="#ccc"
+                            maximumValue={250}
+                            minimumTrackTintColor="#222"
+                            minimumValue={100}
+                            onSlidingComplete={() =>
+                                console.log("onSlidingComplete()")
+                            }
+                            onSlidingStart={() =>
+                                console.log("onSlidingStart()")
+                            }
+                            onValueChange={value => {
+                                setHeight(value)
+                                console.log("onValueChange()", value)
+                            }
+                            }
+                            orientation="horizontal"
+                            step={1}
+                            style={{ width: "80%", height: 80 }}
+                            thumbStyle={{ height: 20, width: 20 }}
+                            thumbTintColor="#0c0"
+                            thumbTouchSize={{ width: 40, height: 40 }}
+                            trackStyle={{ height: 10, borderRadius: 20 }}
+                            value={150}
+                        />
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text >100 cm</Text>
+                            <Text style={{ color: 'green' }}>
+                                {height} cm
+                            </Text>
+                            <Text>250 cm</Text>
+                        </View>
+                    </View>
 
                     <Text>Valeur</Text>
 
 
                     {/* -------- POIDS -------- */}
                     <Text>Poids</Text>
+                    <View>
+                        <Slider
+                            animateTransitions
+                            animationType="timing"
+                            maximumTrackTintColor="#ccc"
+                            maximumValue={250}
+                            minimumTrackTintColor="#222"
+                            minimumValue={100}
+                            onSlidingComplete={() =>
+                                console.log("onSlidingComplete()")
+                            }
+                            onSlidingStart={() =>
+                                console.log("onSlidingStart()")
+                            }
+                            onValueChange={value => {
+                                setWeight(value)
+                                console.log("onValueChange()", value)
+                            }}
+                            orientation="horizontal"
+                            step={1}
+                            style={{ width: "80%", height: 80 }}
+                            thumbStyle={{ height: 20, width: 20 }}
+                            thumbTintColor="#0c0"
+                            thumbTouchSize={{ width: 40, height: 40 }}
+                            trackStyle={{ height: 10, borderRadius: 20 }}
+                            value={150}
+                        />
 
-                    <Slider
-                        animateTransitions
-                        animationType="timing"
-                        maximumTrackTintColor="#ccc"
-                        maximumValue={250}
-                        minimumTrackTintColor="#222"
-                        minimumValue={100}
-                        onSlidingComplete={() =>
-                            console.log("onSlidingComplete()")
-                        }
-                        onSlidingStart={() =>
-                            console.log("onSlidingStart()")
-                        }
-                        onValueChange={value => {
-                            setWeight(value)
-                            console.log("onValueChange()", value)
-                        }}
-                        orientation="horizontal"
-                        step={1}
-                        style={{ width: "80%", height: 80 }}
-                        thumbStyle={{ height: 20, width: 20 }}
-                        thumbTintColor="#0c0"
-                        thumbTouchSize={{ width: 40, height: 40 }}
-                        trackStyle={{ height: 10, borderRadius: 20 }}
-                        value={150}
-                    />
+                    </View>
 
                     <Text>Valeur</Text>
 

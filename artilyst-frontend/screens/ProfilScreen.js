@@ -8,15 +8,13 @@ import { Ionicons } from '@expo/vector-icons';
 // ^ Carousel
 import Swiper from 'react-native-swiper'
 
+
 // ^Redux
 import { connect } from 'react-redux';
 
 import { expoUrlRaf } from '../ExpoUrl';
 
-
-
-
-function ProfilScreen(props) {
+function ProfilScreen(props) {    
 
     const [currentImage, setCurrentImage] = useState(-1)
     const animation = useRef(new Animated.Value(0));
@@ -27,7 +25,7 @@ function ProfilScreen(props) {
     /* VARIABLES D'ÉTAT  */
 
     const [userData, setUserData] = useState({});
-
+    console.log(userData)
     /* VARIABLES */
 
     const data = [
@@ -40,7 +38,7 @@ function ProfilScreen(props) {
 
     // Récupérer infos du profil utilisateur
     useEffect(() => {
-        
+
         async function loadData() {
             console.log(props.user.user_token)
             let test = props.user.user_token
@@ -53,6 +51,7 @@ function ProfilScreen(props) {
 
             let response = await rawResponse.json();
             setUserData(response.user_account);
+
         }
         loadData();
     }, []);
@@ -92,14 +91,14 @@ function ProfilScreen(props) {
                 {/* -------- BOUTONS --------  */}
                 <View style={styles.profileButtons} >
                     <Button
-                        title="Portofolio"
+                        title="Portfolio"
                         buttonStyle={styles.button}
-                        containerStyle={styles.bouttonContainer}
+                        containerStyle={styles.buttonContainer}
                     />
                     <Button
                         title="Modifier profil"
                         buttonStyle={styles.button}
-                        containerStyle={styles.bouttonContainer}
+                        containerStyle={styles.buttonContainer}
                     />
                 </View>
 
@@ -158,7 +157,6 @@ const styles = StyleSheet.create({
         resizeMode: 'cover',
         height: 350,
         borderRadius: 25,
-
     },
     wrapper: {},
     profileButtons: {
@@ -170,7 +168,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         backgroundColor: "black"
     },
-    bouttonContainer: {
+    buttonContainer: {
         height: 50,
         width: 150,
     },
