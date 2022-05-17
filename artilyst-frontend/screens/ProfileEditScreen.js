@@ -69,7 +69,13 @@ function ProfileEditScreen(props) {
         const rawResponse = await fetch(`http://${expoUrlRaf}/update_user_profile`, {
             method: 'PUT',
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ user_token: informations.user_token, city: city, description: description, cv: cv, user_characteristics: { gender: gender, ethnicGroup: ethnicGroup, hair: hair, eyes: eyes, height: height, weight: weight, corpulence: corpulence, measurements: { waistSize: waistSize, bustSize: bustSize, hipMeasurement: hipMeasurement } } })
+            body: JSON.stringify({
+                user_token: informations.user_token, city: city, description: description, cv: cv,
+                user_characteristics: {
+                    gender: gender, ethnicGroup: ethnicGroup, hair: hair, eyes: eyes, height: height, weight: weight, corpulence: corpulence,
+                    measurements: { waistSize: waistSize, bustSize: bustSize, hipMeasurement: hipMeasurement }
+                }
+            })
         })
     }
 
