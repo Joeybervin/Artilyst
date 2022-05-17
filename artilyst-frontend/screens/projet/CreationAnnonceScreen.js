@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+// & import des urls de chacune
+import {expoUrlMustafa} from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox, Button, Switch } from 'react-native';
@@ -10,32 +13,63 @@ import { StyleSheet, Text,  View, TextInput } from 'react-native';
 
 export default function CreationAnnonceScreen(props) {
 
+    //*********** Varibales d'etat **********/
+    const [title, setTitle]=useState('')
+    const [description, setDescription]=useState('')
+    const [isEnabled, setIsEnabled] = useState(false);
+    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+    
+    //********** Récuperation params */
+    var ParamsProject3=props.route.params;
+    ParamsProject3['title']=title;
+    ParamsProject3['description']=description;
+    ParamsProject3['remuneration']=isEnabled;      
+    var projectInfos=ParamsProject3;
+    console.log('params3',projectInfos)
+
+    /* fonction pour sauvegarder un utilisateur dans la base de données */
+    const projectSave = async () => {
+        
+        const rawResponse = await fetch(`http://${expoUrlMustafa}/project`, {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({projectInfos : projectInfos}),
+        })
+
+        let response = await rawResponse.json() 
+        props.navigation.navigate('Annonces')
+    
+    }// Object : Réponse du back-end
+
 
     return (
         <View style={styles.container}>
         <View><Text>création de mon annonce de projet </Text></View>
-        <View><Text>Collaborateur : Photographe  </Text></View>
-        <View><Text>Catégorie : Shooting-Photo </Text></View>
+        <View><Text>Collaborateur : {ParamsProject3.occupation}  </Text></View>
+        <View><Text>Catégorie : {ParamsProject3.category} </Text></View>
      
-     <View><Text>Descriptif   </Text></View>
+     <View><Text>Descriptif</Text></View>
 
      <TextInput
                 style={styles.input}
                 placeholder=" Titre ex : Recherche photographe" 
                 type ="text"
+                onChangeText={setTitle}
+                value={title}
                 
             />   
 
 <TextInput
                 style={{
                     borderWidth: 1,
-                    
                     height: 150,
                     width: 250,
                   }}
                 placeholder=" Décrivez votre projet 
                 ex Modele recherche photographe pour book professionnel" 
                 type ="text"
+                onChangeText={setDescription}
+                value={description}
             />   
 
 
@@ -47,9 +81,14 @@ export default function CreationAnnonceScreen(props) {
     
   <Text>Je rémunère</Text>
   
-   <Switch
-   
-    />
+  <Switch
+        trackColor={{ false: "#767577", true: "#81b0ff" }}
+        thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch}
+        value={isEnabled}
+      />
+
   </View >
 
      <View style={{ flex: 1, flexDirection: 'row', justifyConten:'space-between', alignItems: "center" }}>
@@ -69,7 +108,7 @@ export default function CreationAnnonceScreen(props) {
 <Button
     buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
     title="Lancer la recherche "
-    onPress={() => props.navigation.navigate('C')}
+    onPress={() => projectSave()}
 />
 
 
@@ -106,4 +145,4 @@ const styles = StyleSheet.create({
 
 });
 
-// * ___________________________ REDUX ___________________________
+// * ___________________________ REDUX __________________________

@@ -82,7 +82,7 @@ router.post('/user_profile', async function(req, res, next){
       token: user_token,
     });
   
-  res.json({user_account}) // Object :  Je renvoie les informations au front-end
+  res.json({user_account}) // Object : Je renvoie les informations au front-end
   
 })
   
@@ -108,7 +108,7 @@ router.put('/update_user_profile', async function(req, res, next){
 // Creer un projet 
 router.post('/project', async function (req, res, next) {
 
-  const projectInfos = req.body.projectInfo // Object : récupération des données du projet envoyées par le front
+  const projectInfos = req.body.projectInfos // Object : récupération des données du projet envoyées par le front
 
 
   /* Ajout du projet à la base de données */

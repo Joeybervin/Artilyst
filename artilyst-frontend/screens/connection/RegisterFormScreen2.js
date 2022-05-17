@@ -24,7 +24,7 @@ function RegisterFormScreen2(props) {
     const [userInfos, setUserInfos] = useState(props.route.params)// récupération des données entrées par l'utilisateur sur la screen précédente avec les paramètres
     const [userOccupation, setUserOccupation] = useState("")
     const [login, setLogin] = useState(false)
-    const [userOccupationClicked, setUserOccupationClicked]  = useState(true) // vérifie si l'utilisateur à bien clické suur un bouton
+    const [userOccupationClicked, setUserOccupationClicked]  = useState(true) // vérifie si l'utilisateur à bien clické sur un bouton
     /* VARIABLES */
 
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
@@ -136,8 +136,6 @@ function RegisterFormScreen2(props) {
                     onPress={() => signUpUser()}
                     disabled={userOccupationClicked}
                 />
-
-
 
             </View>
 

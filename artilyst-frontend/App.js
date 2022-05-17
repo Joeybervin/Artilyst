@@ -101,7 +101,15 @@ function PagesStacks() {
         tabBarButton: () => null
     }}/>
 
-<TabNavigator.Screen name="PhotographCollaborateurScreen" component={PhotographCollaborateurScreen}  options={{
+{/* <TabNavigator.Screen name="ComedienCollaborateurScreen" component={ComedienCollaborateurScreen}  options={{
+        tabBarButton: () => null
+    }}/> */}
+
+{/* <TabNavigator.Screen name="ModeleCollaborateurScreen" component={ModeleCollaborateurScreen}  options={{
+        tabBarButton: () => null
+    }}/> */}
+
+<TabNavigator.Screen name="PhotographeCollaborateurScreen" component={PhotographCollaborateurScreen}  options={{
         tabBarButton: () => null
     }}/>
 
