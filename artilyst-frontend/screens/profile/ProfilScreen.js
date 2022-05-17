@@ -1,5 +1,5 @@
 
-import React, {useRef, useState, useEffect} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { expoUrlJoey } from '../ExpoUrl';
 
 //^ Module de balise
@@ -16,20 +16,18 @@ import { connect } from 'react-redux';
 
 import { expoUrlRaf } from '../ExpoUrl';
 
-function ProfilScreen(props) {    
+function ProfilScreen(props) {
 
-    const [currentImage, setCurrentImage] = useState(-1)
-    const animation = useRef(new Animated.Value(0));
-    const [userData,setUserData] = useState({})
+    
 
 
-    let informations = props.user;
+
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
+    const [userData, setUserData] = useState({})
 
-    const [userData, setUserData] = useState({});
-    console.log(userData)
     /* VARIABLES */
+    let informations = props.user;
 
     const data = [
         "https://images.unsplash.com/photo-1633205719979-e47958ff6d93?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
@@ -38,7 +36,7 @@ function ProfilScreen(props) {
     ];
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
-  
+
     // Récupérer infos du profil utilisateur
     useEffect(() => {
         async function loadData() {
@@ -49,9 +47,6 @@ function ProfilScreen(props) {
             })
             let response = await rawResponse.json();
             setUserData(response.user_account);
-          
-
-
 
         }
         loadData();
@@ -96,11 +91,13 @@ function ProfilScreen(props) {
                         containerStyle={styles.buttonContainer}
                     />
                     <Button
-                      title="Modifier profil"
-                      buttonStyle={styles.button}
-                      containerStyle={styles.bouttonContainer}
-                      onPress={() => { props.getAllUserInformations(userData)
-                      props.navigation.navigate('ProfileEditScreen')}}
+                        title="Modifier profil"
+                        buttonStyle={styles.button}
+                        containerStyle={styles.bouttonContainer}
+                        onPress={() => {
+                            props.getAllUserInformations(userData)
+                            props.navigation.navigate('ProfileEditScreen')
+                        }}
                     />
                 </View>
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // & import des urls de chacune
-import { expoUrlJoey } from '../ExpoUrl';
+import { expoUrlJoey } from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';

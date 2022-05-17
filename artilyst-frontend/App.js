@@ -7,34 +7,43 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-//^ Components
+//^ Screens
 /* connexion screens */
 import ConnectionScreen from './screens/connection/ConnectionScreen';
 import ConnectionFormScreen from './screens/connection/ConnectionFormScreen';
+/* Register screens */
 import RegisterFormScreen1 from './screens/connection/RegisterFormScreen1';
 import RegisterFormScreen2 from './screens/connection/RegisterFormScreen2';
-import CreerUnProjetScreen from './screens/projet/CreerUnProjetScreen';
-import CollaborateurDuProjetScreen from './screens/projet/CollaborateurDuProjetScreen';
-import PhotographCollaborateurScreen from './screens/projet/PhotographCollaborateurScreen';
-import CategorieDuProjetScreen from './screens/projet/CategorieDuProjetScreen';
-import CreationAnnonceScreen from './screens/projet/CreationAnnonceScreen';
-import StylisteCollaborateurScreen from './screens/projet/StylisteCollaborateurScreen';
-import ComedienCollaborateurScreen from './screens/projet/ComedienCollaborateurScreen';
-import ModeleCollaborteurScreen from './screens/projet/ModeleCollaborteurScreen';
-import RealisateurCollaborateurScreen from './screens/projet/RealisateurCollaborateurScreen';
-import ArtisteCorrespondantScreen from './screens/projet/ArtisteCorrespondantScreen';
 
+/* project screens */
+import CreerUnProjetScreen from './screens/project/CreerUnProjetScreen'; // Étape 1/4
+/* Formulaire de création de projet */
+import CollaborateurDuProjetScreen from './screens/project/CollaborateurDuProjetScreen'; // Étape 2/4
 
-/* bottom tabbar screens */
+import PhotographCollaborateurScreen from './screens/project/PhotographCollaborateurScreen';  // Étape 3/4
+import StylisteCollaborateurScreen from './screens/project/StylisteCollaborateurScreen'; // Étape 3/4
+import ComedienCollaborateurScreen from './screens/project/ComedienCollaborateurScreen'; // Étape 3/4
+import ModeleCollaborateurScreen from './screens/project/ModeleCollaborateurScreen'; // Étape 3/4
+import RealisateurCollaborateurScreen from './screens/project/RealisateurCollaborateurScreen'; // Étape 3/4
+
+import CategorieDuProjetScreen from './screens/project/CategorieDuProjetScreen'; // Étape 3/4
+
+/* Recherhce screens */
+import CreationAnnonceScreen from './screens/project/CreationAnnonceScreen';
+import ArtisteCorrespondantScreen from './screens/project/ArtisteCorrespondantScreen';
+
+/* bottom tab bar screens */
 import CreationProjectScreen from './screens/CreationProjectScreen';
 import AnnoncesScreen from './screens/AnnoncesScreen';
 import LikesScreen from './screens/LikesScreen';
 
 /* headers screens */
-import ProfilScreen from './screens/ProfilScreen';
-import MessagesScreen from './screens/MessagesScreen';
+// profil
+import ProfilScreen from './screens/profile/ProfilScreen';
+import ProfileEditScreen from './screens/profile/ProfileEditScreen';
 
-import ProfileEditScreen from './screens/ProfileEditScreen';
+// messagerie
+import MessagesScreen from './screens/MessagesScreen';
 
 //^ Redux
 /* reducers */
@@ -49,14 +58,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { Button, Badge } from '@rneui/base';
 
 
-// * BOTTOMTAB NAVIGATION
+// * _______________________________________________________ TAB BOTTOM NAVIGATION _______________________________________________________
+// *
 const TabNavigator = createBottomTabNavigator();
 
 function PagesStacks() {
   return (
     
       <TabNavigator.Navigator 
-      
       initialRouteName="Annonces" // Première page qui s'affiche après sign_in / sign-up
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color }) => {
@@ -73,59 +82,57 @@ function PagesStacks() {
 
           return <Ionicons name={iconName} size={25} color={color} />;
         },
-        
       })}
-      
       tabBarOptions={{
         activeTintColor: '#1ADBAC',
         inactiveTintColor: '#FFFFFF',
         style: {
           backgroundColor: '#333333'
         }
-        
       }}>
 
+        // * ------------------------ BOTTOM TAB BAR ------------------------
         <TabNavigator.Screen name="Mes projets" component={CreationProjectScreen}  />
         <TabNavigator.Screen name="Annonces" component={AnnoncesScreen}  options={{ initialRouteName: true }}  />
-        <TabNavigator.Screen name="Likes" component={LikesScreen}  
-        options={{
-          tabBarBadge: 0 ,
-          tabBarBadgeStyle:{backgroundColor:"#1ADBAC", color:"#fff"}}}  />
+        <TabNavigator.Screen name="Likes" component={LikesScreen}  options={{ tabBarBadge: 0 , tabBarBadgeStyle:{backgroundColor:"#1ADBAC", color:"#fff"}}}  />
 
-
+        // * ------------------------ HEADER TAB ------------------------
+        {/* PROFIL */}
         <TabNavigator.Screen name="ProfilScreen" component={ProfilScreen}  options={{ tabBarButton: () => null }} />
+        <TabNavigator.Screen name="ProfileEditScreen" component={ProfileEditScreen}  options={{ tabBarButton: () => null}}/>
+        {/* MESSAGERIE */}
         <TabNavigator.Screen name="MessagesScreen" component={MessagesScreen}  options={{ tabBarButton: () => null }}/>
 
-        <TabNavigator.Screen name="CreerUnProjetScreen" component={CreerUnProjetScreen}  options={{ tabBarButton: () => null }}/>
+        // * ------------------------ PROJECT ------------------------
+        {/* FORMULAIRE :  Étape 1/4 */}
+        <TabNavigator.Screen name="CreerUnProjetScreen" component={CreerUnProjetScreen}  options={{ tabBarButton: () => null }}/> 
+        {/* FORMULAIRE :  Étape 2/4 */}
         <TabNavigator.Screen name="CollaborateurDuProjetScreen" component={CollaborateurDuProjetScreen}  options={{ tabBarButton: () => null }}/>
-
-    {/* <TabNavigator.Screen name="ComedienCollaborateurScreen" component={ComedienCollaborateurScreen}  options={{ tabBarButton: () => null }}/> */}
-    {/* <TabNavigator.Screen name="ModeleCollaborateurScreen" component={ModeleCollaborateurScreen}  options={{ tabBarButton: () => null }}/> */}
-
-        <TabNavigator.Screen name="PhotographeCollaborateurScreen" component={PhotographCollaborateurScreen}  options={{ tabBarButton: () => null }}/>
-        <TabNavigator.Screen name="CreerUnProjetScreen" component={CreerUnProjetScreen}  options={{ tabBarButton: () => null}}/>
-        <TabNavigator.Screen name="CollaborateurDuProjetScreen" component={CollaborateurDuProjetScreen}  options={{ tabBarButton: () => null}}/>
-        <TabNavigator.Screen name="PhotographCollaborateurScreen" component={PhotographCollaborateurScreen}  options={{ tabBarButton: () => null}}/>
-        <TabNavigator.Screen name="CategorieDuProjetScreen" component={CategorieDuProjetScreen}  options={{ tabBarButton: () => null}}/>
-        <TabNavigator.Screen name="CreationAnnonceScreen" component={CreationAnnonceScreen}  options={{ tabBarButton: () => null}}/>
-        <TabNavigator.Screen name="StylisteCollaborateurScreen" component={StylisteCollaborateurScreen}  options={{ tabBarButton: () => null}}/>
-        <TabNavigator.Screen name="ProfileEditScreen" component={ProfileEditScreen}  options={{ tabBarButton: () => null}}/>
-
-
-        <TabNavigator.Screen name="CreationAnnonceScreen" component={CreationAnnonceScreen}  options={{  tabBarButton: () => null }}/>
-        <TabNavigator.Screen name="StylisteCollaborateurScreen" component={StylisteCollaborateurScreen}  options={{ tabBarButton: () => null }}/>
+        {/* FORMULAIRE :  Étape 3/4 */}
         <TabNavigator.Screen name="ComedienCollaborateurScreen" component={ComedienCollaborateurScreen}  options={{ tabBarButton: () => null }}/>
-        <TabNavigator.Screen name="ModeleCollaborteurScreen" component={ModeleCollaborteurScreen}  options={{ tabBarButton: () => null }}/>
+        <TabNavigator.Screen name="PhotographeCollaborateurScreen" component={PhotographCollaborateurScreen}  options={{ tabBarButton: () => null }}/>
+        <TabNavigator.Screen name="PhotographCollaborateurScreen" component={PhotographCollaborateurScreen}  options={{ tabBarButton: () => null}}/>
+        <TabNavigator.Screen name="ModeleCollaborateurScreen" component={ModeleCollaborateurScreen}  options={{ tabBarButton: () => null }}/>
         <TabNavigator.Screen name="RealisateurCollaborateurScreen" component={RealisateurCollaborateurScreen}  options={{ tabBarButton: () => null }}/>
+        <TabNavigator.Screen name="StylisteCollaborateurScreen" component={StylisteCollaborateurScreen}  options={{ tabBarButton: () => null}}/>
+        {/* FORMULAIRE :  Étape 4/4 */}
+        <TabNavigator.Screen name="CategorieDuProjetScreen" component={CategorieDuProjetScreen}  options={{ tabBarButton: () => null}}/>
+
+        // * ------------------------ SEARCH ------------------------
+        <TabNavigator.Screen name="CreationAnnonceScreen" component={CreationAnnonceScreen}  options={{  tabBarButton: () => null }}/>
         <TabNavigator.Screen name="ArtisteCorrespondantScreen" component={ArtisteCorrespondantScreen}  options={{ tabBarButton: () => null }}/>
 
       </TabNavigator.Navigator>
 
   );
 } 
-// * LINK NAVIGATION
-const StackNavigator = createStackNavigator();
 
+
+
+
+// * _______________________________________________________ STACK NAVIGATION _______________________________________________________
+// *
+const StackNavigator = createStackNavigator();
 
 export default function App() {
   return (
@@ -134,15 +141,16 @@ export default function App() {
       <NavigationContainer >
         <StackNavigator.Navigator >
 
-          {/* Connexion screens */}
+          // * ------------------------ CONNEXION ------------------------
           <StackNavigator.Screen  name="ConnectionScreen" component={ConnectionScreen} options={{headerShown: false}} />
+          {/* SIGN-IN */}
           <StackNavigator.Screen  name="ConnectionFormScreen" component={ConnectionFormScreen} options={{headerShown: false}} />
+          {/* SIGN-UP */}
           <StackNavigator.Screen  name="RegisterFormScreen1" component={RegisterFormScreen1} options={{headerShown: false}} />
           <StackNavigator.Screen  name="RegisterFormScreen2" component={RegisterFormScreen2} options={{headerShown: false}} />
           
-
+          // * ------------------------ HEADER TAB BAR ------------------------
           <StackNavigator.Screen  name="PagesStacks" component={PagesStacks} 
-          /* Créer une navigation depuis le header de l'app pour naviguer vers la page du profil + la page messages */
           options={({ navigation }) => ({
             title: "ARTILYST",
             headerTitleAlign: 'center',
@@ -154,7 +162,7 @@ export default function App() {
               fontWeight: 'bold',
               color: '#FFFFFF',
             },
-          headerLeft: () => (
+          headerLeft: () => ( // PROFIL
             <Button
               icon={<Ionicons name={"person"} size={20} color="white" />}
               buttonStyle= {{marginHorizontal : 25, borderRadius : 100}}
@@ -162,25 +170,23 @@ export default function App() {
               onPress={() => navigation.navigate('ProfilScreen')}
             />
           ),
-          headerRight: () => (
+          headerRight: () => ( // MESSAGERIE
             <Button
               icon={<Ionicons name={"mail"} size={20} color="white" />}
               buttonStyle= {{marginHorizontal : 25, borderRadius : 100}}
               color="#BBBBBB"
-              
               onPress={() => navigation.navigate('MessagesScreen')}
             >
-              <Badge
-            badgeStyle={{backgroundColor :"#1ADBAC"}}
-            value={0}
-            containerStyle={{ position: 'absolute', top: 0, left: 30 }}
-          />
+              {/* Badge de notification */}
+            <Badge
+              badgeStyle={{backgroundColor :"#1ADBAC"}}
+              value={0}
+              containerStyle={{ position: 'absolute', top: 0, left: 30 }}
+            />
             </Button>
           ),
       })}/>
 
-
-        
         </StackNavigator.Navigator>
       </NavigationContainer>
       </Provider>
