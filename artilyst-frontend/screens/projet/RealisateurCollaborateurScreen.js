@@ -12,7 +12,7 @@ import { Input, CheckBox, Icon } from "@rneui/themed";
 
 
 
-export default function PhotographCollaborateurScreen(props) {
+export default function RealisateurCollaborateurScreen(props) {
 
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
@@ -39,7 +39,7 @@ export default function PhotographCollaborateurScreen(props) {
             </View>
 
             <View>
-                <Text>Photographe </Text>
+                <Text>Realisateur.rice </Text>
             </View>
 
             <Text>Genre</Text>

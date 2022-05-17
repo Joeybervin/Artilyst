@@ -41,16 +41,9 @@ export default function CreationAnnonceScreen(props) {
 
 
 <View style={{ flex: 1, flexDirection: 'row', justifyConten:'space-between', alignItems: "center" }}>
-
-
-
-    
-  <Text>Je rémunère</Text>
-  
-   <Switch
-   
-    />
-  </View >
+    <Text>Je rémunère</Text>
+    <Switch/>
+</View >
 
      <View style={{ flex: 1, flexDirection: 'row', justifyConten:'space-between', alignItems: "center" }}>
          <Text> Ajouter photo </Text>
@@ -69,7 +62,7 @@ export default function CreationAnnonceScreen(props) {
 <Button
     buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
     title="Lancer la recherche "
-    onPress={() => props.navigation.navigate('C')}
+    onPress={() => props.navigation.navigate('ArtisteCorrespondantScreen')}
 />
 
 

@@ -31,11 +31,11 @@ export default function CreationProjectScreen(props) {
     return (
         <View style={styles.container}>
         <View><Text>Cher(e) Artiste, ici vous allez pouvoir créer des ANNONCES pour vos projets</Text></View>
-        <View><Text>-----CreationProjectScreen-----</Text></View>
+      
        
         <Button title="fermer" onPress={() => props.navigation.navigate('CreerUnProjetScreen')} />
         
-     
+        
         </View>
 
     );
