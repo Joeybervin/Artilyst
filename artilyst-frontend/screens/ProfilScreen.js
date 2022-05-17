@@ -1,28 +1,34 @@
+
 import React, {useRef, useState, useEffect} from 'react';
 import { expoUrlJoey } from '../ExpoUrl';
+
 //^ Module de balise
 import { Dimensions, StyleSheet, Animated, View, Image, ScrollView } from 'react-native';
-import { Text, Button} from '@rneui/base';
+import { Text, Button } from '@rneui/base';
 //^ module bonus (icons)
-import { Ionicons } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons';
 // ^ Carousel
 import Swiper from 'react-native-swiper'
+
 
 // ^Redux
 import { connect } from 'react-redux';
 
+import { expoUrlRaf } from '../ExpoUrl';
 
+function ProfilScreen(props) {    
 
-
-function ProfilScreen(props) {
-
-    const  [currentImage, setCurrentImage] = useState(-1)
+    const [currentImage, setCurrentImage] = useState(-1)
     const animation = useRef(new Animated.Value(0));
     const [userData,setUserData] = useState({})
+
 
     let informations = props.user;
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
+
+    const [userData, setUserData] = useState({});
+    console.log(userData)
     /* VARIABLES */
 
     const data = [
@@ -32,6 +38,8 @@ function ProfilScreen(props) {
     ];
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
+  
+    // Récupérer infos du profil utilisateur
     useEffect(() => {
         async function loadData() {
             const rawResponse = await fetch(`http:${expoUrlJoey}/user_profile`, {
@@ -42,6 +50,9 @@ function ProfilScreen(props) {
             let response = await rawResponse.json();
             setUserData(response.user_account);
           
+
+
+
         }
         loadData();
     }, []);
@@ -52,7 +63,7 @@ function ProfilScreen(props) {
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
 
-    const myimages = data.map((element, index) => {
+    let myimages = data.map((element, index) => {
         return (
 
             <Image
@@ -62,6 +73,7 @@ function ProfilScreen(props) {
             />
         )
     })
+
     // * ___________________________ PAGE ___________________________
 
     return (
@@ -69,59 +81,59 @@ function ProfilScreen(props) {
             <ScrollView style={styles.container}>
                 <Text>ProfilScreen</Text>
 
+                {/* -------- CARROUSEL D'IMAGES --------  */}
                 <View style={styles.swipperContainer}>
-                    <Swiper  style={styles.wrapper} showsButtons={false} activeDotColor="white" dotColor='rgba(0,0,0,.6)' showsHorizontalScrollIndicator={true}>
-                        { myimages }
+                    <Swiper style={styles.wrapper} showsButtons={false} activeDotColor="white" dotColor='rgba(0,0,0,.6)' showsHorizontalScrollIndicator={true}>
+                        {myimages}
                     </Swiper>
                 </View>
 
+                {/* -------- BOUTONS --------  */}
                 <View style={styles.profileButtons} >
                     <Button
-                    title="Portofolio"
-                    buttonStyle={styles.button}
-                    containerStyle={styles.bouttonContainer}
-                    
+                        title="Portfolio"
+                        buttonStyle={styles.button}
+                        containerStyle={styles.buttonContainer}
                     />
-
                     <Button
-                    title="Modifier profil"
-                    buttonStyle={styles.button}
-                    containerStyle={styles.bouttonContainer}
-                    onPress={() => { props.getAllUserInformations(userData)
-                        props.navigation.navigate('ProfileEditScreen')}}
+                      title="Modifier profil"
+                      buttonStyle={styles.button}
+                      containerStyle={styles.bouttonContainer}
+                      onPress={() => { props.getAllUserInformations(userData)
+                      props.navigation.navigate('ProfileEditScreen')}}
                     />
                 </View>
 
+                {/* -------- INFORMATIONS --------  */}
                 <View style={styles.firstInformations} >
-                
-                <Text h5 style={{fontWeight: "bold", marginRight : 25, fontSize: 20}}>Nom prénom</Text>
-
-                <View style={styles.location}>
-                <Ionicons name={'location-sharp'} size={24} color='black' />
-                <Text h5 style={{fontSize: 20, marginLeft : 10}}>Ville</Text>
+                    <Text h5 style={{ fontWeight: "bold", marginRight: 25, fontSize: 20 }}>{userData.name}</Text>
+                    <View style={styles.location}>
+                        <Ionicons name={'location-sharp'} size={24} color='black' />
+                        <Text h5 style={{ fontSize: 20, marginLeft: 10 }}>{userData.city}</Text>
+                    </View>
                 </View>
 
-                </View>
-
+                {/* -------- CATEGORIE --------  */}
                 <View style={styles.occupationContainer}>
-                    <Text style={styles.occupationText}>modèle</Text>
+                    <Text style={styles.occupationText}>{userData.occupation}</Text>
                 </View>
 
+                {/* -------- ABOUT --------  */}
                 <View style={styles.aboutContainer}>
-                <Text style={styles.aboutTitle}>À propos de moi :</Text>
-                <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas placerat velit neque, a consectetur diam luctus eget. In eu lacinia diam, sed tristique leo. Sed condimentum elit quis diam mollis gravida. Integer convallis felis vel commodo euismod. Mauris est urna, cursus quis aliquam ut, congue vestibulum ligula.</Text>
+                    <Text style={styles.aboutTitle}>À propos de moi :</Text>
+                    <Text>{userData.description}</Text>
                 </View>
 
+                {/* -------- USER CARACTERISTICS --------  */}
                 <View style={styles.caracteristicsContainer}>
-                    <Text>Genre : mystère</Text>
-                    <Text>Taille : jusqu'au paradis</Text>
-                    <Text>poids : comment osez-vous ?</Text>
-                    <Text></Text>
+                    <Text>{userData.gender}</Text>
+                    <Text>{userData.user_caracteristics.height}</Text>
+                    <Text>{userData.user_caracteristics.weight}</Text>
+                    <Text>{userData.user_caracteristics.corpulence}</Text>
                 </View>
 
+            </ScrollView>
 
-</ScrollView>
-        
             <Text>User token : {informations.user_token}</Text>
         </View>
 
@@ -131,68 +143,67 @@ function ProfilScreen(props) {
 // * ___________________________ STYLES ___________________________
 
 const styles = StyleSheet.create({
-    mainContainer : {
-        flex : 1,
-        alignItems : "center",
+    mainContainer: {
+        flex: 1,
+        alignItems: "center",
     },
-    container : {
-        marginHorizontal : 10
+    container: {
+        marginHorizontal: 10
     },
-    swipperContainer : {
-        height : 350,
-        marginBottom : 15
+    swipperContainer: {
+        height: 350,
+        marginBottom: 15
     },
     image: {
-        width: Dimensions.get('screen').width -20,
+        width: Dimensions.get('screen').width - 20,
         resizeMode: 'cover',
         height: 350,
-        borderRadius : 25,
-
+        borderRadius: 25,
     },
     wrapper: {},
-    profileButtons : {
-        flexDirection : 'row', 
-        justifyContent : 'space-around',
-        marginBottom : 15
+    profileButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginBottom: 15
     },
-    button : {
-        borderRadius : 8,
-        backgroundColor : "black"
+    button: {
+        borderRadius: 8,
+        backgroundColor: "black"
     },
-    bouttonContainer : {
+    buttonContainer: {
         height: 50,
         width: 150,
     },
-    firstInformations : {
-        flexDirection : 'row', 
-        marginLeft : 25
+    firstInformations: {
+        flexDirection: 'row',
+        marginLeft: 25
     },
-    location : {
-        flexDirection : 'row',
-        marginLeft : 10
+    location: {
+        flexDirection: 'row',
+        marginLeft: 10
     },
-    occupationContainer : {
-        backgroundColor : '#333333',
-        borderRadius : 50, 
-        width : "50%",
-        alignItems : 'center',
-        marginTop : 20,
-        marginBottom : 25,
-        marginLeft : "auto",
-        marginRight : "auto"
+    occupationContainer: {
+        backgroundColor: '#333333',
+        borderRadius: 50,
+        width: "50%",
+        alignItems: 'center',
+        marginTop: 20,
+        marginBottom: 25,
+        marginLeft: "auto",
+        marginRight: "auto"
     },
-    occupationText : {
-         color : "white"
+    occupationText: {
+        color: "white"
     },
-    aboutContainer : {
-        marginBottom : 25,
-        marginLeft : 5,
+    aboutContainer: {
+        marginBottom: 25,
+        marginLeft: 5,
     },
-    aboutTitle : {
-        fontWeight : "bold"
+    aboutTitle: {
+        fontWeight: "bold"
     },
-    caracteristicsContainer : {
-        lineHeiight : 2
+    caracteristicsContainer: {
+        lineHeiight: 2
     }
 
 });

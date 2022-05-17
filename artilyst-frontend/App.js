@@ -19,6 +19,10 @@ import PhotographCollaborateurScreen from './screens/projet/PhotographCollaborat
 import CategorieDuProjetScreen from './screens/projet/CategorieDuProjetScreen';
 import CreationAnnonceScreen from './screens/projet/CreationAnnonceScreen';
 import StylisteCollaborateurScreen from './screens/projet/StylisteCollaborateurScreen';
+import ComedienCollaborateurScreen from './screens/projet/ComedienCollaborateurScreen';
+import ModeleCollaborteurScreen from './screens/projet/ModeleCollaborteurScreen';
+import RealisateurCollaborateurScreen from './screens/projet/RealisateurCollaborateurScreen';
+import ArtisteCorrespondantScreen from './screens/projet/ArtisteCorrespondantScreen';
 
 
 /* bottom tabbar screens */
@@ -88,9 +92,17 @@ function PagesStacks() {
           tabBarBadge: 0 ,
           tabBarBadgeStyle:{backgroundColor:"#1ADBAC", color:"#fff"}}}  />
 
-        <TabNavigator.Screen name="ProfilScreen" component={ProfilScreen}  options={{ tabBarButton: () => null }} />
-        <TabNavigator.Screen name="MessagesScreen" component={MessagesScreen}  options={{ tabBarButton: () => null}}/>
 
+        <TabNavigator.Screen name="ProfilScreen" component={ProfilScreen}  options={{ tabBarButton: () => null }} />
+        <TabNavigator.Screen name="MessagesScreen" component={MessagesScreen}  options={{ tabBarButton: () => null }}/>
+
+        <TabNavigator.Screen name="CreerUnProjetScreen" component={CreerUnProjetScreen}  options={{ tabBarButton: () => null }}/>
+        <TabNavigator.Screen name="CollaborateurDuProjetScreen" component={CollaborateurDuProjetScreen}  options={{ tabBarButton: () => null }}/>
+
+    {/* <TabNavigator.Screen name="ComedienCollaborateurScreen" component={ComedienCollaborateurScreen}  options={{ tabBarButton: () => null }}/> */}
+    {/* <TabNavigator.Screen name="ModeleCollaborateurScreen" component={ModeleCollaborateurScreen}  options={{ tabBarButton: () => null }}/> */}
+
+        <TabNavigator.Screen name="PhotographeCollaborateurScreen" component={PhotographCollaborateurScreen}  options={{ tabBarButton: () => null }}/>
         <TabNavigator.Screen name="CreerUnProjetScreen" component={CreerUnProjetScreen}  options={{ tabBarButton: () => null}}/>
         <TabNavigator.Screen name="CollaborateurDuProjetScreen" component={CollaborateurDuProjetScreen}  options={{ tabBarButton: () => null}}/>
         <TabNavigator.Screen name="PhotographCollaborateurScreen" component={PhotographCollaborateurScreen}  options={{ tabBarButton: () => null}}/>
@@ -98,6 +110,14 @@ function PagesStacks() {
         <TabNavigator.Screen name="CreationAnnonceScreen" component={CreationAnnonceScreen}  options={{ tabBarButton: () => null}}/>
         <TabNavigator.Screen name="StylisteCollaborateurScreen" component={StylisteCollaborateurScreen}  options={{ tabBarButton: () => null}}/>
         <TabNavigator.Screen name="ProfileEditScreen" component={ProfileEditScreen}  options={{ tabBarButton: () => null}}/>
+
+
+        <TabNavigator.Screen name="CreationAnnonceScreen" component={CreationAnnonceScreen}  options={{  tabBarButton: () => null }}/>
+        <TabNavigator.Screen name="StylisteCollaborateurScreen" component={StylisteCollaborateurScreen}  options={{ tabBarButton: () => null }}/>
+        <TabNavigator.Screen name="ComedienCollaborateurScreen" component={ComedienCollaborateurScreen}  options={{ tabBarButton: () => null }}/>
+        <TabNavigator.Screen name="ModeleCollaborteurScreen" component={ModeleCollaborteurScreen}  options={{ tabBarButton: () => null }}/>
+        <TabNavigator.Screen name="RealisateurCollaborateurScreen" component={RealisateurCollaborateurScreen}  options={{ tabBarButton: () => null }}/>
+        <TabNavigator.Screen name="ArtisteCorrespondantScreen" component={ArtisteCorrespondantScreen}  options={{ tabBarButton: () => null }}/>
 
       </TabNavigator.Navigator>
 
