@@ -1,5 +1,5 @@
-import React, {useRef, useState} from 'react';
-
+import React, {useRef, useState, useEffect} from 'react';
+import { expoUrlJoey } from '../ExpoUrl';
 //^ Module de balise
 import { Dimensions, StyleSheet, Animated, View, Image, ScrollView } from 'react-native';
 import { Text, Button} from '@rneui/base';
@@ -18,6 +18,7 @@ function ProfilScreen(props) {
 
     const  [currentImage, setCurrentImage] = useState(-1)
     const animation = useRef(new Animated.Value(0));
+    const [userData,setUserData] = useState({})
 
     let informations = props.user;
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
@@ -31,6 +32,20 @@ function ProfilScreen(props) {
     ];
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
+    useEffect(() => {
+        async function loadData() {
+            const rawResponse = await fetch(`http:${expoUrlJoey}/user_profile`, {
+                method: 'POST',
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `token=${informations.user_token}`,
+            })
+            let response = await rawResponse.json();
+            setUserData(response.user_account);
+          
+        }
+        loadData();
+    }, []);
+
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
 
@@ -72,6 +87,8 @@ function ProfilScreen(props) {
                     title="Modifier profil"
                     buttonStyle={styles.button}
                     containerStyle={styles.bouttonContainer}
+                    onPress={() => { props.getAllUserInformations(userData)
+                        props.navigation.navigate('ProfileEditScreen')}}
                     />
                 </View>
 
@@ -185,9 +202,18 @@ function mapStateToProps(state) {
     return { user: state.user }
 }
 
+function mapDispatchToProps(dispatch) {
+    return {
+        getAllUserInformations: function (userData) {
+            dispatch({ type: 'addInfosToUser', userData })
+
+        }
+    }
+}
+
 export default connect(
     mapStateToProps,
-    null
+    mapDispatchToProps
 )(ProfilScreen);
 
 

@@ -30,6 +30,8 @@ import LikesScreen from './screens/LikesScreen';
 import ProfilScreen from './screens/ProfilScreen';
 import MessagesScreen from './screens/MessagesScreen';
 
+import ProfileEditScreen from './screens/ProfileEditScreen';
+
 //^ Redux
 /* reducers */
 import user from './reducers/userReducer';
@@ -86,41 +88,19 @@ function PagesStacks() {
           tabBarBadge: 0 ,
           tabBarBadgeStyle:{backgroundColor:"#1ADBAC", color:"#fff"}}}  />
 
-        <TabNavigator.Screen name="ProfilScreen" component={ProfilScreen}  options={{
-        tabBarButton: () => null
-        }} />
-          <TabNavigator.Screen name="MessagesScreen" component={MessagesScreen}  options={{
-        tabBarButton: () => null
-    }}/>
+        <TabNavigator.Screen name="ProfilScreen" component={ProfilScreen}  options={{ tabBarButton: () => null }} />
+        <TabNavigator.Screen name="MessagesScreen" component={MessagesScreen}  options={{ tabBarButton: () => null}}/>
 
-<TabNavigator.Screen name="CreerUnProjetScreen" component={CreerUnProjetScreen}  options={{
-        tabBarButton: () => null
-    }}/>
+        <TabNavigator.Screen name="CreerUnProjetScreen" component={CreerUnProjetScreen}  options={{ tabBarButton: () => null}}/>
+        <TabNavigator.Screen name="CollaborateurDuProjetScreen" component={CollaborateurDuProjetScreen}  options={{ tabBarButton: () => null}}/>
+        <TabNavigator.Screen name="PhotographCollaborateurScreen" component={PhotographCollaborateurScreen}  options={{ tabBarButton: () => null}}/>
+        <TabNavigator.Screen name="CategorieDuProjetScreen" component={CategorieDuProjetScreen}  options={{ tabBarButton: () => null}}/>
+        <TabNavigator.Screen name="CreationAnnonceScreen" component={CreationAnnonceScreen}  options={{ tabBarButton: () => null}}/>
+        <TabNavigator.Screen name="StylisteCollaborateurScreen" component={StylisteCollaborateurScreen}  options={{ tabBarButton: () => null}}/>
+        <TabNavigator.Screen name="ProfileEditScreen" component={ProfileEditScreen}  options={{ tabBarButton: () => null}}/>
 
-<TabNavigator.Screen name="CollaborateurDuProjetScreen" component={CollaborateurDuProjetScreen}  options={{
-        tabBarButton: () => null
-    }}/>
-
-<TabNavigator.Screen name="PhotographCollaborateurScreen" component={PhotographCollaborateurScreen}  options={{
-        tabBarButton: () => null
-    }}/>
-
-<TabNavigator.Screen name="CategorieDuProjetScreen" component={CategorieDuProjetScreen}  options={{
-        tabBarButton: () => null
-    }}/>
-
-<TabNavigator.Screen name="CreationAnnonceScreen" component={CreationAnnonceScreen}  options={{
-        tabBarButton: () => null
-    }}/>
-
-<TabNavigator.Screen name="StylisteCollaborateurScreen" component={StylisteCollaborateurScreen}  options={{
-        tabBarButton: () => null
-    }}/>
       </TabNavigator.Navigator>
 
-      
-
-      
   );
 } 
 // * LINK NAVIGATION

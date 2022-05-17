@@ -75,9 +75,9 @@ router.post('/sign-in', async function(req, res, next) {
 // * Pour afficher le profil de l'utilisateur
 router.post('/user_profile', async function(req, res, next){
 
-  
+ 
   let token = req.body.token // Je récupère le token de l'utilisateur envoyé par le front end
-
+ console.log(token)
     /* Je récupère toutes les infos de l'utilisateur */
     let user_account = await userModel.findOne({
       token: token,
