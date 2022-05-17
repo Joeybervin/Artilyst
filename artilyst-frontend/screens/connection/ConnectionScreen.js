@@ -8,9 +8,12 @@ LogBox.ignoreLogs(['Warning: ...']);
 import { StyleSheet, View } from 'react-native';
 import { Text, Button } from '@rneui/base';
 
+// ^Redux
+import { connect } from 'react-redux';
+
 /* import { Text } from '@rneui/base'; */
 
-export default function ConnectionScreen(props) {
+function ConnectionScreen(props) {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
@@ -28,8 +31,12 @@ export default function ConnectionScreen(props) {
     return (
         <View style={styles.container}>
 
-            <Text onPress={() => {props.navigation.navigate('PagesStacks')
-            props.getUserInformations({user_token : "i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT"})}}>ConnectionScreen</Text>
+
+
+            <Text onPress={() =>{
+                props.navigation.navigate('PagesStacks')
+                props.getUserInformations({user_token : "i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT"})}}>ConnectionScreen</Text>
+
 
             <Button
                 title="Se connecter"
@@ -60,3 +67,16 @@ const styles = StyleSheet.create({
 });
 
 // * ___________________________ REDUX ___________________________
+function mapDispatchToProps(dispatch) {
+    return {
+        getUserInformations: function (user) {
+            dispatch({ type: 'userConnection', user })
+
+        }
+    }
+}
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(ConnectionScreen);
