@@ -42,6 +42,7 @@ function RegisterFormScreen2(props) {
     /* fonction pour sauvegarder un utilisateur dans la base de données */
     const signUpUser = async () => {
         console.log("USERINFOS : ",userInfos)
+        
         const rawResponse = await fetch(`http://${expoUrlMustafa}/sign-up`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },

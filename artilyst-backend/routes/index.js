@@ -75,11 +75,12 @@ router.post('/sign-in', async function(req, res, next) {
 // * Pour afficher le profil de l'utilisateur
 router.post('/user_profile', async function(req, res, next){
 
-  let user_token = req.body.token // Je récupère le token de l'utilisateur envoyé par le front end
+  
+  let token = req.body.token // Je récupère le token de l'utilisateur envoyé par le front end
 
     /* Je récupère toutes les infos de l'utilisateur */
     let user_account = await userModel.findOne({
-      token: user_token,
+      token: token,
     });
   
   res.json({user_account}) // Object :  Je renvoie les informations au front-end
@@ -92,8 +93,9 @@ router.put('/update_user_profile', async function(req, res, next){
   let user_new_informations = req.body.user_new_informations // Je récupère les infos entrées
 
   await userModel.updateOne(
-    {token: user_new_informations.user_token},
+    {token: user_new_informations.token},
      {
+      occupation : user_new_informations.occupation,
       name : user_new_informations.name,
       gender :  user_new_informations.gender,
       description: user_new_informations.description,
