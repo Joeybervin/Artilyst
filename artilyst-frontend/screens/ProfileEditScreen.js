@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // & import des urls de chacune
-import { expoUrlRaf } from '../ExpoUrl';
+import { expoUrlJoey } from '../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
@@ -20,6 +20,7 @@ import { Link } from '@react-navigation/native';
 // ^ Redux
 import { connect } from 'react-redux';
 import { ScrollView } from 'react-native-gesture-handler';
+import { set } from 'mongoose';
 // import { forceTouchGestureHandlerProps } from 'react-native-gesture-handler/lib/typescript/handlers/ForceTouchGestureHandler';
 
 
@@ -28,6 +29,8 @@ function ProfileEditScreen(props) {
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
 
+
+    const  [userData, setUserData] = useState({})
     // Ville
     const [city, setCity] = useState('');
     // Description perso
@@ -35,7 +38,9 @@ function ProfileEditScreen(props) {
     // Expérience professionnelles
     const [cv, setCv] = useState('');
     // Gender
+    let genderDatabase = {}
     const [gender, setGender] = useState("");
+    
     // Ethnic group
     const [ethnicGroup, setEthnicGroup] = useState("");
     // Hair
@@ -53,10 +58,12 @@ function ProfileEditScreen(props) {
     // Corpulence 
     const [corpulence, setCorpulence] = useState("");
 
+  
+
 
     /* VARIABLES */
 
-    let informations = props.user;
+    let informations = props.user; // le token de l'user stocker dans le store
 
 
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
@@ -66,7 +73,7 @@ function ProfileEditScreen(props) {
 
     // Update du profil dans la bdd
     async function updateUserProfile() {
-        const rawResponse = await fetch(`http://${expoUrlRaf}/update_user_profile`, {
+        const rawResponse = await fetch(`http://${expoUrlJoey}/update_user_profile`, {
             method: 'PUT',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -82,15 +89,14 @@ function ProfileEditScreen(props) {
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
 
 
-
     // * ___________________________ PAGE ___________________________
-
-    return (
+            return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.container}
         >
             <ScrollView>
+                
                 <View style={styles.container}>
 
                     {/* SELECTION DE LA VILLE */}
@@ -99,7 +105,7 @@ function ProfileEditScreen(props) {
                         <Input
                             placeholder='Ma ville'
                             onChangeText={setCity}
-                            value={city}
+                            value={userData.city === "" ? city : userData.city}
                         />
                     </View>
 
@@ -109,7 +115,7 @@ function ProfileEditScreen(props) {
                         style={styles.input}
                         placeholder="Ma description"
                         onChangeText={setDescription}
-                        value={description}
+                        value={userData.description === "" ? description : userData.description}
                     />
 
                     <Text>CV et lien</Text>
@@ -117,7 +123,7 @@ function ProfileEditScreen(props) {
                         style={styles.input}
                         placeholder="Ma formation, mes expériences..."
                         onChangeText={setCv}
-                        value={cv}
+                        value={cv.city === "" ? cv : userData.cv}
                     />
 
                     {/* SELECTION DU GENRE */}
@@ -126,19 +132,15 @@ function ProfileEditScreen(props) {
                         <CheckBox
                             center
                             title="Femme"
-                            onPress={() => {
-                                setGender(gender === "femme" ? "" : "femme")
-                            }}
-                            checked={gender === "femme" ? true : false}
+                            onPress={() => { setGender(gender === "femme" ? "" : "femme") }}
+                            checked={userData.gender === "femme" ? true : false}
 
                         />
                         <CheckBox
                             center
                             title="Homme"
-                            onPress={() => {
-                                setGender(gender === "homme" ? "" : "homme")
-                            }}
-                            checked={gender === "homme" ? true : false}
+                            onPress={() => { setGender(gender === "homme" ? "" : "homme") }}
+                            checked={userData.gender === "homme" ? true : false}
                         />
                         <CheckBox
                             center
@@ -146,7 +148,7 @@ function ProfileEditScreen(props) {
                             onPress={() => {
                                 setGender(gender === "autre" ? "" : "autre")
                             }}
-                            checked={gender === "autre" ? true : false}
+                            checked={userData.gender === "autre" ? true : false}
                         />
                     </View>
 
@@ -566,13 +568,15 @@ function ProfileEditScreen(props) {
                         />
                     </View>
 
-                    <Button onPress={() => updateUserProfile()}>Enregistrer</Button>
+                    <Button containerStyle={{marginBottom : 100}} onPress={() => updateUserProfile()}>Enregistrer</Button>
 
                 </View>
 
             </ScrollView >
         </KeyboardAvoidingView >
     );
+   
+
 }
 
 // * ___________________________ STYLES ___________________________
@@ -585,8 +589,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     input: {
-        width: '90%',
-        height: 80,
+        maxWidth: '90%',
+        height: 100,
         margin: 12,
         borderWidth: 1,
         borderColor: '#d3d3d3',

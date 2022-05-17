@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+
+import React, {useRef, useState, useEffect} from 'react';
+import { expoUrlJoey } from '../ExpoUrl';
 
 //^ Module de balise
 import { Dimensions, StyleSheet, Animated, View, Image, ScrollView } from 'react-native';
@@ -18,7 +20,8 @@ function ProfilScreen(props) {
 
     const [currentImage, setCurrentImage] = useState(-1)
     const animation = useRef(new Animated.Value(0));
-    const [lo, setLo] = useState(props.user)
+    const [userData,setUserData] = useState({})
+
 
     let informations = props.user;
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
@@ -35,27 +38,24 @@ function ProfilScreen(props) {
     ];
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
-
+  
     // Récupérer infos du profil utilisateur
     useEffect(() => {
-
         async function loadData() {
-            console.log(props.user.user_token)
-            let test = props.user.user_token
-            console.log(`http://${expoUrlRaf}/user_profile`)
-            const rawResponse = await fetch(`http://${expoUrlRaf}/user_profile`, {
+            const rawResponse = await fetch(`http:${expoUrlJoey}/user_profile`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `token=${test}&test=somestring`,
+                body: `token=${informations.user_token}`,
             })
-
             let response = await rawResponse.json();
             setUserData(response.user_account);
+          
+
+
 
         }
         loadData();
     }, []);
-
 
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
@@ -96,9 +96,11 @@ function ProfilScreen(props) {
                         containerStyle={styles.buttonContainer}
                     />
                     <Button
-                        title="Modifier profil"
-                        buttonStyle={styles.button}
-                        containerStyle={styles.buttonContainer}
+                      title="Modifier profil"
+                      buttonStyle={styles.button}
+                      containerStyle={styles.bouttonContainer}
+                      onPress={() => { props.getAllUserInformations(userData)
+                      props.navigation.navigate('ProfileEditScreen')}}
                     />
                 </View>
 
@@ -211,9 +213,18 @@ function mapStateToProps(state) {
     return { user: state.user }
 }
 
+function mapDispatchToProps(dispatch) {
+    return {
+        getAllUserInformations: function (userData) {
+            dispatch({ type: 'addInfosToUser', userData })
+
+        }
+    }
+}
+
 export default connect(
     mapStateToProps,
-    null
+    mapDispatchToProps
 )(ProfilScreen);
 
 
