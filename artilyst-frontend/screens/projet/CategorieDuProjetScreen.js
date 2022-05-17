@@ -17,67 +17,67 @@ export default function CategorieDuProjetScreen(props) {
     return (
         <View style={styles.container}>
 
-        <View><Text> Catégorie du projet </Text></View>
-            
+            <View><Text> Catégorie du projet </Text></View>
+
 
             <View dir="row" align="center" spacing={4}>
 
                 <Button
                     buttonStyle={{ backgroundColor: '#1ADBAC' }}
                     title="Création Textil"
-                
+                    onPress={() => props.navigation.navigate('CreationAnnonceScreen')}
                 />
 
                 <Button
                     buttonStyle={{ backgroundColor: '#16B88F' }}
                     title="Défilé"
-                    // onPress={() => addUserOccupation("Modèle")}
+                    onPress={() => props.navigation.navigate('CreationAnnonceScreen')}
                 />
                 <Button
                     buttonStyle={{ backgroundColor: '#109171' }}
                     title="Evènement/Vernissage"
-                    // onPress={() => addUserOccupation("Photographe")}
+                    onPress={() => props.navigation.navigate('CreationAnnonceScreen')}
                 />
 
                 <Button
                     buttonStyle={{ backgroundColor: '#0B664F' }}
                     title="Court Métrage"
-                    // onPress={() => addUserOccupation("Styliste")}
+                    onPress={() => props.navigation.navigate('CreationAnnonceScreen')}
                 />
 
                 <Button
-                
+
                     buttonStyle={{ backgroundColor: '#074233' }}
                     title="Long Métrage"
-                    // onPress={() => addUserOccupation("Réalisateur/ice vidéaste")}
+                    onPress={() => props.navigation.navigate('CreationAnnonceScreen')}
                 />
 
-                
-                <Button
-                
-                buttonStyle={{ backgroundColor: '#074233' }}
-                title="Série"
-                // onPress={() => addUserOccupation("Réalisateur/ice vidéaste")}
-            />
 
                 <Button
-                
-                buttonStyle={{ backgroundColor: '#074233' }}
-                title="Spot Publicitaire "
-                // onPress={() => addUserOccupation("Réalisateur/ice vidéaste")}
-            />
 
-            <Button
-                
-                buttonStyle={{ backgroundColor: '#074233' }}
-                title="Shooting"
-                 onPress={() => props.navigation.navigate('CreationAnnonceScreen')}
-            />
+                    buttonStyle={{ backgroundColor: '#074233' }}
+                    title="Série"
+                    onPress={() => props.navigation.navigate('CreationAnnonceScreen')}
+                />
+
+                <Button
+
+                    buttonStyle={{ backgroundColor: '#074233' }}
+                    title="Spot Publicitaire "
+                    onPress={() => props.navigation.navigate('CreationAnnonceScreen')}
+                />
+
+                <Button
+
+                    buttonStyle={{ backgroundColor: '#074233' }}
+                    title="Shooting"
+                    onPress={() => props.navigation.navigate('CreationAnnonceScreen')}
+                />
 
 
             </View>
 
-         
+
 
 
             <View style={{ flexDirection: 'row', marginTop: 50 }}>
@@ -88,7 +88,7 @@ export default function CategorieDuProjetScreen(props) {
                     onPress={() => props.navigation.navigate('PhotographCollaborateurScreen')}
                 />
 
-           
+
 
 
             </View>
@@ -97,7 +97,7 @@ export default function CategorieDuProjetScreen(props) {
 
 
         </View>
-      
+
 
 
 

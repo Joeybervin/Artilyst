@@ -1,19 +1,20 @@
 import React from 'react';
+import Slider from '@react-native-community/slider';
 
 // ^ Wanings messages
 import { LogBox, Button, TextInput } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']);
 
 //^ Module de balise
-import { StyleSheet, Text,  View, Slider  } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 /* import { Text } from '@rneui/base'; */
 
 import { Input, CheckBox, Icon } from "@rneui/themed";
 
 
 
-export default function CollaborateurDuProjetScreen(props) {
-  
+export default function StylisteCollaborateurScreen(props) {
+
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
@@ -27,95 +28,91 @@ export default function CollaborateurDuProjetScreen(props) {
 
 
     // * ___________________________ PAGE ___________________________
-    
+
     return (
-        
+
         <View style={styles.container}>
-            
-    
-           
-        <View>
-            <Text>Collaborateur du projet  </Text>
-        </View>
-        
-        <View>
-            <Text>Styliste  </Text>
-        </View>
-        
-         <Text>Genre</Text>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '90%' }}>
-           
-                   
-            <CheckBox
-                        center
-                        title="Femme"
-                    //checked={check1}
-                    //onPress={() => setCheck1(!check1)}
-                    />
-            <CheckBox
-                        center
-                        title="Homme"
-                    //checked={check1}
-                    //onPress={() => setCheck1(!check1)}
-                    />
-            <CheckBox
-                        center
-                        title="Autres"
-                    //checked={check1}
-                    //onPress={() => setCheck1(!check1)}
-                    />
-            </View>
-        
-        <View>
-            <Text> Ville</Text>
 
-            <TextInput
-            style={styles.input}
-      
-            placeholder="ville"
-            keyboardType="text"
-            />
-            </View>
-    
-       
-        <View> 
-        
-         <Text> Age</Text>
-         <TextInput
-            style={styles.input}
-      
-            placeholder="age"
-            keyboardType="numeric"
-            />
-             
-        </View>
-     
-        <View> 
-        
-        <Text> Spétialisation </Text>
-        <TextInput
-           style={styles.input}
-     
-           placeholder="Homme"
-           keyboardType="text"
-           />
-            
-            <TextInput
-           style={styles.input}
-     
-           placeholder="Femme"
-           keyboardType="text"
-           />
-           <TextInput
-           style={styles.input}
-     
-           placeholder="Enfant"
-           keyboardType="text"
-           />
-       </View>
-       
 
-        <View style={{ flexDirection: 'row', marginTop: 50 }}>
+
+            <View>
+                <Text>Collaborateur du projet  </Text>
+            </View>
+
+            <View>
+                <Text>Styliste  </Text>
+            </View>
+
+            <Text>Genre</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '90%' }}>
+
+
+                <CheckBox
+                    center
+                    title="Femme"
+               
+                />
+                <CheckBox
+                    center
+                    title="Homme"
+               
+                />
+                <CheckBox
+                    center
+                    title="Autres"
+                
+                />
+            </View>
+
+            <View>
+                <Text> Ville</Text>
+
+                <TextInput
+                    style={styles.input}
+
+                    placeholder="ville"
+                    keyboardType="text"
+                />
+            </View>
+
+            <Text> Age</Text>
+            <View>
+
+
+                <Slider
+                    style={{ width: 200, height: 40 }}
+                    minimumValue={0}
+                    maximumValue={1}
+                    minimumTrackTintColor="black"
+                    maximumTrackTintColor="black"
+                />
+                <Text> Spétialisation </Text>
+            </View>
+
+            <View style={{ flexDirection: 'row' }}>
+
+
+                <Button
+                    buttonStyle={{ backgroundColor: '#3268DD', margin: 5 }}
+                    title="Femme"
+
+                />
+
+
+                <Button
+                    buttonStyle={{ backgroundColor: '#3268DD', margin: 5 }}
+                    title="Homme"
+
+                />
+                <Button
+                    buttonStyle={{ backgroundColor: '#3268DD', margin: 5 }}
+                    title="Enfant"
+
+                />
+            </View>
+
+
+            <View style={{ flexDirection: 'row', marginTop: 50 }}>
 
                 <Button
                     buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
@@ -132,10 +129,10 @@ export default function CollaborateurDuProjetScreen(props) {
 
 
             </View>
-       
+
         </View>
 
-    
+
 
 
 
@@ -153,19 +150,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    
+
     input: {
-        width:200,
+        width: 200,
         height: 40,
         // margin: 12,
         borderWidth: 1,
         padding: 10,
-      },
+    },
 
 
 
 
-    
+
 });
 
 

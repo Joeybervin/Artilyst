@@ -21,7 +21,7 @@ export default function CollaborateurDuProjetScreen(props) {
 
 <Text> Date de début / Date de fin</Text>
 
-<View style={{ flexDirection: 'row', marginTop: 50 }}>
+<View style={{ flexDirection: 'row', marginTop:0 }}>
 
 <TextInput
                 style={styles.input}
@@ -40,8 +40,8 @@ export default function CollaborateurDuProjetScreen(props) {
             
              
     
-<View><Text>Collaborateur du projet  </Text></View>
-        <View><Text>De qui avez vous besoin  </Text></View>
+<View style={{ marginTop:20 }}><Text>Collaborateur du projet  </Text></View>
+        <View style={{ marginTop:20 }}><Text>De qui avez vous besoin  </Text></View>
 
 
 <View dir="row" align="center" spacing={4}>
@@ -49,13 +49,14 @@ export default function CollaborateurDuProjetScreen(props) {
 <Button
     buttonStyle={{ backgroundColor: '#1ADBAC' }}
     title="Comedien.ne"
+    onPress={() => props.navigation.navigate('ComedienCollaborateurScreen')}
 
 />
 
 <Button
     buttonStyle={{ backgroundColor: '#16B88F' }}
     title="Modèle"
-    // onPress={() => addUserOccupation("Modèle")}
+    onPress={() => props.navigation.navigate('ModeleCollaborteurScreen')}
 />
 <Button
     buttonStyle={{ backgroundColor: '#109171' }}
@@ -74,7 +75,8 @@ export default function CollaborateurDuProjetScreen(props) {
 
     buttonStyle={{ backgroundColor: '#074233' }}
     title="Réalisateur.ice vidéos"
-    // onPress={() => addUserOccupation("Réalisateur/ice vidéaste")}
+    onPress={() => props.navigation.navigate('RealisateurCollaborateurScreen')}
+    
 />
 
 
