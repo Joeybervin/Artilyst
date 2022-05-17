@@ -28,8 +28,11 @@ function ProfileEditScreen(props) {
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
 
+    // Ville
     const [city, setCity] = useState('');
+    // Description perso
     const [description, setDescription] = useState('');
+    // Expérience professionnelles
     const [cv, setCv] = useState('');
     // Gender
     const [gender, setGender] = useState("");
@@ -39,17 +42,16 @@ function ProfileEditScreen(props) {
     const [hair, setHair] = useState("");
     // Eyes
     const [eyes, setEyes] = useState("");
-    // Height A FAIRE
+    // Slider taille
     const [height, setHeight] = useState(0);
-    // Weight A FAIRE
+    // Slider poids
     const [weight, setWeight] = useState(0);
-    // Measurements 
+    // Mensurations
     const [waistSize, setWaistSize] = useState(0);
     const [bustSize, setBustSize] = useState(0);
     const [hipMeasurement, setHipMeasurement] = useState(0);
     // Corpulence 
     const [corpulence, setCorpulence] = useState("");
-
 
 
     /* VARIABLES */
@@ -61,14 +63,14 @@ function ProfileEditScreen(props) {
     /* PREMIÈRE */
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
+
+    // Update du profil dans la bdd
     async function updateUserProfile() {
         const rawResponse = await fetch(`http://${expoUrlRaf}/update_user_profile`, {
             method: 'PUT',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ user_token: informations.user_token, city: city, description: description, cv: cv, user_characteristics: { gender: gender, ethnicGroup: ethnicGroup, hair: hair, eyes: eyes, height: height, weight: weight, corpulence: corpulence, measurements: { waistSize: waistSize, bustSize: bustSize, hipMeasurement: hipMeasurement } } })
         })
-
-
     }
 
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
@@ -496,14 +498,22 @@ function ProfileEditScreen(props) {
                         />
                         <CheckBox
                             center
+                            title="Curvy"
+                            onPress={() => {
+                                setCorpulence(corpulence === "curvy" ? "" : "curvy")
+                            }}
+                            checked={corpulence === "curvy" ? true : false}
+                        />
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '90%' }}>
+                        <CheckBox
+                            center
                             title="Enrobé/e"
                             onPress={() => {
                                 setCorpulence(corpulence === "enrobé/e" ? "" : "enrobé/e")
                             }}
                             checked={corpulence === "enrobé/e" ? true : false}
                         />
-                    </View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '90%' }}>
                         <CheckBox
                             center
                             title="Fin/e"
@@ -520,6 +530,8 @@ function ProfileEditScreen(props) {
                             }}
                             checked={corpulence === "maigre" ? true : false}
                         />
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '90%' }}>
                         <CheckBox
                             center
                             title="Musclé/e"
@@ -528,8 +540,6 @@ function ProfileEditScreen(props) {
                             }}
                             checked={corpulence === "musclé/e" ? true : false}
                         />
-                    </View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '90%' }}>
                         <CheckBox
                             center
                             title="Moyen/ne"
@@ -537,22 +547,6 @@ function ProfileEditScreen(props) {
                                 setCorpulence(corpulence === "moyen/ne" ? "" : "moyen/ne")
                             }}
                             checked={corpulence === "moyen/ne" ? true : false}
-                        />
-                        <CheckBox
-                            center
-                            title="Obèse"
-                            onPress={() => {
-                                setCorpulence(corpulence === "obèse" ? "" : "obèse")
-                            }}
-                            checked={corpulence === "obèse" ? true : false}
-                        />
-                        <CheckBox
-                            center
-                            title="Voluptueux/se"
-                            onPress={() => {
-                                setCorpulence(corpulence === "voluptueux/se" ? "" : "voluptueux/se")
-                            }}
-                            checked={corpulence === "voluptueux/se" ? true : false}
                         />
                     </View>
 
@@ -562,8 +556,6 @@ function ProfileEditScreen(props) {
 
             </ScrollView >
         </KeyboardAvoidingView >
-
-
     );
 }
 
