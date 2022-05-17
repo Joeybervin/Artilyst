@@ -7,7 +7,7 @@ var userSchema = mongoose.Schema({
     gender :  String,
     occupation : String,
     description: String,
-    expérience : String,
+    work_experience : String,
     photos :  Object, // photos_profil : Array, portofolios : Array => Object
     projects_selected :  Array , // On=bjeect => id du projet + match en booleen
     projects_created : [ {type: mongoose.Schema.Types.ObjectId, ref: 'projects' }],

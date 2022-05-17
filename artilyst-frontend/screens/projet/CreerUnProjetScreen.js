@@ -8,12 +8,7 @@ LogBox.ignoreLogs(['Warning: ...']);
 import { StyleSheet, Text,  View } from 'react-native';
 /* import { Text } from '@rneui/base'; */
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-
-export default function CreationProjectScreen(props) {
+export default function CreerUnProjetScreen(props) {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
@@ -30,11 +25,9 @@ export default function CreationProjectScreen(props) {
     
     return (
         <View style={styles.container}>
-        <View><Text>Cher(e) Artiste, ici vous allez pouvoir créer des ANNONCES pour vos projets</Text></View>
-        <View><Text>-----CreationProjectScreen-----</Text></View>
-       
-        <Button title="fermer" onPress={() => props.navigation.navigate('CreerUnProjetScreen')} />
-        
+        <View><Text>Creer un projet </Text></View>
+     
+        <Button title="Nouveau PRojet " onPress={() => props.navigation.navigate('CollaborateurDuProjetScreen')} />
      
         </View>
 
