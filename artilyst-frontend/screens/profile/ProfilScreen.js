@@ -1,6 +1,6 @@
 
 import React, { useRef, useState, useEffect } from 'react';
-import { expoUrlJoey } from '../ExpoUrl';
+import { expoUrlJoey } from '../../ExpoUrl';
 
 //^ Module de balise
 import { Dimensions, StyleSheet, Animated, View, Image, ScrollView } from 'react-native';
@@ -14,7 +14,6 @@ import Swiper from 'react-native-swiper'
 // ^Redux
 import { connect } from 'react-redux';
 
-import { expoUrlRaf } from '../ExpoUrl';
 
 function ProfilScreen(props) {
 

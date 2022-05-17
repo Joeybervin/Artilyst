@@ -23,7 +23,7 @@ import CollaborateurDuProjetScreen from './screens/project/CollaborateurDuProjet
 import PhotographCollaborateurScreen from './screens/project/PhotographCollaborateurScreen';  // Étape 3/4
 import StylisteCollaborateurScreen from './screens/project/StylisteCollaborateurScreen'; // Étape 3/4
 import ComedienCollaborateurScreen from './screens/project/ComedienCollaborateurScreen'; // Étape 3/4
-import ModeleCollaborateurScreen from './screens/project/ModeleCollaborateurScreen'; // Étape 3/4
+import ModeleCollaborateurScreen from './screens/project/ModeleCollaborteurScreen'; // Étape 3/4
 import RealisateurCollaborateurScreen from './screens/project/RealisateurCollaborateurScreen'; // Étape 3/4
 
 import CategorieDuProjetScreen from './screens/project/CategorieDuProjetScreen'; // Étape 3/4
@@ -91,19 +91,19 @@ function PagesStacks() {
         }
       }}>
 
-        // * ------------------------ BOTTOM TAB BAR ------------------------
+         {/* ------------------------ BOTTOM TAB BAR ------------------------ */}
         <TabNavigator.Screen name="Mes projets" component={CreationProjectScreen}  />
         <TabNavigator.Screen name="Annonces" component={AnnoncesScreen}  options={{ initialRouteName: true }}  />
         <TabNavigator.Screen name="Likes" component={LikesScreen}  options={{ tabBarBadge: 0 , tabBarBadgeStyle:{backgroundColor:"#1ADBAC", color:"#fff"}}}  />
 
-        // * ------------------------ HEADER TAB ------------------------
+        {/* ------------------------ HEADER TAB ------------------------ */}
         {/* PROFIL */}
         <TabNavigator.Screen name="ProfilScreen" component={ProfilScreen}  options={{ tabBarButton: () => null }} />
         <TabNavigator.Screen name="ProfileEditScreen" component={ProfileEditScreen}  options={{ tabBarButton: () => null}}/>
         {/* MESSAGERIE */}
         <TabNavigator.Screen name="MessagesScreen" component={MessagesScreen}  options={{ tabBarButton: () => null }}/>
 
-        // * ------------------------ PROJECT ------------------------
+        {/*  ------------------------ PROJECT ------------------------ */}
         {/* FORMULAIRE :  Étape 1/4 */}
         <TabNavigator.Screen name="CreerUnProjetScreen" component={CreerUnProjetScreen}  options={{ tabBarButton: () => null }}/> 
         {/* FORMULAIRE :  Étape 2/4 */}
@@ -118,7 +118,7 @@ function PagesStacks() {
         {/* FORMULAIRE :  Étape 4/4 */}
         <TabNavigator.Screen name="CategorieDuProjetScreen" component={CategorieDuProjetScreen}  options={{ tabBarButton: () => null}}/>
 
-        // * ------------------------ SEARCH ------------------------
+         {/* ------------------------ SEARCH ------------------------ */}
         <TabNavigator.Screen name="CreationAnnonceScreen" component={CreationAnnonceScreen}  options={{  tabBarButton: () => null }}/>
         <TabNavigator.Screen name="ArtisteCorrespondantScreen" component={ArtisteCorrespondantScreen}  options={{ tabBarButton: () => null }}/>
 
@@ -141,7 +141,7 @@ export default function App() {
       <NavigationContainer >
         <StackNavigator.Navigator >
 
-          // * ------------------------ CONNEXION ------------------------
+           {/* ------------------------ CONNEXION ------------------------ */}
           <StackNavigator.Screen  name="ConnectionScreen" component={ConnectionScreen} options={{headerShown: false}} />
           {/* SIGN-IN */}
           <StackNavigator.Screen  name="ConnectionFormScreen" component={ConnectionFormScreen} options={{headerShown: false}} />
@@ -149,7 +149,7 @@ export default function App() {
           <StackNavigator.Screen  name="RegisterFormScreen1" component={RegisterFormScreen1} options={{headerShown: false}} />
           <StackNavigator.Screen  name="RegisterFormScreen2" component={RegisterFormScreen2} options={{headerShown: false}} />
           
-          // * ------------------------ HEADER TAB BAR ------------------------
+           {/* ------------------------ HEADER TAB BAR ------------------------ */}
           <StackNavigator.Screen  name="PagesStacks" component={PagesStacks} 
           options={({ navigation }) => ({
             title: "ARTILYST",
