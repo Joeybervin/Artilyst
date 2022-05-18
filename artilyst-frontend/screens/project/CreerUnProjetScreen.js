@@ -66,7 +66,7 @@ export default function CreerUnProjetScreen(props) {
     })
 
     // * ___________________________ PAGE ___________________________
-    
+
     return (
         <ScrollView style={styles.scrollView}>
         <View style={styles.container}>
