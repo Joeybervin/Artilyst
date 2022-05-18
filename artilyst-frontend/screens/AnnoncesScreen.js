@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 
 // ^ Wanings messages
-import { LogBox, Button, Select } from 'react-native';
+import { LogBox, Button } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']);
 
 //^ Module de balise

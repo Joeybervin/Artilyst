@@ -11,16 +11,10 @@ LogBox.ignoreLogs(['Warning: ...']);
 import { StyleSheet, View, TextInput, KeyboardAvoidingView } from 'react-native';
 import { Text, Button } from '@rneui/base';
 import { Input, CheckBox, Slider, Divider } from "@rneui/themed";
-// ^ module bonus (icons)
-import { Ionicons } from '@expo/vector-icons';
-
-// ^ React navigation
-import { Link } from '@react-navigation/native';
 
 // ^ Redux
 import { connect } from 'react-redux';
 import { ScrollView } from 'react-native-gesture-handler';
-import { set } from 'mongoose';
 // import { forceTouchGestureHandlerProps } from 'react-native-gesture-handler/lib/typescript/handlers/ForceTouchGestureHandler';
 
 
