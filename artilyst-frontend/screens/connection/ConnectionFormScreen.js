@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // & import des urls de chacune
-import {expoUrlMustafa} from '../../ExpoUrl';
+import {expoUrlJoey} from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
@@ -80,7 +80,7 @@ function ConnectionFormScreen(props) {
 
         /* Je n'envoie les données que si mes input sont bon */
         if (login) {
-        const rawResponse = await fetch(`http://${expoUrlMustafa}/sign-in`, {
+        const rawResponse = await fetch(`http://${expoUrlJoey}/sign-in`, {
             method: 'POST',
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: `email=${email}&password=${password}`,
@@ -102,7 +102,6 @@ function ConnectionFormScreen(props) {
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
 
-
     // * ___________________________ PAGE ___________________________
     
     return (
@@ -119,7 +118,7 @@ function ConnectionFormScreen(props) {
 
             {/* Mot de passe */}
             <Input
-                placeholder="Password (min 6 caractères)"
+                placeholder="Mot de passe (min 6 caractères)"
                 onChangeText={setPassword} value={password}
                 rightIcon={<Ionicons name={passwordVisibility ? 'eye-outline' : 'eye-off-outline'} size={24} color='black' onPress={() => setPasswordVisibility(passwordVisibility ? false : true) } />}
                 secureTextEntry={passwordVisibility} // Pour cacher ou ontrer le mot de passe
@@ -139,12 +138,10 @@ function ConnectionFormScreen(props) {
             <Link to={'/RegisterFormScreen1'}>Pas encore membre ? Créer un compte</Link>
 
         </View>
-
     );
 }
 
 // * ___________________________ STYLES ___________________________
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,

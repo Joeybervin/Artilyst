@@ -22,24 +22,23 @@ export default function RegisterFormScreen1(props) {
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
 
     /* VARIABLES */
-    const  params  = props.route.params; // Je vais chercher si on m'a envoyé des paramètres
+    const  params  = props.route.params; // Object : Je vais chercher si on m'a envoyé des paramètres (en cas de retour depuis la deuxième pasge de mon formulaire)
  
     /* VARIABLES D'ÉTAT  */
-    const [email, setEmail] = useState(params === undefined ? "" : props.route.params.email);
+    const [email, setEmail] = useState(params === undefined ? "" : props.route.params.email); // String : email de mon formulaire
     const [emailError, setEmailError] = useState(""); // message d'erreur de l'email
 
-    const [name, setName] = useState(params === undefined ? "" : props.route.params.name);
+    const [name, setName] = useState(params === undefined ? "" : props.route.params.name); // String : name de mon formualire
     const [nameError, setNameError] = useState(""); // message d'erreur du mot de passe
 
-    const [password, setPassword] = useState("");
+    const [password, setPassword] = useState(""); // String : mot de passe de mon formaulaire
     const [passwordError, setPasswordError] = useState(""); // message d'erreur du mot de passe
-    const [passwordVisibility, setPasswordVisibility] = useState(true); //
+    const [passwordVisibility, setPasswordVisibility] = useState(true); // Bolean : définit la visibilité de mon mot de passe
 
-    const [birthdayDate, setBirthdayDate] = useState(params === undefined ? new Date() : props.route.params.birthday_date);
+    const [birthdayDate, setBirthdayDate] = useState(params === undefined ? new Date() : props.route.params.birthday_date); // DATE : date de mon formulaire
     const [birthdayDateError, setBirthdayDateError] = useState(""); // message d'erreur du mot de passe
-    let age = 0
-    let firstStepLogin = false // condition pour envoyer la donné au back-end 
-    const [oldMemberMessage, setOldMemberMessage] = useState("")
+    let age = 0 // Définition de l'age de l'utilisateur 
+    let firstStepLogin = false // Boolean :  condition pour envoyer la donné au back-end 
     
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
@@ -51,7 +50,6 @@ export default function RegisterFormScreen1(props) {
     const handleSubmit = () => {
 
         let today = new Date() // Je récupère la date d'aujourd'hui
-
         if (birthdayDate !== undefined || birthdayDate !== today) {
             let birthDate = new Date(birthdayDate)
             let ageDiff = today.getTime() - birthDate.getTime() // je calcule la différence entre la date d'aujourd'hui et celle envoyé
@@ -136,10 +134,14 @@ export default function RegisterFormScreen1(props) {
         }        
     
     }
+
+    /* Pour envoyer dans les paramètres les données remplie dans ce formaulaire  ==> OBJECT */
     const validFirstStep = () =>  {
         handleSubmit()
         if (firstStepLogin) {
-            props.navigation.navigate('RegisterFormScreen2', {name : name , email : email, password : password, birthday_date : String(birthdayDate), occupation: params === undefined ? "" : params.occupation})
+            console.log("PARAMS : ",{name : name , email : email, password : password, birthday_date : String(birthdayDate), occupation: params === undefined ? "" : params.occupation})
+            props.navigation.navigate('RegisterFormScreen2',
+            {name : name , email : email, password : password, birthday_date : String(birthdayDate), occupation: params === undefined ? "" : params.occupation})
         }
     }
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
@@ -191,7 +193,7 @@ export default function RegisterFormScreen1(props) {
             <View style={{ flexDirection: 'row', marginTop: 50, alignItems: 'center'}}>
 
                 {/* Navigation pour retourner en arrière*/}
-                <Ionicons name="chevron-back-outline" size={45} color="black" onPress={() => props.navigation.goBack()} />
+                <Ionicons name="chevron-back-outline" size={45} color="black" onPress={() => props.navigation.navigate('ConnectionScreen')} />
 
                 <Text style={{ marginHorizontal : 50}}>1 / 2</Text>
 
