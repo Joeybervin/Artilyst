@@ -7,6 +7,7 @@ LogBox.ignoreLogs(['Warning: ...']);
 //^ Module de balise
 import { StyleSheet,  View , ScrollView} from 'react-native';
 import { Text, Divider } from '@rneui/themed';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function CreerUnProjetScreen(props) {
 
@@ -27,44 +28,56 @@ export default function CreerUnProjetScreen(props) {
         <ScrollView style={styles.scrollView}>
         <View style={styles.container}>
 
-        <View  style={{marginTop : 50}}>
-            <Text>Creer un projet </Text></View>
-            <Button title="Nouveau PRojet " onPress={() => props.navigation.navigate('CollaborateurDuProjetScreen')} />
+        <View style={{ marginTop: 30 }}   onPress={() => props.navigation.navigate('CollaborateurDuProjetScreen')} >
+
+            <Text>Creer un projet </Text>
+
+            <View style={{ borderRadius : 7,  alignItems: "center", justifyContent: "center", borderColor: 'black', borderWidth: 0.5, width: "55%", height: 140, marginTop: 30 }} >
+              <Ionicons
+                style={styles.icon}
+                color={isFocus ? '#1ADBAC' : 'black'}
+                name="search"
+                size={20}
+              />
+
+            </View>
+            
+      
         </View>
 
 
         <Divider
-                        style={{ width: "100%", margin: 20 }}
-                        color="#d3d3d3"
-                        insetType="middle"
-                        width={1}
-                        orientation="horizontal"
-                    />
+          style={{ width: "100%", margin: 20 }}
+          color="#d3d3d3"
+          insetType="middle"
+          width={1}
+          orientation="horizontal"
+        />
 
-          <View>
-        <View style={{
-        width: 250,
-        height: 100,
-        borderColor: 'black',
-        borderWidth: 1,
-        marginTop : 10,
-        borderRadius: 5,
-      }}  > 
-      <Text> projet 1 - titre projet  </Text>
-      
-      <Button  title="relancher recherche " 
-      onPress={() => props.navigation.navigate('ArtisteCorrespondantScreen')}
-      style={{ width: 100,height: 30, marginTop : 1}}
-        /> 
+        <View>
+            <View style={{
+            width: 250,
+            height: 100,
+            borderColor: 'black',
+            borderWidth: 1,
+            marginTop : 10,
+            borderRadius: 5,
+          }}  > 
+          <Text> projet 1 - titre projet  </Text>
+          
+          <Button  title="relancher recherche " 
+          onPress={() => props.navigation.navigate('ArtisteCorrespondantScreen')}
+          style={{ width: 100,height: 30, marginTop : 1}}
+            /> 
 
-      <Button  title="supprimer  " /> 
+          <Button  title="supprimer  " /> 
+          </View>
         </View>
 
 
 
 
         </View>
-
         </ScrollView>
 
     );
