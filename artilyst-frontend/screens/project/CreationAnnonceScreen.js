@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // & import des urls de chacune
-import {expoUrlMustafa} from '../../ExpoUrl';
+import {expoUrlJoey} from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox, Button, Switch } from 'react-native';
@@ -30,7 +30,7 @@ export default function CreationAnnonceScreen(props) {
     /* fonction pour sauvegarder un utilisateur dans la base de données */
     const projectSave = async () => {
         
-        const rawResponse = await fetch(`http://${expoUrlMustafa}/project`, {
+        const rawResponse = await fetch(`http://${expoUrlJoey}/project`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({projectInfos : projectInfos}),
