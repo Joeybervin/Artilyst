@@ -8,12 +8,14 @@ LogBox.ignoreLogs(['Warning: ...']);
 import { StyleSheet,  View , ScrollView} from 'react-native';
 import { Text, Divider } from '@rneui/themed';
 import { Ionicons } from '@expo/vector-icons';
+import { useIsFocused } from '@react-navigation/native';
 
 export default function CreerUnProjetScreen(props) {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
     /* VARIABLES */
+    const isFocus= useIsFocused();
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
     /* SECONDE */
@@ -28,11 +30,12 @@ export default function CreerUnProjetScreen(props) {
         <ScrollView style={styles.scrollView}>
         <View style={styles.container}>
 
-        <View style={{ marginTop: 30 }}   onPress={() => props.navigation.navigate('CollaborateurDuProjetScreen')} >
+        <View style={{ marginTop: 30 }}  >
 
-            <Text>Creer un projet </Text>
+            {/* <Text>Creer un projet </Text> */}
+            <Button title="Creer Projet " onPress={() => props.navigation.navigate('CollaborateurDuProjetScreen')} />
 
-            <View style={{ borderRadius : 7,  alignItems: "center", justifyContent: "center", borderColor: 'black', borderWidth: 0.5, width: "55%", height: 140, marginTop: 30 }} >
+            <View style={{ borderRadius : 7,  alignItems: "center", justifyContent: "center", borderColor: 'black', borderWidth: 0.5, width: 200, height: 30, marginTop: 30 }} >
               <Ionicons
                 style={styles.icon}
                 color={isFocus ? '#1ADBAC' : 'black'}

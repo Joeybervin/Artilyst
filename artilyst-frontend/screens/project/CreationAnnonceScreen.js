@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {connect} from 'react-redux';
 
 // & import des urls de chacune
 import {expoUrlMustafa} from '../../ExpoUrl';
@@ -11,7 +12,7 @@ LogBox.ignoreLogs(['Warning: ...']);
 import { StyleSheet, Text,  View, TextInput } from 'react-native';
 /* import { Text } from '@rneui/base'; */
 
-export default function CreationAnnonceScreen(props) {
+function CreationAnnonceScreen(props) {
 
     //*********** Varibales d'etat **********/
     const [title, setTitle]=useState('')
@@ -23,12 +24,16 @@ export default function CreationAnnonceScreen(props) {
     var ParamsProject3=props.route.params;
     ParamsProject3['title']=title;
     ParamsProject3['description']=description;
-    ParamsProject3['remuneration']=isEnabled;      
+    ParamsProject3['remuneration']=isEnabled;  
+    ParamsProject3['token']=props.userDisplay.user_token;     
     var projectInfos=ParamsProject3;
+    
     console.log('params3',projectInfos)
+    console.log('user',props.userDisplay.user_token)
 
     /* fonction pour sauvegarder un utilisateur dans la base de données */
     const projectSave = async () => {
+        
         
         const rawResponse = await fetch(`http://${expoUrlMustafa}/project`, {
             method: 'POST',
@@ -146,3 +151,8 @@ const styles = StyleSheet.create({
 });
 
 // * ___________________________ REDUX __________________________
+function mapStateToProps(state) {
+    return { userDisplay: state.user}
+   }  
+   export default connect(mapStateToProps, null)(CreationAnnonceScreen);
+   

@@ -1,4 +1,4 @@
-import React , { useState }  from 'react';
+import React , { useState , useEffect }  from 'react';
 
 // ^ Wanings messages
 import { LogBox, Button, TextInput } from 'react-native';
@@ -17,16 +17,51 @@ export default function CollaborateurDuProjetScreen(props) {
      const [dateFin, setDateFin] = useState("");
      const [userOccupation, setUserOccupation] = useState("")
      const [userOccupationClicked, setUserOccupationClicked]  = useState(true) // vérifie si l'utilisateur à bien clické sur un bouton
-
+     const [alerte, setAlerte] = useState("")
+     /*********** Variable */
+     
+    
+     var datevalide = true
+     
      /* Pour ajouter le métier de l'utilisateur au données qui seront envoyées à la base de données  */
     const addUserOccupation = (userOccupation) => {
         setUserOccupation(userOccupation)
        // userInfos['occupation'] = userOccupation // Ajour=t du choix à l'objet qui sera transmis à la base de données
-        setUserOccupationClicked(false) // Rend le button "créer un compte" cliquable
+        //setUserOccupationClicked(false) // Rend le button "créer un compte" cliquable
     }
      
+
+    /******* varification de la coherence des dates et affichage d'alerte */
+    useEffect(() => {
+        async function VerifData() {
+
+            if (dateDebut>dateFin){
+                setAlerte("La date du début doit être anterieure à la date de fin")
+                datevalide = false
+            }
+            else if (dateDebut=="" && dateFin==""){
+                setAlerte("")
+                datevalide = true
+            } else if (dateDebut<=dateFin) {
+                setAlerte("")
+                datevalide = true
+            }
+            if (datevalide==false || userOccupation==""){
+                setUserOccupationClicked(true)
+            } else if(datevalide = true && userOccupation!="") {
+                setUserOccupationClicked(false)
+                setAlerte("")
+            }    
+               
+        }12
+        VerifData()
+      }, [dateDebut,dateFin,userOccupation]);
+
+        console.log(dateDebut)
+    
     // fonction qui renvoie vers le bon formulaire + envoie la data dans les params
     const validFirstStep=()=> {
+
         var occupation = userOccupation;
     props.navigation.navigate(`${occupation}CollaborateurScreen` , {date_start: dateDebut , date_end : dateFin , occupation :userOccupation})
     }
@@ -39,16 +74,7 @@ export default function CollaborateurDuProjetScreen(props) {
 
 <View style={{marginTop: 50 }}>
 
-{/* <TextInput
-                style={styles.input}
-                placeholder="date" 
-                title="date de début"
-            />   
 
-<TextInput
-                style={styles.input}
-                placeholder="date" 
-            />   */}
             <Text>Date de début</Text>
             <DateField
                 labelDate="JJ"
@@ -69,9 +95,9 @@ export default function CollaborateurDuProjetScreen(props) {
                 onSubmit={(value) => setDateFin(value)}
             />
 
-
-
 </View>
+
+<Text>{alerte}</Text>
             
              
     

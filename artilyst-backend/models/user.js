@@ -10,7 +10,7 @@ var userSchema = mongoose.Schema({
     cv : String,
     coucou : Array,
     profile_photo : Array,
-    portfolio :  Array, // photos_profil : Array, portofolios : Array => Object
+    portfolio :  Array, // portofolios : Array => Object
     projects_selected :  Array , // On=bjeect => id du projet + match en booleen
     projects_created : [ {type: mongoose.Schema.Types.ObjectId, ref: 'projects' }],
     insert_date: Date,
