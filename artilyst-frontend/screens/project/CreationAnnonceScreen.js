@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {connect} from 'react-redux';
 
 // & import des urls de chacune
-import {expoUrlMustafa} from '../../ExpoUrl';
+import {expoUrlJoey} from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox, Button, Switch } from 'react-native';

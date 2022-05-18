@@ -1,6 +1,6 @@
 // Regroupement des urls de chacun
 
-const expoUrlJoey = "192.168.1.103:3000";
+const expoUrlJoey = "192.168.10.173:3000";
 
 const expoUrlRaf = "192.168.10.138:3000";
 
