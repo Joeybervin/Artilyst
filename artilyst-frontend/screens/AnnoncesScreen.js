@@ -121,6 +121,72 @@ export default function AnnoncesScreen() {
                         onValueChange={(value) => setChecked(value)}
                     />
                 </View>
+                
+                <View style={{ borderRadius : 7, flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderColor: 'black', borderWidth: 0.5, width: "90%", height: 140, marginTop: 30 }}>
+                    
+                    <Image
+                    containerStyle={{ width: 150, height: "100%" , }}
+                        resizeMode="contain"
+                        source={{ uri: images[2]}}
+                        style={{ borderBottomLeftRadius: 7, borderTopLeftRadius: 7 , marginRight : 10}}
+                        PlaceholderContent="ff"
+                    />
+
+                    <View style={{ width: 200, height: 108, marginRight : "auto", marginLeft : "auto" }}>
+                        <Text style={{ fontWeight: "bold", marginBottom : 5, fontSize : 15 }}>Titre annonce </Text>
+                        <Text style={{ marginBottom : 10 }}>Résumé annonce : bla bla bla lorm ipsum ... </Text>
+                        <Button  
+                        color='#1ADBAC' 
+                        buttonStyle={{ backgroundcolor : '#1ADBAC'  }}
+                        title="postuler" />
+                    </View>
+        
+            
+                </View>
+
+                <View style={{ borderRadius : 7, flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderColor: 'black', borderWidth: 0.5, width: "90%", height: 140, marginTop: 30 }}>
+                    
+                    <Image
+                    containerStyle={{ width: 150, height: "100%" , }}
+                        resizeMode="contain"
+                        source={{ uri: images[5]}}
+                        style={{ borderBottomLeftRadius: 7, borderTopLeftRadius: 7 , marginRight : 10}}
+                        PlaceholderContent="ff"
+                    />
+
+                    <View style={{ width: 200, height: 108, marginRight : "auto", marginLeft : "auto" }}>
+                        <Text style={{ fontWeight: "bold", marginBottom : 5, fontSize : 15 }}>Titre annonce </Text>
+                        <Text style={{ marginBottom : 10 }}>Résumé annonce : bla bla bla lorm ipsum ... </Text>
+                        <Button  
+                        color='#1ADBAC' 
+                        buttonStyle={{ backgroundcolor : '#1ADBAC'  }}
+                        title="postuler" />
+                    </View>
+        
+            
+                </View>
+
+                <View style={{ borderRadius : 7, flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderColor: 'black', borderWidth: 0.5, width: "90%", height: 140, marginTop: 30 }}>
+                    
+                    <Image
+                    containerStyle={{ width: 150, height: "100%" , }}
+                        resizeMode="contain"
+                        source={{ uri: images[1]}}
+                        style={{ borderBottomLeftRadius: 7, borderTopLeftRadius: 7 , marginRight : 10}}
+                        PlaceholderContent="ff"
+                    />
+
+                    <View style={{ width: 200, height: 108, marginRight : "auto", marginLeft : "auto" }}>
+                        <Text style={{ fontWeight: "bold", marginBottom : 5, fontSize : 15 }}>Titre annonce </Text>
+                        <Text style={{ marginBottom : 10 }}>Résumé annonce : bla bla bla lorm ipsum ... </Text>
+                        <Button  
+                        color='#1ADBAC' 
+                        buttonStyle={{ backgroundcolor : '#1ADBAC'  }}
+                        title="postuler" />
+                    </View>
+        
+            
+                </View>
 
                 {/* Toutes les annonces présentes dans la base de données */}
                 { allProjects }
