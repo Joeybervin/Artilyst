@@ -58,6 +58,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { Button, Badge } from '@rneui/base';
 
 
+import { MenuProvider } from 'react-native-popup-menu';
+
 // * _______________________________________________________ TAB BOTTOM NAVIGATION _______________________________________________________
 // *
 const TabNavigator = createBottomTabNavigator();
@@ -136,6 +138,7 @@ const StackNavigator = createStackNavigator();
 
 export default function App() {
   return (
+    <MenuProvider>
     <Provider store={store}>
       <StatusBar barStyle="light-content" backgroundColor="#333333" />
       <NavigationContainer >
@@ -190,6 +193,7 @@ export default function App() {
         </StackNavigator.Navigator>
       </NavigationContainer>
       </Provider>
+    </MenuProvider>
   );
 }
 
