@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 
 // ^ Wanings messages
-import { LogBox, Button, TextInput , ScrollView} from 'react-native';
+import { LogBox, ScrollView} from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']);
 
 //^ Module de balise
 import { StyleSheet, Text, View } from 'react-native';
 /* import { Text } from '@rneui/base'; */
 
-import { Input, CheckBox, Icon } from "@rneui/base";
-import {Slider} from '@miblanchard/react-native-slider';
+import { Input, CheckBox , Button } from "@rneui/base";
+import Slider from '@react-native-community/slider';
+
 
 
 export default function PhotographCollaborateurScreen(props) {
@@ -47,7 +48,7 @@ export default function PhotographCollaborateurScreen(props) {
     // * ___________________________ PAGE ___________________________
     
     return ( 
-        <ScrollView style={{backgroundColor: '#fff'}}>
+        <ScrollView style={{backgroundColor: '#fff',}}>
     
     <View style={styles.container}>
             
@@ -131,25 +132,11 @@ export default function PhotographCollaborateurScreen(props) {
 
 
                 <Slider
-                style={{ width: 400, height: 40 }}
-                    animateTransitions
-                    maximumTrackTintColor="#d3d3d3"
-                    maximumValue={20}
-                    minimumTrackTintColor="#1fb28a"
-                    minimumValue={4}
-                    step={2}
-                    thumbTintColor="#1a9274"
-                />
-      
-
-
-                <Slider
-                    
+                    style={{ width: 350, height: 40 }}
                     minimumValue={0}
-                    maximumValue={120}
+                    maximumValue={1}
                     minimumTrackTintColor="black"
                     maximumTrackTintColor="black"
-                    trackClickable={true}
                 />
 
             </View>
