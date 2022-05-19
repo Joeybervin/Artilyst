@@ -103,11 +103,11 @@ router.put('/update_user_profile', async function (req, res, next) {
   let user_new_informations = req.body.user_new_informations // Je récupère les infos entrées
 
   await userModel.updateOne(
-    {token: user_new_informations.token},
-     {
-      occupation : user_new_informations.occupation,
-      name : user_new_informations.name,
-      gender :  user_new_informations.gender,
+    { token: user_new_informations.token },
+    {
+      occupation: user_new_informations.occupation,
+      name: user_new_informations.name,
+      gender: user_new_informations.gender,
 
       description: user_new_informations.description,
       cv: user_new_informations.cv,
@@ -156,7 +156,6 @@ router.post('/project', async function (req, res, next) {
 
 
   res.json({ new_project: true }) // je renvoie au front l'état de l'enregistrement dans la BDD
-
 
 
 });
@@ -233,5 +232,22 @@ router.post('/upload_photo_profil', async function(req, res, next) {
   
  });
 
+
+router.post('/search_casting', async function (req, res, next) {
+
+  var user = await userModel.findOne({ token: req.body.token });
+
+  console.log('UTILISATEUR : ' + user)
+  // Calculer age utilisateur
+
+  var matchingProjects = await projectModel.find(
+    { gender: user.gender, localisation: user.city }
+  )
+  console.log('REPONSE : ' + matchingProjects)
+  // age_range: { age_min: { $lt: user.age }, age_max: { $gt: user.age } }
+
+  res.json( {matchingProjects} )
+
+})
 
 module.exports = router;
