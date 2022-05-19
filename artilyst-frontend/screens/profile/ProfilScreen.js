@@ -1,9 +1,14 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { expoUrlMustafa } from '../../ExpoUrl';
+import { Entypo } from '@expo/vector-icons';
+import {Modal,Pressable} from "react-native";
+
+
+
 
 //^ Module de balise
-import { Dimensions, StyleSheet, Animated, View, Image, ScrollView } from 'react-native';
+import { Dimensions, StyleSheet, View, Image, ScrollView,Animated } from 'react-native';
 import { Text, Button } from '@rneui/base';
 //^ module bonus (icons)
 import { Ionicons } from '@expo/vector-icons';
@@ -17,13 +22,10 @@ import { connect } from 'react-redux';
 
 function ProfilScreen(props) {
 
-    
-
-
-
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
     const [userData, setUserData] = useState({})
+    const [modalVisible, setModalVisible] = useState(false);
 
     /* VARIABLES */
     let informations = props.user;
@@ -64,22 +66,49 @@ function ProfilScreen(props) {
                 key={index}
                 source={{ uri: element }}
                 style={styles.image}
+                
             />
         )
     })
 
     // * ___________________________ PAGE ___________________________
 
+    const sheetRef = React.useRef(null);
     return (
         <View style={styles.mainContainer}>
+        
             <ScrollView style={styles.container}>
+            <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Hello World!</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>Hide Modal</Text>
+            </Pressable>
+            
+          </View>
+        </View>
+      </Modal>
                 <Text>ProfilScreen</Text>
 
                 {/* -------- CARROUSEL D'IMAGES --------  */}
                 <View style={styles.swipperContainer}>
                     <Swiper style={styles.wrapper} showsButtons={false} activeDotColor="white" dotColor='rgba(0,0,0,.6)' showsHorizontalScrollIndicator={true}>
                         {myimages}
+                           
                     </Swiper>
+                    <Entypo name="camera" size={24} color="black" onPress={() => setModalVisible(true)}/>
                 </View>
 
                 {/* -------- BOUTONS --------  */}
@@ -122,15 +151,17 @@ function ProfilScreen(props) {
 
                 {/* -------- USER CARACTERISTICS --------  */}
                 <View style={styles.caracteristicsContainer}>
-                    <Text>{userData.gender}</Text>
+                    {/* <Text>{userData.gender}</Text>
                     <Text>{userData.user_caracteristics.height}</Text>
                     <Text>{userData.user_caracteristics.weight}</Text>
-                    <Text>{userData.user_caracteristics.corpulence}</Text>
+                    <Text>{userData.user_caracteristics.corpulence}</Text> */}
                 </View>
 
             </ScrollView>
 
             <Text>User token : {informations.user_token}</Text>
+
+         
         </View>
 
     );
@@ -200,7 +231,48 @@ const styles = StyleSheet.create({
     },
     caracteristicsContainer: {
         lineHeiight: 2
-    }
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+      },
+      modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+      },
+      button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2
+      },
+      buttonOpen: {
+        backgroundColor: "#F194FF",
+      },
+      buttonClose: {
+        backgroundColor: "#2196F3",
+      },
+      textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+      },
+      modalText: {
+        marginBottom: 15,
+        textAlign: "center"
+      },
 
 });
 

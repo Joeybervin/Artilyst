@@ -200,12 +200,12 @@ router.post('/upload_photo_profil', async function(req, res, next) {
   var porfolioName = req.body.porfolio.name // récuperer le nom du porfolio créé , on suppose que le req.body récuper un object de la form { name : nom du porolio , listImages : [ urlImage1 , urlImage2... ]}
   var imageUrlListFront = req.body.porfolio.listImages // récuperer une table d'url d'images séléctionnées (photos dans le smartphone)
   var listUrlImageCloudinary =[] // initialisation de la table d'URL des photos dans cloudinary
-  var resultCloudinary
+  var resultCloudinary=''
   var portfolio = {} // initialisation de l'object porfolio à pusher dans la bdd
 
   //var resultCopy = await req.files.avatar.mv(image);
   if(imageUrlListFront.length>0) {
-    imageUrlListFront.map((image)=> {
+    imageUrlListFront.map(async(image)=> {
       resultCloudinary = await cloudinary.uploader.upload(image);// envoie de l'URL de l'image selectionnées au cloud
       listUrlImageCloudinary.push(resultCloudinary.url) // ajout de l'URL cloud de l'image dans le table (que l'on renvoie apres au front)
     }
