@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
 // ^ Wanings messages
-import { LogBox, ScrollView } from 'react-native';
+import { LogBox} from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']);
 
 //^ Module de balise
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView  } from 'react-native';
 /* import { Text } from '@rneui/base'; */
 
 import DatePicker from 'react-native-modern-datepicker';
-import { ProgressBar } from 'react-native-paper';
-
 
 import { Overlay, Button } from "@rneui/base";
 

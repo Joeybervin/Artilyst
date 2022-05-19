@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 
 // ^ Wanings messages
-import { LogBox, Button, TextInput } from 'react-native';
+import { LogBox, Button, TextInput , ScrollView} from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']);
 
 //^ Module de balise
-import { StyleSheet, Text, View, Slider } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 /* import { Text } from '@rneui/base'; */
 
-import { Input, CheckBox, Icon } from "@rneui/themed";
-
+import { Input, CheckBox, Icon } from "@rneui/base";
+import {Slider} from '@miblanchard/react-native-slider';
 
 
 export default function PhotographCollaborateurScreen(props) {
@@ -47,20 +47,25 @@ export default function PhotographCollaborateurScreen(props) {
     // * ___________________________ PAGE ___________________________
     
     return ( 
+        <ScrollView style={{backgroundColor: '#fff'}}>
     
     <View style={styles.container}>
             
+        {/* Progress bar */}
+        <View style={{ marginTop : 40, borderWidth: 0.5, borderColor: '#000000', borderRadius: 50, width: "80%", height: 10 }}>
+            <View style={{ borderWidth: 0.5, borderColor: '#000000', borderRadius: 50, width: "66%", height: 10, backgroundColor: '#000000' }}></View>
+        </View>
+
     
            
-        <View>
-            <Text>Collaborateur du projet  </Text>
+        <View style={{ flexDirection: 'row', marginTop: 20, marginBottom : 15 }}>
+            <Text style={{fontWeight : 'bold'}}>Collaborateur du projet : </Text>
+            <Text>Photographe</Text> 
         </View>
         
-        <View>
-            <Text>Photographe </Text>
-        </View>
-        
-         <Text>Genre</Text>
+        {/* Choix du genre */}
+        <View style={{marginTop : 20, marginBottom : 10}}>
+            <Text style={{marginRight : "auto", marginBottom : 10}}>Genre</Text>
         <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '90%' }}>
            
                    
@@ -69,7 +74,6 @@ export default function PhotographCollaborateurScreen(props) {
                         title="Femme"
                         onPress={() => setGender( gender =="Femme"? "" :"Femme")}
                         checked={Gender == "Femme"? true : false}
-                    
                     />
             <CheckBox
                         center
@@ -83,54 +87,43 @@ export default function PhotographCollaborateurScreen(props) {
                         onPress={() => setGender(gender=="Autres"? "" :"Autres")}
                         checked={Gender == "Autres"? true : false}
                     />
-            </View>
-        
-        <View>
-            <Text> Ville</Text>
-
-            <Input
-                inputContainerStyle={styles.inputContainerStyle}
-                placeholder='ville'
-                onChangeText={setVille} value={ville}
-            />
-
-            {/* <TextInput
-            style={styles.input}
-            placeholder="ville"
-            keyboardType="text"
-            /> */}
-            </View>
-    
-       
-        <View> 
-        
-         <Text> Age min</Text>
-         <Input
-                inputContainerStyle={styles.inputContainerStyle}
-                placeholder='Age'
-                onChangeText={setAgeMin} value={ageMin}
-            />
-
-        <Text> Age max</Text>
-         <Input
-                inputContainerStyle={styles.inputContainerStyle}
-                placeholder='Age'
-                onChangeText={setAgeMax} value={ageMax}
-            />
-             
         </View>
-     
-       
+        </View>
+         
+        
+        <View style={{width: '80%', marginTop : 20, marginRight : 25 }}>
+           
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <Text>Ville</Text>
+            <Input
+                
+                onChangeText={setVille} value={ville}
+                //errorMessage={emailError}
+            />
+        </View>
+
+        <View style={{width: '92%', flexDirection: 'row', alignItems: 'center' }}>
+        <Text>Age min</Text>
+            <Input
+                onChangeText={setAgeMin} value={ageMin}
+                //errorMessage={emailError}
+            />
+        </View>
+
+        <View style={{ width: '92%',flexDirection: 'row', alignItems: 'center' }}>
+
+        <Text>Age max</Text>
+            <Input
+                onChangeText={setAgeMax} value={ageMax}
+                //errorMessage={emailError}
+            />
+        </View>
+            
+
+        </View>
 
             <View>
-                <Text> Ville</Text>
-
-                <TextInput
-                    style={styles.input}
-
-                    placeholder="ville"
-                    keyboardType="text"
-                />
+    
             </View>
 
             <Text> Age</Text>
@@ -138,11 +131,25 @@ export default function PhotographCollaborateurScreen(props) {
 
 
                 <Slider
-                    style={{ width: 200, height: 40 }}
+                style={{ width: 400, height: 40 }}
+                    animateTransitions
+                    maximumTrackTintColor="#d3d3d3"
+                    maximumValue={20}
+                    minimumTrackTintColor="#1fb28a"
+                    minimumValue={4}
+                    step={2}
+                    thumbTintColor="#1a9274"
+                />
+      
+
+
+                <Slider
+                    
                     minimumValue={0}
-                    maximumValue={1}
+                    maximumValue={120}
                     minimumTrackTintColor="black"
                     maximumTrackTintColor="black"
+                    trackClickable={true}
                 />
 
             </View>
@@ -171,7 +178,7 @@ export default function PhotographCollaborateurScreen(props) {
 
 
 
-
+        </ScrollView>
 
 
 
