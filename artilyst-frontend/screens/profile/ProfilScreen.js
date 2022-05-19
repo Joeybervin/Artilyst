@@ -1,6 +1,6 @@
 
 import React, { useRef, useState, useEffect } from 'react';
-import { expoUrlMustafa } from '../../ExpoUrl';
+import { expoUrlJoey } from '../../ExpoUrl';
 
 //^ Module de balise
 import { Dimensions, StyleSheet, Animated, View, Image, ScrollView } from 'react-native';
@@ -39,7 +39,7 @@ function ProfilScreen(props) {
     // Récupérer infos du profil utilisateur
     useEffect(() => {
         async function loadData() {
-            const rawResponse = await fetch(`http:${expoUrlMustafa}/user_profile`, {
+            const rawResponse = await fetch(`http:${expoUrlJoey}/user_profile`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `token=${informations.user_token}`,
