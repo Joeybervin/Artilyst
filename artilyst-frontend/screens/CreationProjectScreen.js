@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
 // ^ Wanings messages
-import { LogBox  } from 'react-native';
+import { LogBox , ScrollView } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']);
 
 //^ Module de balise
@@ -26,6 +26,7 @@ export default function CreationProjectScreen(props) {
     // * ___________________________ PAGE ___________________________
     
     return (
+        <ScrollView style={styles.scrollView}>
         <View style={styles.container}>
 
         <View style={{width : "90%",}}>
@@ -71,7 +72,7 @@ export default function CreationProjectScreen(props) {
        
         
         </View>
-
+        </ScrollView>
     );
 }
 
