@@ -167,7 +167,7 @@ router.post('/project', async function (req, res, next) {
 
 router.post('/upload_photo_profil', async function(req, res, next) {  
 
-  var image = './tmp/'+uniqid()+'.jpg' // récupérer la photo du tmp en lui donnant un nom aleatoire avec uniqid
+  let image = './tmp/'+uniqid()+'.jpg' // récupérer la photo du tmp en lui donnant un nom aleatoire avec uniqid
   //var image = './tmp/avatar.jpg'
 
   var resultCopy = await req.files.avatar.mv(image);
@@ -178,7 +178,7 @@ router.post('/upload_photo_profil', async function(req, res, next) {
     res.json({error: resultCopy});
   }
 
-  //fs.unlinkSync(image); // suppression de la photo du dossier tmp
+  fs.unlinkSync(image); // suppression de la photo du dossier tmp
 
   await userModel.updateOne(
     { token: req.body.token },
@@ -197,6 +197,10 @@ router.post('/upload_photo_profil', async function(req, res, next) {
 /************ Route permettant d'envoyer à la BDD le nom du nouveau portfolio + les url des images */
  router.post('/add_portfolio', async function(req, res, next) {  
 
+  let image = './tmp/'+uniqid()+'.jpg' // Création d'un nom d'image unique
+  
+  var resultCopy = await req.files.avatar.mv(image); // on la place temporairement dans le dossier tmp
+
   var porfolioName = req.body.porfolio.name // récuperer le nom du porfolio créé , on suppose que le req.body récuper un object de la form { name : nom du porolio , listImages : [ urlImage1 , urlImage2... ]}
   var imageUrlListFront = req.body.porfolio.listImages // récuperer une table d'url d'images séléctionnées (photos dans le smartphone)
   var listUrlImageCloudinary =[] // initialisation de la table d'URL des photos dans cloudinary
@@ -205,8 +209,8 @@ router.post('/upload_photo_profil', async function(req, res, next) {
 
   //var resultCopy = await req.files.avatar.mv(image);
   if(imageUrlListFront.length>0) {
-    imageUrlListFront.map((image)=> {
-      //resultCloudinary = await cloudinary.uploader.upload(image);// envoie de l'URL de l'image selectionnées au cloud
+    imageUrlListFront.map(async (image)=> {
+      resultCloudinary = await cloudinary.uploader.upload(image);// envoie de l'URL de l'image selectionnées au cloud
       listUrlImageCloudinary.push(resultCloudinary.url) // ajout de l'URL cloud de l'image dans le table (que l'on renvoie apres au front)
     }
 
