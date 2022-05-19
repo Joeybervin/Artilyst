@@ -206,7 +206,7 @@ router.post('/upload_photo_profil', async function(req, res, next) {
   //var resultCopy = await req.files.avatar.mv(image);
   if(imageUrlListFront.length>0) {
     imageUrlListFront.map((image)=> {
-      resultCloudinary = await cloudinary.uploader.upload(image);// envoie de l'URL de l'image selectionnées au cloud
+      //resultCloudinary = await cloudinary.uploader.upload(image);// envoie de l'URL de l'image selectionnées au cloud
       listUrlImageCloudinary.push(resultCloudinary.url) // ajout de l'URL cloud de l'image dans le table (que l'on renvoie apres au front)
     }
 
