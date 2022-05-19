@@ -1,19 +1,31 @@
 import React from 'react';
 
 // ^ Wanings messages
-import { LogBox, Button } from 'react-native';
+import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']);
 
 //^ Module de balise
-import { StyleSheet,  View , ScrollView} from 'react-native';
-import { Text, Divider } from '@rneui/themed';
+import { StyleSheet,  View , ScrollView, TouchableOpacity } from 'react-native';
+import { Text, Divider, Button, Tile, Image  } from '@rneui/base';
 import { Ionicons } from '@expo/vector-icons';
+import { useIsFocused } from '@react-navigation/native';
+
+
+
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from 'react-native-popup-menu';
 
 export default function CreerUnProjetScreen(props) {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
     /* VARIABLES */
+    const isFocus= useIsFocused();
+        const images = ["https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920","https://images.unsplash.com/photo-1571590946238-a0ba990d12a9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2FzdGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=400&q=60","https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8bW92aWV8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60","https://images.unsplash.com/photo-1601506521793-dc748fc80b67?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTN8fHNob290aW5nfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=400&q=60","https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8c2hvb3Rpbmd8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60","https://images.unsplash.com/photo-1607692605098-2b3cd0ebdd08?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8c2VyaWV8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60","https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8bW92aWV8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60","https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fGV2ZW50fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=400&q=60","https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8ZXZlbnR8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60","https://images.unsplash.com/photo-1559694204-61edb596dab1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fHN0eWxpc3R8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1501699169021-3759ee435d66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8c3R5bGlzdHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1632643871772-b68cfd34b303?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687", "https://images.unsplash.com/photo-1540320865252-e4abf9e80004?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Y2FzdGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=400&q=60"]
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
     /* SECONDE */
@@ -21,28 +33,64 @@ export default function CreerUnProjetScreen(props) {
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
 
+    const allUserPorjects = images.map((element, index) => { // Tous les prjets de l'utilisateur
+      return (
+      <TouchableOpacity style={{flex:1, justifyContent:"center",alignItems:"center"}} onPress={() => console.log("PROJET !!")} key={index}>
+  
+      <View style={{opacity:0.7, width: "90%", backgroundColor : "black", height:200, marginBottom : 20, borderRadius : 10}}  >
+    
+        <Image
+          style={{width: "100%", height: "100%", borderRadius : 10 }}
+          source={{uri : element}}
+        />
+{/* Menu optionel */}
+      </View>
+          <Menu style={{ position: 'absolute', top: 5, right: 25, padding : 15 , backgroundColor : "black", borderRadius : 50 }}>
+      <MenuTrigger  >
+      <Ionicons name="ellipsis-vertical" color="#ffffff" size={30} />
+      </MenuTrigger>
+      <MenuOptions  customStyles={{optionWrapper: { padding: 20}, optionText: styles.text}}>
+
+        <MenuOption onSelect={() => alert(`Save`)} text='Modifier le projet' />
+
+        <MenuOption onSelect={() => alert(`Not called`)} text='Voir les artistes correspondants' />
+
+        <MenuOption onSelect={() => alert(`Not called`)} text='Supprimer' />
+
+      </MenuOptions>
+    </Menu>
+
+
+      <Text  style={{fontSize: 25, fontWeight: "bold",position : "absolute",color:"white", padding : 15}} >Puma : Shooting pout la nouvelle collection 
+      </Text>
+    </TouchableOpacity>
+      )
+    })
 
     // * ___________________________ PAGE ___________________________
-    
+
     return (
         <ScrollView style={styles.scrollView}>
         <View style={styles.container}>
 
-        <View style={{ marginTop: 30 }}   onPress={() => props.navigation.navigate('CollaborateurDuProjetScreen')} >
+        <View style={{ marginTop: 30, width: "90%" }}   >
+            <Text style={{fontWeight: "bold", fontSize: 20}}>Creer un nouveau projet </Text>
 
-            <Text>Creer un projet </Text>
-
-            <View style={{ borderRadius : 7,  alignItems: "center", justifyContent: "center", borderColor: 'black', borderWidth: 0.5, width: "55%", height: 140, marginTop: 30 }} >
+            <Button  
+              raised 
+              type="solid"
+              containerStyle={{ borderWidth: 2, borderRadius : 10, borderColor: 'transparent' ,width: "40%" , marginTop: 30,   }}
+              buttonStyle={{ borderRadius : 8,height: 140, backgroundColor: '#1ADBAC'}}
+              onPress={() => {props.navigation.navigate('CollaborateurDuProjetScreen')}}
+              >
               <Ionicons
                 style={styles.icon}
-                color={isFocus ? '#1ADBAC' : 'black'}
-                name="search"
-                size={20}
+                color='white'
+                name="add"
+                size={50}
+                 onPress={() => {props.navigation.navigate('CollaborateurDuProjetScreen')}}
               />
-
-            </View>
-            
-      
+            </Button>
         </View>
 
 
@@ -54,29 +102,15 @@ export default function CreerUnProjetScreen(props) {
           orientation="horizontal"
         />
 
-        <View>
-            <View style={{
-            width: 250,
-            height: 100,
-            borderColor: 'black',
-            borderWidth: 1,
-            marginTop : 10,
-            borderRadius: 5,
-          }}  > 
-          <Text> projet 1 - titre projet  </Text>
-          
-          <Button  title="relancher recherche " 
-          onPress={() => props.navigation.navigate('ArtisteCorrespondantScreen')}
-          style={{ width: 100,height: 30, marginTop : 1}}
-            /> 
+        <View  style={{ width: "100%"}}>
 
-          <Button  title="supprimer  " /> 
+        <Text style={{fontWeight: "bold" , fontSize: 20, marginBottom : 25, width: "90%",  marginLeft : 20 }}>Mes projets </Text>
+
+
+          {allUserPorjects}
+        
+
           </View>
-        </View>
-
-
-
-
         </View>
         </ScrollView>
 
@@ -86,6 +120,11 @@ export default function CreerUnProjetScreen(props) {
 // * ___________________________ STYLES ___________________________
 
 const styles = StyleSheet.create({
+  scrollView : {
+    flex: 1,
+        backgroundColor: '#fff',
+       
+  },
     container: {
         flex: 1,
         backgroundColor: '#fff',
