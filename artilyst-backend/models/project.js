@@ -5,7 +5,7 @@ var projectSchema = mongoose.Schema({
     title: String,
     description : String,
     collaborators : String,
-    gender : Array,
+    gender : String,
     insert_date : Date, 
     project_dates : Object, // début => fin
     category : String,

@@ -114,11 +114,6 @@ export default function CategorieDuProjetScreen(props) {
         </View>
 
 
-
-
-
-
-
     );
 }
 

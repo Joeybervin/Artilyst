@@ -1,6 +1,6 @@
 
 import React, { useRef, useState, useEffect } from 'react';
-import { expoUrlJoey } from '../../ExpoUrl';
+import { expoUrlRaf } from '../../ExpoUrl';
 
 //^ Module de balise
 import { Dimensions, StyleSheet, Animated, View, Image, ScrollView } from 'react-native';
@@ -9,17 +9,11 @@ import { Text, Button } from '@rneui/base';
 import { Ionicons } from '@expo/vector-icons';
 // ^ Carousel
 import Swiper from 'react-native-swiper'
-
-
 // ^Redux
 import { connect } from 'react-redux';
 
 
 function ProfilScreen(props) {
-
-    
-
-
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
@@ -39,10 +33,10 @@ function ProfilScreen(props) {
     // Récupérer infos du profil utilisateur
     useEffect(() => {
         async function loadData() {
-            const rawResponse = await fetch(`http:${expoUrlJoey}/user_profile`, {
+            const rawResponse = await fetch(`http:${expoUrlRaf}/user_profile`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `token=${informations.user_token}`,
+                body: `token=${informations.user_token}`
             })
             let response = await rawResponse.json();
             setUserData(response.user_account);
