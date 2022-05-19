@@ -7,7 +7,7 @@ import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']);
 
 //^ Module de balise
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { Button, Text, Divider } from '@rneui/base';
 
 
@@ -30,9 +30,16 @@ export default function CategorieDuProjetScreen(props) {
 
 
     return (
+        <ScrollView style={{backgroundColor: '#fff',}}>
+    
         <View style={styles.container}>
-
-            <View><Text> Catégorie du projet </Text></View>
+                
+            {/* Progress bar */}
+            <View style={{ marginTop : 40, marginBottom : 40, borderWidth: 0.5, borderColor: '#000000', borderRadius: 50, width: "80%", height: 10 }}>
+                <View style={{ borderWidth: 0.5, borderColor: '#000000', borderRadius: 50, width: "98%", height: 10, backgroundColor: '#000000' }}></View>
+            </View>
+    
+            <Text style={{marginBottom : 50, fontWeight: 'bold', fontSize : 20}}> Catégorie du projet </Text>
 
 
             <View dir="row" align="center" spacing={4}>
@@ -103,6 +110,13 @@ export default function CategorieDuProjetScreen(props) {
                     onPress={() => props.navigation.navigate('PhotographeCollaborateurScreen')}
                 />
 
+                <Button
+                    buttonStyle={{ backgroundColor: '#3268DD', margin: 5 }}
+                    title="Créer mon projet"
+                    onPress={() =>  console.log("projet créer")}
+                />
+
+
 
 
 
@@ -114,7 +128,7 @@ export default function CategorieDuProjetScreen(props) {
         </View>
 
 
-
+</ScrollView>
 
 
 

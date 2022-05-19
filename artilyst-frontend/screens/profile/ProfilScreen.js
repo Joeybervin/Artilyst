@@ -2,7 +2,7 @@
 import Animated from 'react-native-reanimated';
 
 import React, { useRef, useState, useEffect } from 'react';
-import { expoUrlJoey } from '../../ExpoUrl';
+import { expoUrlRaf } from '../../ExpoUrl';
 
 //^ Module de balise
 import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity } from 'react-native';
@@ -17,11 +17,13 @@ import { connect } from 'react-redux';
 
 import BottomSheet from 'reanimated-bottom-sheet';
 
+
 import * as ImagePicker from "expo-image-picker";
 
 
 function ProfilScreen(props) {
     
+
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
     const [image, setImage] = useState(null);
@@ -45,13 +47,15 @@ function ProfilScreen(props) {
     // Récupérer infos du profil utilisateur
     useEffect(() => {
         async function loadData() {
-            const rawResponse = await fetch(`http:${expoUrlJoey}/user_profile`, {
+            const rawResponse = await fetch(`http:${expoUrlRaf}/user_profile`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `token=${informations.user_token}`,
+                body: `token=${informations.user_token}`
             })
             let response = await rawResponse.json();
+
             setUserData(response.user_account);
+            console.log(response.user_account)
 
         }
         loadData();
@@ -110,7 +114,7 @@ function ProfilScreen(props) {
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
 
-    let myimages = data.map((element, index) => {
+    let myimages = userData.profile_photo.map((element, index) => {
         return (
 
             <Image
@@ -151,7 +155,9 @@ function ProfilScreen(props) {
         </View>
      ) ;
     return (
+        <ScrollView style={styles.container}>
         <View style={styles.mainContainer}>
+
 
 <BottomSheet
         ref={sheetRef}
@@ -168,6 +174,7 @@ function ProfilScreen(props) {
 
             <ScrollView style={styles.containerJoey}>
                 <Text>ProfilScreen</Text>
+
 
                 {/* -------- CARROUSEL D'IMAGES --------  */}
                 <View style={styles.swipperContainer}>
@@ -222,17 +229,23 @@ function ProfilScreen(props) {
 
                 {/* -------- USER CARACTERISTICS --------  */}
                 <View style={styles.caracteristicsContainer}>
+
                     <Text>{userData.gender}</Text>
                     {/* <Text>{userData.user_caracteristics.height}</Text>
                     <Text>{userData.user_caracteristics.weight}</Text>
+
+                    <Text>sexe : {userData.gender}</Text>
+                  {/*   <Text>{userData.user_caracteristics.height}</Text>
+                    <Text>poids : {userData.weight}</Text>
+
                     <Text>{userData.user_caracteristics.corpulence}</Text> */}
                 </View>
 
-            </ScrollView>
+            
 
             <Text>User token : {informations.user_token}</Text>
         </View>
-
+</ScrollView>
     );
 }
 
