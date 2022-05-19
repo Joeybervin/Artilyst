@@ -45,7 +45,9 @@ function ProfilScreen(props) {
                 body: `token=${informations.user_token}`,
             })
             let response = await rawResponse.json();
+
             setUserData(response.user_account);
+            console.log(response.user_account)
 
         }
         loadData();
@@ -57,7 +59,7 @@ function ProfilScreen(props) {
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
 
-    let myimages = data.map((element, index) => {
+    let myimages = userData.profile_photo.map((element, index) => {
         return (
 
             <Image
@@ -71,9 +73,10 @@ function ProfilScreen(props) {
     // * ___________________________ PAGE ___________________________
 
     return (
+        <ScrollView style={styles.container}>
         <View style={styles.mainContainer}>
-            <ScrollView style={styles.container}>
-                <Text>ProfilScreen</Text>
+            
+           
 
                 {/* -------- CARROUSEL D'IMAGES --------  */}
                 <View style={styles.swipperContainer}>
@@ -122,17 +125,17 @@ function ProfilScreen(props) {
 
                 {/* -------- USER CARACTERISTICS --------  */}
                 <View style={styles.caracteristicsContainer}>
-                    <Text>{userData.gender}</Text>
-                    <Text>{userData.user_caracteristics.height}</Text>
-                    <Text>{userData.user_caracteristics.weight}</Text>
-                    <Text>{userData.user_caracteristics.corpulence}</Text>
+                    <Text>sexe : {userData.gender}</Text>
+                  {/*   <Text>{userData.user_caracteristics.height}</Text>
+                    <Text>poids : {userData.weight}</Text>
+                    <Text>{userData.user_caracteristics.corpulence}</Text> */}
                 </View>
 
-            </ScrollView>
+            
 
             <Text>User token : {informations.user_token}</Text>
         </View>
-
+</ScrollView>
     );
 }
 
