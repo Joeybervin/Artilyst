@@ -20,11 +20,8 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import * as ImagePicker from "expo-image-picker";
 
 
-
 function ProfilScreen(props) {
     
-    
-
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
     const [image, setImage] = useState(null);
@@ -73,22 +70,21 @@ function ProfilScreen(props) {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
-            ExpandImagePickerResult : {ImagePickerMultipleResult: true},
             
             aspect: [4, 3],
             quality: 1,
-          });
+        });
     
         // Explore the result
         console.log(result);
     
         if (!result.cancelled) {
-          setPickedImagePath(result.uri);
-          console.log(result.uri);
+            setPickedImagePath(result.uri);
+            console.log(result.uri);
         }
-      }
+    }
 
-      const openCamera = async () => {
+    const openCamera = async () => {
         // Ask the user for the permission to access the camera
         const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
     
@@ -106,7 +102,7 @@ function ProfilScreen(props) {
           setPickedImagePath(result.uri);
           console.log(result.uri);
         }
-      }
+    }
 
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
