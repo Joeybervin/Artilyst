@@ -241,13 +241,14 @@ router.post('/search_casting', async function (req, res, next) {
 
   var user = await userModel.findOne({ token: req.body.token });
 
-  console.log('UTILISATEUR : ' + user)
+  // console.log('UTILISATEUR : ' + user)
   // Calculer age utilisateur
 
   var matchingProjects = await projectModel.find(
     { gender: user.gender, localisation: user.city }
   )
-  console.log('REPONSE : ' + matchingProjects)
+
+  console.log('REPONSE : ', matchingProjects)
   // age_range: { age_min: { $lt: user.age }, age_max: { $gt: user.age } }
 
   res.json( {matchingProjects} )
