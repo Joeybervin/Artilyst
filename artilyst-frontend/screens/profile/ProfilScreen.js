@@ -24,11 +24,8 @@ function ProfilScreen(props) {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
-    const [image, setImage] = useState(null);
-    const [hasPermission, setHasPermission] = useState(false);
-    const [user, setUser0] = useState(props.user)
-    const [pickedImagePath, setPickedImagePath] = useState("")
 
+    const [user, setUser] = useState(props.user)
 
     /* VARIABLES */
     let sheetRef = React.useRef(null);
@@ -37,11 +34,11 @@ function ProfilScreen(props) {
 
 
 
+
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
 
     // Récupérer infos du profil utilisateur
-
 
 
 
@@ -58,7 +55,7 @@ function ProfilScreen(props) {
         }
 
         // const result = await ImagePicker.launchImageLibraryAsync();
-        let result = await ImagePicker.launchImageLibraryAsync({
+        const MediaLibraryResult = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
 
@@ -67,15 +64,48 @@ function ProfilScreen(props) {
         });
 
         // Explore the result
-   
 
-        console.log(result.uri)
-        setPickedImagePath(result.uri);
+        if (!MediaLibraryResult.cancelled) {
 
-      
+            if (MediaLibraryResult.uri) {
+
+            data.append(
+                'image_uploaded', {
+                uri: MediaLibraryResult.uri,
+                type: 'image/jpeg',
+                name: user.token, // ! A CORRIGER
+                
+            });
+         
+            props.navigation.navigate('AllMyProfilePicturesScreen')
+
+            let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_photo_profil`,
+             {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'multipart/form-data; ',
+                  },
+                body: data , 
+            })
+            let result = await data_uploaded.json()
+
+            props.addPictures(result.url, user)
+            user.profile_photo.push(result.url)
+
+           
+
+            let copyUserInfos = {...props.user}
+            setUser(copyUserInfos)
+            console.log("JE SUIS PASSE PAR ICI !!!!!!!")
+            
+            
+            }
+        }
+
+        
     }
 
-
+    /* Pour ouvrir la camera de l'utilisateur prendre une photo et la rajouter (database + reducer  => profil) */
     const openCamera = async () => {
         // Ask the user for the permission to access the camera
         const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
@@ -85,27 +115,23 @@ function ProfilScreen(props) {
             return;
         }
 
-        const result = await ImagePicker.launchCameraAsync();
+        const resultCamera = await ImagePicker.launchCameraAsync();
 
-        setPickedImagePath(result.uri);
         
-        console.log(pickedImagePath)
+        if (!resultCamera.cancelled) {
 
+            if (resultCamera.uri) {
 
-        if (!result.cancelled) {
-
-            if (pickedImagePath) {
-
-          
             data.append(
                 'image_uploaded', {
-                uri: pickedImagePath,
+                uri: resultCamera.uri,
                 type: 'image/jpeg',
                 name: user.token, // ! A CORRIGER
                 
             });
-            console.log( "DATA : ", data)
-
+ 
+            props.navigation.navigate('AllMyProfilePicturesScreen')
+            
             let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_photo_profil`,
              {
                 method: 'post',
@@ -117,7 +143,10 @@ function ProfilScreen(props) {
 
             let result = await data_uploaded.json()
             props.addPictures(result.url, user)
-            
+
+            let copyUserInfos = {...props.user}
+            setUser(copyUserInfos)
+            props.navigation.navigate('AllMyProfilePicturesScreen')
             }
         }
     }
@@ -414,7 +443,7 @@ function mapDispatchToProps(dispatch) {
             dispatch({ type: 'addInfosToUser', user })
         },
         addPictures: function (photoUrl, user) {
-            dispatch({ type: 'addPictures', photoUrl : photoUrl, user : user })
+            dispatch({ type: 'addPictures', photoUrl , user })
         }
     }
 }
