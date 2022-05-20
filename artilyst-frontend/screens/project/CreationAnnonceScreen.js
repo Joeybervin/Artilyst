@@ -114,7 +114,7 @@ function CreationAnnonceScreen(props) {
     buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
     title="Lancer la recherche "
     onPress={() => projectSave()}
-    onPress={() => props.navigation.navigate('ArtisteCorrespondantScreen')}
+
     
 />
 

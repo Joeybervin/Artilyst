@@ -13,16 +13,13 @@ import { Dropdown } from 'react-native-element-dropdown';
 // ^ Icon
 import { Ionicons } from '@expo/vector-icons';
 
-import { expoUrlRaf } from '../ExpoUrl';
+import { expoUrlJoey, expoUrlRaf } from '../ExpoUrl';
 
 import { connect } from 'react-redux';
 
 
 
 function AnnoncesScreen(props) {
-
-    let informations = props.user;
-
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
     const [value, setValue] = useState(null); // String : récupère le type de casting choisis
@@ -56,10 +53,10 @@ function AnnoncesScreen(props) {
     // Réception des casting filtrés pour l'utilisateur
     useEffect(() => {
         async function loadCasting() {
-            let rawResponse = await fetch(`http://${expoUrlRaf}/search_casting`, {
+            var rawResponse = await fetch(`http://${expoUrlRaf}/search_casting`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `token=${informations.user_token}`
+                body: `token=${props.user.token}`
             })
             let response = await rawResponse.json();
             setMatchingCasting(response.matchingProjects)

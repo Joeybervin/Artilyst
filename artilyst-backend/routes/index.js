@@ -4,11 +4,16 @@ var uniqid = require('uniqid');
 var cloudinary = require('cloudinary').v2;
 var fs = require('fs'); // chargement du fs qui nous permettra de supprimer la photo du dossier tmp
 
-/***** config du cloudinary avec le compte cloudinary de mustapha */
+/***** config du cloudinary avec le compte cloudinary de mustapha 
 cloudinary.config({
  cloud_name: 'dxmpjeafy',
  api_key: '854443517271688',
  api_secret: '2ir7uEavjtm5ntcCK8wk6n1oKuM' 
+});*/
+cloudinary.config({
+  cloud_name: 'joeybervin',
+  api_key: '557384916495445',
+  api_secret: '4ODzJdCJtyRDjFNwkIL15nXYf9A'
 });
 
 // ^ Models
@@ -85,16 +90,13 @@ router.post('/sign-in', async function (req, res, next) {
 // * Pour afficher le profil de l'utilisateur
 router.post('/user_profile', async function (req, res, next) {
 
-
-  console.log(req.body)
   let token = req.body.token // Je récupère le token de l'utilisateur envoyé par le front end
   /* Je récupère toutes les infos de l'utilisateur */
-  console.log(token);
   let user_account = await userModel.findOne({
     token: token,
   });
-
-  res.json({ user_account }) // Object :  Je renvoie les informations au front-end
+  console.log(user_account)
+  res.json(user_account) // Object :  Je renvoie les informations au front-end
 })
 
 //* Pour modifier les informations du profil de l'utilisateur
@@ -164,77 +166,79 @@ router.post('/project', async function (req, res, next) {
 
 
 
-router.post('/upload_photo_profil', async function(req, res, next) {  
+router.post('/upload_photo_profil', async function (req, res, next) {
 
-  let image = './tmp/'+uniqid()+'.jpg' // récupérer la photo du tmp en lui donnant un nom aleatoire avec uniqid
-  //var image = './tmp/avatar.jpg'
+  let image = './tmp/' + uniqid() + '.jpg' // récupérer la photo du tmp en lui donnant un nom aleatoire avec uniqid
+  //var image = './tmp/image_uploaded.jpg'
 
-  var resultCopy = await req.files.avatar.mv(image);
-  if(!resultCopy) {
+  var user_token = await req.files.image_uploaded.name
+  var resultCopy = await req.files.image_uploaded.mv(image);
+
+  if (!resultCopy) {
     var resultCloudinary = await cloudinary.uploader.upload(image);
-    res.json(resultCloudinary);      
+    res.json(resultCloudinary);
   } else {
-    res.json({error: resultCopy});
+    res.json({ error: resultCopy });
   }
 
   fs.unlinkSync(image); // suppression de la photo du dossier tmp
 
   await userModel.updateOne(
-    { token: req.body.token },
-    { $push: {profile_photo: resultCloudinary.url} })
+    { token: user_token },
+    { $push: { profile_photo: resultCloudinary.url } })
 
-    var test = await userModel.findOne({token:req.body.token})
-  
-  console.log( 'resultat cloud' , resultCloudinary);
-  console.log('cloudinary.uploader',cloudinary.uploader)
+  // var test = await userModel.findOne({token:req.body.token})
+
+  // console.log( 'resultat cloud' , resultCloudinary);
+  // console.log('cloudinary.uploader',cloudinary.uploader)
   //console.log('req.files',req.files)
   //console.log('test',test)
-  
- });
+
+});
 
 
 /************ Route permettant d'envoyer à la BDD le nom du nouveau portfolio + les url des images */
- router.post('/add_portfolio', async function(req, res, next) {  
+router.post('/add_portfolio', async function (req, res, next) {
 
-  let image = './tmp/'+uniqid()+'.jpg' // Création d'un nom d'image unique
-  
+  let image = './tmp/' + uniqid() + '.jpg' // Création d'un nom d'image unique
+
   var resultCopy = await req.files.avatar.mv(image); // on la place temporairement dans le dossier tmp
 
   var porfolioName = req.body.porfolio.name // récuperer le nom du porfolio créé , on suppose que le req.body récuper un object de la form { name : nom du porolio , listImages : [ urlImage1 , urlImage2... ]}
   var imageUrlListFront = req.body.porfolio.listImages // récuperer une table d'url d'images séléctionnées (photos dans le smartphone)
-  var listUrlImageCloudinary =[] // initialisation de la table d'URL des photos dans cloudinary
+  var listUrlImageCloudinary = [] // initialisation de la table d'URL des photos dans cloudinary
   var resultCloudinary
   var portfolio = {} // initialisation de l'object porfolio à pusher dans la bdd
 
   //var resultCopy = await req.files.avatar.mv(image);
-  if(imageUrlListFront.length>0) {
-    imageUrlListFront.map(async (image)=> {
+  if (imageUrlListFront.length > 0) {
+    imageUrlListFront.map(async (image) => {
       resultCloudinary = await cloudinary.uploader.upload(image);// envoie de l'URL de l'image selectionnées au cloud
       listUrlImageCloudinary.push(resultCloudinary.url) // ajout de l'URL cloud de l'image dans le table (que l'on renvoie apres au front)
     }
 
     )
     res.json(listUrlImageCloudinary);  // envoie de la table des url cloud au front pour les afficher    
-    portfolio['title']=porfolioName;
-    portfolio['images']=listUrlImageCloudinary
+    portfolio['title'] = porfolioName;
+    portfolio['images'] = listUrlImageCloudinary
 
   } else {
-    res.json({error: resultCopy});
+    res.json({ error: resultCopy });
   }
 
   //fs.unlinkSync(image); // suppression de la photo du dossier tmp
 
   await userModel.updateOne(
     { token: req.body.token },
-    { $push: {portfolio : portfolio} })
+    { $push: { portfolio: portfolio } })
 
-    var test = await userModel.findOne({token:req.body.token})
-  
-  console.log( 'resultat cloud' , resultCloudinary);
-  console.log('req.body.token',req.body.token)
-  console.log('test',test)
-  
- });
+  var test = await userModel.findOne({ token: req.body.token })
+
+  console.log('resultat cloud', resultCloudinary);
+  console.log('req.body.token', req.body.token)
+  console.log('test', test)
+
+});
 
 
 router.post('/search_casting', async function (req, res, next) {
@@ -242,23 +246,31 @@ router.post('/search_casting', async function (req, res, next) {
   let user = await userModel.findOne({ token: req.body.token });
 
   // console.log('UTILISATEUR : ' + user)
-  // Calculer age utilisateur
-  function getAge(dateString) {
-    var ageInMilliseconds = new Date() - new Date(dateString);
-    return Math.floor(ageInMilliseconds/1000/60/60/24/365); // convert to years
- }
- 
- let birthage = '1990-05-16T13:48:53.168+00:00'
- console.log(getAge(birthage));
 
-  let matchingProjects = await projectModel.find(
+  function getAge(dateString) {
+    let ageInMilliseconds = new Date() - new Date(dateString);
+    return Math.floor(ageInMilliseconds / 1000 / 60 / 60 / 24 / 365); // convert to years
+  }
+
+  let userAge = getAge(user.date_of_birth);
+  console.log('AGE', userAge);
+
+  let projects = await projectModel.find(
     { gender: user.gender, localisation: user.city }
   )
 
-  console.log('REPONSE : ', matchingProjects)
-  // age_range: { age_min: { $lt: user.age }, age_max: { $gt: user.age } }
+  console.log('PROJETS', projects);
 
-  res.json( {matchingProjects} )
+  let matchingProjects = projects.filter(e => e.age_min < userAge);
+
+  // age_min: { $gt: userAge }, age_max: { $lt: userAge }
+  // console.log(user.gender);
+  // console.log(user.city);
+  // console.log(typeof(userAge));
+  console.log('MATCHING PROJECTS :', matchingProjects);
+
+  res.json({ matchingProjects })
+
 
 })
 

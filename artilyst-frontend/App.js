@@ -41,7 +41,7 @@ import LikesScreen from './screens/LikesScreen';
 // profil
 import ProfilScreen from './screens/profile/ProfilScreen';
 import ProfileEditScreen from './screens/profile/ProfileEditScreen';
-import AllMyPictures from './screens/profile/AllMyPicturesScreen';
+import AllMyProfilePicturesScreen from './screens/profile/AllMyProfilePicturesScreen'
 
 // messagerie
 import MessagesScreen from './screens/MessagesScreen';
@@ -125,7 +125,7 @@ function PagesStacks() {
         <TabNavigator.Screen name="CreationAnnonceScreen" component={CreationAnnonceScreen}  options={{  tabBarButton: () => null }}/>
         <TabNavigator.Screen name="ArtisteCorrespondantScreen" component={ArtisteCorrespondantScreen}  options={{ tabBarButton: () => null }}/>
 
-        <TabNavigator.Screen name="AllMyPictures" component={AllMyPictures}  options={{ tabBarButton: () => null }}/>
+        <TabNavigator.Screen name="AllMyProfilePicturesScreen" component={AllMyProfilePicturesScreen}  options={{ tabBarButton: () => null }}/>
 
       </TabNavigator.Navigator>
 
