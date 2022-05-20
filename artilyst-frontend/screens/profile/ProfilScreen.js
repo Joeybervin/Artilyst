@@ -1,15 +1,9 @@
 import Animated from 'react-native-reanimated';
 
 import React, { useRef, useState, useEffect } from 'react';
-<<<<<<< HEAD
-<<<<<<< HEAD
-import { expoUrlMustafa } from '../../ExpoUrl';
-=======
+
 import { expoUrlJoey } from '../../ExpoUrl';
->>>>>>> 404a5bb3849f5acaf68e8f26712a250ecbc016bf
-=======
-import { expoUrlBertin } from '../../ExpoUrl';
->>>>>>> bertin
+
 
 //^ Module de balise
 import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity } from 'react-native';
@@ -23,12 +17,9 @@ import Swiper from 'react-native-swiper'
 import { connect } from 'react-redux';
 
 import BottomSheet from 'reanimated-bottom-sheet';
-<<<<<<< HEAD
+
 import { Entypo } from '@expo/vector-icons';
 
-
-=======
->>>>>>> 404a5bb3849f5acaf68e8f26712a250ecbc016bf
 import * as ImagePicker from "expo-image-picker";
 
 
@@ -37,16 +28,18 @@ function ProfilScreen(props) {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
+
+
+    const [user, setUser] = useState(props.user)
+
     const [image, setImage] = useState(null);
     const [hasPermission, setHasPermission] = useState(false);
-<<<<<<< HEAD
-    const [userData, setUserData] = useState({})
+
     const [modalVisible, setModalVisible] = useState(false);
-=======
-    const [user, setUser0] = useState(props.user)
+
     const [pickedImagePath, setPickedImagePath] = useState("")
 
->>>>>>> 404a5bb3849f5acaf68e8f26712a250ecbc016bf
+
 
     /* VARIABLES */
     let sheetRef = React.useRef(null);
@@ -55,25 +48,22 @@ function ProfilScreen(props) {
 
 
 
+
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
 
     // Récupérer infos du profil utilisateur
-<<<<<<< HEAD
+
     useEffect(() => {
         async function loadData() {
-<<<<<<< HEAD
-            const rawResponse = await fetch(`http:${expoUrlMustafa}/user_profile`, {
-=======
-            const rawResponse = await fetch(`http:${expoUrlBertin}/user_profile`, {
->>>>>>> bertin
+
+            const rawResponse = await fetch(`http:${expoUrlJoey}/user_profile`, {
+
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `token=${informations.user_token}`
             })
             let response = await rawResponse.json();
-=======
->>>>>>> 404a5bb3849f5acaf68e8f26712a250ecbc016bf
 
 
 
@@ -91,7 +81,7 @@ function ProfilScreen(props) {
         }
 
         // const result = await ImagePicker.launchImageLibraryAsync();
-        let result = await ImagePicker.launchImageLibraryAsync({
+        const MediaLibraryResult = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
 
@@ -100,15 +90,48 @@ function ProfilScreen(props) {
         });
 
         // Explore the result
-   
 
-        console.log(result.uri)
-        setPickedImagePath(result.uri);
+        if (!MediaLibraryResult.cancelled) {
 
-      
+            if (MediaLibraryResult.uri) {
+
+            data.append(
+                'image_uploaded', {
+                uri: MediaLibraryResult.uri,
+                type: 'image/jpeg',
+                name: user.token, // ! A CORRIGER
+                
+            });
+         
+            props.navigation.navigate('AllMyProfilePicturesScreen')
+
+            let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_photo_profil`,
+             {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'multipart/form-data; ',
+                  },
+                body: data , 
+            })
+            let result = await data_uploaded.json()
+
+            props.addPictures(result.url, user)
+            user.profile_photo.push(result.url)
+
+           
+
+            let copyUserInfos = {...props.user}
+            setUser(copyUserInfos)
+            console.log("JE SUIS PASSE PAR ICI !!!!!!!")
+            
+            
+            }
+        }
+
+        
     }
 
-
+    /* Pour ouvrir la camera de l'utilisateur prendre une photo et la rajouter (database + reducer  => profil) */
     const openCamera = async () => {
         // Ask the user for the permission to access the camera
         const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
@@ -118,27 +141,23 @@ function ProfilScreen(props) {
             return;
         }
 
-        const result = await ImagePicker.launchCameraAsync();
+        const resultCamera = await ImagePicker.launchCameraAsync();
 
-        setPickedImagePath(result.uri);
         
-        console.log(pickedImagePath)
+        if (!resultCamera.cancelled) {
 
+            if (resultCamera.uri) {
 
-        if (!result.cancelled) {
-
-            if (pickedImagePath) {
-
-          
             data.append(
                 'image_uploaded', {
-                uri: pickedImagePath,
+                uri: resultCamera.uri,
                 type: 'image/jpeg',
                 name: user.token, // ! A CORRIGER
                 
             });
-            console.log( "DATA : ", data)
-
+ 
+            props.navigation.navigate('AllMyProfilePicturesScreen')
+            
             let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_photo_profil`,
              {
                 method: 'post',
@@ -150,7 +169,10 @@ function ProfilScreen(props) {
 
             let result = await data_uploaded.json()
             props.addPictures(result.url, user)
-            
+
+            let copyUserInfos = {...props.user}
+            setUser(copyUserInfos)
+            props.navigation.navigate('AllMyProfilePicturesScreen')
             }
         }
     }
@@ -197,21 +219,7 @@ function ProfilScreen(props) {
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
 
-<<<<<<< HEAD
-    // let myimages = userData.profile_photo.map((element, index) => {
-    //     return (
 
-    //         <Image
-    //             key={index}
-    //             source={{ uri: element }}
-    //             style={styles.image}
-                
-    //         />
-    //     )
-    // })
-
-  
-=======
     const userPhotos = user.profile_photo.map((element, index) => {
         return (
             <View key={index} style={{ width: "100%", height: "100%", borderRadius: 10, alignItems: "center" }}>
@@ -223,12 +231,12 @@ function ProfilScreen(props) {
             </View>
         )
     })
->>>>>>> 404a5bb3849f5acaf68e8f26712a250ecbc016bf
+
 
 
     // * ___________________________ PAGE ___________________________
 
-<<<<<<< HEAD
+
     const renderInner = () => (
         <View style={styles.panel}>
           <View style={{alignItems: 'center'}}>
@@ -257,29 +265,11 @@ function ProfilScreen(props) {
         </View>
      ) ;
 
-=======
->>>>>>> 404a5bb3849f5acaf68e8f26712a250ecbc016bf
+
     return (
 
         <ScrollView style={styles.container}>
 
-<<<<<<< HEAD
-       <BottomSheet
-        ref={sheetRef}
-        snapPoints={[330, 0]}
-        renderContent={renderInner}
-        renderHeader={renderHeader}
-        initialSnap={1}
-        callBackNode={fall}
-        enabledContentGestureInteraction={true}
-        // borderRadius={10}
-        // renderContent={renderContent}
-      />
-
-
-        <ScrollView style={styles.containerJoey}>
-                <Text>ProfilScreen</Text>
-=======
             <BottomSheet
                 ref={sheetRef}
                 snapPoints={[400, 0]}
@@ -292,26 +282,19 @@ function ProfilScreen(props) {
             />
 
 
->>>>>>> 404a5bb3849f5acaf68e8f26712a250ecbc016bf
-
             <View style={styles.mainContainer}>
 
                 {/* -------- CARROUSEL D'IMAGES --------  */}
                 <View style={styles.swipperContainer}>
                     <Swiper style={styles.wrapper} showsButtons={false} activeDotColor="white" dotColor='rgba(0,0,0,.6)' showsHorizontalScrollIndicator={true}>
-<<<<<<< HEAD
-                        {/* {myimages} */}
-                           
-                    </Swiper>
-                    <Entypo name="camera" size={24} color="black" onPress={() => setModalVisible(true)}/>
-=======
+
                         {userPhotos}
 
                     </Swiper>
                     <Ionicons style={{ position: 'absolute', bottom: 5, right: 25, padding: 15, borderRadius: 50 }}
                         name={user.profile_photo.lenght === 0 ? 'images' : "camera-outline"} color="#ffffff" size={30}
                         onPress={() => sheetRef.current.snapTo(0)} />
->>>>>>> 404a5bb3849f5acaf68e8f26712a250ecbc016bf
+
                 </View>
 
 
@@ -372,29 +355,13 @@ function ProfilScreen(props) {
 
                 </View>
 
-<<<<<<< HEAD
-            
 
-            <Text>User token : {informations.user_token}</Text>
-<<<<<<< HEAD
-
-         
-       
-      </ScrollView>
+        
 
       </View>
       </ScrollView>
-=======
-            </View>
-        </ScrollView>
->>>>>>> 404a5bb3849f5acaf68e8f26712a250ecbc016bf
-=======
+     
        
-</ScrollView>
-</View>
-</ScrollView>
-
->>>>>>> bertin
     );
 }
 
@@ -540,7 +507,7 @@ function mapDispatchToProps(dispatch) {
             dispatch({ type: 'addInfosToUser', user })
         },
         addPictures: function (photoUrl, user) {
-            dispatch({ type: 'addPictures', photoUrl : photoUrl, user : user })
+            dispatch({ type: 'addPictures', photoUrl , user })
         }
     }
 }
