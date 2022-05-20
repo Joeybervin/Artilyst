@@ -27,11 +27,14 @@ function ProfilScreen(props) {
     const [image, setImage] = useState(null);
     const [hasPermission, setHasPermission] = useState(false);
     const [user, setUser0] = useState(props.user)
+    const [pickedImagePath, setPickedImagePath] = useState("")
 
 
     /* VARIABLES */
     let sheetRef = React.useRef(null);
     let fall = new Animated.Value(1);
+    let data = new FormData();
+
 
 
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
@@ -40,12 +43,12 @@ function ProfilScreen(props) {
     // Récupérer infos du profil utilisateur
 
 
-   console.log("PROPS : " ,user)
+
 
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
 
-      const showImagePicker = async () => {
+    const showImagePicker = async () => {
         // Ask the user for the permission to access the media library 
         const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -64,13 +67,14 @@ function ProfilScreen(props) {
         });
 
         // Explore the result
-        console.log(result);
+   
 
-        if (!result.cancelled) {
-            setPickedImagePath(result.uri);
-            console.log(result.uri);
-        }
+        console.log(result.uri)
+        setPickedImagePath(result.uri);
+
+      
     }
+
 
     const openCamera = async () => {
         // Ask the user for the permission to access the camera
@@ -83,12 +87,38 @@ function ProfilScreen(props) {
 
         const result = await ImagePicker.launchCameraAsync();
 
-        // Explore the result
-        console.log(result);
+        setPickedImagePath(result.uri);
+        
+        console.log(pickedImagePath)
+
 
         if (!result.cancelled) {
-            setPickedImagePath(result.uri);
-            console.log(result.uri);
+
+            if (pickedImagePath) {
+
+          
+            data.append(
+                'image_uploaded', {
+                uri: pickedImagePath,
+                type: 'image/jpeg',
+                name: user.token, // ! A CORRIGER
+                
+            });
+            console.log( "DATA : ", data)
+
+            let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_photo_profil`,
+             {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'multipart/form-data; ',
+                  },
+                body: data , 
+            })
+
+            let result = await data_uploaded.json()
+            props.addPictures(result.url, user)
+            
+            }
         }
     }
 
@@ -123,121 +153,119 @@ function ProfilScreen(props) {
     const genderIcon = (gender) => { //pour montrer le logo correspondant au sexe de l'utilisateur
         if (gender === 'femme') {
             return "female-outline"
-                }
+        }
         else if (gender === 'male') {
             return "male-outline"
         } else {
             return "male-female-outline"
         }
     }
- 
+
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
 
-     const userPhotos = user.profile_photo.map((element, index) => {
-                            return (
-                                <View key={index} style={{ width: "100%", height: "100%", borderRadius : 10, alignItems: "center" }}>
-                                <Image
-                                style={{width: Dimensions.get('screen').width - 20, resizeMode: 'cover', height: 350, borderRadius: 25, }}
-                                    key={index}
-                                    source={{ uri: element }}
-                                    
-                                />
-                                 
-                                </View>
-                            )
-                        }) 
+    const userPhotos = user.profile_photo.map((element, index) => {
+        return (
+            <View key={index} style={{ width: "100%", height: "100%", borderRadius: 10, alignItems: "center" }}>
+                <Image
+                    style={{ width: Dimensions.get('screen').width - 20, resizeMode: 'cover', height: 350, borderRadius: 25, }}
+                    key={index}
+                    source={{ uri: element }}
+                />
+            </View>
+        )
+    })
 
 
     // * ___________________________ PAGE ___________________________
 
     return (
-        
+
         <ScrollView style={styles.container}>
 
-                <BottomSheet
-                    ref={sheetRef}
-                    snapPoints={[400, 0]}
-                    renderContent={renderInner}
-                    renderHeader={renderHeader}
-                    initialSnap={1}
-                    callBackNode={fall}
-                    enabledContentGestureInteraction={true}
-                    borderRadius={10}
-                /> 
+            <BottomSheet
+                ref={sheetRef}
+                snapPoints={[400, 0]}
+                renderContent={renderInner}
+                renderHeader={renderHeader}
+                initialSnap={1}
+                callBackNode={fall}
+                enabledContentGestureInteraction={true}
+                borderRadius={10}
+            />
 
 
 
-              <View style={styles.mainContainer}>
+            <View style={styles.mainContainer}>
 
-            {/* -------- CARROUSEL D'IMAGES --------  */}
-            <View style={styles.swipperContainer}>
-                <Swiper style={styles.wrapper} showsButtons={false} activeDotColor="white" dotColor='rgba(0,0,0,.6)' showsHorizontalScrollIndicator={true}>
-                    {userPhotos} 
-                    
-                </Swiper>
-                <Ionicons style={{ position: 'absolute', bottom: 5, right: 25, padding : 15 , borderRadius : 50 }}
-                                name={user.profile_photo.lenght === 0 ? 'images' : "camera-outline"} color="#ffffff" size={30}
-                                onPress={() => sheetRef.current.snapTo(0)}/>
-            </View>
+                {/* -------- CARROUSEL D'IMAGES --------  */}
+                <View style={styles.swipperContainer}>
+                    <Swiper style={styles.wrapper} showsButtons={false} activeDotColor="white" dotColor='rgba(0,0,0,.6)' showsHorizontalScrollIndicator={true}>
+                        {userPhotos}
 
-                    
-            {/* -------- BOUTONS --------  */}
-            <View style={{ flexDirection: 'row',justifyContent: "space-around", alignItems : "center", marginBottom: 15, backgroundColor : '#33333341', width :"100%"}} >
-                <Button
-                    title="Portfolio"
-                    titleStyle={{paddingHorizontal : 30}}
-                    buttonStyle={{borderRadius: 8, backgroundColor: "#333333", color: "black"}}
-                />
-                <Button
-                    title="Modifier profil"
-                    titleStyle={{paddingHorizontal : 25}}
-                    buttonStyle={{borderRadius: 8, backgroundColor: "#333333", color: "black"}}
-                    onPress={() => {
-                        props.getAllUserInformations(user)
-                        props.navigation.navigate('ProfileEditScreen')
-                    }}
-                />
-            </View>
-
-
-            {/* -------- INFORMATIONS --------  */}
-            <View style={styles.firstInformations} >
-                <Text h5 style={{ fontWeight: "bold", marginRight: 35, fontSize: 20 }}>{user.name}
-                <Ionicons name={genderIcon(user.gender)} size={19} color='black' />
-                </Text>
-                <View style={styles.location}>
-                    <Ionicons name={'location-sharp'} size={24} color='black' />
-                    <Text h5 style={{ fontSize: 20, marginLeft: 10 }}>{user.city}</Text>
+                    </Swiper>
+                    <Ionicons style={{ position: 'absolute', bottom: 5, right: 25, padding: 15, borderRadius: 50 }}
+                        name={user.profile_photo.lenght === 0 ? 'images' : "camera-outline"} color="#ffffff" size={30}
+                        onPress={() => sheetRef.current.snapTo(0)} />
                 </View>
-            </View>
 
-            
-            {/* -------- CATEGORIE --------  */}
-            <View style={styles.occupationContainer}>
-                <Text style={styles.occupationText}>{user.occupation}</Text>
-            </View>
 
-            {/* -------- ABOUT --------  */}
-            <View style={{marginBottom: 25}}>
-                <Text style={{ fontWeight: "bold", marginBottom : 10}}>À propos de moi :</Text>
-                <Text>{user.description}</Text>
-            </View>
+                {/* -------- BOUTONS --------  */}
+                <View style={{ flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginBottom: 15, backgroundColor: '#33333341', width: "100%" }} >
+                    <Button
+                        title="Portfolio"
+                        titleStyle={{ paddingHorizontal: 30 }}
+                        buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
+                    />
+                    <Button
+                        title="Modifier profil"
+                        titleStyle={{ paddingHorizontal: 25 }}
+                        buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
+                        onPress={() => {
+                            props.getAllUserInformations(user)
+                            props.navigation.navigate('ProfileEditScreen')
+                        }}
+                    />
+                </View>
 
-            
-            {/* -------- USER CARACTERISTICS --------  */}
-            <View style={styles.caracteristicsContainer}>
-                <Text>couleur des yeux : {user.user_caracteristics.eyes}</Text>
-                <Text>Ethnie : {user.user_caracteristics.ethnie}</Text>
 
-                <Text>Corpulence : {user.user_caracteristics.corpulence}</Text>
-                <Text>Taille : {user.user_caracteristics.height}cm  Poids : {user.user_caracteristics.weight}kg</Text>
-                {/* Mensuration */}
-                <Text>Mensurations :</Text>
-                <Text>taille : {user.user_caracteristics.measurments.waist} cm  -  poitrine : {user.user_caracteristics.measurments.bust} cm</Text>
-                <Text></Text>
+                {/* -------- INFORMATIONS --------  */}
+                <View style={styles.firstInformations} >
+                    <Text h5 style={{ fontWeight: "bold", marginRight: 35, fontSize: 20 }}>{user.name}
+                        <Ionicons name={genderIcon(user.gender)} size={19} color='black' />
+                    </Text>
+                    <View style={styles.location}>
+                        <Ionicons name={'location-sharp'} size={24} color='black' />
+                        <Text h5 style={{ fontSize: 20, marginLeft: 10 }}>{user.city}</Text>
+                    </View>
+                </View>
 
-            </View>
+
+                {/* -------- CATEGORIE --------  */}
+                <View style={styles.occupationContainer}>
+                    <Text style={styles.occupationText}>{user.occupation}</Text>
+                </View>
+
+                {/* -------- ABOUT --------  */}
+                <View style={{ marginBottom: 25 }}>
+                    <Text style={{ fontWeight: "bold", marginBottom: 10 }}>À propos de moi :</Text>
+                    <Text>{user.description}</Text>
+                </View>
+
+
+                {/* -------- USER CARACTERISTICS --------  */}
+                <View style={styles.caracteristicsContainer}>
+                    <Text>couleur des yeux : {user.user_caracteristics.eyes}</Text>
+                    <Text>Ethnie : {user.user_caracteristics.ethnie}</Text>
+
+                    <Text>Corpulence : {user.user_caracteristics.corpulence}</Text>
+                    <Text>Taille : {user.user_caracteristics.height}cm  Poids : {user.user_caracteristics.weight}kg</Text>
+                    {/* Mensuration */}
+                    <Text>Mensurations :</Text>
+                    <Text>taille : {user.user_caracteristics.measurments.waist} cm  -  poitrine : {user.user_caracteristics.measurments.bust} cm</Text>
+                    <Text></Text>
+
+                </View>
 
             </View>
         </ScrollView>
@@ -247,12 +275,12 @@ function ProfilScreen(props) {
 // * ___________________________ STYLES ___________________________
 
 const styles = StyleSheet.create({
-    container : {
-        flex : 1
-      
+    container: {
+        flex: 1
+
     },
     mainContainer: {
-        marginTop : 10,
+        marginTop: 10,
         justifyContent: 'center',
         alignItems: "center",
     },
@@ -260,7 +288,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 10
     },
     swipperContainer: {
-        width : "100%",
+        width: "100%",
         height: 350,
         marginBottom: 15
     },
@@ -273,7 +301,7 @@ const styles = StyleSheet.create({
         marginLeft: 10
     },
     occupationContainer: {
-        backgroundColor : '#6E6E6E',
+        backgroundColor: '#6E6E6E',
         borderRadius: 5,
         width: "70%",
         alignItems: 'center',
@@ -297,14 +325,14 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     panel: {
-        height : 400,
+        height: 400,
         padding: 20,
         backgroundColor: '#FFFFFF',
         paddingTop: 20,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         shadowColor: '#000000',
-        shadowOffset: {width: 0, height: 0},
+        shadowOffset: { width: 0, height: 0 },
         shadowRadius: 5,
         shadowOpacity: 0.4,
     },
@@ -384,7 +412,9 @@ function mapDispatchToProps(dispatch) {
     return {
         getAllUserInformations: function (user) {
             dispatch({ type: 'addInfosToUser', user })
-
+        },
+        addPictures: function (photoUrl, user) {
+            dispatch({ type: 'addPictures', photoUrl : photoUrl, user : user })
         }
     }
 }

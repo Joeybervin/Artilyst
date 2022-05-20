@@ -1,7 +1,6 @@
 
 export default function( userInfos = {}, action) {
     if(action.type === "userConnection") {
-        console.log("REDUCER 1  : ",action.user)
         return {...action.user}
         
     }
@@ -9,12 +8,20 @@ export default function( userInfos = {}, action) {
         
         let newUserInfos = action.userData
         newUserInfos['allInfos'] = action.userData
-        console.log(newUserInfos)
-
         return newUserInfos
     }
+    else if (action.type === "addPictures") {
+        
+        let newProfilePhoto = action.photoUrl // STRING : récupération de l'url cloudinary de la photo
+        let user = action.user // réception dees infos de l'utilisateur
+
+        user.profile_photo.push(newProfilePhoto) // Ajout de l'url de la photo aux infos de l'utilisateur
+        console.log(user)
+        return user
+
+       
+    }
     else {
-        console.log("REDUCER 2 : ",userInfos)
         return userInfos;
     }
 }
