@@ -140,8 +140,8 @@ router.post('/project', async function (req, res, next) {
     remuneration: projectInfos.remuneration,
     photos: '',
     users_selected: projectInfos.userstable, // table de tokens des users selectionnées
-
-    age_range: { age_min: projectInfos.ageMin, age_max: projectInfos.ageMax },
+    age_min:projectInfos.ageMin,
+    age_max: projectInfos.ageMax,
     collaborators_caracteristics: {},
     localisation: projectInfos.location,
 
@@ -206,8 +206,8 @@ router.post('/add_portfolio', async function (req, res, next) {
 
   var porfolioName = req.body.porfolio.name // récuperer le nom du porfolio créé , on suppose que le req.body récuper un object de la form { name : nom du porolio , listImages : [ urlImage1 , urlImage2... ]}
   var imageUrlListFront = req.body.porfolio.listImages // récuperer une table d'url d'images séléctionnées (photos dans le smartphone)
-  var listUrlImageCloudinary = [] // initialisation de la table d'URL des photos dans cloudinary
-  var resultCloudinary
+  var listUrlImageCloudinary =[] // initialisation de la table d'URL des photos dans cloudinary
+  var resultCloudinary=''
   var portfolio = {} // initialisation de l'object porfolio à pusher dans la bdd
 
   //var resultCopy = await req.files.avatar.mv(image);
@@ -271,6 +271,45 @@ router.post('/search_casting', async function (req, res, next) {
 
   res.json({ matchingProjects })
 
+
+})
+
+router.post('/postuler', async function (req, res, next) {
+
+  var id_Projet_Selected = req.body.projectId
+  var userSelected = req.body.userSelected //table de id des users selectionnés par le rectruteur (dans la table project)
+  var match = false // le false est juste pour tester, ensuite on définira une condition pour vérifier le match (true/false)
+  var token = req.body.token
+
+  var user = await userModel.findOne({token:token}) // on recherche le user connecté pour récuperer son id et comparer pour le match
+  
+  const idProjectExist = user.projects_selected.find(id=> id.idProject===id_Projet_Selected) // vérifier si le projet a déja été séléctionné ou pas 
+ 
+  //console.log("id_Projet_Selected",id_Projet_Selected)
+  // console.log(token)
+  console.log("userSelected",userSelected)
+  //console.log(user)
+  //console.log("user.projects_selected",user.projects_selected)
+  //console.log("idProjectExist",idProjectExist)
+
+  if(!idProjectExist){
+    const matchVerify = userSelected.find(id => id==user._id);
+  console.log(matchVerify)
+  if(matchVerify){
+  match = true
+  }
+  console.log("matchVerify",matchVerify)
+
+  await userModel.updateOne(
+    { token: token },
+    { $push: { projects_selected:{idProject: id_Projet_Selected , match:match } } }
+  )
+
+  res.json( {already:false , saveProjectSelected : true } )
+  }
+  else {
+    res.json( {already:true} )
+  }
 
 })
 

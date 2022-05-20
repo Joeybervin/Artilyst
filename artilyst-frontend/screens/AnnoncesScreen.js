@@ -13,7 +13,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 // ^ Icon
 import { Ionicons } from '@expo/vector-icons';
 
-import { expoUrlJoey, expoUrlRaf } from '../ExpoUrl';
+import { expoUrlMustafa } from '../ExpoUrl';
 
 import { connect } from 'react-redux';
 
@@ -53,19 +53,34 @@ function AnnoncesScreen(props) {
     // Réception des casting filtrés pour l'utilisateur
     useEffect(() => {
         async function loadCasting() {
-            var rawResponse = await fetch(`http://${expoUrlRaf}/search_casting`, {
+            var rawResponse = await fetch(`http://${expoUrlMustafa}/search_casting`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.user.token}`
             })
             let response = await rawResponse.json();
             setMatchingCasting(response.matchingProjects)
+            console.log("reponse",response.matchingProjects)
         }
         loadCasting();
     }, []);
 
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
+//*********** envoyer les infos necessaires au match au backen  */
+  
+  const Postuler = async (id , users) =>{
+        var rawResponse = await fetch(`http://${expoUrlMustafa}/postuler`, {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({token : informations.user_token , projectId:id, userSelected:users }),
+            
+        })
+        console.log("users",users)
+        let response = await rawResponse.json();
+
+
+    }
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
 
     /* MAP */
@@ -78,7 +93,8 @@ function AnnoncesScreen(props) {
 
     if (isPaid) {
         myTab = myTab.filter(e => e.remuneration == true)
-    }
+    } 
+    
 
 
     let castingDisplay = myTab.map((casting, i) => {
@@ -100,7 +116,7 @@ function AnnoncesScreen(props) {
                     <Button
                         color='#1ADBAC'
                         buttonStyle={{ backgroundcolor: '#1ADBAC' }}
-                        title="postuler" />
+                        title="postuler" onPress={()=>Postuler(casting._id , casting.users_selected)}/>
                 </View>
 
             </View>
