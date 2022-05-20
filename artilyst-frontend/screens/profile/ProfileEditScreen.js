@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // & import des urls de chacune
-<<<<<<< HEAD
-import { expoUrlMustafa } from '../../ExpoUrl';
-=======
-import { expoUrlBertin } from '../../ExpoUrl';
->>>>>>> bertin
+import { expoUrlJoey } from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
@@ -71,11 +67,7 @@ function ProfileEditScreen(props) {
 
     // Update du profil dans la bdd
     async function updateUserProfile() {
-<<<<<<< HEAD
         const rawResponse = await fetch(`http://${expoUrlMustafa}/update_user_profile`, {
-=======
-        const rawResponse = await fetch(`http://${expoUrlBertin}/update_user_profile`, {
->>>>>>> bertin
             method: 'PUT',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

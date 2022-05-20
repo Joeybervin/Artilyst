@@ -54,19 +54,6 @@ function ProfilScreen(props) {
 
     // Récupérer infos du profil utilisateur
 
-    useEffect(() => {
-        async function loadData() {
-
-            const rawResponse = await fetch(`http:${expoUrlJoey}/user_profile`, {
-
-                method: 'POST',
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `token=${informations.user_token}`
-            })
-            let response = await rawResponse.json();
-
-
-
 
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
@@ -236,34 +223,6 @@ function ProfilScreen(props) {
 
     // * ___________________________ PAGE ___________________________
 
-
-    const renderInner = () => (
-        <View style={styles.panel}>
-          <View style={{alignItems: 'center'}}>
-            <Text style={styles.panelTitle}>Upload Photo</Text>
-            <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
-          </View>
-          <TouchableOpacity style={styles.panelButton} onPress={openCamera}>
-            <Text style={styles.panelButtonTitle}>Take Photo</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.panelButton} onPress={showImagePicker}>
-            <Text style={styles.panelButtonTitle}>Choose From Library</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.panelButton}
-            onPress={() => sheetRef.current.snapTo(1)}>
-            <Text style={styles.panelButtonTitle}>Cancel</Text>
-          </TouchableOpacity>
-        </View>
-    );
-    
-    const renderHeader = () => (
-        <View style={styles.header}>
-          <View style={styles.panelHeader}>
-            <View style={styles.panelHandle} />
-          </View>
-        </View>
-     ) ;
 
 
     return (
