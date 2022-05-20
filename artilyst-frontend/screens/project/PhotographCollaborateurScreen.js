@@ -20,8 +20,10 @@ export default function PhotographCollaborateurScreen(props) {
     /* VARIABLES D'ÉTAT  */
     const [gender , setGender]=useState('');
     const [ville,setVille]=useState('');
-    const [ageMin , setAgeMin ]=useState('');
-    const [ageMax , setAgeMax ]=useState('');
+    const [ageMin , setAgeMin ]=useState(0);
+    const [ageMax , setAgeMax ]=useState(0);
+   
+    
     /* VARIABLES */
     var Gender = gender;
     var ParamsProject1 = props.route.params;
@@ -103,41 +105,94 @@ export default function PhotographCollaborateurScreen(props) {
             />
         </View>
 
-        <View style={{width: '92%', flexDirection: 'row', alignItems: 'center' }}>
-        <Text>Age min</Text>
-            <Input
-                onChangeText={setAgeMin} value={ageMin}
-                //errorMessage={emailError}
-            />
-        </View>
-
-        <View style={{ width: '92%',flexDirection: 'row', alignItems: 'center' }}>
-
-        <Text>Age max</Text>
-            <Input
-                onChangeText={setAgeMax} value={ageMax}
-                //errorMessage={emailError}
-            />
-        </View>
+       
             
 
-        </View>
+        
 
-            <View>
-    
-            </View>
+            
 
-            <Text> Age</Text>
-            <View>
+          
+                    <View style={{ alignItems: 'center' }} >
+                        <Slider
+                            animateTransitions
+                            animationType="timing"
+                            maximumTrackTintColor="#ccc"
+                            maximumValue={100}
+                            minimumTrackTintColor="#222"
+                            minimumValue={18}
+                            onSlidingComplete={() =>
+                                console.log("onSlidingComplete()")
+                            }
+                            onSlidingStart={() =>
+                                console.log("onSlidingStart()")
+                            }
+                            onValueChange={value => {
+                                setAgeMin(value)
+                                console.log("onValueChange()", value)
+                            }
+                            }
+                            orientation="horizontal"
+                            step={1}
+                            style={{ width: "80%", height: 80 }}
+                            thumbStyle={{ height: 20, width: 20 }}
+                            thumbTintColor="#0c0"
+                            thumbTouchSize={{ width: 40, height: 40 }}
+                            trackStyle={{ height: 10, borderRadius: 20 }}
+                            value={0}
+                        />
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text >Age Minimum : </Text>
+                            <Text style={{ color: 'green' }}>
+                                {ageMin} an
+                            </Text>
+                     
+                        </View>
+                        
+                    </View>
 
+                    <View style={{ alignItems: 'center' }} >
+                        <Slider
+                            animateTransitions
+                            animationType="timing"
+                            maximumTrackTintColor="#ccc"
+                            maximumValue={100}
+                            minimumTrackTintColor="#222"
+                            minimumValue={18}
+                            onSlidingComplete={() =>
+                                console.log("onSlidingComplete()")
+                            }
+                            onSlidingStart={() =>
+                                console.log("onSlidingStart()")
+                            }
+                            onValueChange={value => {
+                                setAgeMax(value)
+                                console.log("onValueChange()", value)
+                            }
+                            }
+                            orientation="horizontal"
+                            step={1}
+                            style={{ width: "80%", height: 80 }}
+                            thumbStyle={{ height: 20, width: 20 }}
+                            thumbTintColor="#0c0"
+                            thumbTouchSize={{ width: 40, height: 40 }}
+                            trackStyle={{ height: 10, borderRadius: 20 }}
+                            value={100}
+                        />
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text >Age Maximum : </Text>
+                            <Text style={{ color: 'green' }}>
+                                {ageMax} an
+                            </Text>
+                     
+                        </View>
+                        
+                    </View>
+           
+          
 
-                <Slider
-                    style={{ width: 350, height: 40 }}
-                    minimumValue={0}
-                    maximumValue={1}
-                    minimumTrackTintColor="black"
-                    maximumTrackTintColor="black"
-                />
+           
+          
 
             </View>
 

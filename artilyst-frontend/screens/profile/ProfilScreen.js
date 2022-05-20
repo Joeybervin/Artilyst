@@ -1,26 +1,41 @@
 
+import Animated from 'react-native-reanimated';
+
 import React, { useRef, useState, useEffect } from 'react';
 import { expoUrlMustafa } from '../../ExpoUrl';
 
 //^ Module de balise
-import { Dimensions, StyleSheet, View, Image, ScrollView,Animated } from 'react-native';
+import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { Text, Button } from '@rneui/base';
 //^ module bonus (icons)
 import { Ionicons } from '@expo/vector-icons';
 // ^ Carousel
 import Swiper from 'react-native-swiper'
+
 // ^Redux
 import { connect } from 'react-redux';
 
+import BottomSheet from 'reanimated-bottom-sheet';
+import { Entypo } from '@expo/vector-icons';
+
+
+import * as ImagePicker from "expo-image-picker";
+
 
 function ProfilScreen(props) {
+    
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
+    const [image, setImage] = useState(null);
+    const [hasPermission, setHasPermission] = useState(false);
     const [userData, setUserData] = useState({})
     const [modalVisible, setModalVisible] = useState(false);
 
     /* VARIABLES */
+    let sheetRef = React.useRef(null);
+    var cameraRef = useRef(null);
+    let fall = new Animated.Value(1);
     let informations = props.user;
 
     const data = [
@@ -48,37 +63,129 @@ function ProfilScreen(props) {
         loadData();
     }, []);
 
+    const showImagePicker = async () => {
+        // Ask the user for the permission to access the media library 
+        const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    
+        if (permissionResult.granted === false) {
+          alert("You've refused to allow this appp to access your photos!");
+          return;
+        }
+    
+        // const result = await ImagePicker.launchImageLibraryAsync();
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            
+            aspect: [4, 3],
+            quality: 1,
+        });
+    
+        // Explore the result
+        console.log(result);
+    
+        if (!result.cancelled) {
+            setPickedImagePath(result.uri);
+            console.log(result.uri);
+        }
+    }
+
+    const openCamera = async () => {
+        // Ask the user for the permission to access the camera
+        const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+    
+        if (permissionResult.granted === false) {
+          alert("You've refused to allow this appp to access your camera!");
+          return;
+        }
+    
+        const result = await ImagePicker.launchCameraAsync();
+    
+        // Explore the result
+        console.log(result);
+    
+        if (!result.cancelled) {
+          setPickedImagePath(result.uri);
+          console.log(result.uri);
+        }
+    }
+
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
 
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
 
-    let myimages = userData.profile_photo.map((element, index) => {
-        return (
+    // let myimages = userData.profile_photo.map((element, index) => {
+    //     return (
 
-            <Image
-                key={index}
-                source={{ uri: element }}
-                style={styles.image}
+    //         <Image
+    //             key={index}
+    //             source={{ uri: element }}
+    //             style={styles.image}
                 
-            />
-        )
-    })
+    //         />
+    //     )
+    // })
+
+  
 
     // * ___________________________ PAGE ___________________________
 
-    const sheetRef = React.useRef(null);
+    const renderInner = () => (
+        <View style={styles.panel}>
+          <View style={{alignItems: 'center'}}>
+            <Text style={styles.panelTitle}>Upload Photo</Text>
+            <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
+          </View>
+          <TouchableOpacity style={styles.panelButton} onPress={openCamera}>
+            <Text style={styles.panelButtonTitle}>Take Photo</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.panelButton} onPress={showImagePicker}>
+            <Text style={styles.panelButtonTitle}>Choose From Library</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.panelButton}
+            onPress={() => sheetRef.current.snapTo(1)}>
+            <Text style={styles.panelButtonTitle}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
+    );
+    
+    const renderHeader = () => (
+        <View style={styles.header}>
+          <View style={styles.panelHeader}>
+            <View style={styles.panelHandle} />
+          </View>
+        </View>
+     ) ;
+
     return (
         <ScrollView style={styles.container}>
         <View style={styles.mainContainer}>
-            
-           
+
+
+       <BottomSheet
+        ref={sheetRef}
+        snapPoints={[330, 0]}
+        renderContent={renderInner}
+        renderHeader={renderHeader}
+        initialSnap={1}
+        callBackNode={fall}
+        enabledContentGestureInteraction={true}
+        // borderRadius={10}
+        // renderContent={renderContent}
+      />
+
+
+        <ScrollView style={styles.containerJoey}>
+                <Text>ProfilScreen</Text>
+
 
                 {/* -------- CARROUSEL D'IMAGES --------  */}
                 <View style={styles.swipperContainer}>
                     <Swiper style={styles.wrapper} showsButtons={false} activeDotColor="white" dotColor='rgba(0,0,0,.6)' showsHorizontalScrollIndicator={true}>
-                        {myimages}
+                        {/* {myimages} */}
                            
                     </Swiper>
                     <Entypo name="camera" size={24} color="black" onPress={() => setModalVisible(true)}/>
@@ -86,6 +193,12 @@ function ProfilScreen(props) {
 
                 {/* -------- BOUTONS --------  */}
                 <View style={styles.profileButtons} >
+                <Button
+                        title="+ photo"
+                        buttonStyle={{backgroundColor : '#1BAC87', width : 100}}
+                        containerStyle={styles.buttonContainer}
+                        onPress={() => sheetRef.current.snapTo(0)}
+                    />
                     <Button
                         title="Portfolio"
                         buttonStyle={styles.button}
@@ -124,9 +237,15 @@ function ProfilScreen(props) {
 
                 {/* -------- USER CARACTERISTICS --------  */}
                 <View style={styles.caracteristicsContainer}>
+
+                    <Text>{userData.gender}</Text>
+                    {/* <Text>{userData.user_caracteristics.height}</Text>
+                    <Text>{userData.user_caracteristics.weight}</Text>
+
                     <Text>sexe : {userData.gender}</Text>
                   {/*   <Text>{userData.user_caracteristics.height}</Text>
                     <Text>poids : {userData.weight}</Text>
+
                     <Text>{userData.user_caracteristics.corpulence}</Text> */}
                 </View>
 
@@ -135,8 +254,11 @@ function ProfilScreen(props) {
             <Text>User token : {informations.user_token}</Text>
 
          
-        </View>
-</ScrollView>
+       
+      </ScrollView>
+
+      </View>
+      </ScrollView>
     );
 }
 
@@ -147,7 +269,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
     },
-    container: {
+    containerJoey: {
         marginHorizontal: 10
     },
     swipperContainer: {
@@ -205,46 +327,90 @@ const styles = StyleSheet.create({
     caracteristicsContainer: {
         lineHeiight: 2
     },
-    centeredView: {
+    container: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 22
       },
-      modalView: {
-        margin: 20,
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 35,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-          width: 0,
-          height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5
+      commandButton: {
+        padding: 15,
+        borderRadius: 10,
+        backgroundColor: '#1ADBAC',
+        alignItems: 'center',
+        marginTop: 10,
       },
-      button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2
+      panel: {
+        padding: 20,
+        backgroundColor: '#FFFFFF',
+        paddingTop: 20,
+        // borderTopLeftRadius: 20,
+        // borderTopRightRadius: 20,
+        // shadowColor: '#000000',
+        // shadowOffset: {width: 0, height: 0},
+        // shadowRadius: 5,
+        // shadowOpacity: 0.4,
       },
-      buttonOpen: {
-        backgroundColor: "#F194FF",
+      header: {
+        backgroundColor: '#FFFFFF',
+        shadowColor: '#333333',
+        shadowOffset: {width: -1, height: -3},
+        shadowRadius: 2,
+        shadowOpacity: 0.4,
+        // elevation: 5,
+        paddingTop: 20,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
       },
-      buttonClose: {
-        backgroundColor: "#2196F3",
+      panelHeader: {
+        alignItems: 'center',
       },
-      textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center"
+      panelHandle: {
+        width: 40,
+        height: 8,
+        borderRadius: 4,
+        backgroundColor: '#00000040',
+        marginBottom: 10,
       },
-      modalText: {
-        marginBottom: 15,
-        textAlign: "center"
+      panelTitle: {
+        fontSize: 27,
+        height: 35,
+      },
+      panelSubtitle: {
+        fontSize: 14,
+        color: 'gray',
+        height: 30,
+        marginBottom: 10,
+      },
+      panelButton: {
+        padding: 13,
+        borderRadius: 10,
+        backgroundColor: '#1ADBAC',
+        alignItems: 'center',
+        marginVertical: 7,
+      },
+      panelButtonTitle: {
+        fontSize: 17,
+        fontWeight: 'bold',
+        color: 'white',
+      },
+      action: {
+        flexDirection: 'row',
+        marginTop: 10,
+        marginBottom: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#f2f2f2',
+        paddingBottom: 5,
+      },
+      actionError: {
+        flexDirection: 'row',
+        marginTop: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#FF0000',
+        paddingBottom: 5,
+      },
+      textInput: {
+        flex: 1,
+        marginTop: Platform.OS === 'ios' ? 0 : -12,
+        paddingLeft: 10,
+        color: '#05375a',
       },
 
 });
