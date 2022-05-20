@@ -27,26 +27,26 @@ function AnnoncesScreen(props) {
 
     const [checked, setChecked] = useState(false); // Bolean : Pour changer l'état de mon swith (gère si on cherche des castings rémunéré ou non)
 
-    const [isPaid, setIsPaid] = useState(false);
-    const [castingType, setCastingType] = useState('indifférent');
-    const [filteredCasting, setFilteredCasting] = useState([]);
+    const [matchingCasting, setMatchingCasting] = useState([]); // Tableau des données venant du backend
+    const [castingCategory, setCastingCategory] = useState(''); // Valeur choisie dans le menu déroulant
+    const [isPaid, setIsPaid] = useState(false); // Valeur du switch "projets rémunérés"
+ 
 
     /* VARIABLES */
-    const data = [ // Collecte tous les catégories de projet disponnible
-        { label: 'création textil', value: 'création textile' },
-        { label: 'défilé', value: 'défilé' },
-        { label: 'événement / versinnasge', value: 'événement / versinnasge' },
-        { label: 'court métrage', value: 'court métrage' },
-        { label: 'long métrage', value: 'long métrage' },
-        { label: 'série', value: 'série' },
-        { label: 'spot publicitaire', value: 'spot publicitaire' },
-        { label: 'shooting', value: 'shooting' },
-        { label: 'tous types', value: 'tous types' },
+    const dropdownData = [ // Collecte tous les catégories de projet disponnible
+        { label: 'Création textile', value: 'Création textile' },
+        { label: 'Défilés', value: 'Défilés' },
+        { label: 'Événements / Vernissages', value: 'Événements / Vernissages' },
+        { label: 'Courts métrages', value: 'Courts métrages' },
+        { label: 'Longs métrages', value: 'Longs métrages' },
+        { label: 'Séries', value: 'Séries' },
+        { label: 'Publicités', value: 'Publicités' },
+        { label: 'Shooting', value: 'Shooting' },
+        { label: 'Tous types', value: '' },
     ];
 
-    const images = ["https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920", "https://images.unsplash.com/photo-1571590946238-a0ba990d12a9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2FzdGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8bW92aWV8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1601506521793-dc748fc80b67?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTN8fHNob290aW5nfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8c2hvb3Rpbmd8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1607692605098-2b3cd0ebdd08?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8c2VyaWV8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8bW92aWV8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fGV2ZW50fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8ZXZlbnR8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1559694204-61edb596dab1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fHN0eWxpc3R8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1501699169021-3759ee435d66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8c3R5bGlzdHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1632643871772-b68cfd34b303?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687", "https://images.unsplash.com/photo-1540320865252-e4abf9e80004?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Y2FzdGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=400&q=60"]
+    // const images = ["https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920", "https://images.unsplash.com/photo-1571590946238-a0ba990d12a9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2FzdGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8bW92aWV8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1601506521793-dc748fc80b67?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTN8fHNob290aW5nfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8c2hvb3Rpbmd8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1607692605098-2b3cd0ebdd08?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8c2VyaWV8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8bW92aWV8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fGV2ZW50fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8ZXZlbnR8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1559694204-61edb596dab1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fHN0eWxpc3R8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1501699169021-3759ee435d66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8c3R5bGlzdHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1632643871772-b68cfd34b303?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687", "https://images.unsplash.com/photo-1540320865252-e4abf9e80004?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Y2FzdGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=400&q=60"]
 
-    console.log("PROPS USER : ",props.user.token)
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
 
@@ -58,47 +58,57 @@ function AnnoncesScreen(props) {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.user.token}`
             })
-            var response = await rawResponse.json();
-            // console.log('LOG REPONSE',response);
-            setFilteredCasting([...response])
-            console.log('TABLEAU CASTING', filteredCasting)
-
-           
+            let response = await rawResponse.json();
+            setMatchingCasting(response.matchingProjects)
         }
         loadCasting();
     }, []);
 
-
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
+
     /* MAP */
 
-    const allProjects = images.map((image, i) => {
+    let myTab = matchingCasting;
+
+    if (castingCategory != '') {
+        myTab = myTab.filter(e => e.category == castingCategory)
+    }
+
+    if (isPaid) {
+        myTab = myTab.filter(e => e.remuneration == true)
+    }
+
+
+    let castingDisplay = myTab.map((casting, i) => {
+
         return (
             <View key={i} style={{ borderRadius: 7, flexDirection: "row", alignItems: "center", justifyContent: "center", borderColor: 'black', borderWidth: 0.5, width: "85%", height: 140, marginTop: 30 }}>
 
                 <Image
                     containerStyle={{ width: 110, height: 108, }}
                     resizeMode="contain"
-                    source={{ uri: image }}
+                    source={{}}
                     style={{ borderRadius: 10, marginRight: 10 }}
                     PlaceholderContent="ff"
                 />
 
                 <View style={{ width: 200, height: 108 }}>
-                    <Text style={{ fontWeight: "bold", marginBottom: 3 }}> Titre annonce </Text>
-                    <Text style={{ marginBottom: 5 }}> Résumé annonce : bla bla bla lorm ipsum ... </Text>
+                    <Text style={{ fontWeight: "bold", marginBottom: 3 }}>{casting.title}</Text>
+                    <Text style={{ marginBottom: 5 }}>{casting.description}</Text>
                     <Button
                         color='#1ADBAC'
                         buttonStyle={{ backgroundcolor: '#1ADBAC' }}
                         title="postuler" />
                 </View>
 
-
             </View>
         )
+
     })
+
+
     // * ___________________________ PAGE ___________________________
 
     return (
@@ -115,19 +125,22 @@ function AnnoncesScreen(props) {
                     selectedTextStyle={styles.selectedTextStyle}
                     inputSearchStyle={styles.inputSearchStyle}
                     iconStyle={styles.iconStyle}
-                    data={data}
-                    search
+                    data={dropdownData}
                     maxHeight={300}
                     labelField="label"
                     valueField="value"
                     placeholder={'Choisissez un type de casting'}
-                    searchPlaceholder="Rechercher..."
                     value={value}
                     onFocus={() => setIsFocus(true)}
                     onBlur={() => setIsFocus(false)}
                     onChange={item => {
                         setValue(item.value);
                         setIsFocus(false);
+                        setCastingCategory(item.value);
+                        //console.log('casting:', castingCategory)
+                        // filter(item.value);
+                        // chooseCategory(item.value);
+                        //   console.log("log du ",item)
                     }}
                     renderLeftIcon={() => (
                         <Ionicons
@@ -145,78 +158,20 @@ function AnnoncesScreen(props) {
                     <Switch
                         color='#21AC89F1'
                         value={checked}
-                        onValueChange={(value) => setChecked(value)}
+                        onValueChange=
+                        {(value) => {
+                            setChecked(value),
+                                setIsPaid(!isPaid)
+                                //filter(castingCategory)
+                                // choosePaid(value)
+                            // console.log('CONSOLE LOG VALEUR DU SWITCH:', value)
+                        }}
+
                     />
                 </View>
-                
-                <View style={{ borderRadius : 7, flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderColor: 'black', borderWidth: 0.5, width: "90%", height: 140, marginTop: 30 }}>
-                    
-                    <Image
-                    containerStyle={{ width: 150, height: "100%" , }}
-                        resizeMode="contain"
-                        source={{ uri: images[2]}}
-                        style={{ borderBottomLeftRadius: 7, borderTopLeftRadius: 7 , marginRight : 10}}
-                        PlaceholderContent="ff"
-                    />
 
-                    <View style={{ width: 200, height: 108, marginRight : "auto", marginLeft : "auto" }}>
-                        <Text style={{ fontWeight: "bold", marginBottom : 5, fontSize : 15 }}>Titre annonce </Text>
-                        <Text style={{ marginBottom : 10 }}>Résumé annonce : bla bla bla lorm ipsum ... </Text>
-                        <Button  
-                        color='#1ADBAC' 
-                        buttonStyle={{ backgroundcolor : '#1ADBAC'  }}
-                        title="postuler" />
-                    </View>
-        
-            
-                </View>
-
-                <View style={{ borderRadius : 7, flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderColor: 'black', borderWidth: 0.5, width: "90%", height: 140, marginTop: 30 }}>
-                    
-                    <Image
-                    containerStyle={{ width: 150, height: "100%" , }}
-                        resizeMode="contain"
-                        source={{ uri: images[5]}}
-                        style={{ borderBottomLeftRadius: 7, borderTopLeftRadius: 7 , marginRight : 10}}
-                        PlaceholderContent="ff"
-                    />
-
-                    <View style={{ width: 200, height: 108, marginRight : "auto", marginLeft : "auto" }}>
-                        <Text style={{ fontWeight: "bold", marginBottom : 5, fontSize : 15 }}>Titre annonce </Text>
-                        <Text style={{ marginBottom : 10 }}>Résumé annonce : bla bla bla lorm ipsum ... </Text>
-                        <Button  
-                        color='#1ADBAC' 
-                        buttonStyle={{ backgroundcolor : '#1ADBAC'  }}
-                        title="postuler" />
-                    </View>
-        
-            
-                </View>
-
-                <View style={{ borderRadius : 7, flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderColor: 'black', borderWidth: 0.5, width: "90%", height: 140, marginTop: 30 }}>
-                    
-                    <Image
-                    containerStyle={{ width: 150, height: "100%" , }}
-                        resizeMode="contain"
-                        source={{ uri: images[1]}}
-                        style={{ borderBottomLeftRadius: 7, borderTopLeftRadius: 7 , marginRight : 10}}
-                        PlaceholderContent="ff"
-                    />
-
-                    <View style={{ width: 200, height: 108, marginRight : "auto", marginLeft : "auto" }}>
-                        <Text style={{ fontWeight: "bold", marginBottom : 5, fontSize : 15 }}>Titre annonce </Text>
-                        <Text style={{ marginBottom : 10 }}>Résumé annonce : bla bla bla lorm ipsum ... </Text>
-                        <Button  
-                        color='#1ADBAC' 
-                        buttonStyle={{ backgroundcolor : '#1ADBAC'  }}
-                        title="postuler" />
-                    </View>
-        
-            
-                </View>
-
-                {/* Toutes les annonces présentes dans la base de données */}
-                {allProjects}
+                {/* AFFICHAGE DES CASTING */}
+                {castingDisplay}
 
             </View>
 
