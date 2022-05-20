@@ -185,9 +185,9 @@ router.post('/upload_photo_profil', async function(req, res, next) {
 
     var test = await userModel.findOne({token:req.body.token})
   
-  console.log( 'resultat cloud' , resultCloudinary);
-  console.log('cloudinary.uploader',cloudinary.uploader)
-  //console.log('req.files',req.files)
+ // console.log( 'resultat cloud' , resultCloudinary);
+  //console.log('cloudinary.uploader',cloudinary.uploader)
+  console.log('req.files',req.files)
   //console.log('test',test)
   
  });
