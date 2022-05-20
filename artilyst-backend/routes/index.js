@@ -239,12 +239,19 @@ router.post('/upload_photo_profil', async function(req, res, next) {
 
 router.post('/search_casting', async function (req, res, next) {
 
-  var user = await userModel.findOne({ token: req.body.token });
+  let user = await userModel.findOne({ token: req.body.token });
 
   // console.log('UTILISATEUR : ' + user)
   // Calculer age utilisateur
+  function getAge(dateString) {
+    var ageInMilliseconds = new Date() - new Date(dateString);
+    return Math.floor(ageInMilliseconds/1000/60/60/24/365); // convert to years
+ }
+ 
+ let birthage = '1990-05-16T13:48:53.168+00:00'
+ console.log(getAge(birthage));
 
-  var matchingProjects = await projectModel.find(
+  let matchingProjects = await projectModel.find(
     { gender: user.gender, localisation: user.city }
   )
 
