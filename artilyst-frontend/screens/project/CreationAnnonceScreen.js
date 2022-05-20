@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import {connect} from 'react-redux';
 
 // & import des urls de chacune
+<<<<<<< HEAD
 import {expoUrlMustafa} from '../../ExpoUrl';
+=======
+import {expoUrlBertin} from '../../ExpoUrl';
+>>>>>>> bertin
 
 // ^ Wanings messages
 import { LogBox, Button, Switch } from 'react-native';
@@ -35,7 +39,11 @@ function CreationAnnonceScreen(props) {
     const projectSave = async () => {
         
         
+<<<<<<< HEAD
         const rawResponse = await fetch(`http://${expoUrlMustafa}/project`, {
+=======
+        const rawResponse = await fetch(`http://${expoUrlBertin}/project`, {
+>>>>>>> bertin
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({projectInfos : projectInfos}),

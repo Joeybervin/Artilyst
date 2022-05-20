@@ -22,7 +22,12 @@ export default function PhotographCollaborateurScreen(props) {
     const [ville,setVille]=useState('');
     const [ageMin , setAgeMin ]=useState(0);
     const [ageMax , setAgeMax ]=useState(0);
+<<<<<<< HEAD
    
+=======
+    // const [ageMin, setAgeMin] = useState(0);
+    // const [ageMax , setAgeMax] = useState(0);
+>>>>>>> bertin
     
     /* VARIABLES */
     var Gender = gender;
@@ -182,7 +187,11 @@ export default function PhotographCollaborateurScreen(props) {
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text >Age Maximum : </Text>
                             <Text style={{ color: 'green' }}>
+<<<<<<< HEAD
                                 {ageMax} an
+=======
+                                {ageMax } an
+>>>>>>> bertin
                             </Text>
                      
                         </View>

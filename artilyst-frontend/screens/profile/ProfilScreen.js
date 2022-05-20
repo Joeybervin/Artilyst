@@ -2,10 +2,14 @@ import Animated from 'react-native-reanimated';
 
 import React, { useRef, useState, useEffect } from 'react';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { expoUrlMustafa } from '../../ExpoUrl';
 =======
 import { expoUrlJoey } from '../../ExpoUrl';
 >>>>>>> 404a5bb3849f5acaf68e8f26712a250ecbc016bf
+=======
+import { expoUrlBertin } from '../../ExpoUrl';
+>>>>>>> bertin
 
 //^ Module de balise
 import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity } from 'react-native';
@@ -58,7 +62,11 @@ function ProfilScreen(props) {
 <<<<<<< HEAD
     useEffect(() => {
         async function loadData() {
+<<<<<<< HEAD
             const rawResponse = await fetch(`http:${expoUrlMustafa}/user_profile`, {
+=======
+            const rawResponse = await fetch(`http:${expoUrlBertin}/user_profile`, {
+>>>>>>> bertin
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `token=${informations.user_token}`
@@ -368,6 +376,7 @@ function ProfilScreen(props) {
             
 
             <Text>User token : {informations.user_token}</Text>
+<<<<<<< HEAD
 
          
        
@@ -379,6 +388,13 @@ function ProfilScreen(props) {
             </View>
         </ScrollView>
 >>>>>>> 404a5bb3849f5acaf68e8f26712a250ecbc016bf
+=======
+       
+</ScrollView>
+</View>
+</ScrollView>
+
+>>>>>>> bertin
     );
 }
 
