@@ -85,16 +85,13 @@ router.post('/sign-in', async function (req, res, next) {
 // * Pour afficher le profil de l'utilisateur
 router.post('/user_profile', async function (req, res, next) {
 
-
-  console.log(req.body)
   let token = req.body.token // Je récupère le token de l'utilisateur envoyé par le front end
   /* Je récupère toutes les infos de l'utilisateur */
-  console.log(token);
   let user_account = await userModel.findOne({
     token: token,
   });
-
-  res.json({ user_account }) // Object :  Je renvoie les informations au front-end
+console.log(user_account)
+  res.json( user_account ) // Object :  Je renvoie les informations au front-end
 })
 
 //* Pour modifier les informations du profil de l'utilisateur
@@ -240,14 +237,14 @@ router.post('/upload_photo_profil', async function(req, res, next) {
 router.post('/search_casting', async function (req, res, next) {
 
   var user = await userModel.findOne({ token: req.body.token });
-
-  console.log('UTILISATEUR : ' + user)
+console.log(req.body.token)
+  console.log('UTILISATEUR : ' , user)
   // Calculer age utilisateur
 
   var matchingProjects = await projectModel.find(
     { gender: user.gender, localisation: user.city }
   )
-  console.log('REPONSE : ' + matchingProjects)
+  console.log('REPONSE : ' , matchingProjects)
   // age_range: { age_min: { $lt: user.age }, age_max: { $gt: user.age } }
 
   res.json( {matchingProjects} )

@@ -41,7 +41,7 @@ import LikesScreen from './screens/LikesScreen';
 // profil
 import ProfilScreen from './screens/profile/ProfilScreen';
 import ProfileEditScreen from './screens/profile/ProfileEditScreen';
-import AllMyPictures from './screens/profile/AllMyPictures';
+import AllMyPictures from './screens/profile/AllMyPicturesScreen'
 
 // messagerie
 import MessagesScreen from './screens/MessagesScreen';

@@ -1,8 +1,8 @@
 
 export default function( userInfos = {}, action) {
     if(action.type === "userConnection") {
-
-        return action.user
+        console.log("REDUCER 1  : ",action.user)
+        return {...action.user}
         
     }
     else if (action.type === "addInfosToUser") {
@@ -14,6 +14,7 @@ export default function( userInfos = {}, action) {
         return newUserInfos
     }
     else {
+        console.log("REDUCER 2 : ",userInfos)
         return userInfos;
     }
 }
