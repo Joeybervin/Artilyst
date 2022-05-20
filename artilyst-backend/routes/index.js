@@ -241,13 +241,14 @@ router.post('/search_casting', async function (req, res, next) {
 
   var user = await userModel.findOne({ token: req.body.token });
 
-  console.log('UTILISATEUR : ' + user)
+  // console.log('UTILISATEUR : ' + user)
   // Calculer age utilisateur
 
   var matchingProjects = await projectModel.find(
     { gender: user.gender, localisation: user.city }
   )
-  console.log('REPONSE : ' + matchingProjects)
+
+  //console.log('REPONSE : ', matchingProjects)
   // age_range: { age_min: { $lt: user.age }, age_max: { $gt: user.age } }
 
   res.json( {matchingProjects} )
@@ -257,18 +258,39 @@ router.post('/search_casting', async function (req, res, next) {
 router.post('/postuler', async function (req, res, next) {
 
   var id_Projet_Selected = req.body.projectId
-  var match = req.body.projectMatch
+  var userSelected = req.body.userSelected //table de id des users selectionnés par le rectruteur (dans la table project)
+  var match = false // le false est juste pour tester, ensuite on définira une condition pour vérifier le match (true/false)
   var token = req.body.token
 
-  //var user = await userModel.findOne({token:token}) juste pour tester qu'on retrouve bien le user
+  var user = await userModel.findOne({token:token}) // on recherche le user connecté pour récuperer son id et comparer pour le match
+  
+  const idProjectExist = user.projects_selected.find(id=> id.idProject===id_Projet_Selected) // vérifier si le projet a déja été séléctionné ou pas 
+ 
+  //console.log("id_Projet_Selected",id_Projet_Selected)
+  // console.log(token)
+  console.log("userSelected",userSelected)
+  //console.log(user)
+  //console.log("user.projects_selected",user.projects_selected)
+  //console.log("idProjectExist",idProjectExist)
 
+  if(!idProjectExist){
+    const matchVerify = userSelected.find(id => id==user._id);
+  console.log(matchVerify)
+  if(matchVerify){
+  match = true
+  }
+  console.log("matchVerify",matchVerify)
 
   await userModel.updateOne(
     { token: token },
-    { $push: { projects_selected:{idProject: id_Projet_Selected , match :match } } }
+    { $push: { projects_selected:{idProject: id_Projet_Selected , match:match } } }
   )
 
-  res.json( {save:true} )
+  res.json( {already:false , saveProjectSelected : true } )
+  }
+  else {
+    res.json( {already:true} )
+  }
 
 })
 
