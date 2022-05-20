@@ -13,11 +13,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 // ^ Icon
 import { Ionicons } from '@expo/vector-icons';
 
-<<<<<<< HEAD
 import { expoUrlMustafa } from '../ExpoUrl';
-=======
-import { expoUrlBertin } from '../ExpoUrl';
->>>>>>> bertin
 
 import { connect } from 'react-redux';
 
@@ -57,11 +53,7 @@ function AnnoncesScreen(props) {
     // Réception des casting filtrés pour l'utilisateur
     useEffect(() => {
         async function loadCasting() {
-<<<<<<< HEAD
             var rawResponse = await fetch(`http://${expoUrlMustafa}/search_casting`, {
-=======
-            var rawResponse = await fetch(`http://${expoUrlBertin}/search_casting`, {
->>>>>>> bertin
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.user.token}`
