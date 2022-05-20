@@ -4,12 +4,17 @@ var uniqid = require('uniqid');
 var cloudinary = require('cloudinary').v2;
 var fs = require('fs'); // chargement du fs qui nous permettra de supprimer la photo du dossier tmp
 
-/***** config du cloudinary avec le compte cloudinary de mustapha */
+/***** config du cloudinary avec le compte cloudinary de mustapha 
 cloudinary.config({
  cloud_name: 'dxmpjeafy',
  api_key: '854443517271688',
  api_secret: '2ir7uEavjtm5ntcCK8wk6n1oKuM' 
-});
+});*/
+cloudinary.config({
+  cloud_name: 'joeybervin',
+  api_key: '557384916495445',
+  api_secret: '4ODzJdCJtyRDjFNwkIL15nXYf9A' 
+ });
 
 // ^ Models
 var userModel = require('../models/user');
@@ -85,16 +90,13 @@ router.post('/sign-in', async function (req, res, next) {
 // * Pour afficher le profil de l'utilisateur
 router.post('/user_profile', async function (req, res, next) {
 
-
-  console.log(req.body)
   let token = req.body.token // Je récupère le token de l'utilisateur envoyé par le front end
   /* Je récupère toutes les infos de l'utilisateur */
-  console.log(token);
   let user_account = await userModel.findOne({
     token: token,
   });
-
-  res.json({ user_account }) // Object :  Je renvoie les informations au front-end
+console.log(user_account)
+  res.json( user_account ) // Object :  Je renvoie les informations au front-end
 })
 
 //* Pour modifier les informations du profil de l'utilisateur
@@ -167,9 +169,11 @@ router.post('/project', async function (req, res, next) {
 router.post('/upload_photo_profil', async function(req, res, next) {  
 
   let image = './tmp/'+uniqid()+'.jpg' // récupérer la photo du tmp en lui donnant un nom aleatoire avec uniqid
-  //var image = './tmp/avatar.jpg'
+  //var image = './tmp/image_uploaded.jpg'
 
-  var resultCopy = await req.files.avatar.mv(image);
+  var user_token = await req.files.image_uploaded.name
+  var resultCopy = await req.files.image_uploaded.mv(image);
+
   if(!resultCopy) {
     var resultCloudinary = await cloudinary.uploader.upload(image);
     res.json(resultCloudinary);      
@@ -180,14 +184,14 @@ router.post('/upload_photo_profil', async function(req, res, next) {
   fs.unlinkSync(image); // suppression de la photo du dossier tmp
 
   await userModel.updateOne(
-    { token: req.body.token },
+    { token: user_token},
     { $push: {profile_photo: resultCloudinary.url} })
 
-    var test = await userModel.findOne({token:req.body.token})
-  
- // console.log( 'resultat cloud' , resultCloudinary);
-  //console.log('cloudinary.uploader',cloudinary.uploader)
-  console.log('req.files',req.files)
+  // var test = await userModel.findOne({token:req.body.token})
+
+  // console.log( 'resultat cloud' , resultCloudinary);
+  // console.log('cloudinary.uploader',cloudinary.uploader)
+  //console.log('req.files',req.files)
   //console.log('test',test)
   
  });

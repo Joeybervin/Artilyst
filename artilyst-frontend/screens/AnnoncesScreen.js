@@ -20,9 +20,6 @@ import { connect } from 'react-redux';
 
 
 function AnnoncesScreen(props) {
-
-    let informations = props.user;
-
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
     const [value, setValue] = useState(null); // String : récupère le type de casting choisis
@@ -59,7 +56,7 @@ function AnnoncesScreen(props) {
             var rawResponse = await fetch(`http://${expoUrlMustafa}/search_casting`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `token=${informations.user_token}`
+                body: `token=${props.user.token}`
             })
             let response = await rawResponse.json();
             setMatchingCasting(response.matchingProjects)

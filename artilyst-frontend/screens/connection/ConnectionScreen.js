@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useEffect, useState}from 'react';
+import { expoUrlJoey } from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
@@ -17,14 +18,28 @@ function ConnectionScreen(props) {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
+    const [userData, setUserData] = useState({})
     /* VARIABLES */
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
+    useEffect(() => {
+        console.log("coucou")
+        async function loadData() {
+            const rawResponse = await fetch(`http://${expoUrlJoey}/user_profile`, {
+                method: 'POST',
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `token=i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT`,
+            })
+            let response = await rawResponse.json();
+            let responseCopy = {...response}
+            setUserData(responseCopy)
+        }
+        loadData();
+    }, []);
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
-
 
     // * ___________________________ PAGE ___________________________
 
@@ -32,8 +47,9 @@ function ConnectionScreen(props) {
         <View style={styles.container}>
 
             <Text onPress={() =>{
+                props.getUserInformations(userData)
                 props.navigation.navigate('PagesStacks')
-                props.getUserInformations({user_token : "i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT"})}}>ConnectionScreen</Text>
+                }}>ConnectionScreen</Text>
 
             <Button
                 title="Se connecter"
