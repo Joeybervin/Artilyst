@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 
 // & import des urls de chacune
-import {expoUrlJoey} from '../../ExpoUrl';
+<<<<<<< HEAD
+import {expoUrlMustafa} from '../../ExpoUrl';
+=======
+import {expoUrlBertin} from '../../ExpoUrl';
+>>>>>>> bertin
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
@@ -43,7 +47,11 @@ function RegisterFormScreen2(props) {
     const signUpUser = async () => {
         console.log("USERINFOS : ",userInfos)
         
-        const rawResponse = await fetch(`http://${expoUrlJoey}/sign-up`, {
+<<<<<<< HEAD
+        const rawResponse = await fetch(`http://${expoUrlMustafa}/sign-up`, {
+=======
+        const rawResponse = await fetch(`http://${expoUrlBertin}/sign-up`, {
+>>>>>>> bertin
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({userInfos : userInfos}),

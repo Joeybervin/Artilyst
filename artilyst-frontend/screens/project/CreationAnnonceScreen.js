@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import {connect} from 'react-redux';
 
 // & import des urls de chacune
-import {expoUrlJoey} from '../../ExpoUrl';
+<<<<<<< HEAD
+import {expoUrlMustafa} from '../../ExpoUrl';
+=======
+import {expoUrlBertin} from '../../ExpoUrl';
+>>>>>>> bertin
 
 // ^ Wanings messages
 import { LogBox, Button, Switch } from 'react-native';
@@ -35,7 +39,11 @@ function CreationAnnonceScreen(props) {
     const projectSave = async () => {
         
         
-        const rawResponse = await fetch(`http://${expoUrlJoey}/project`, {
+<<<<<<< HEAD
+        const rawResponse = await fetch(`http://${expoUrlMustafa}/project`, {
+=======
+        const rawResponse = await fetch(`http://${expoUrlBertin}/project`, {
+>>>>>>> bertin
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({projectInfos : projectInfos}),
@@ -114,6 +122,8 @@ function CreationAnnonceScreen(props) {
     buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
     title="Lancer la recherche "
     onPress={() => projectSave()}
+
+    
 />
 
 

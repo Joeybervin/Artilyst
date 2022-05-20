@@ -20,10 +20,14 @@ export default function PhotographCollaborateurScreen(props) {
     /* VARIABLES D'ÉTAT  */
     const [gender , setGender]=useState('');
     const [ville,setVille]=useState('');
-    const [ageMin , setAgeMin ]=useState('');
-    const [ageMax , setAgeMax ]=useState('');
-    const [minAge, setMinAge] = useState(0);
-    const [maxAge, setMaxAge] = useState(0);
+    const [ageMin , setAgeMin ]=useState(0);
+    const [ageMax , setAgeMax ]=useState(0);
+<<<<<<< HEAD
+   
+=======
+    // const [ageMin, setAgeMin] = useState(0);
+    // const [ageMax , setAgeMax] = useState(0);
+>>>>>>> bertin
     
     /* VARIABLES */
     var Gender = gender;
@@ -129,7 +133,7 @@ export default function PhotographCollaborateurScreen(props) {
                                 console.log("onSlidingStart()")
                             }
                             onValueChange={value => {
-                                setMinAge(value)
+                                setAgeMin(value)
                                 console.log("onValueChange()", value)
                             }
                             }
@@ -145,7 +149,7 @@ export default function PhotographCollaborateurScreen(props) {
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text >Age Minimum : </Text>
                             <Text style={{ color: 'green' }}>
-                                {minAge} an
+                                {ageMin} an
                             </Text>
                      
                         </View>
@@ -167,7 +171,7 @@ export default function PhotographCollaborateurScreen(props) {
                                 console.log("onSlidingStart()")
                             }
                             onValueChange={value => {
-                                setMaxAge(value)
+                                setAgeMax(value)
                                 console.log("onValueChange()", value)
                             }
                             }
@@ -183,7 +187,11 @@ export default function PhotographCollaborateurScreen(props) {
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text >Age Maximum : </Text>
                             <Text style={{ color: 'green' }}>
-                                {maxAge} an
+<<<<<<< HEAD
+                                {ageMax} an
+=======
+                                {ageMax } an
+>>>>>>> bertin
                             </Text>
                      
                         </View>

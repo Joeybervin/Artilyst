@@ -41,7 +41,11 @@ import LikesScreen from './screens/LikesScreen';
 // profil
 import ProfilScreen from './screens/profile/ProfilScreen';
 import ProfileEditScreen from './screens/profile/ProfileEditScreen';
+<<<<<<< HEAD
 import AllMyProfilePicturesScreen from './screens/profile/AllMyProfilePicturesScreen'
+=======
+import AllMyPictures from './screens/profile/AllMyPicturesScreen';
+>>>>>>> bertin
 
 // messagerie
 import MessagesScreen from './screens/MessagesScreen';

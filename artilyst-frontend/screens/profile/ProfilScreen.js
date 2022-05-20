@@ -1,8 +1,9 @@
-
 import Animated from 'react-native-reanimated';
 
 import React, { useRef, useState, useEffect } from 'react';
+
 import { expoUrlJoey } from '../../ExpoUrl';
+
 
 //^ Module de balise
 import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity } from 'react-native';
@@ -16,6 +17,9 @@ import Swiper from 'react-native-swiper'
 import { connect } from 'react-redux';
 
 import BottomSheet from 'reanimated-bottom-sheet';
+
+import { Entypo } from '@expo/vector-icons';
+
 import * as ImagePicker from "expo-image-picker";
 
 
@@ -25,7 +29,17 @@ function ProfilScreen(props) {
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
 
+
     const [user, setUser] = useState(props.user)
+
+    const [image, setImage] = useState(null);
+    const [hasPermission, setHasPermission] = useState(false);
+
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const [pickedImagePath, setPickedImagePath] = useState("")
+
+
 
     /* VARIABLES */
     let sheetRef = React.useRef(null);
@@ -39,6 +53,18 @@ function ProfilScreen(props) {
     /* PREMIÈRE */
 
     // Récupérer infos du profil utilisateur
+
+    useEffect(() => {
+        async function loadData() {
+
+            const rawResponse = await fetch(`http:${expoUrlJoey}/user_profile`, {
+
+                method: 'POST',
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `token=${informations.user_token}`
+            })
+            let response = await rawResponse.json();
+
 
 
 
@@ -193,6 +219,7 @@ function ProfilScreen(props) {
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
 
+
     const userPhotos = user.profile_photo.map((element, index) => {
         return (
             <View key={index} style={{ width: "100%", height: "100%", borderRadius: 10, alignItems: "center" }}>
@@ -206,7 +233,38 @@ function ProfilScreen(props) {
     })
 
 
+
     // * ___________________________ PAGE ___________________________
+
+
+    const renderInner = () => (
+        <View style={styles.panel}>
+          <View style={{alignItems: 'center'}}>
+            <Text style={styles.panelTitle}>Upload Photo</Text>
+            <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
+          </View>
+          <TouchableOpacity style={styles.panelButton} onPress={openCamera}>
+            <Text style={styles.panelButtonTitle}>Take Photo</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.panelButton} onPress={showImagePicker}>
+            <Text style={styles.panelButtonTitle}>Choose From Library</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.panelButton}
+            onPress={() => sheetRef.current.snapTo(1)}>
+            <Text style={styles.panelButtonTitle}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
+    );
+    
+    const renderHeader = () => (
+        <View style={styles.header}>
+          <View style={styles.panelHeader}>
+            <View style={styles.panelHandle} />
+          </View>
+        </View>
+     ) ;
+
 
     return (
 
@@ -224,18 +282,19 @@ function ProfilScreen(props) {
             />
 
 
-
             <View style={styles.mainContainer}>
 
                 {/* -------- CARROUSEL D'IMAGES --------  */}
                 <View style={styles.swipperContainer}>
                     <Swiper style={styles.wrapper} showsButtons={false} activeDotColor="white" dotColor='rgba(0,0,0,.6)' showsHorizontalScrollIndicator={true}>
+
                         {userPhotos}
 
                     </Swiper>
                     <Ionicons style={{ position: 'absolute', bottom: 5, right: 25, padding: 15, borderRadius: 50 }}
                         name={user.profile_photo.lenght === 0 ? 'images' : "camera-outline"} color="#ffffff" size={30}
                         onPress={() => sheetRef.current.snapTo(0)} />
+
                 </View>
 
 
@@ -296,8 +355,13 @@ function ProfilScreen(props) {
 
                 </View>
 
-            </View>
-        </ScrollView>
+
+        
+
+      </View>
+      </ScrollView>
+     
+       
     );
 }
 
