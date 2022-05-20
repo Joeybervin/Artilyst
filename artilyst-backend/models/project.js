@@ -13,7 +13,8 @@ var projectSchema = mongoose.Schema({
     photos : Array,
     users_selected : Array,
 
-    age_range : Object,
+    age_min: Number,
+    age_max:Number,
     collaborators_caracteristics : Object,
     localisation : String,
 })

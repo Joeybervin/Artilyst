@@ -139,7 +139,8 @@ router.post('/project', async function (req, res, next) {
     photos: '',
     users_selected: projectInfos.userstable, // table de tokens des users selectionnées
 
-    age_range: { age_min: projectInfos.ageMin, age_max: projectInfos.ageMax },
+    age_min:projectInfos.ageMin,
+    age_max: projectInfos.ageMax,
     collaborators_caracteristics: {},
     localisation: projectInfos.location,
 
