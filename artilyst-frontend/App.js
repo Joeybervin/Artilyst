@@ -41,7 +41,10 @@ import LikesScreen from './screens/LikesScreen';
 // profil
 import ProfilScreen from './screens/profile/ProfilScreen';
 import ProfileEditScreen from './screens/profile/ProfileEditScreen';
-import AllMyProfilePicturesScreen from './screens/profile/AllMyProfilePicturesScreen'
+/* Gallery */
+import GalleryScreen from './screens/profile/gallery/GalleryScreen'
+import PortfoliosScreen from './screens/profile/gallery/PortfoliosScreen'
+import PictureZoomScreen from './screens/profile/gallery/PictureZoomScreen'
 
 // messagerie
 import MessagesScreen from './screens/MessagesScreen';
@@ -103,6 +106,10 @@ function PagesStacks() {
         {/* PROFIL */}
         <TabNavigator.Screen name="ProfilScreen" component={ProfilScreen}  options={{ tabBarButton: () => null }} />
         <TabNavigator.Screen name="ProfileEditScreen" component={ProfileEditScreen}  options={{ tabBarButton: () => null}}/>
+        {/* GALLERY */}
+        <TabNavigator.Screen name="GalleryScreen" component={GalleryScreen}  options={{ tabBarButton: () => null }}/>
+        <TabNavigator.Screen name="PortfoliosScreen" component={PortfoliosScreen}  options={{ tabBarButton: () => null }}/>
+
         {/* MESSAGERIE */}
         <TabNavigator.Screen name="MessagesScreen" component={MessagesScreen}  options={{ tabBarButton: () => null }}/>
 
@@ -125,7 +132,7 @@ function PagesStacks() {
         <TabNavigator.Screen name="CreationAnnonceScreen" component={CreationAnnonceScreen}  options={{  tabBarButton: () => null }}/>
         <TabNavigator.Screen name="ArtisteCorrespondantScreen" component={ArtisteCorrespondantScreen}  options={{ tabBarButton: () => null }}/>
 
-        <TabNavigator.Screen name="AllMyProfilePicturesScreen" component={AllMyProfilePicturesScreen}  options={{ tabBarButton: () => null }}/>
+        
 
       </TabNavigator.Navigator>
 
@@ -154,6 +161,8 @@ export default function App() {
           {/* SIGN-UP */}
           <StackNavigator.Screen  name="RegisterFormScreen1" component={RegisterFormScreen1} options={{headerShown: false}} />
           <StackNavigator.Screen  name="RegisterFormScreen2" component={RegisterFormScreen2} options={{headerShown: false}} />
+          {/* Porfil ==> Gallery */}
+          <TabNavigator.Screen name="PictureZoomScreen" component={PictureZoomScreen}  options={{  headerShown: false}} />
           
            {/* ------------------------ HEADER TAB BAR ------------------------ */}
           <StackNavigator.Screen  name="PagesStacks" component={PagesStacks} 

@@ -1,20 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var uniqid = require('uniqid');
-var cloudinary = require('cloudinary').v2;
+var cloudinary = require('cloudinary').v2; // module de stockage d'image
 var fs = require('fs'); // chargement du fs qui nous permettra de supprimer la photo du dossier tmp
-
-/***** config du cloudinary avec le compte cloudinary de mustapha 
-cloudinary.config({
- cloud_name: 'dxmpjeafy',
- api_key: '854443517271688',
- api_secret: '2ir7uEavjtm5ntcCK8wk6n1oKuM' 
-});*/
-cloudinary.config({
-  cloud_name: 'joeybervin',
-  api_key: '557384916495445',
-  api_secret: '4ODzJdCJtyRDjFNwkIL15nXYf9A'
-});
 
 // ^ Models
 var userModel = require('../models/user');
@@ -27,10 +15,25 @@ var uid2 = require('uid2');
 var bcrypt = require('bcrypt');
 const cost = 10;
 
+// ^ Paramètres et configurations
+/* config du cloudinary avec le compte cloudinary de mustapha 
+cloudinary.config({
+ cloud_name: 'dxmpjeafy',
+ api_key: '854443517271688',
+ api_secret: '2ir7uEavjtm5ntcCK8wk6n1oKuM' 
+});*/
+cloudinary.config({
+  cloud_name: 'joeybervin',
+  api_key: '557384916495445',
+  api_secret: '4ODzJdCJtyRDjFNwkIL15nXYf9A'
+});
+
 // var request = require('sync-request');
 
 
-// * Création d'un compte
+//* ____________________________________ CONNEXION ________________________________
+
+// Création d'un compte
 router.post('/sign-up', async function (req, res, next) {
 
   const userInfos = req.body.userInfos // Object : récupération des données envoyés par le front
@@ -64,7 +67,7 @@ router.post('/sign-up', async function (req, res, next) {
 
 });
 
-// * Connexion à un compte déjà existant
+// Connexion à un compte déjà existant
 router.post('/sign-in', async function (req, res, next) {
 
   let email = req.body.email;
@@ -86,8 +89,9 @@ router.post('/sign-in', async function (req, res, next) {
 
 });
 
+//* ____________________________________ PROFILE ________________________________
 
-// * Pour afficher le profil de l'utilisateur
+// Pour afficher le profil de l'utilisateur
 router.post('/user_profile', async function (req, res, next) {
 
   let token = req.body.token // Je récupère le token de l'utilisateur envoyé par le front end
@@ -99,7 +103,7 @@ router.post('/user_profile', async function (req, res, next) {
   res.json(user_account) // Object :  Je renvoie les informations au front-end
 })
 
-//* Pour modifier les informations du profil de l'utilisateur
+// Pour modifier les informations du profil de l'utilisateur
 router.put('/update_user_profile', async function (req, res, next) {
 
   let user_new_informations = req.body.user_new_informations // Je récupère les infos entrées
@@ -120,6 +124,7 @@ router.put('/update_user_profile', async function (req, res, next) {
   );
 })
 
+//* ____________________________________ PROJET ________________________________
 
 // Creer un projet 
 router.post('/project', async function (req, res, next) {
@@ -162,10 +167,10 @@ router.post('/project', async function (req, res, next) {
 
 });
 
-/******* Uploader Photo dans Cloundinary et récuperer l'URL de la photo dans cloudinary */
+//* ____________________________________ PHOTOS / GALLERY ________________________________
 
-
-
+//? AJOUT
+// Uploader Photo dans Cloundinary et récuperer l'URL de la photo dans cloudinary */
 router.post('/upload_photo_profil', async function (req, res, next) {
 
   let image = './tmp/' + uniqid() + '.jpg' // récupérer la photo du tmp en lui donnant un nom aleatoire avec uniqid
@@ -196,8 +201,7 @@ router.post('/upload_photo_profil', async function (req, res, next) {
 
 });
 
-
-/************ Route permettant d'envoyer à la BDD le nom du nouveau portfolio + les url des images */
+// Route permettant d'envoyer à la BDD le nom du nouveau portfolio + les url des images */
 router.post('/add_portfolio', async function (req, res, next) {
 
   let image = './tmp/' + uniqid() + '.jpg' // Création d'un nom d'image unique
@@ -240,7 +244,39 @@ router.post('/add_portfolio', async function (req, res, next) {
 
 });
 
+//? SUPPRESSION
+// Pour que l'utilisateur supprime une photo de ses iamges de profil
+router.delete('/delete_profile_picture', async function (req, res, next) {
 
+  let imageUrl = req.body.imageUrl
+  let user_token = req.body.token
+
+  await userModel.updateOne(
+    {token: user_token},
+    {$pull : {profile_photo : imageUrl}}
+    );
+
+    res.json({status : "supprimé"})
+
+
+
+  console.log("imageUrl : ", imageUrl, "user_token : ", user_token)
+
+})
+
+// Pour que l'utilisateur puisse supprimer un portofolio
+router.delete('/delete_profile_picture', async function (req, res, next) {
+})
+
+// Pour que l'utilisateur puisse supprimer une image de son portofolio
+router.delete('/delete_profile_picture', async function (req, res, next) {
+})
+
+
+
+//* ____________________________________ ANNONCES / RECHERCHE / FILTRE ________________________________
+
+// Pour filtrer et chercher les castings correpondant au critères de l'artiste
 router.post('/search_casting', async function (req, res, next) {
 
   let user = await userModel.findOne({ token: req.body.token });
@@ -274,6 +310,7 @@ router.post('/search_casting', async function (req, res, next) {
 
 })
 
+// Pour qu'un artiste puisse postuler à des offres
 router.post('/postuler', async function (req, res, next) {
 
   var id_Projet_Selected = req.body.projectId

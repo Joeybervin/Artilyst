@@ -67,7 +67,7 @@ function ProfileEditScreen(props) {
 
     // Update du profil dans la bdd
     async function updateUserProfile() {
-        const rawResponse = await fetch(`http://${expoUrlMustafa}/update_user_profile`, {
+        const rawResponse = await fetch(`http://${expoUrlJoey}/update_user_profile`, {
             method: 'PUT',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

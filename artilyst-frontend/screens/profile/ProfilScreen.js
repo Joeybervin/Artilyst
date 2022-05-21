@@ -6,8 +6,11 @@ import { expoUrlJoey } from '../../ExpoUrl';
 
 
 //^ Module de balise
-import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity, ActivityIndicator} from 'react-native';
 import { Text, Button } from '@rneui/base';
+import { Overlay } from "@rneui/themed";
+
+
 //^ module bonus (icons)
 import { Ionicons } from '@expo/vector-icons';
 // ^ Carousel
@@ -18,8 +21,6 @@ import { connect } from 'react-redux';
 
 import BottomSheet from 'reanimated-bottom-sheet';
 
-import { Entypo } from '@expo/vector-icons';
-
 import * as ImagePicker from "expo-image-picker";
 
 
@@ -29,16 +30,8 @@ function ProfilScreen(props) {
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
 
-
-    const [user, setUser] = useState(props.user)
-
-    const [image, setImage] = useState(null);
-    const [hasPermission, setHasPermission] = useState(false);
-
-    const [modalVisible, setModalVisible] = useState(false);
-
-    const [pickedImagePath, setPickedImagePath] = useState("")
-
+    const [user, setUser] = useState(props.user) 
+    const [overlayVisibility, setOverlayVisibility] = useState(false);
 
 
     /* VARIABLES */
@@ -46,18 +39,12 @@ function ProfilScreen(props) {
     let fall = new Animated.Value(1);
     let data = new FormData();
 
-
-
-
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
-
-    // Récupérer infos du profil utilisateur
-
-
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
 
+    /* Pour ouvrir le dossier image/video de l'utilisateur et la rajouter (database + reducer  => profil) */
     const showImagePicker = async () => {
         // Ask the user for the permission to access the media library 
         const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -69,18 +56,19 @@ function ProfilScreen(props) {
 
         // const result = await ImagePicker.launchImageLibraryAsync();
         const MediaLibraryResult = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
-
-            aspect: [4, 3],
             quality: 1,
+            accessPrivileges : "all"
         });
-
-        // Explore the result
 
         if (!MediaLibraryResult.cancelled) {
 
+            sheetRef.current.snapTo(1) // Pou abaisser le BottomSheet
+
             if (MediaLibraryResult.uri) {
+
+            setOverlayVisibility(true)
 
             data.append(
                 'image_uploaded', {
@@ -89,27 +77,25 @@ function ProfilScreen(props) {
                 name: user.token, // ! A CORRIGER
                 
             });
-         
-            props.navigation.navigate('AllMyProfilePicturesScreen')
+        
+            
 
             let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_photo_profil`,
-             {
+            {
                 method: 'post',
-                headers: {
-                    'Content-Type': 'multipart/form-data; ',
-                  },
                 body: data , 
             })
             let result = await data_uploaded.json()
 
             props.addPictures(result.url, user)
-            user.profile_photo.push(result.url)
-
            
+
+            if (result) {
+                setOverlayVisibility(false)
+            }
 
             let copyUserInfos = {...props.user}
             setUser(copyUserInfos)
-            console.log("JE SUIS PASSE PAR ICI !!!!!!!")
             
             
             }
@@ -133,7 +119,11 @@ function ProfilScreen(props) {
         
         if (!resultCamera.cancelled) {
 
+            sheetRef.current.snapTo(1) // Pou abaisser le BottomSheet
+
             if (resultCamera.uri) {
+
+            setOverlayVisibility(true) // chargement de la photo
 
             data.append(
                 'image_uploaded', {
@@ -143,25 +133,32 @@ function ProfilScreen(props) {
                 
             });
  
-            props.navigation.navigate('AllMyProfilePicturesScreen')
+            
             
             let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_photo_profil`,
              {
                 method: 'post',
-                headers: {
-                    'Content-Type': 'multipart/form-data; ',
-                  },
                 body: data , 
             })
 
             let result = await data_uploaded.json()
             props.addPictures(result.url, user)
+            console.log('result')
 
+            if (result) {
+                setOverlayVisibility(false)
+            }
+            
             let copyUserInfos = {...props.user}
             setUser(copyUserInfos)
-            props.navigation.navigate('AllMyProfilePicturesScreen')
+            
             }
         }
+    }
+
+    /* Pour rediriger vers la gallery */ // ! A REVOIR
+    const goToGallery = () => {
+        props.navigation.navigate("GalleryScreen")
     }
 
     const renderInner = () => (
@@ -170,6 +167,9 @@ function ProfilScreen(props) {
                 <Text style={styles.panelTitle}>Modifier vos photos</Text>
                 <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
             </View>
+            <TouchableOpacity style={styles.panelButton} onPress={goToGallery}>
+                <Text style={styles.panelButtonTitle}>Gallery photos</Text>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.panelButton} onPress={openCamera}>
                 <Text style={styles.panelButtonTitle}>Take Photo</Text>
             </TouchableOpacity>
@@ -192,6 +192,7 @@ function ProfilScreen(props) {
         </View>
     );
 
+    /* Pour afficher l'icon de "genre" des utilisateurs */
     const genderIcon = (gender) => { //pour montrer le logo correspondant au sexe de l'utilisateur
         if (gender === 'femme') {
             return "female-outline"
@@ -207,7 +208,7 @@ function ProfilScreen(props) {
     /* MAP */
 
 
-    const userPhotos = user.profile_photo.map((element, index) => {
+    const userPhotos = props.user.profile_photo.map((element, index) => {
         return (
             <View key={index} style={{ width: "100%", height: "100%", borderRadius: 10, alignItems: "center" }}>
                 <Image
@@ -229,9 +230,17 @@ function ProfilScreen(props) {
 
         <ScrollView style={styles.container}>
 
+            <Overlay
+            isVisible={overlayVisibility}
+            >
+                <ActivityIndicator size="large" color="#000000"/>
+                <Text>Chargement de l'image</Text>
+
+            </Overlay>
+
             <BottomSheet
                 ref={sheetRef}
-                snapPoints={[400, 0]}
+                snapPoints={[500, 0]}
                 renderContent={renderInner}
                 renderHeader={renderHeader}
                 initialSnap={1}
@@ -263,6 +272,9 @@ function ProfilScreen(props) {
                         title="Portfolio"
                         titleStyle={{ paddingHorizontal: 30 }}
                         buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
+                        onPress={() => {
+                            props.navigation.navigate('PortfoliosScreen')
+                        }}
                     />
                     <Button
                         title="Modifier profil"
@@ -377,7 +389,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     panel: {
-        height: 400,
+        height: 500,
         padding: 20,
         backgroundColor: '#FFFFFF',
         paddingTop: 20,
