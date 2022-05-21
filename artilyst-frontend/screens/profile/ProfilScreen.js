@@ -2,11 +2,7 @@
 import Animated from 'react-native-reanimated';
 
 import React, { useRef, useState, useEffect } from 'react';
-<<<<<<< HEAD
-import { expoUrlMustafa } from '../../ExpoUrl';
-=======
-import { expoUrlJoey } from '../../ExpoUrl';
->>>>>>> 404a5bb3849f5acaf68e8f26712a250ecbc016bf
+import {expoUrlMustafa} from '../../ExpoUrl';
 
 //^ Module de balise
 import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity } from 'react-native';
@@ -20,12 +16,9 @@ import Swiper from 'react-native-swiper'
 import { connect } from 'react-redux';
 
 import BottomSheet from 'reanimated-bottom-sheet';
-<<<<<<< HEAD
 import { Entypo } from '@expo/vector-icons';
 
 
-=======
->>>>>>> 404a5bb3849f5acaf68e8f26712a250ecbc016bf
 import * as ImagePicker from "expo-image-picker";
 
 
@@ -36,14 +29,9 @@ function ProfilScreen(props) {
     /* VARIABLES D'ÉTAT  */
     const [image, setImage] = useState(null);
     const [hasPermission, setHasPermission] = useState(false);
-<<<<<<< HEAD
-    const [userData, setUserData] = useState({})
-    const [modalVisible, setModalVisible] = useState(false);
-=======
     const [user, setUser0] = useState(props.user)
     const [pickedImagePath, setPickedImagePath] = useState("")
 
->>>>>>> 404a5bb3849f5acaf68e8f26712a250ecbc016bf
 
     /* VARIABLES */
     let sheetRef = React.useRef(null);
@@ -56,17 +44,20 @@ function ProfilScreen(props) {
     /* PREMIÈRE */
 
     // Récupérer infos du profil utilisateur
-<<<<<<< HEAD
     useEffect(() => {
-        async function loadData() {
-            const rawResponse = await fetch(`http:${expoUrlMustafa}/user_profile`, {
+        async function loadData() 
+        {
+            const rawResponse = await fetch(`http:${expoUrlMustafa}/user_profile`, 
+            {
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `token=${informations.user_token}`
             })
-            let response = await rawResponse.json();
-=======
->>>>>>> 404a5bb3849f5acaf68e8f26712a250ecbc016bf
+            let response = await rawResponse.json(); 
+        }
+        
+    })
+            
 
 
 
@@ -132,7 +123,7 @@ function ProfilScreen(props) {
             });
             console.log( "DATA : ", data)
 
-            let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_photo_profil`,
+            let data_uploaded = await fetch(`http://${expoUrlMustafa}/upload_photo_profil`,
              {
                 method: 'post',
                 headers: {
@@ -190,21 +181,6 @@ function ProfilScreen(props) {
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
 
-<<<<<<< HEAD
-    // let myimages = userData.profile_photo.map((element, index) => {
-    //     return (
-
-    //         <Image
-    //             key={index}
-    //             source={{ uri: element }}
-    //             style={styles.image}
-                
-    //         />
-    //     )
-    // })
-
-  
-=======
     const userPhotos = user.profile_photo.map((element, index) => {
         return (
             <View key={index} style={{ width: "100%", height: "100%", borderRadius: 10, alignItems: "center" }}>
@@ -216,63 +192,14 @@ function ProfilScreen(props) {
             </View>
         )
     })
->>>>>>> 404a5bb3849f5acaf68e8f26712a250ecbc016bf
 
 
     // * ___________________________ PAGE ___________________________
 
-<<<<<<< HEAD
-    const renderInner = () => (
-        <View style={styles.panel}>
-          <View style={{alignItems: 'center'}}>
-            <Text style={styles.panelTitle}>Upload Photo</Text>
-            <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
-          </View>
-          <TouchableOpacity style={styles.panelButton} onPress={openCamera}>
-            <Text style={styles.panelButtonTitle}>Take Photo</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.panelButton} onPress={showImagePicker}>
-            <Text style={styles.panelButtonTitle}>Choose From Library</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.panelButton}
-            onPress={() => sheetRef.current.snapTo(1)}>
-            <Text style={styles.panelButtonTitle}>Cancel</Text>
-          </TouchableOpacity>
-        </View>
-    );
-    
-    const renderHeader = () => (
-        <View style={styles.header}>
-          <View style={styles.panelHeader}>
-            <View style={styles.panelHandle} />
-          </View>
-        </View>
-     ) ;
-
-=======
->>>>>>> 404a5bb3849f5acaf68e8f26712a250ecbc016bf
     return (
 
         <ScrollView style={styles.container}>
 
-<<<<<<< HEAD
-       <BottomSheet
-        ref={sheetRef}
-        snapPoints={[330, 0]}
-        renderContent={renderInner}
-        renderHeader={renderHeader}
-        initialSnap={1}
-        callBackNode={fall}
-        enabledContentGestureInteraction={true}
-        // borderRadius={10}
-        // renderContent={renderContent}
-      />
-
-
-        <ScrollView style={styles.containerJoey}>
-                <Text>ProfilScreen</Text>
-=======
             <BottomSheet
                 ref={sheetRef}
                 snapPoints={[400, 0]}
@@ -285,26 +212,18 @@ function ProfilScreen(props) {
             />
 
 
->>>>>>> 404a5bb3849f5acaf68e8f26712a250ecbc016bf
 
             <View style={styles.mainContainer}>
 
                 {/* -------- CARROUSEL D'IMAGES --------  */}
                 <View style={styles.swipperContainer}>
                     <Swiper style={styles.wrapper} showsButtons={false} activeDotColor="white" dotColor='rgba(0,0,0,.6)' showsHorizontalScrollIndicator={true}>
-<<<<<<< HEAD
-                        {/* {myimages} */}
-                           
-                    </Swiper>
-                    <Entypo name="camera" size={24} color="black" onPress={() => setModalVisible(true)}/>
-=======
                         {userPhotos}
 
                     </Swiper>
                     <Ionicons style={{ position: 'absolute', bottom: 5, right: 25, padding: 15, borderRadius: 50 }}
                         name={user.profile_photo.lenght === 0 ? 'images' : "camera-outline"} color="#ffffff" size={30}
                         onPress={() => sheetRef.current.snapTo(0)} />
->>>>>>> 404a5bb3849f5acaf68e8f26712a250ecbc016bf
                 </View>
 
 
@@ -365,21 +284,8 @@ function ProfilScreen(props) {
 
                 </View>
 
-<<<<<<< HEAD
-            
-
-            <Text>User token : {informations.user_token}</Text>
-
-         
-       
-      </ScrollView>
-
-      </View>
-      </ScrollView>
-=======
             </View>
         </ScrollView>
->>>>>>> 404a5bb3849f5acaf68e8f26712a250ecbc016bf
     );
 }
 

@@ -120,12 +120,12 @@ function CreationAnnonceScreen(props) {
      
             
 
-        </View>
+ </View>
 
 
 
 
-        </View>
+</View>
 
     );
 }
