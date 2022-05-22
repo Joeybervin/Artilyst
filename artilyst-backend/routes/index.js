@@ -234,19 +234,11 @@ router.put('/upload_portfolio', async function (req, res, next) {
   let user_token = req.body.token
   let portfolioName = req.body.portfolioName
 
-  console.log(user_token)
-  console.log(portfolioName)
-
   let user = await userModel.findOne({token : user_token})
-  console.log(user)
 
   const doublePortfolio = user.portfolio.find( element => element.title === portfolioName)
 
-  console.log(doublePortfolio)
-
   if (!doublePortfolio ) {
-
-    console.log("nouveau")
 
     await userModel.updateOne(
         { token: user_token },
@@ -303,6 +295,19 @@ router.delete('/delete_portfolio_image', async function (req, res, next) {
 
 // Pour que l'utilisateur puisse supprimer une image de son portofolio
 router.delete('/delete_portfolio', async function (req, res, next) {
+
+  
+  let user_token = req.body.token
+  let portfolioName = req.body.portfolioName
+
+    await userModel.updateOne(
+        { token: user_token },
+        { $pull: { portfolio: {
+          title : portfolioName }
+        } })
+
+    res.json({deleteStatus : true})
+
 })
 
 
