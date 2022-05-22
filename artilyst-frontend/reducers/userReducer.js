@@ -4,10 +4,15 @@ export default function( userInfos = {}, action) {
         return {...action.user}
         
     }
-    else if (action.type === "addInfosToUser") {
+    else if (action.type === "updateUserInformation") {
         
-        let newUserInfos = action.userData
-        newUserInfos['allInfos'] = action.userData
+        let userDatas = action.user // Object : Les données de l'utilisateur avec les modifications apportées
+
+        let newUserInfos = {...userInfos} 
+        newUserInfos = userDatas // ! A revoir
+
+        newUserInfos = userDatas // ! A revoir
+        
         return newUserInfos
     }
     else if (action.type === "addPictures") {

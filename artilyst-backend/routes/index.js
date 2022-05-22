@@ -108,7 +108,7 @@ router.put('/update_user_profile', async function (req, res, next) {
 
   let user_new_informations = req.body.user_new_informations // Je récupère les infos entrées
 
-  await userModel.updateOne(
+  await userModel.updateOne( // ! A REVOIR
     { token: user_new_informations.token },
     {
       occupation: user_new_informations.occupation,

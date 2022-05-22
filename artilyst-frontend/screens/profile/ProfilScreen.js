@@ -9,10 +9,9 @@ import { expoUrlJoey } from '../../ExpoUrl';
 import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity, ActivityIndicator} from 'react-native';
 import { Text, Button } from '@rneui/base';
 import { Overlay } from "@rneui/themed";
-
-
 //^ module bonus (icons)
 import { Ionicons } from '@expo/vector-icons';
+
 // ^ Carousel
 import Swiper from 'react-native-swiper'
 
@@ -281,7 +280,6 @@ function ProfilScreen(props) {
                         titleStyle={{ paddingHorizontal: 25 }}
                         buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
                         onPress={() => {
-                            props.getAllUserInformations(user)
                             props.navigation.navigate('ProfileEditScreen')
                         }}
                     />
@@ -474,9 +472,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getAllUserInformations: function (user) {
-            dispatch({ type: 'addInfosToUser', user })
-        },
         addPictures: function (photoUrl, user) {
             dispatch({ type: 'addPictures', photoUrl , user })
         }
