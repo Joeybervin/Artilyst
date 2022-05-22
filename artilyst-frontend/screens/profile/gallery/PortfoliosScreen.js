@@ -4,8 +4,10 @@ import Animated from 'react-native-reanimated';
 import React, { useRef, useState, useEffect } from 'react';
 
 //^ Module de balise
-import { Dimensions, StyleSheet, View, ScrollView, TouchableOpacity, ImageBackground } from 'react-native';
+import { Dimensions, StyleSheet, View, ScrollView, TouchableOpacity, ImageBackground, ActivityIndicator } from 'react-native';
 import { Image, Text, Button, Divider } from '@rneui/base';
+import { Overlay } from "@rneui/themed";
+
 //^ module bonus (icons)
 import { Ionicons } from '@expo/vector-icons';
 
@@ -15,9 +17,11 @@ import { connect } from 'react-redux';
 let { width: screenWidth, height: screenHeight } = Dimensions.get('screen')
 
 
+
 function PortfoliosScreen(props) {
 
     const [user, setUser] = useState(props.user)
+    const [OverlayVisibility, setOverlayVisibility] = useState(false)
 
     const allUserPortfolios = user.portfolio.map((element, index) => { // Tous les prjets de l'utilisateur
         return (
@@ -40,6 +44,15 @@ function PortfoliosScreen(props) {
         <ScrollView style={styles.scrollView}>
             <View style={styles.container}>
 
+                
+            <Overlay
+            isVisible={OverlayVisibility}
+            >
+                <ActivityIndicator size="large" color="#000000"/>
+                <Text>Chargement de l'image</Text>
+
+            </Overlay>
+
                 <View style={{ marginTop: 30, width: "90%" }}   >
                     <Text style={{ fontWeight: "bold", fontSize: 20 }}>Ajouter un nouveau portfolio</Text>
 
@@ -48,7 +61,7 @@ function PortfoliosScreen(props) {
                         type="solid"
                         containerStyle={{ borderWidth: 2, borderRadius: 10, borderColor: 'transparent', width: "40%", marginTop: 30, }}
                         buttonStyle={{ borderRadius: 8, height: 140, backgroundColor: '#1ADBAC' }}
-                        onPress={() => { props.navigation.navigate('CollaborateurDuProjetScreen') }}
+                        onPress={() => { setOverlayVisibility(true) }}
                     >
                         <Ionicons
                             style={styles.icon}
@@ -72,7 +85,7 @@ function PortfoliosScreen(props) {
                 <View style={{ width: "100%"}}>
 
                     <Text style={{ fontWeight: "bold", fontSize: 20, marginBottom: 25, width: "90%", marginLeft: 20 }}>Mes portfolios </Text>
-                    <View style={{ width: "100%" ,dipslay : "flex",flexDirection : 'row', flexWrap : "wrap", backgroundColor : '#8579F8'}}>
+                    <View style={{ width: "100%" ,dipslay : "flex",flexDirection : 'row', flexWrap : "wrap"}}>
 
                             {allUserPortfolios}
 

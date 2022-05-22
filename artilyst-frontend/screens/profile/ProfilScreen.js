@@ -31,7 +31,7 @@ function ProfilScreen(props) {
     /* VARIABLES D'ÉTAT  */
 
     const [user, setUser] = useState(props.user) 
-    const [overlayVisibility, setOverlayVisibility] = useState(false);
+    const [overlayVisibility, setOverlayVisibility] = useState(false); // Pour le chargement de l'image
 
 
     /* VARIABLES */

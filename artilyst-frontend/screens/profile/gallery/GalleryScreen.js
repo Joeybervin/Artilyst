@@ -7,8 +7,9 @@ import React, { useRef, useState, useEffect } from 'react';
 import PictureBottomSheet from '../../components/PictureBottomSheet'
 
 //^ Module de balise
-import { Dimensions, StyleSheet, View,  ScrollView, TouchableOpacity, ImageBackground } from 'react-native';
+import { Dimensions, StyleSheet, View,  ScrollView, TouchableOpacity, ImageBackground , ActivityIndicator} from 'react-native';
 import { Image,Text, Button } from '@rneui/base';
+import { Overlay } from "@rneui/themed";
 import { Ionicons } from '@expo/vector-icons';
 
 // ^ Redux
@@ -33,6 +34,7 @@ function GalleryScreen(props) {
     let fall = new Animated.Value(1);
     let data = new FormData();
     const [indexRoute, setIndexRoute] = useState("")
+    const [overlayVisibility, setOverlayVisibility] = useState(false); // Pour le chargement de l'image
 
     // * ___________________________ FUNCTIONS ___________________________
     // ! ___________________________ A REVOIR ___________________________
@@ -79,7 +81,7 @@ function GalleryScreen(props) {
             return;
         }
 
-        // const result = await ImagePicker.launchImageLibraryAsync();
+    
         const MediaLibraryResult = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
@@ -92,7 +94,7 @@ function GalleryScreen(props) {
 
             if (MediaLibraryResult.uri) {
 
-            //setOverlayVisibility(true)
+            setOverlayVisibility(true)
 
             data.append("token" , user.token ) // J'envoie le token de l'utilisateur
             data.append("portofolioName" , props.user.portfolio[params.portfolioIndex].title ) // J'envoie le token de l'utilisateur
@@ -116,9 +118,9 @@ function GalleryScreen(props) {
             props.addPictures(result.url, user)
            
 
-            // if (result) {
-            //     setOverlayVisibility(false)
-            // }
+            if (result) {
+                setOverlayVisibility(false)
+            }
 
             let copyUserInfos = {...props.user}
             setUser(copyUserInfos)
@@ -147,8 +149,7 @@ function GalleryScreen(props) {
 
             if (resultCamera.uri) {
 
-            // & A FAIRE
-           // setOverlayVisibility(true)  chargement de la photo
+           setOverlayVisibility(true) //  chargement de la photo
 
             data.append("token" , user.token ) // J'envoie le token de l'utilisateur
             if ( params.profileImage !== "profileImage") data.append("portofolioName" , props.user.portfolio[params.portfolioIndex].title ) 
@@ -171,10 +172,9 @@ function GalleryScreen(props) {
             if ( params.profileImage === "profileImage") props.addPictures(result.url, user)
             if ( params.profileImage !== "profileImage") props.AddPorfolioImage(result.url, params.portfolioIndex, user) // suppression dans le store
 
-            // & A FAIRE
-            // if (result) {
-            //     setOverlayVisibility(false)
-            // }
+            if (result) {
+                setOverlayVisibility(false)
+            }
             
             let copyUserInfos = {...props.user}
             setUser(copyUserInfos)
@@ -259,7 +259,15 @@ function GalleryScreen(props) {
 
     return (
 
+
         <ScrollView ContainerStyle={{ flex : 1, backgroundColor : "#ffffff" }} style={{flex : 1}}>
+
+            <Overlay isVisible={overlayVisibility} >
+                <ActivityIndicator size="large" color="#000000"/>
+                <Text>Chargement de l'image</Text>
+            </Overlay>
+
+
               <BottomSheet // ! A REVOIR
                 ref={sheetRef}
                 snapPoints={[500, 0]}
