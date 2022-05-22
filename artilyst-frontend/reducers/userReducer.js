@@ -31,6 +31,20 @@ export default function( userInfos = {}, action) {
 
         return newUserInfos
     }
+    else if (action.type === "AddPorfolioImage") {
+
+        console.log(action.portfolioImageUrl )
+        console.log(action.portfolioIndex)
+        console.log(userInfos)
+        
+        let portfolioImageUrl = action.portfolioImageUrl // STRING : récupération de l'url cloudinary de la photo
+        let portfolioIndex = action.portfolioIndex
+        let newUserInfos = {...userInfos}
+
+        newUserInfos.portfolio[portfolioIndex].images.push(portfolioImageUrl); // J'ajoute l'image dans mon portfolio
+
+        return newUserInfos
+    }
     else if (action.type === "deletePorfolioImage") {
         
         let portfolioImageUrl = action.portfolioImageUrl // STRING : récupération de l'url cloudinary de la photo

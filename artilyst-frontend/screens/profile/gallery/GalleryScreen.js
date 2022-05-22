@@ -167,7 +167,9 @@ function GalleryScreen(props) {
             })
 
             let result = await data_uploaded.json()
-            props.addPictures(result.url, user)
+
+            if ( params.profileImage === "profileImage") props.addPictures(result.url, user)
+            if ( params.profileImage !== "profileImage") props.AddPorfolioImage(result.url, params.portfolioIndex, user) // suppression dans le store
 
             // & A FAIRE
             // if (result) {
@@ -456,8 +458,8 @@ function mapDispatchToProps(dispatch) {
         addPictures: function (photoUrl, user) {
             dispatch({ type: 'addPictures', photoUrl , user })
         },
-        deletePicture: function (photoUrl, user) {
-            dispatch({ type: 'deletepicture', photoUrl , user })
+        AddPorfolioImage: function (portfolioImageUrl, portfolioIndex , user) {
+            dispatch({ type: 'AddPorfolioImage', portfolioImageUrl , portfolioIndex,  user })
         }
     }
 }
