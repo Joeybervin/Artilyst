@@ -174,7 +174,6 @@ router.post('/project', async function (req, res, next) {
 router.put('/upload_image_profil', async function (req, res, next) {
 
   let image = './tmp/' + uniqid() + '.jpg' // récupérer la photo du tmp en lui donnant un nom aleatoire avec uniqid
-  //var image = './tmp/image_uploaded.jpg'
 
   var user_token = req.body.token
   var resultCopy = await req.files.image_uploaded.mv(image);
@@ -192,21 +191,57 @@ router.put('/upload_image_profil', async function (req, res, next) {
     { token: user_token },
     { $push: { profile_photo: resultCloudinary.url } })
 
-  // var test = await userModel.findOne({token:req.body.token})
-
-  // console.log( 'resultat cloud' , resultCloudinary);
-  // console.log('cloudinary.uploader',cloudinary.uploader)
-  //console.log('req.files',req.files)
-  //console.log('test',test)
-
 });
 
 // Uploader Photo dans Cloundinary et récuperer l'URL de la photo dans cloudinary */
 router.put('/upload_image_portfolio', async function (req, res, next) {
 
-  console.log(req.body.token)
-  console.log(req.body.portofolioName)
-  console.log(req.files.image_uploaded)
+  // console.log(req.body.token)
+  // console.log(req.body.portofolioName)
+  // console.log(req.files.image_uploaded)
+
+
+  let image = './tmp/' + uniqid() + '.jpg' 
+
+  let user_token = req.body.token
+  let portofolioName = req.body.portofolioName
+
+  var resultCopy = await req.files.image_uploaded.mv(image);
+
+  if (!resultCopy) {
+    var resultCloudinary = await cloudinary.uploader.upload(image);
+    res.json(resultCloudinary);
+  } else {
+    res.json({ error: resultCopy });
+  }
+
+  fs.unlinkSync(image); // suppression de la photo du dossier tmp
+
+  await userModel.updateOne( // ! A REVOIR
+    { token: user_token,
+    portfolio : {title : portofolioName} },
+    { $push:  { images : resultCloudinary.url }
+    } )
+
+    console.log(userModel)
+
+
+
+});
+
+router.put('/upload_portfolio', async function (req, res, next) {
+
+  let user_token = req.body.token
+  let portofolioName = req.body.portofolioName
+
+  await userModel.updateOne(
+    { token: user_token },
+    { $push: { portfolio: {
+      title : portofolioName,
+      images : [] }
+    } })
+
+
 
 });
 
@@ -246,7 +281,7 @@ router.delete('/delete_portfolio_image', async function (req, res, next) {
 })
 
 // Pour que l'utilisateur puisse supprimer une image de son portofolio
-router.delete('/delete_profile_picture', async function (req, res, next) {
+router.delete('/delete_portfolio', async function (req, res, next) {
 })
 
 
