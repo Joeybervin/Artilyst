@@ -20,18 +20,28 @@ export default function( userInfos = {}, action) {
         return newUserInfos
 
     }
-    else if (action.type === "deletePicture") {
+    else if (action.type === "deleteProfileImage") {
         
-        let photoUrl = action.photoUrl // STRING : récupération de l'url cloudinary de la photo
-
+        let profileImageUrl = action.profileImageUrl // STRING : récupération de l'url cloudinary de la photo
         let newUserInfos = {...userInfos}
-        const foundImageUrlIndex = newUserInfos.profile_photo.indexOf(photoUrl); // Je cherche l'url de m'image que je souhaite supprimer
+
+        const foundImageUrlIndex = newUserInfos.profile_photo.indexOf(profileImageUrl); // Je cherche l'url de m'image que je souhaite supprimer
 
         newUserInfos.profile_photo.splice(foundImageUrlIndex, 1) // Je supprime l'image du store
 
-  
         return newUserInfos
+    }
+    else if (action.type === "deletePorfolioImage") {
+        
+        let portfolioImageUrl = action.portfolioImageUrl // STRING : récupération de l'url cloudinary de la photo
+        let portfolioIndex = action.portfolioIndex
+        let newUserInfos = {...userInfos}
+        
+        const foundImageUrlIndex = newUserInfos.portfolio[portfolioIndex].images.indexOf(portfolioImageUrl); // Je cherche l'url de m'image que je souhaite supprimer
 
+        newUserInfos.portfolio[portfolioIndex].images.splice(foundImageUrlIndex, 1) // Je supprime l'image du store
+
+        return newUserInfos
     }
     else {
         return userInfos;

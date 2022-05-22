@@ -30,21 +30,45 @@ function pictureZoomScreen(props) {
 
     const deletePicture = async () => {
         
-        
-
-
-        const rawResponse = await fetch(`http://${expoUrlJoey}/delete_profile_picture`, {
+    if (params.profileImageUrl) {
+        const rawResponse = await fetch(`http://${expoUrlJoey}/delete_profile_image`, {
             method: 'DELETE',
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: `imageUrl=${params.imageUrl}&token=${user.token}`,
+            body: `profileImageUrl=${params.profileImageUrl}&token=${user.token}`,
         })
 
-        props.deletePictureReducer(params.imageUrl, user) // suppression dans le store
+        props.deleteProfileImage(params.profileImageUrl, user) // suppression dans le store
         props.navigation.navigate('GalleryScreen') // retour vers la gallery
         // let copyUserInfos = {...props.user}
         // setUser(copyUserInfos)
         let response = await rawResponse.json() // Object : Réponse du back-end
+    }
+    if (params.portfolioImageUrl) {
+        // const rawResponse = await fetch(`http://${expoUrlJoey}/delete_portfolio_image`, {
+        //     method: 'DELETE',
+        //     headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        //     body: `portfolioImageUrl=${params.portfolioImageUrl}&portfolioTitle=${user.portfolio[params.portfolioIndex].title}&token=${user.token}`,
+        // })
+        //! A REVOIR
+        console.log("je suis pas supp mais je continue")
+        props.deletePorfolioImage(params.portfolioImageUrl, params.portfolioIndex, user) // suppression dans le store
+        props.navigation.navigate('GalleryScreen') // retour vers la gallery
+        // let copyUserInfos = {...props.user}
+        // setUser(copyUserInfos)
+        let response = await rawResponse.json() // Object : Réponse du back-end
+    }
+        
 
+    }
+
+    const urlImage = () => {
+
+        if (params.profileImageUrl) {
+            return params.profileImageUrl
+        }
+        else  {
+            return params.portfolioImageUrl
+        }
     }
 
     // * ___________________________ PAGE ___________________________
@@ -53,7 +77,7 @@ function pictureZoomScreen(props) {
             <View  style={{height : "90%", width : screenWidth, backgroundColor : "#000000"}}>
                     <ImageBackground
                     resizeMode="contain"
-                    source={{uri : params.imageUrl}}
+                    source={{uri : urlImage()}}
                     style={{height : '100%', width : "100%"}}
                     
                     />
@@ -98,10 +122,14 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        deletePictureReducer: function (photoUrl, user) {
-            dispatch({ type: 'deletePicture', photoUrl , user })
+        deleteProfileImage: function (profileImageUrl, user)  {
+            dispatch({ type: 'deleteProfileImage', profileImageUrl , user })
+        },
+        deletePorfolioImage: function (portfolioImageUrl, portfolioIndex , user) {
+            dispatch({ type: 'deletePorfolioImage', portfolioImageUrl , portfolioIndex,  user })
         }
     }
+
 }
 
 export default connect(

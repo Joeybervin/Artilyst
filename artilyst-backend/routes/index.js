@@ -171,12 +171,12 @@ router.post('/project', async function (req, res, next) {
 
 //? AJOUT
 // Uploader Photo dans Cloundinary et récuperer l'URL de la photo dans cloudinary */
-router.post('/upload_photo_profil', async function (req, res, next) {
+router.put('/upload_image_profil', async function (req, res, next) {
 
   let image = './tmp/' + uniqid() + '.jpg' // récupérer la photo du tmp en lui donnant un nom aleatoire avec uniqid
   //var image = './tmp/image_uploaded.jpg'
 
-  var user_token = await req.files.image_uploaded.name
+  var user_token = req.body.token
   var resultCopy = await req.files.image_uploaded.mv(image);
 
   if (!resultCopy) {
@@ -201,71 +201,48 @@ router.post('/upload_photo_profil', async function (req, res, next) {
 
 });
 
-// Route permettant d'envoyer à la BDD le nom du nouveau portfolio + les url des images */
-router.post('/add_portfolio', async function (req, res, next) {
+// Uploader Photo dans Cloundinary et récuperer l'URL de la photo dans cloudinary */
+router.put('/upload_image_portfolio', async function (req, res, next) {
 
-  let image = './tmp/' + uniqid() + '.jpg' // Création d'un nom d'image unique
-
-  var resultCopy = await req.files.avatar.mv(image); // on la place temporairement dans le dossier tmp
-
-  var porfolioName = req.body.porfolio.name // récuperer le nom du porfolio créé , on suppose que le req.body récuper un object de la form { name : nom du porolio , listImages : [ urlImage1 , urlImage2... ]}
-  var imageUrlListFront = req.body.porfolio.listImages // récuperer une table d'url d'images séléctionnées (photos dans le smartphone)
-  var listUrlImageCloudinary =[] // initialisation de la table d'URL des photos dans cloudinary
-  var resultCloudinary=''
-  var portfolio = {} // initialisation de l'object porfolio à pusher dans la bdd
-
-  //var resultCopy = await req.files.avatar.mv(image);
-  if (imageUrlListFront.length > 0) {
-    imageUrlListFront.map(async (image) => {
-      resultCloudinary = await cloudinary.uploader.upload(image);// envoie de l'URL de l'image selectionnées au cloud
-      listUrlImageCloudinary.push(resultCloudinary.url) // ajout de l'URL cloud de l'image dans le table (que l'on renvoie apres au front)
-    }
-
-    )
-    res.json(listUrlImageCloudinary);  // envoie de la table des url cloud au front pour les afficher    
-    portfolio['title'] = porfolioName;
-    portfolio['images'] = listUrlImageCloudinary
-
-  } else {
-    res.json({ error: resultCopy });
-  }
-
-  //fs.unlinkSync(image); // suppression de la photo du dossier tmp
-
-  await userModel.updateOne(
-    { token: req.body.token },
-    { $push: { portfolio: portfolio } })
-
-  var test = await userModel.findOne({ token: req.body.token })
-
-  console.log('resultat cloud', resultCloudinary);
-  console.log('req.body.token', req.body.token)
-  console.log('test', test)
+  console.log(req.body.token)
+  console.log(req.body.portofolioName)
+  console.log(req.files.image_uploaded)
 
 });
 
+
 //? SUPPRESSION
 // Pour que l'utilisateur supprime une photo de ses iamges de profil
-router.delete('/delete_profile_picture', async function (req, res, next) {
+router.delete('/delete_profile_Image', async function (req, res, next) {
 
-  let imageUrl = req.body.imageUrl
+  let profileImageUrl = req.body.profileImageUrl
   let user_token = req.body.token
 
   await userModel.updateOne(
     {token: user_token},
-    {$pull : {profile_photo : imageUrl}}
+    {$pull : {profile_photo : profileImageUrl}}
     );
 
     res.json({status : "supprimé"})
 
-
-
-  console.log("imageUrl : ", imageUrl, "user_token : ", user_token)
-
 })
 
 // Pour que l'utilisateur puisse supprimer un portofolio
-router.delete('/delete_profile_picture', async function (req, res, next) {
+router.delete('/delete_portfolio_image', async function (req, res, next) {
+
+  let portfolioImageUrl = req.body.portfolioImageUrl
+  let user_token = req.body.token
+  let portfolioTitle = req.body.portfolioTitle
+
+  console.log(portfolioTitle)
+
+  let deleteresult = await userModel.updateOne(
+    {token: user_token},
+    {$pull: {portfolio : {
+      title : portfolioTitle,
+      images : portfolioImageUrl}}}
+    );
+    console.log(deleteresult) 
 })
 
 // Pour que l'utilisateur puisse supprimer une image de son portofolio

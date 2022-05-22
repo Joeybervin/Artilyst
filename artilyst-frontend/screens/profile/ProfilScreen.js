@@ -70,19 +70,20 @@ function ProfilScreen(props) {
 
             setOverlayVisibility(true)
 
+            data.append("token" , user.token ) // J'envoie le token de l'utilisateur
             data.append(
                 'image_uploaded', {
                 uri: MediaLibraryResult.uri,
                 type: 'image/jpeg',
-                name: user.token, // ! A CORRIGER
+                name: 'image_uploaded.jpeg',
                 
             });
         
             
 
-            let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_photo_profil`,
+            let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
             {
-                method: 'post',
+                method: 'PUT',
                 body: data , 
             })
             let result = await data_uploaded.json()
@@ -125,26 +126,25 @@ function ProfilScreen(props) {
 
             setOverlayVisibility(true) // chargement de la photo
 
+            data.append("token" , user.token) // J'envoie le token de l'utilisateur
             data.append(
                 'image_uploaded', {
                 uri: resultCamera.uri,
                 type: 'image/jpeg',
-                name: user.token, // ! A CORRIGER
+                name: 'image_uploaded.jpg',
                 
             });
  
             
             
-            let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_photo_profil`,
+            let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
              {
-                method: 'post',
+                method: 'PUT',
                 body: data , 
             })
 
             let result = await data_uploaded.json()
             props.addPictures(result.url, user)
-            console.log('result')
-
             if (result) {
                 setOverlayVisibility(false)
             }
@@ -156,9 +156,9 @@ function ProfilScreen(props) {
         }
     }
 
-    /* Pour rediriger vers la gallery */ // ! A REVOIR
+    /* Pour rediriger vers la gallery */ // ! A DEMANDER
     const goToGallery = () => {
-        props.navigation.navigate("GalleryScreen")
+        props.navigation.navigate("GalleryScreen", {profileImage : "profileImage"})
     }
 
     const renderInner = () => (
