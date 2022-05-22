@@ -97,12 +97,12 @@ function GalleryScreen(props) {
             setOverlayVisibility(true)
 
             data.append("token" , user.token ) // J'envoie le token de l'utilisateur
-            data.append("portofolioName" , props.user.portfolio[params.portfolioIndex].title ) // J'envoie le token de l'utilisateur
+            if ( params.profileImage !== "profileImage") data.append("portofolioName" , props.user.portfolio[params.portfolioIndex].title ) 
             data.append(
                 'image_uploaded', {
                 uri: MediaLibraryResult.uri,
                 type: 'image/jpeg',
-                name: 'image_uploaded.jpeg', // ! A CORRIGER
+                name: 'image_uploaded.jpg',
                 
             });
         
@@ -115,7 +115,8 @@ function GalleryScreen(props) {
             })
             let result = await data_uploaded.json()
 
-            props.addPictures(result.url, user)
+            if ( params.profileImage === "profileImage") props.addPictures(result.url, user)
+            if ( params.profileImage !== "profileImage") props.AddPorfolioImage(result.url, params.portfolioIndex, user) // suppression dans le store
            
 
             if (result) {
@@ -153,7 +154,7 @@ function GalleryScreen(props) {
 
             data.append("token" , user.token ) // J'envoie le token de l'utilisateur
             if ( params.profileImage !== "profileImage") data.append("portofolioName" , props.user.portfolio[params.portfolioIndex].title ) 
-            // J'envoie le token de l'utilisateur
+         
             data.append(
                 'image_uploaded', {
                 uri: resultCamera.uri,

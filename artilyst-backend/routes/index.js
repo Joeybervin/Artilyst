@@ -232,16 +232,37 @@ router.put('/upload_image_portfolio', async function (req, res, next) {
 router.put('/upload_portfolio', async function (req, res, next) {
 
   let user_token = req.body.token
-  let portofolioName = req.body.portofolioName
+  let portfolioName = req.body.portfolioName
 
-  await userModel.updateOne(
-    { token: user_token },
-    { $push: { portfolio: {
-      title : portofolioName,
-      images : [] }
-    } })
+  console.log(user_token)
+  console.log(portfolioName)
 
+  let user = await userModel.findOne({token : user_token})
+  console.log(user)
 
+  const doublePortfolio = user.portfolio.find( element => element.title === portfolioName)
+
+  console.log(doublePortfolio)
+
+  if (!doublePortfolio ) {
+
+    console.log("nouveau")
+
+    await userModel.updateOne(
+        { token: user_token },
+        { $push: { portfolio: {
+          title : portfolioName,
+          images : [] }
+        } })
+
+        res.json({upload : true})
+  }
+  else {
+
+    res.json({upload : false})
+  }
+
+  
 
 });
 
@@ -332,7 +353,7 @@ router.post('/postuler', async function (req, res, next) {
 
   var user = await userModel.findOne({token:token}) // on recherche le user connecté pour récuperer son id et comparer pour le match
   
-  const idProjectExist = user.projects_selected.find(id=> id.idProject===id_Projet_Selected) // vérifier si le projet a déja été séléctionné ou pas 
+  const idProjectExist = user.projects_selected.find(id => id.idProject === id_Projet_Selected) // vérifier si le projet a déja été séléctionné ou pas 
  
   //console.log("id_Projet_Selected",id_Projet_Selected)
   // console.log(token)
@@ -342,7 +363,7 @@ router.post('/postuler', async function (req, res, next) {
   //console.log("idProjectExist",idProjectExist)
 
   if(!idProjectExist){
-    const matchVerify = userSelected.find(id => id==user._id);
+    const matchVerify = userSelected.find(id => id == user._id);
   console.log(matchVerify)
   if(matchVerify){
   match = true

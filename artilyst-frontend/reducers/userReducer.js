@@ -13,10 +13,10 @@ export default function( userInfos = {}, action) {
     else if (action.type === "addPictures") {
         
         let newProfilePhoto = action.photoUrl // STRING : récupération de l'url cloudinary de la photo
-       
+    
         let newUserInfos = {...userInfos}
         newUserInfos.profile_photo.push(newProfilePhoto) // Ajout de l'url de la photo aux infos de l'utilisateur
-      
+    
         return newUserInfos
 
     }
@@ -31,11 +31,25 @@ export default function( userInfos = {}, action) {
 
         return newUserInfos
     }
-    else if (action.type === "AddPorfolioImage") {
+    else if (action.type === "createPortfolio") {
+        
+        let title = action.title // STRING : récupération du titre du portfolio
+        let newUserInfos = {...userInfos}
 
-        console.log(action.portfolioImageUrl )
-        console.log(action.portfolioIndex)
-        console.log(userInfos)
+        newUserInfos.portfolio.push({title : title , images : []}); // J'ajoute l'image dans mon portfolio
+
+        return newUserInfos
+    }
+    else if (action.type === "deletePortfolio") {
+        
+        let portfolioIndex = action.portfolioIndex // NUMBER : récupération de l'index du portfolio à supprimer
+        let newUserInfos = {...userInfos}
+
+        newUserInfos.portfolio.splice(portfolioIndex, 1); // J'ajoute l'image dans mon portfolio
+
+        return newUserInfos
+    }
+    else if (action.type === "AddPorfolioImage") {
         
         let portfolioImageUrl = action.portfolioImageUrl // STRING : récupération de l'url cloudinary de la photo
         let portfolioIndex = action.portfolioIndex

@@ -3,9 +3,11 @@ import Animated from 'react-native-reanimated';
 
 import React, { useRef, useState, useEffect } from 'react';
 
+import {expoUrlJoey} from '../../../ExpoUrl';
+
 //^ Module de balise
 import { Dimensions, StyleSheet, View, ScrollView, TouchableOpacity, ImageBackground, ActivityIndicator } from 'react-native';
-import { Image, Text, Button, Divider } from '@rneui/base';
+import { Input, Text, Button, Divider } from '@rneui/base';
 import { Overlay } from "@rneui/themed";
 
 //^ module bonus (icons)
@@ -20,13 +22,56 @@ let { width: screenWidth, height: screenHeight } = Dimensions.get('screen')
 
 function PortfoliosScreen(props) {
 
-    const [user, setUser] = useState(props.user)
-    const [OverlayVisibility, setOverlayVisibility] = useState(false)
+
+    // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
+
+    const [user, setUser] = useState(props.user) // infos de l'utilisateur
+    const [OverlayVisibility, setOverlayVisibility] = useState(false) // Affichage du formaulaire pour créer un portfolio
+    const [title, setTitle] = useState("") // STRING : titre donné au nouveau portfolio
+    const [titleMessageError, setTitleMessageError] = useState("") // Message d'erreur
+
+    // * ___________________________ FUNCTIONS ___________________________
+
+    const createPortfolio = async () => {
+        if (title === "" || title === " " || title.length < 2) {
+            setTitleMessageError("Champs invalide !")
+        }
+        else {
+            const rawResponse = await fetch(`http://${expoUrlJoey}/upload_portfolio`, {
+            method: 'PUT',
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `portfolioName=${title}&token=${user.token}`,
+        })
+
+        let response = await rawResponse.json() // Object : Réponse du back-end
+        console.log(response)
+        if (response.upload === false) {
+            setTitleMessageError("Un portfolio existe déjà avec ce nom !")
+        }
+        if (response.upload === true) {
+            props.createPortfolio(title)
+            setOverlayVisibility(false)
+        }
+
+        }
+    }
+
+    // * ___________________________ AFFICHAGES (CONDITIONS, MAP) ___________________________
 
     const allUserPortfolios = user.portfolio.map((element, index) => { // Tous les prjets de l'utilisateur
+
+        let porfolioCover;
+        if (element.images.length === 0 ) {
+            porfolioCover =  "https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg"
+        }
+        else  {
+            porfolioCover = element.images[Math.floor(Math.random() * (element.images.length - 1))]
+        }
+        console.log(element.images.length)
+        
         return (
             <TouchableOpacity  onPress={() => props.navigation.navigate("GalleryScreen", {portfolioIndex : index, profileImage : ""})} key={index}>
-                <ImageBackground style={{width: screenWidth / 2 - 10, height: screenHeight / 5,margin : 5, borderRadius : 25 }} source={{uri : element.images[Math.floor(Math.random() * (element.images.length - 1))]}}>
+                <ImageBackground style={{width: screenWidth / 2 - 10, height: screenHeight / 5,margin : 5, borderRadius : 25 }} source={{uri : porfolioCover}}>
 
                 <Text style={{ color: "white", fontWeight: "bold", textAlign: "center", backgroundColor: "#0000008A", lineHeight : 75, marginTop : "auto"}}>{element.title}</Text>
 
@@ -34,10 +79,6 @@ function PortfoliosScreen(props) {
             </TouchableOpacity>
         )
     })
-
-
-    // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
-    const params = props.route.params;
 
     // * ___________________________ PAGE ___________________________
     return (
@@ -47,9 +88,39 @@ function PortfoliosScreen(props) {
                 
             <Overlay
             isVisible={OverlayVisibility}
+            onBackdropPress={!OverlayVisibility}
+            overlayStyle={{width : screenWidth - 100, height : screenHeight - screenHeight / 1.5, borderRadius : 15, justifyContent : 'center', alignItem : 'center'}}
             >
-                <ActivityIndicator size="large" color="#000000"/>
-                <Text>Chargement de l'image</Text>
+                <Text style={{fontWeight : "bold", fontSize : 19, marginBottom : 25, alignSelf : 'flex-start'}}>Créer un nouveau portofolio</Text>
+
+            {/* Nom du portofolio */}
+            <Input
+                placeholder='Nom de votre portfolio'
+                onChangeText={setTitle} value={title}
+                errorMessage={titleMessageError}
+            />
+
+
+            <View style={{ flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginBottom: 10, backgroundColor: '#33333311', width: "100%" }} >
+                    <Button
+                        title="annuler"
+                        titleStyle={{ paddingHorizontal: 20 }}
+                        buttonStyle={{ borderRadius: 8, backgroundColor: "#D43131", color: "black" }}
+                        onPress={() => setOverlayVisibility(false)}
+                    />
+                    <Button
+                        title="créer"
+                        titleStyle={{ paddingHorizontal: 25 }}
+                        buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
+                        onPress={() => {
+                            createPortfolio()
+                            
+                        }}
+                    />
+                </View>
+           
+
+
 
             </Overlay>
 
@@ -68,7 +139,6 @@ function PortfoliosScreen(props) {
                             color='white'
                             name="add"
                             size={50}
-                            onPress={() => { props.navigation.navigate('CollaborateurDuProjetScreen') }}
                         />
                     </Button>
                 </View>
@@ -123,9 +193,14 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
     return { user: state.user }
 }
-
-
+function mapDispatchToProps(dispatch) {
+    return {
+        createPortfolio : function (title) {
+            dispatch({ type : 'createPortfolio', title})
+        }
+    }
+}
 export default connect(
     mapStateToProps,
-    null
+    mapDispatchToProps
 )(PortfoliosScreen);
