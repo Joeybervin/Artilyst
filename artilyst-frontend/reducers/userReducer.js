@@ -16,7 +16,7 @@ export default function( userInfos = {}, action) {
         let user = action.user // réception dees infos de l'utilisateur
 
         user.profile_photo.push(newProfilePhoto) // Ajout de l'url de la photo aux infos de l'utilisateur
-        console.log(user)
+        console.log("REDUCER : ",user)
         return user
 
        

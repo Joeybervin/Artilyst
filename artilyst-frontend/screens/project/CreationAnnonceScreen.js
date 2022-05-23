@@ -25,11 +25,11 @@ function CreationAnnonceScreen(props) {
     ParamsProject3['title']=title;
     ParamsProject3['description']=description;
     ParamsProject3['remuneration']=isEnabled;  
-    ParamsProject3['token']=props.userDisplay.user_token;     
+    ParamsProject3['token']=props.userDisplay.token;     
     var projectInfos=ParamsProject3;
     
-    console.log('params3',projectInfos)
-    console.log('user',props.userDisplay.user_token)
+   // console.log('params3',projectInfos)
+    //console.log('props.userDisplay',props.userDisplay)
 
     /* fonction pour sauvegarder un utilisateur dans la base de données */
     const projectSave = async () => {
@@ -43,6 +43,7 @@ function CreationAnnonceScreen(props) {
 
         let response = await rawResponse.json() 
         props.navigation.navigate('Annonces')
+       
     
     }// Object : Réponse du back-end
 
@@ -114,6 +115,8 @@ function CreationAnnonceScreen(props) {
     buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
     title="Lancer la recherche "
     onPress={() => projectSave()}
+
+    
 />
 
 

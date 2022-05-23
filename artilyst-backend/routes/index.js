@@ -13,8 +13,8 @@ cloudinary.config({
 cloudinary.config({
   cloud_name: 'joeybervin',
   api_key: '557384916495445',
-  api_secret: '4ODzJdCJtyRDjFNwkIL15nXYf9A' 
- });
+  api_secret: '4ODzJdCJtyRDjFNwkIL15nXYf9A'
+});
 
 // ^ Models
 var userModel = require('../models/user');
@@ -95,8 +95,8 @@ router.post('/user_profile', async function (req, res, next) {
   let user_account = await userModel.findOne({
     token: token,
   });
-console.log(user_account)
-  res.json( user_account ) // Object :  Je renvoie les informations au front-end
+  //console.log(user_account)
+  res.json(user_account) // Object :  Je renvoie les informations au front-end
 })
 
 //* Pour modifier les informations du profil de l'utilisateur
@@ -149,7 +149,7 @@ router.post('/project', async function (req, res, next) {
 
   await newProject.save() // enregistrement dans la base de données
 
-  console.log(newProject._id)
+  //console.log(newProject._id)
 
   await userModel.updateOne(
     { token: projectInfos.token },
@@ -166,26 +166,26 @@ router.post('/project', async function (req, res, next) {
 
 
 
-router.post('/upload_photo_profil', async function(req, res, next) {  
+router.post('/upload_photo_profil', async function (req, res, next) {
 
-  let image = './tmp/'+uniqid()+'.jpg' // récupérer la photo du tmp en lui donnant un nom aleatoire avec uniqid
+  let image = './tmp/' + uniqid() + '.jpg' // récupérer la photo du tmp en lui donnant un nom aleatoire avec uniqid
   //var image = './tmp/image_uploaded.jpg'
 
   var user_token = await req.files.image_uploaded.name
   var resultCopy = await req.files.image_uploaded.mv(image);
 
-  if(!resultCopy) {
+  if (!resultCopy) {
     var resultCloudinary = await cloudinary.uploader.upload(image);
-    res.json(resultCloudinary);      
+    res.json(resultCloudinary);
   } else {
-    res.json({error: resultCopy});
+    res.json({ error: resultCopy });
   }
 
   fs.unlinkSync(image); // suppression de la photo du dossier tmp
 
   await userModel.updateOne(
-    { token: user_token},
-    { $push: {profile_photo: resultCloudinary.url} })
+    { token: user_token },
+    { $push: { profile_photo: resultCloudinary.url } })
 
   // var test = await userModel.findOne({token:req.body.token})
 
@@ -193,15 +193,15 @@ router.post('/upload_photo_profil', async function(req, res, next) {
   // console.log('cloudinary.uploader',cloudinary.uploader)
   //console.log('req.files',req.files)
   //console.log('test',test)
-  
- });
+
+});
 
 
 /************ Route permettant d'envoyer à la BDD le nom du nouveau portfolio + les url des images */
- router.post('/add_portfolio', async function(req, res, next) {  
+router.post('/add_portfolio', async function (req, res, next) {
 
-  let image = './tmp/'+uniqid()+'.jpg' // Création d'un nom d'image unique
-  
+  let image = './tmp/' + uniqid() + '.jpg' // Création d'un nom d'image unique
+
   var resultCopy = await req.files.avatar.mv(image); // on la place temporairement dans le dossier tmp
 
   var porfolioName = req.body.porfolio.name // récuperer le nom du porfolio créé , on suppose que le req.body récuper un object de la form { name : nom du porolio , listImages : [ urlImage1 , urlImage2... ]}
@@ -211,51 +211,66 @@ router.post('/upload_photo_profil', async function(req, res, next) {
   var portfolio = {} // initialisation de l'object porfolio à pusher dans la bdd
 
   //var resultCopy = await req.files.avatar.mv(image);
-  if(imageUrlListFront.length>0) {
-    imageUrlListFront.map(async (image)=> {
+  if (imageUrlListFront.length > 0) {
+    imageUrlListFront.map(async (image) => {
       resultCloudinary = await cloudinary.uploader.upload(image);// envoie de l'URL de l'image selectionnées au cloud
       listUrlImageCloudinary.push(resultCloudinary.url) // ajout de l'URL cloud de l'image dans le table (que l'on renvoie apres au front)
     }
 
     )
     res.json(listUrlImageCloudinary);  // envoie de la table des url cloud au front pour les afficher    
-    portfolio['title']=porfolioName;
-    portfolio['images']=listUrlImageCloudinary
+    portfolio['title'] = porfolioName;
+    portfolio['images'] = listUrlImageCloudinary
 
   } else {
-    res.json({error: resultCopy});
+    res.json({ error: resultCopy });
   }
 
   //fs.unlinkSync(image); // suppression de la photo du dossier tmp
 
   await userModel.updateOne(
     { token: req.body.token },
-    { $push: {portfolio : portfolio} })
+    { $push: { portfolio: portfolio } })
 
-    var test = await userModel.findOne({token:req.body.token})
-  
-  console.log( 'resultat cloud' , resultCloudinary);
-  console.log('req.body.token',req.body.token)
-  console.log('test',test)
-  
- });
+  var test = await userModel.findOne({ token: req.body.token })
+
+  // console.log('resultat cloud', resultCloudinary);
+  // console.log('req.body.token', req.body.token)
+  // console.log('test', test)
+
+});
 
 
 router.post('/search_casting', async function (req, res, next) {
 
-  var user = await userModel.findOne({ token: req.body.token });
+  let user = await userModel.findOne({ token: req.body.token });
 
   // console.log('UTILISATEUR : ' + user)
-  // Calculer age utilisateur
 
-  var matchingProjects = await projectModel.find(
+  function getAge(dateString) {
+    let ageInMilliseconds = new Date() - new Date(dateString);
+    return Math.floor(ageInMilliseconds / 1000 / 60 / 60 / 24 / 365); // convert to years
+  }
+
+  let userAge = getAge(user.date_of_birth);
+  //console.log('AGE', userAge);
+
+  let projects = await projectModel.find(
     { gender: user.gender, localisation: user.city }
   )
 
-  //console.log('REPONSE : ', matchingProjects)
-  // age_range: { age_min: { $lt: user.age }, age_max: { $gt: user.age } }
+  //console.log('PROJETS', projects);
 
-  res.json( {matchingProjects} )
+  let matchingProjects = projects.filter(e => e.age_min < userAge);
+
+  // age_min: { $gt: userAge }, age_max: { $lt: userAge }
+  // console.log(user.gender);
+  // console.log(user.city);
+  // console.log(typeof(userAge));
+  //console.log('MATCHING PROJECTS :', matchingProjects);
+
+  res.json({ matchingProjects })
+
 
 })
 
@@ -271,29 +286,30 @@ router.post('/postuler', async function (req, res, next) {
   const idProjectExist = user.projects_selected.find(id=> id.idProject===id_Projet_Selected) // vérifier si le projet a déja été séléctionné ou pas 
  
   //console.log("id_Projet_Selected",id_Projet_Selected)
-  // console.log(token)
-  console.log("userSelected",userSelected)
-  //console.log(user)
+  console.log("token",token)
+  //console.log("userSelected",userSelected)
+  console.log("user",user)
   //console.log("user.projects_selected",user.projects_selected)
   //console.log("idProjectExist",idProjectExist)
 
+
   if(!idProjectExist){
     const matchVerify = userSelected.find(id => id==user._id);
-  console.log(matchVerify)
+  //console.log(matchVerify)
   if(matchVerify){
   match = true
   }
-  console.log("matchVerify",matchVerify)
+  //console.log("matchVerify",matchVerify)
 
   await userModel.updateOne(
     { token: token },
     { $push: { projects_selected:{idProject: id_Projet_Selected , match:match } } }
   )
 
-  res.json( {already:false , saveProjectSelected : true } )
+  res.json( {result: true } )
   }
   else {
-    res.json( {already:true} )
+    res.json( {result :true} )
   }
 
 })

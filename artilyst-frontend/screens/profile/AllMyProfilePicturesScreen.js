@@ -3,13 +3,11 @@ import Animated from 'react-native-reanimated';
 
 import React, { useRef, useState, useEffect } from 'react';
 
-
 //^ Module de balise
-import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity } from 'react-native';
-import { Text, Button } from '@rneui/base';
+import { Dimensions, StyleSheet, View,  ScrollView, TouchableOpacity, Divider } from 'react-native';
+import { Image,Text, Button } from '@rneui/base';
 //^ module bonus (icons)
 import { Ionicons } from '@expo/vector-icons';
-
 
 // ^Redux
 import { connect } from 'react-redux';
@@ -17,53 +15,42 @@ import { connect } from 'react-redux';
 
 function AllMyProfilePicturesScreen(props) {
 
+  
+    
+const AllUserPhotos = props.user.profile_photo.map((element, index) => {
+    console.log("eleemnt : ",element)
+    return (
+        <Image
+        key={index}
+        containerStyle={{ width: 200, height: 200, }}
+        resizeMode="contain"
+        source={{uri : element}}
+        style={{ borderRadius: 10, marginRight: 10 }}
+        PlaceholderContent="ff"
+    />
+    )
+})
+
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     // * ___________________________ PAGE ___________________________
 
 
     return (
 
-        <ScrollView style={styles.scrollView}>
+        <ScrollView style={styles.container}>
+            < Text>Gallery</Text>
             <View style={styles.container}>
-
-                <View style={{ marginTop: 30, width: "90%" }}   >
-                    <Text style={{ fontWeight: "bold", fontSize: 20 }}>Creer un nouveau projet </Text>
-
-                    <Button
-                        raised
-                        type="solid"
-                        containerStyle={{ borderWidth: 2, borderRadius: 10, borderColor: 'transparent', width: "40%", marginTop: 30, }}
-                        buttonStyle={{ borderRadius: 8, height: 140, backgroundColor: '#1ADBAC' }}
-                        onPress={() => { props.navigation.navigate('CollaborateurDuProjetScreen') }}
-                    >
-                        <Ionicons
-                            style={styles.icon}
-                            color='white'
-                            name="add"
-                            size={50}
-                            onPress={() => { props.navigation.navigate('CollaborateurDuProjetScreen') }}
-                        />
-                    </Button>
-                </View>
-
-
-                <Divider
-                    style={{ width: "100%", margin: 20 }}
-                    color="#d3d3d3"
-                    insetType="middle"
-                    width={1}
-                    orientation="horizontal"
-                />
-
-                <View style={{ width: "100%" }}>
-
-                    <Text style={{ fontWeight: "bold", fontSize: 20, marginBottom: 25, width: "90%", marginLeft: 20 }}>Mes projets </Text>
-
-
-                    {allUserPorjects}
-
-
-                </View>
+                {AllUserPhotos}
+<View>
+                <Image
+        containerStyle={{ width: 200, height: 200, }}
+        resizeMode="contain"
+        source={{uri : "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920"}}
+        style={{ borderRadius: 10, marginRight: 10 }}
+        PlaceholderContent="ff"
+    />
+    </View>
+    < Text>Gallery</Text>
             </View>
         </ScrollView>
 
@@ -75,19 +62,29 @@ function AllMyProfilePicturesScreen(props) {
 // * ___________________________ STYLES ___________________________
 
 const styles = StyleSheet.create({
-    mainContainer: {
+    container: {
         flex: 1,
     },
 });
 
 // * ___________________________ REDUX ___________________________
+
 function mapStateToProps(state) {
     return { user: state.user }
 }
 
+function mapDispatchToProps(dispatch) {
+    return {
+        addPictures: function (photoUrl, user) {
+            dispatch({ type: 'addPictures', photoUrl , user })
+        },
+        deletePicture: function (photoUrl, user) {
+            dispatch({ type: 'deletepicture', photoUrl , user })
+        }
+    }
+}
 
 export default connect(
     mapStateToProps,
-    null
+    mapDispatchToProps
 )(AllMyProfilePicturesScreen);
-

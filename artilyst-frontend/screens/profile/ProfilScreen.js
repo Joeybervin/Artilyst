@@ -1,4 +1,3 @@
-
 import Animated from 'react-native-reanimated';
 
 import React, { useRef, useState, useEffect } from 'react';
@@ -16,8 +15,8 @@ import Swiper from 'react-native-swiper'
 import { connect } from 'react-redux';
 
 import BottomSheet from 'reanimated-bottom-sheet';
-import { Entypo } from '@expo/vector-icons';
 
+import { Entypo } from '@expo/vector-icons';
 
 import * as ImagePicker from "expo-image-picker";
 
@@ -27,10 +26,17 @@ function ProfilScreen(props) {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
+
+
+    const [user, setUser] = useState(props.user)
+
     const [image, setImage] = useState(null);
     const [hasPermission, setHasPermission] = useState(false);
-    const [user, setUser0] = useState(props.user)
+
+    const [modalVisible, setModalVisible] = useState(false);
+
     const [pickedImagePath, setPickedImagePath] = useState("")
+
 
 
     /* VARIABLES */
@@ -40,26 +46,11 @@ function ProfilScreen(props) {
 
 
 
+
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
 
     // Récupérer infos du profil utilisateur
-    useEffect(() => {
-        async function loadData() 
-        {
-            const rawResponse = await fetch(`http:${expoUrlMustafa}/user_profile`, 
-            {
-                method: 'POST',
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `token=${informations.user_token}`
-            })
-            let response = await rawResponse.json(); 
-        }
-        
-    })
-            
-
-
 
 
     /* SECONDE */
@@ -75,7 +66,7 @@ function ProfilScreen(props) {
         }
 
         // const result = await ImagePicker.launchImageLibraryAsync();
-        let result = await ImagePicker.launchImageLibraryAsync({
+        const MediaLibraryResult = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
 
@@ -84,15 +75,48 @@ function ProfilScreen(props) {
         });
 
         // Explore the result
-   
 
-        console.log(result.uri)
-        setPickedImagePath(result.uri);
+        if (!MediaLibraryResult.cancelled) {
 
-      
+            if (MediaLibraryResult.uri) {
+
+            data.append(
+                'image_uploaded', {
+                uri: MediaLibraryResult.uri,
+                type: 'image/jpeg',
+                name: user.token, // ! A CORRIGER
+                
+            });
+         
+            props.navigation.navigate('AllMyProfilePicturesScreen')
+
+            let data_uploaded = await fetch(`http://${expoUrlMustafa}/upload_photo_profil`,
+             {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'multipart/form-data; ',
+                  },
+                body: data , 
+            })
+            let result = await data_uploaded.json()
+
+            props.addPictures(result.url, user)
+            user.profile_photo.push(result.url)
+
+           
+
+            let copyUserInfos = {...props.user}
+            setUser(copyUserInfos)
+            console.log("JE SUIS PASSE PAR ICI !!!!!!!")
+            
+            
+            }
+        }
+
+        
     }
 
-
+    /* Pour ouvrir la camera de l'utilisateur prendre une photo et la rajouter (database + reducer  => profil) */
     const openCamera = async () => {
         // Ask the user for the permission to access the camera
         const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
@@ -102,27 +126,23 @@ function ProfilScreen(props) {
             return;
         }
 
-        const result = await ImagePicker.launchCameraAsync();
+        const resultCamera = await ImagePicker.launchCameraAsync();
 
-        setPickedImagePath(result.uri);
         
-        console.log(pickedImagePath)
+        if (!resultCamera.cancelled) {
 
+            if (resultCamera.uri) {
 
-        if (!result.cancelled) {
-
-            if (pickedImagePath) {
-
-          
             data.append(
                 'image_uploaded', {
-                uri: pickedImagePath,
+                uri: resultCamera.uri,
                 type: 'image/jpeg',
                 name: user.token, // ! A CORRIGER
                 
             });
-            console.log( "DATA : ", data)
-
+ 
+            props.navigation.navigate('AllMyProfilePicturesScreen')
+            
             let data_uploaded = await fetch(`http://${expoUrlMustafa}/upload_photo_profil`,
              {
                 method: 'post',
@@ -134,7 +154,10 @@ function ProfilScreen(props) {
 
             let result = await data_uploaded.json()
             props.addPictures(result.url, user)
-            
+
+            let copyUserInfos = {...props.user}
+            setUser(copyUserInfos)
+            props.navigation.navigate('AllMyProfilePicturesScreen')
             }
         }
     }
@@ -196,6 +219,8 @@ function ProfilScreen(props) {
 
     // * ___________________________ PAGE ___________________________
 
+
+
     return (
 
         <ScrollView style={styles.container}>
@@ -210,7 +235,6 @@ function ProfilScreen(props) {
                 enabledContentGestureInteraction={true}
                 borderRadius={10}
             />
-
 
 
             <View style={styles.mainContainer}>
@@ -284,8 +308,13 @@ function ProfilScreen(props) {
 
                 </View>
 
-            </View>
-        </ScrollView>
+
+        
+
+      </View>
+      </ScrollView>
+     
+       
     );
 }
 
@@ -431,7 +460,7 @@ function mapDispatchToProps(dispatch) {
             dispatch({ type: 'addInfosToUser', user })
         },
         addPictures: function (photoUrl, user) {
-            dispatch({ type: 'addPictures', photoUrl : photoUrl, user : user })
+            dispatch({ type: 'addPictures', photoUrl , user })
         }
     }
 }

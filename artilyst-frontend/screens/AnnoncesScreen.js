@@ -30,7 +30,7 @@ function AnnoncesScreen(props) {
     const [matchingCasting, setMatchingCasting] = useState([]); // Tableau des données venant du backend
     const [castingCategory, setCastingCategory] = useState(''); // Valeur choisie dans le menu déroulant
     const [isPaid, setIsPaid] = useState(false); // Valeur du switch "projets rémunérés"
- 
+    const [disabled, setDisabled]=useState(false)
 
     /* VARIABLES */
     const dropdownData = [ // Collecte tous les catégories de projet disponnible
@@ -60,24 +60,27 @@ function AnnoncesScreen(props) {
             })
             let response = await rawResponse.json();
             setMatchingCasting(response.matchingProjects)
-            console.log("reponse",response.matchingProjects)
+            //console.log("reponse",response.matchingProjects)
         }
         loadCasting();
     }, []);
 
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
-//*********** envoyer les infos necessaires au match au backen  */
+//*********** envoyer les infos necessaires à l'ajout des ID projets dans le collection user et qulifier le match (true/false) au backend  */
   
   const Postuler = async (id , users) =>{
+      
         var rawResponse = await fetch(`http://${expoUrlMustafa}/postuler`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({token : informations.user_token , projectId:id, userSelected:users }),
+            body: JSON.stringify({token :props.user.token , projectId:id, userSelected:users }),
             
         })
-        console.log("users",users)
+        console.log("props.user.token",props.user.token)
         let response = await rawResponse.json();
+
+        
 
 
     }
@@ -116,7 +119,9 @@ function AnnoncesScreen(props) {
                     <Button
                         color='#1ADBAC'
                         buttonStyle={{ backgroundcolor: '#1ADBAC' }}
-                        title="postuler" onPress={()=>Postuler(casting._id , casting.users_selected)}/>
+                        title="postuler" onPress={()=>Postuler(casting._id , casting.users_selected)}
+                        
+                        />
                 </View>
 
             </View>
