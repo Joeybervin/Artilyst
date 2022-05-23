@@ -2,7 +2,7 @@
 
 const expoUrlJoey = "192.168.10.185:3000";
 
-const expoUrlRaf = "192.168.10.134:3000";
+const expoUrlRaf = "192.168.10.149:3000";
 
 const expoUrlBertin = "192.168.10.127:3000";
 

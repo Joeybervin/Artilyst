@@ -13,7 +13,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 // ^ Icon
 import { Ionicons } from '@expo/vector-icons';
 
-import { expoUrlMustafa } from '../ExpoUrl';
+import { expoUrlRaf } from '../ExpoUrl';
 
 import { connect } from 'react-redux';
 
@@ -53,7 +53,7 @@ function AnnoncesScreen(props) {
     // Réception des casting filtrés pour l'utilisateur
     useEffect(() => {
         async function loadCasting() {
-            var rawResponse = await fetch(`http://${expoUrlMustafa}/search_casting`, {
+            var rawResponse = await fetch(`http://${expoUrlRaf}/search_casting`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.user.token}`
@@ -70,7 +70,7 @@ function AnnoncesScreen(props) {
 //*********** envoyer les infos necessaires au match au backen  */
   
   const Postuler = async (id , users) =>{
-        var rawResponse = await fetch(`http://${expoUrlMustafa}/postuler`, {
+        var rawResponse = await fetch(`http://${expoUrlRaf}/postuler`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({token : informations.user_token , projectId:id, userSelected:users }),

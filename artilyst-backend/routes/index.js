@@ -259,7 +259,7 @@ router.post('/search_casting', async function (req, res, next) {
     { gender: user.gender, localisation: user.city }
   )
 
-  console.log('PROJETS', projects);
+  // console.log('PROJETS', projects);
 
   let matchingProjects = projects.filter(e => e.age_min < userAge);
 
