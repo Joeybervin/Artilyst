@@ -69,17 +69,22 @@ function ProfileEditScreen(props) {
 
     // Update du profil dans la bdd
     async function updateUserProfile() {
+
+        let user_new_informations = {token: user.token, city: city, description: description, cv: cv, name : name,
+            
+                gender: gender, ethnicGroup: ethnicGroup, hair: hair, eyes: eyes, height: height, weight: weight, corpulence: corpulence,
+                 waistSize: waistSize, bustSize: bustSize, hipMeasurement: hipMeasurement 
+            }
+
         const rawResponse = await fetch(`http://${expoUrlJoey}/update_user_profile`, {
             method: 'PUT',
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                token: user.token, city: city, description: description, cv: cv,
-                user_characteristics: {
-                    gender: gender, ethnicGroup: ethnicGroup, hair: hair, eyes: eyes, height: height, weight: weight, corpulence: corpulence,
-                    measurements: { waistSize: waistSize, bustSize: bustSize, hipMeasurement: hipMeasurement }
-                }
-            })
+            body: JSON.stringify({user_new_informations})
         })
+
+        let response = await rawResponse.json()
+
+        console.log(response)
     }
 
     const geolocation = async () => {
@@ -427,7 +432,7 @@ return (
 
                 {/* -------- TAILLE -------- */}
                 <Text style={{marginBottom : 10, marginTop : 25, fontSize : 16,}}>Taille</Text>
-                <View>
+                <View style={{alignItems : "center"}}>
                     <Slider
                         animateTransitions
                         animationType="timing"
@@ -455,29 +460,27 @@ return (
                         trackStyle={{ height: 10, borderRadius: 20 }}
                         value={150}
                     />
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Text >100 cm</Text>
-                        <Text style={{ color: 'green' }}>
-                            {height} cm
-                        </Text>
-                        <Text>250 cm</Text>
-                    </View>
+                   
                 </View>
-
-                <Text>Valeur</Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around', }}>
+                        <Text >100</Text>
+                        <Text style={{ color: 'green' }}> taille :  {height} cm</Text>
+                        <Text>250</Text>
+                    </View>
+            
 
                 {/* ___________________________________________________________________________________________________________________ */}
 
                 {/* -------- POIDS -------- */}
                 <Text style={{marginBottom : 10, marginTop : 25, fontSize : 16,}}>Poids</Text>
-                <View>
+                <View style={{alignItems : "center"}}>
                     <Slider
                         animateTransitions
                         animationType="timing"
                         maximumTrackTintColor="#ccc"
-                        maximumValue={250}
+                        maximumValue={200}
                         minimumTrackTintColor="#222"
-                        minimumValue={100}
+                        minimumValue={40}
                         onSlidingComplete={() =>
                             console.log("onSlidingComplete()")
                         }
@@ -490,17 +493,20 @@ return (
                         }}
                         orientation="horizontal"
                         step={1}
-                        style={{ width: "80%", height: 80 }}
+                        style={{ width: "80%", height: 70 }}
                         thumbStyle={{ height: 20, width: 20 }}
-                        thumbTintColor="#0c0"
-                        thumbTouchSize={{ width: 40, height: 40 }}
+                        thumbTintColor="#1ADBAC"
+                        thumbTouchSize={{ width: 30, height: 30 }}
                         trackStyle={{ height: 10, borderRadius: 20 }}
                         value={150}
                     />
 
                 </View>
-
-                <Text>Valeur</Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                    <Text >40</Text>
+                    <Text style={{ color: 'green' }}> poids :  {weight} kg</Text>
+                    <Text>200</Text>
+                </View>
 
                 {/* ___________________________________________________________________________________________________________________ */}
 
@@ -515,7 +521,7 @@ return (
                 {/* ___________________________________________________________________________________________________________________ */}
 
                 {/* -------- MENSURATIONS -------- */}
-                <Text style={{marginBottom : 10, marginTop : 25, fontSize : 16,}}>Mensurations</Text>
+                <Text style={{marginBottom : 25, marginTop : 25, fontSize : 16,}}>Mensurations</Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', }}>
                     <View style={{ alignItems: 'center' }}>
                         <Text>Taille</Text>
@@ -632,7 +638,25 @@ return (
                     />
                 </View>
 
-                <Button containerStyle={{ marginBottom: 100 }} onPress={() => updateUserProfile()}>Enregistrer</Button>
+                <View style={{ flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginVertical: 100, backgroundColor: '#33333341'}} >
+                    <Button
+                        title="annuler"
+                        titleStyle={{ paddingHorizontal: 30 }}
+                        buttonStyle={{ borderRadius: 8, backgroundColor: "#000000", color: "black" }}
+                        onPress={() => {
+                            props.navigation.goBack()
+                        }}
+                    />
+                    <Button
+                        title="enregistrer"
+                        titleStyle={{ paddingHorizontal: 25 }}
+                        buttonStyle={{ borderRadius: 8, backgroundColor: "#1ADBAC", color: "black" }}
+                        onPress={() => {
+                            updateUserProfile()
+                            props.navigation.navigate('ProfileScreen')
+                        }}
+                    />
+                </View>
 
             </View>
             </View>
@@ -658,8 +682,8 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     inputSmall: {
-        width: '80%',
-        height: 30,
+        width: '85%',
+        height: 45,
         margin: 12,
         borderWidth: 1,
         borderColor: '#d3d3d3',

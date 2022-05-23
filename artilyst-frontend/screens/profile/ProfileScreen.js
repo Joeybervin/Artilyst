@@ -23,7 +23,7 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import * as ImagePicker from "expo-image-picker";
 
 
-function ProfilScreen(props) {
+function ProfileScreen(props) {
 
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
@@ -206,8 +206,16 @@ function ProfilScreen(props) {
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
 
+    let userProdileImages
+    if (props.user.profile_photo) {
+        userProdileImages = props.user.profile_photo
+    }
+    else  {
+        userProdileImages = ["https://nopanic.fr/wp-content/themes/soledad/images/.jpg"]
+    }
 
-    const userPhotos = props.user.profile_photo.map((element, index) => {
+
+    const userPhotos = userProdileImages.map((element, index) => {
         return (
             <View key={index} style={{ width: "100%", height: "100%", borderRadius: 10, alignItems: "center" }}>
                 <Image
@@ -289,40 +297,40 @@ function ProfilScreen(props) {
                 {/* -------- INFORMATIONS --------  */}
                 <View style={styles.firstInformations} >
                     <Text h5 style={{ fontWeight: "bold", marginRight: 35, fontSize: 20 }}>{user.name}
-                        <Ionicons name={genderIcon(user.gender)} size={19} color='black' />
+                        <Ionicons name={genderIcon(user.gender ? user.gender : "male-female-outline")} size={19} color='black' />
                     </Text>
                     <View style={styles.location}>
                         <Ionicons name={'location-sharp'} size={24} color='black' />
-                        <Text h5 style={{ fontSize: 20, marginLeft: 10 }}>{user.city}</Text>
+                        <Text h5 style={{ fontSize: 20, marginLeft: 10 }}>{user.city ? user.city : "non renseigné"}</Text>
                     </View>
                 </View>
 
 
                 {/* -------- CATEGORIE --------  */}
                 <View style={styles.occupationContainer}>
-                    <Text style={styles.occupationText}>{user.occupation}</Text>
+                    <Text style={styles.occupationText}>{user.occupation ? user.occupation : "non renseigné"}</Text>
                 </View>
 
                 {/* -------- ABOUT --------  */}
                 <View style={{ marginBottom: 25 }}>
                     <Text style={{ fontWeight: "bold", marginBottom: 10 }}>À propos de moi :</Text>
-                    <Text>{user.description}</Text>
+                    <Text>{user.description !== undefined ? user.description : "non renseigné"}</Text>
                 </View>
 
 
-                {/* -------- USER CARACTERISTICS --------  */}
+                {/* -------- USER CARACTERISTICS --------  
                 <View style={styles.caracteristicsContainer}>
-                    <Text>couleur des yeux : {user.user_caracteristics.eyes}</Text>
-                    <Text>Ethnie : {user.user_caracteristics.ethnie}</Text>
+                    <Text>couleur des yeux : {user.characteristics.eyes === undefined ? "non renseigné" : user.characteristics.eyes}</Text>
+                    <Text>Ethnie : {user.characteristics.ethnie !== undefined ? user.characteristics.ethnie : "non renseigné"}</Text>
 
-                    <Text>Corpulence : {user.user_caracteristics.corpulence}</Text>
-                    <Text>Taille : {user.user_caracteristics.height}cm  Poids : {user.user_caracteristics.weight}kg</Text>
-                    {/* Mensuration */}
+                    <Text>Corpulence : {user.characteristics.corpulence !== undefined ? user.characteristics.corpulence : "non renseigné"}</Text>
+                    <Text>Taille : {user.characteristics.height !== undefined ? user.characteristics.height : "non renseigné"}cm  Poids : {user.characteristics.weight !== undefined ? user.characteristics.weight : "non renseigné" }kg</Text>*/}
+                    {/* Mensuration 
                     <Text>Mensurations :</Text>
-                    <Text>taille : {user.user_caracteristics.measurments.waist} cm  -  poitrine : {user.user_caracteristics.measurments.bust} cm</Text>
+                    <Text>taille : {user.characteristics.measurments.waist !== undefined ? user.characteristics.measurments.waist : "non renseigné"} cm  -  poitrine : {user.characteristics.measurments.bust !== undefined ? user.characteristics.measurments.bust : "non renseigné"} cm</Text>
                     <Text></Text>
 
-                </View>
+                </View>*/}
 
 
         
@@ -481,6 +489,6 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(ProfilScreen);
+)(ProfileScreen);
 
 

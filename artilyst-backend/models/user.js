@@ -8,7 +8,6 @@ var userSchema = mongoose.Schema({
     occupation : String,
     description: String,
     cv : String,
-    coucou : Array,
     profile_photo : Array,
     portfolio :  Array, // portofolios : Array => Object
     projects_selected :  Array , // On=bjeect => id du projet + match en booleen
@@ -16,7 +15,20 @@ var userSchema = mongoose.Schema({
     insert_date: Date,
 
     date_of_birth :  Date,
-    user_caracteristics : Object,
+    user_characteristics : Object,
+    /*  {
+        gender: String, 
+        ethnicGroup: String,
+        hair: String, 
+        eyes: String, 
+        height: Number, 
+        weight: Number, 
+        corpulence: String,
+        measurements: { 
+            waistSize: Number, 
+            bustSize: Number, 
+            hipMeasurement: Number }
+    }, */
     city : String,
 
 

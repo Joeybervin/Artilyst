@@ -39,7 +39,7 @@ import LikesScreen from './screens/LikesScreen';
 
 /* headers screens */
 // profil
-import ProfilScreen from './screens/profile/ProfilScreen';
+import ProfileScreen from './screens/profile/ProfileScreen';
 import ProfileEditScreen from './screens/profile/ProfileEditScreen';
 /* Gallery */
 import GalleryScreen from './screens/profile/gallery/GalleryScreen'
@@ -104,7 +104,7 @@ function PagesStacks() {
 
         {/* ------------------------ HEADER TAB ------------------------ */}
         {/* PROFIL */}
-        <TabNavigator.Screen name="ProfilScreen" component={ProfilScreen}  options={{ tabBarButton: () => null }} />
+        <TabNavigator.Screen name="ProfileScreen" component={ProfileScreen}  options={{ tabBarButton: () => null }} />
         <TabNavigator.Screen name="ProfileEditScreen" component={ProfileEditScreen}  options={{ tabBarButton: () => null}}/>
         {/* GALLERY */}
         <TabNavigator.Screen name="GalleryScreen" component={GalleryScreen}  options={{ tabBarButton: () => null }}/>
@@ -182,7 +182,7 @@ export default function App() {
               icon={<Ionicons name={"person"} size={20} color="white" />}
               buttonStyle= {{marginHorizontal : 25, borderRadius : 100}}
               color="#BBBBBB"
-              onPress={() => navigation.navigate('ProfilScreen')}
+              onPress={() => navigation.navigate('ProfileScreen')}
             />
           ),
           headerRight: () => ( // MESSAGERIE

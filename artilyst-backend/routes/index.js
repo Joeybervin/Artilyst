@@ -108,20 +108,36 @@ router.put('/update_user_profile', async function (req, res, next) {
 
   let user_new_informations = req.body.user_new_informations // Je récupère les infos entrées
 
-  await userModel.updateOne( // ! A REVOIR
+console.log(user_new_informations.user_characteristics)
+  let updatedUser = await userModel.updateOne( 
     { token: user_new_informations.token },
     {
-      occupation: user_new_informations.occupation,
-      name: user_new_informations.name,
-      gender: user_new_informations.gender,
-
+      name : user_new_informations.name,
       description: user_new_informations.description,
       cv: user_new_informations.cv,
-      user_caracteristics: user_new_informations.user_caracteristics,
       city: user_new_informations.city,
+      user_characteristics: {
+        gender: user_new_informations.gender, 
+        ethnicGroup: user_new_informations.ethnicGroup,
+        hair: user_new_informations.hair, 
+        eyes: user_new_informations.eyes, 
+        height: user_new_informations.height, 
+        weight: user_new_informations.weight, 
+        corpulence: user_new_informations.corpulence,
+        measurements: { 
+            waistSize: user_new_informations.waistSize, 
+            bustSize: user_new_informations.bustSize, 
+            hipMeasurement: user_new_informations.hipMeasurement },
+    
+      },
+      
       siren: user_new_informations.siren, // 14 chiffre
     }
   );
+
+ console.log(updatedUser)
+
+  res.json({changement : "terminé"})
 })
 
 //* ____________________________________ PROJET ________________________________
@@ -309,8 +325,6 @@ router.delete('/delete_portfolio', async function (req, res, next) {
     res.json({deleteStatus : true})
 
 })
-
-
 
 //* ____________________________________ ANNONCES / RECHERCHE / FILTRE ________________________________
 
