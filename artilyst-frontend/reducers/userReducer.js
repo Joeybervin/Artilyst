@@ -6,12 +6,10 @@ export default function( userInfos = {}, action) {
     }
     else if (action.type === "updateUserInformation") {
         
-        let userDatas = action.user // Object : Les données de l'utilisateur avec les modifications apportées
+        let user_new_informations = action.user_new_informations // Object : Les données de l'utilisateur avec les modifications apportées
 
         let newUserInfos = {...userInfos} 
-        newUserInfos = userDatas // ! A revoir
-
-        newUserInfos = userDatas // ! A revoir
+       
         
         return newUserInfos
     }

@@ -15,7 +15,7 @@ var userSchema = mongoose.Schema({
     insert_date: Date,
 
     date_of_birth :  Date,
-    user_characteristics : Object,
+    characteristics : Object,
     /*  {
         gender: String, 
         ethnicGroup: String,

@@ -206,16 +206,17 @@ function ProfileScreen(props) {
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
 
-    let userProdileImages
-    if (props.user.profile_photo) {
-        userProdileImages = props.user.profile_photo
+    let userProfileImages
+    if (user.profile_photo.length > 0) {
+        userProfileImages = props.user.profile_photo
     }
     else  {
-        userProdileImages = ["https://nopanic.fr/wp-content/themes/soledad/images/.jpg"]
+        userProfileImages = ["https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg"]
     }
 
 
-    const userPhotos = userProdileImages.map((element, index) => {
+    const userPhotos = userProfileImages.map((element, index) => {
+        console.log(element)
         return (
             <View key={index} style={{ width: "100%", height: "100%", borderRadius: 10, alignItems: "center" }}>
                 <Image
@@ -318,19 +319,29 @@ function ProfileScreen(props) {
                 </View>
 
 
-                {/* -------- USER CARACTERISTICS --------  
+                {/* -------- USER CARACTERISTICS --------  */}
+                
+
                 <View style={styles.caracteristicsContainer}>
-                    <Text>couleur des yeux : {user.characteristics.eyes === undefined ? "non renseigné" : user.characteristics.eyes}</Text>
-                    <Text>Ethnie : {user.characteristics.ethnie !== undefined ? user.characteristics.ethnie : "non renseigné"}</Text>
 
-                    <Text>Corpulence : {user.characteristics.corpulence !== undefined ? user.characteristics.corpulence : "non renseigné"}</Text>
-                    <Text>Taille : {user.characteristics.height !== undefined ? user.characteristics.height : "non renseigné"}cm  Poids : {user.characteristics.weight !== undefined ? user.characteristics.weight : "non renseigné" }kg</Text>*/}
-                    {/* Mensuration 
+                    <Text>Groupe ethnique : {user.characteristics.ethnicGroup === null ? "non renseigné" : user.characteristics.ethnicGroup}</Text>
+
+
+                    <Text>couleur des yeux : {user.characteristics.eyes === null ? "non renseigné" : user.characteristics.eyes}</Text>
+                    <Text>couleur des cheveux : {user.characteristics.hair === null ? "non renseigné" : user.characteristics.hair}</Text>
+
+                    
+
+                    <Text>Corpulence : {user.characteristics.corpulence !== null ? user.characteristics.corpulence : "non renseigné"}</Text>
+
+                    <Text>Taille : {user.characteristics.height !== null ? user.characteristics.height : "--"} cm  Poids : {user.characteristics.weight !== null ? user.characteristics.weight : "--" } kg</Text>
+                    {/* Mensuration */}
+
                     <Text>Mensurations :</Text>
-                    <Text>taille : {user.characteristics.measurments.waist !== undefined ? user.characteristics.measurments.waist : "non renseigné"} cm  -  poitrine : {user.characteristics.measurments.bust !== undefined ? user.characteristics.measurments.bust : "non renseigné"} cm</Text>
-                    <Text></Text>
+                    <Text>taille : {user.characteristics.measurements.waist !== null ? user.characteristics.measurements.waist : "--"} cm  -  poitrine : {user.characteristics.measurements.bust !== null ? user.characteristics.measurements.bust : "--"} cm -  hanche : {user.characteristics.measurements.hips !== null ? user.characteristics.measurements.hips : "--"} cm</Text>
+                    
 
-                </View>*/}
+                </View>
 
 
         

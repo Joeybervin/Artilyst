@@ -108,15 +108,15 @@ router.put('/update_user_profile', async function (req, res, next) {
 
   let user_new_informations = req.body.user_new_informations // Je récupère les infos entrées
 
-console.log(user_new_informations.user_characteristics)
-  let updatedUser = await userModel.updateOne( 
+console.log(user_new_informations.characteristics)
+  await userModel.updateOne( 
     { token: user_new_informations.token },
     {
       name : user_new_informations.name,
       description: user_new_informations.description,
       cv: user_new_informations.cv,
       city: user_new_informations.city,
-      user_characteristics: {
+      characteristics: {
         gender: user_new_informations.gender, 
         ethnicGroup: user_new_informations.ethnicGroup,
         hair: user_new_informations.hair, 
@@ -125,17 +125,15 @@ console.log(user_new_informations.user_characteristics)
         weight: user_new_informations.weight, 
         corpulence: user_new_informations.corpulence,
         measurements: { 
-            waistSize: user_new_informations.waistSize, 
-            bustSize: user_new_informations.bustSize, 
-            hipMeasurement: user_new_informations.hipMeasurement },
+            waist: user_new_informations.waistSize, 
+            bust: user_new_informations.bustSize, 
+            hips: user_new_informations.hipMeasurement },
     
       },
       
       siren: user_new_informations.siren, // 14 chiffre
     }
   );
-
- console.log(updatedUser)
 
   res.json({changement : "terminé"})
 })

@@ -40,9 +40,9 @@ function ProfileEditScreen(props) {
     const [height, setHeight] = useState(user.height === "" ? 0 : user.height);// Slider taille
     const [weight, setWeight] = useState(user.weight === "" ? 0 : user.weight);// Slider poids
     // Mensurations
-    const [waistSize, setWaistSize] = useState(user.waistSize === "" ? 0 : user.waistSize); // waist
-    const [bustSize, setBustSize] = useState(user.bustSize === "" ? 0 : user.bustSize); // bust
-    const [hipMeasurement, setHipMeasurement] = useState(user.hipMeasurement === "" ? 0 : user.hipMeasurement); // hips
+    const [waist, setWaist] = useState(user.waist === "" ? 0 : user.waist); // waist
+    const [bust, setBust] = useState(user.bust === "" ? 0 : user.bust); // bust
+    const [hips, setHips] = useState(user.hips === "" ? 0 : user.hips); // hips
     const [corpulence, setCorpulence] = useState(user.corpulence === "" ? "" : user.corpulence);// Corpulence 
 
     /* Pour la géolocalisation */
@@ -71,10 +71,7 @@ function ProfileEditScreen(props) {
     async function updateUserProfile() {
 
         let user_new_informations = {token: user.token, city: city, description: description, cv: cv, name : name,
-            
-                gender: gender, ethnicGroup: ethnicGroup, hair: hair, eyes: eyes, height: height, weight: weight, corpulence: corpulence,
-                 waistSize: waistSize, bustSize: bustSize, hipMeasurement: hipMeasurement 
-            }
+                gender: gender, ethnicGroup: ethnicGroup, hair: hair, eyes: eyes, height: height, weight: weight, corpulence: corpulence, waist: waist, bust: bust, hips: hips }
 
         const rawResponse = await fetch(`http://${expoUrlJoey}/update_user_profile`, {
             method: 'PUT',
@@ -84,7 +81,10 @@ function ProfileEditScreen(props) {
 
         let response = await rawResponse.json()
 
-        console.log(response)
+        if (response.changement === "terminé") {
+            props.updateUserInformation(user_new_informations)
+        }
+      
     }
 
     const geolocation = async () => {
@@ -159,7 +159,7 @@ return (
                     numberOfLines = {10}
                     placeholder="Ma description"
                     onChangeText={setDescription}
-                    value={user.description === "" ? description : user.description}
+                    value={description}
                 />
 
                 <Text style={{marginBottom : 10, marginTop : 25, fontSize : 16,}}>CV et lien</Text>
@@ -169,7 +169,7 @@ return (
                     numberOfLines = {10}
                     placeholder="Ma formation, mes expériences..."
                     onChangeText={setCv}
-                    value={cv.city === "" ? cv : user.cv}
+                    value={cv}
                 />
 
                 {/* SELECTION DU GENRE */}
@@ -529,8 +529,8 @@ return (
                             style={styles.inputSmall}
                             placeholder="50 cm"
                             keyboardType="numeric"
-                            onChangeText={setWaistSize}
-                            value={waistSize}
+                            onChangeText={setWaist}
+                            value={waist}
                         />
                     </View>
                     <View style={{ alignItems: 'center' }}>
@@ -539,8 +539,8 @@ return (
                             style={styles.inputSmall}
                             placeholder="50 cm"
                             keyboardType="numeric"
-                            onChangeText={setBustSize}
-                            value={bustSize}
+                            onChangeText={setBust}
+                            value={bust}
                         />
                     </View>
                     <View style={{ alignItems: 'center' }}>
@@ -549,8 +549,8 @@ return (
                             style={styles.inputSmall}
                             placeholder="50 cm"
                             keyboardType="numeric"
-                            onChangeText={setHipMeasurement}
-                            value={hipMeasurement}
+                            onChangeText={setHips}
+                            value={hips}
                         />
                     </View>
                 </View>
@@ -697,8 +697,8 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        updateUserInformation: function (user) {
-            dispatch({ type: 'updateUserInformation', user })
+        updateUserInformation: function (user_new_informations) {
+            dispatch({ type: 'updateUserInformation', user_new_informations })
 
         }
     }
