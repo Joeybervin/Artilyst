@@ -80,31 +80,31 @@ function RegisterFormScreen2(props) {
                 <Button
                     buttonStyle={{ backgroundColor: '#1ADBAC' }}
                     title="Comédien/ne"
-                    onPress={() => addUserOccupation("Comédien/ne")}
+                    onPress={() => addUserOccupation("comédien/ne")}
                 />
 
                 <Button
                     buttonStyle={{ backgroundColor: '#16B88F' }}
                     title="Modèle"
-                    onPress={() => addUserOccupation("Modèle")}
+                    onPress={() => addUserOccupation("modèle")}
                 />
                 <Button
                     buttonStyle={{ backgroundColor: '#109171' }}
                     title="Photographe"
-                    onPress={() => addUserOccupation("Photographe")}
+                    onPress={() => addUserOccupation("photographe")}
                 />
 
                 <Button
                     buttonStyle={{ backgroundColor: '#0B664F' }}
                     title="Styliste"
-                    onPress={() => addUserOccupation("Styliste")}
+                    onPress={() => addUserOccupation("styliste")}
                 />
 
                 <Button
                 
                     buttonStyle={{ backgroundColor: '#074233' }}
                     title="Réalisateur/ice vidéaste"
-                    onPress={() => addUserOccupation("Réalisateur/ice vidéaste")}
+                    onPress={() => addUserOccupation("réalisateur/ice vidéaste")}
                 />
 
             </View>
@@ -118,7 +118,7 @@ function RegisterFormScreen2(props) {
             <Button
             containerStyle={{width : 210}}
                 buttonStyle={{ backgroundColor: '#AD4DB9' }}
-                title="recruteur"
+                title="Recruteur"
 
                 onPress={() => addUserOccupation("recruteur")}
             />

@@ -108,34 +108,35 @@ router.put('/update_user_profile', async function (req, res, next) {
 
   let user_new_informations = req.body.user_new_informations // Je récupère les infos entrées
 
-console.log(user_new_informations.characteristics)
-  await userModel.updateOne( 
+  console.log(user_new_informations.characteristics)
+  await userModel.updateOne(
     { token: user_new_informations.token },
     {
-      name : user_new_informations.name,
+      name: user_new_informations.name,
       description: user_new_informations.description,
       cv: user_new_informations.cv,
       city: user_new_informations.city,
       characteristics: {
-        gender: user_new_informations.gender, 
+        gender: user_new_informations.gender,
         ethnicGroup: user_new_informations.ethnicGroup,
-        hair: user_new_informations.hair, 
-        eyes: user_new_informations.eyes, 
-        height: user_new_informations.height, 
-        weight: user_new_informations.weight, 
+        hair: user_new_informations.hair,
+        eyes: user_new_informations.eyes,
+        height: user_new_informations.height,
+        weight: user_new_informations.weight,
         corpulence: user_new_informations.corpulence,
-        measurements: { 
-            waist: user_new_informations.waistSize, 
-            bust: user_new_informations.bustSize, 
-            hips: user_new_informations.hipMeasurement },
-    
+        measurements: {
+          waist: user_new_informations.waistSize,
+          bust: user_new_informations.bustSize,
+          hips: user_new_informations.hipMeasurement
+        },
+
       },
-      
+
       siren: user_new_informations.siren, // 14 chiffre
     }
   );
 
-  res.json({changement : "terminé"})
+  res.json({ changement: "terminé" })
 })
 
 //* ____________________________________ PROJET ________________________________
@@ -159,10 +160,10 @@ router.post('/project', async function (req, res, next) {
     remuneration: projectInfos.remuneration,
     photos: '',
     users_selected: projectInfos.userstable, // table de tokens des users selectionnées
-    age_min:projectInfos.ageMin,
+    age_min: projectInfos.ageMin,
     age_max: projectInfos.ageMax,
     collaborators_caracteristics: {},
-    localisation: projectInfos.location,
+    location: projectInfos.location,
 
   })
 
@@ -215,14 +216,14 @@ router.put('/upload_image_portfolio', async function (req, res, next) {
   // console.log(req.files.image_uploaded)
 
 
-  let image = './tmp/' + uniqid() + '.jpg' 
+  let image = './tmp/' + uniqid() + '.jpg'
 
   let user_token = req.body.token
   let portfolioIndex = req.body.portfolioIndex
 
-  let user = userModel.findOne({token : user_token})
+  let user = userModel.findOne({ token: user_token })
 
-  console.log("BEFORE UPDATE : " , user.portofolio0)
+  console.log("BEFORE UPDATE : ", user.portofolio0)
 
   var resultCopy = await req.files.image_uploaded.mv(image);
 
@@ -230,8 +231,8 @@ router.put('/upload_image_portfolio', async function (req, res, next) {
     var resultCloudinary = await cloudinary.uploader.upload(image);
 
     user.portofolio[portfolioIndex].push(resultCloudinary.url)
-    
-    console.log("AFTER UPDATE : " , user.portofolio0)
+
+    console.log("AFTER UPDATE : ", user.portofolio0)
 
     res.json(resultCloudinary);
   } else {
@@ -241,12 +242,15 @@ router.put('/upload_image_portfolio', async function (req, res, next) {
   fs.unlinkSync(image); // suppression de la photo du dossier tmp
 
   await userModel.updateOne( // ! A REVOIR
-    { token: user_token,
-    portfolio : {title : portofolioName} },
-    { $push:  { images : resultCloudinary.url }
-    } )
+    {
+      token: user_token,
+      portfolio: { title: portofolioName }
+    },
+    {
+      $push: { images: resultCloudinary.url }
+    })
 
-    console.log(userModel)
+  console.log(userModel)
 
 
 
@@ -257,27 +261,31 @@ router.put('/upload_portfolio', async function (req, res, next) {
   let user_token = req.body.token
   let portfolioName = req.body.portfolioName
 
-  let user = await userModel.findOne({token : user_token})
+  let user = await userModel.findOne({ token: user_token })
 
-  const doublePortfolio = user.portfolio.find( element => element.title === portfolioName)
+  const doublePortfolio = user.portfolio.find(element => element.title === portfolioName)
 
-  if (!doublePortfolio ) {
+  if (!doublePortfolio) {
 
     await userModel.updateOne(
-        { token: user_token },
-        { $push: { portfolio: {
-          title : portfolioName,
-          images : [] }
-        } })
+      { token: user_token },
+      {
+        $push: {
+          portfolio: {
+            title: portfolioName,
+            images: []
+          }
+        }
+      })
 
-        res.json({upload : true})
+    res.json({ upload: true })
   }
   else {
 
-    res.json({upload : false})
+    res.json({ upload: false })
   }
 
-  
+
 
 });
 
@@ -290,11 +298,11 @@ router.delete('/delete_profile_Image', async function (req, res, next) {
   let user_token = req.body.token
 
   await userModel.updateOne(
-    {token: user_token},
-    {$pull : {profile_photo : profileImageUrl}}
-    );
+    { token: user_token },
+    { $pull: { profile_photo: profileImageUrl } }
+  );
 
-    res.json({status : "supprimé"})
+  res.json({ status: "supprimé" })
 
 })
 
@@ -308,28 +316,37 @@ router.delete('/delete_portfolio_image', async function (req, res, next) {
   console.log(portfolioTitle)
 
   let deleteresult = await userModel.updateOne(
-    {token: user_token},
-    {$pull: {portfolio : {
-      title : portfolioTitle,
-      images : portfolioImageUrl}}}
-    );
-    console.log(deleteresult) 
+    { token: user_token },
+    {
+      $pull: {
+        portfolio: {
+          title: portfolioTitle,
+          images: portfolioImageUrl
+        }
+      }
+    }
+  );
+  console.log(deleteresult)
 })
 
 // Pour que l'utilisateur puisse supprimer une image de son portofolio
 router.delete('/delete_portfolio', async function (req, res, next) {
 
-  
+
   let user_token = req.body.token
   let portfolioName = req.body.portfolioName
 
-    await userModel.updateOne(
-        { token: user_token },
-        { $pull: { portfolio: {
-          title : portfolioName }
-        } })
+  await userModel.updateOne(
+    { token: user_token },
+    {
+      $pull: {
+        portfolio: {
+          title: portfolioName
+        }
+      }
+    })
 
-    res.json({deleteStatus : true})
+  res.json({ deleteStatus: true })
 
 })
 
@@ -338,11 +355,7 @@ router.delete('/delete_portfolio', async function (req, res, next) {
 // Pour filtrer et chercher les castings correpondant au critères de l'artiste
 router.post('/search_casting', async function (req, res, next) {
 
-  console.log(req.body.token);
-
   let user = await userModel.findOne({ token: req.body.token });
-
-  
 
   function getAge(dateString) {
     let ageInMilliseconds = new Date() - new Date(dateString);
@@ -350,17 +363,28 @@ router.post('/search_casting', async function (req, res, next) {
   }
 
   let userAge = getAge(user.date_of_birth);
-  console.log('AGE', userAge);
 
   let projects = await projectModel.find(
-    { gender: user.characteristics.gender, localisation: user.city }
+    { gender: user.characteristics.gender, location: user.city }
   )
 
   let matchingProjects = projects.filter(e => e.age_min < userAge);
-
-  console.log('RESULTAT :', matchingProjects)
+  //matchingProjects = projects.filter(e => e.age_max > userAge);
 
   res.json({ matchingProjects })
+
+})
+
+// Affichage des artistes correspondants aux critères du projet
+router.post('/search_artist', async function (req, res, next) {
+
+  let project = await userModel.findOne({ token: req.body.token });
+
+  let users = await userModel.find(
+    { gender: project.gender, city: project.location }
+  )
+
+  res.json({ matchingUsers })
 
 })
 
@@ -372,34 +396,34 @@ router.post('/postuler', async function (req, res, next) {
   var match = false // le false est juste pour tester, ensuite on définira une condition pour vérifier le match (true/false)
   var token = req.body.token
 
-  var user = await userModel.findOne({token:token}) // on recherche le user connecté pour récuperer son id et comparer pour le match
-  
+  var user = await userModel.findOne({ token: token }) // on recherche le user connecté pour récuperer son id et comparer pour le match
+
   const idProjectExist = user.projects_selected.find(id => id.idProject === id_Projet_Selected) // vérifier si le projet a déja été séléctionné ou pas 
- 
+
   //console.log("id_Projet_Selected",id_Projet_Selected)
-  // console.log(token)
-  console.log("userSelected",userSelected)
+  //console.log(token)
+  //console.log("userSelected", userSelected)
   //console.log(user)
   //console.log("user.projects_selected",user.projects_selected)
   //console.log("idProjectExist",idProjectExist)
 
-  if(!idProjectExist){
+  if (!idProjectExist) {
     const matchVerify = userSelected.find(id => id == user._id);
-  console.log(matchVerify)
-  if(matchVerify){
-  match = true
-  }
-  console.log("matchVerify",matchVerify)
+    console.log(matchVerify)
+    if (matchVerify) {
+      match = true
+    }
+    console.log("matchVerify", matchVerify)
 
-  await userModel.updateOne(
-    { token: token },
-    { $push: { projects_selected:{idProject: id_Projet_Selected , match:match } } }
-  )
+    await userModel.updateOne(
+      { token: token },
+      { $push: { projects_selected: { idProject: id_Projet_Selected, match: match } } }
+    )
 
-  res.json( {already:false , saveProjectSelected : true } )
+    res.json({ already: false, saveProjectSelected: true })
   }
   else {
-    res.json( {already:true} )
+    res.json({ already: true })
   }
 
 })

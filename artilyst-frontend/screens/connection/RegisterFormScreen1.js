@@ -46,15 +46,15 @@ export default function RegisterFormScreen1(props) {
     // * ___________________________ FUNCTIONS ___________________________
 
 
-    /* Check des erreurs possible à la submission du formulaire de connexion*/
+    /* Check des erreurs possibles à la submission du formulaire de connexion*/
     const handleSubmit = () => {
 
         let today = new Date() // Je récupère la date d'aujourd'hui
         if (birthdayDate !== undefined || birthdayDate !== today) {
             let birthDate = new Date(birthdayDate)
-            let ageDiff = today.getTime() - birthDate.getTime() // je calcule la différence entre la date d'aujourd'hui et celle envoyé
-            var ageDate = new Date(ageDiff)// je met le résulta obtenue sous forme d'une date
-            age  = Math.abs(ageDate.getFullYear() - 1970) // je calcule le nombre d'année de différence avec 1970
+            let ageDiff = today.getTime() - birthDate.getTime() // je calcule la différence entre la date d'aujourd'hui et celle envoyée
+            var ageDate = new Date(ageDiff)// je mets le résultat obtenu sous forme d'une date
+            age  = Math.abs(ageDate.getFullYear() - 1970) // je calcule le nombre d'années de différence avec 1970
         }
 
 

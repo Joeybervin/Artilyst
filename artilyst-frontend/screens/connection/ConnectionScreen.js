@@ -1,5 +1,5 @@
 import React, {useEffect, useState}from 'react';
-import { expoUrlJoey } from '../../ExpoUrl';
+import { expoUrlRaf } from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
@@ -11,6 +11,7 @@ import { Text, Button } from '@rneui/base';
 
 // ^Redux
 import { connect } from 'react-redux';
+import { log } from 'react-native-reanimated';
 
 /* import { Text } from '@rneui/base'; */
 
@@ -23,8 +24,9 @@ function ConnectionScreen(props) {
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
     useEffect(() => {
-        console.log("coucou")
+
         async function loadData() {
+            console.log('test')
             const rawResponse = await fetch(`http://${expoUrlRaf}/user_profile`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -33,6 +35,8 @@ function ConnectionScreen(props) {
             let response = await rawResponse.json();
             let responseCopy = {...response}
             setUserData(responseCopy)
+            console.log('logloglog',response)
+            
         }
         loadData();
     }, []);
@@ -48,6 +52,7 @@ function ConnectionScreen(props) {
 
             <Text onPress={() =>{
                 props.getUserInformations(userData)
+                console.log(userData)
                 props.navigation.navigate('PagesStacks')
                 }}>ConnectionScreen</Text>
 
