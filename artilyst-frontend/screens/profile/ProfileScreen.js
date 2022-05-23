@@ -205,9 +205,11 @@ function ProfileScreen(props) {
 
     let userProfileImages
     if (user.profile_photo.length > 0) {
+        console.log("je suis ici")
         userProfileImages = props.user.profile_photo
     }
     else  {
+        console.log("LAAAAAAA")
         userProfileImages = ["https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg"]
     }
 
@@ -263,7 +265,7 @@ function ProfileScreen(props) {
 
                     </Swiper>
                     <Ionicons style={{ position: 'absolute', bottom: 5, right: 25, padding: 15, borderRadius: 50 }}
-                        name={user.profile_photo.lenght === 0 ? 'images' : "camera-outline"} color="#ffffff" size={30}
+                        name={user.profile_photo.length === 0 ? 'images' : "camera-outline"} color="#ffffff" size={30}
                         onPress={() => sheetRef.current.snapTo(0)} />
                 </View>
 
