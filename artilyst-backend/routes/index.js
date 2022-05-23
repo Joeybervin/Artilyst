@@ -13,6 +13,7 @@ var projectModel = require('../models/project');
 var uid2 = require('uid2');
 /* MOT DE PASSE : Module de chiffrement de mot de passe + Nombre de tour */
 var bcrypt = require('bcrypt');
+const { populate } = require('../models/user');
 const cost = 10;
 
 // ^ Paramètres et configurations
@@ -385,5 +386,24 @@ router.post('/postuler', async function (req, res, next) {
   }
 
 })
+
+//* ____________________________________ RECRUTEUR ________________________________
+//* _______________________________________________________________________________
+
+// Pour afficher tous les prjets du recruteur
+router.post('/recruiter_projects', async function (req, res, next) {
+
+  let recruiter_token = req.body.token
+
+  let user = await userModel.findOne({token : recruiter_token}).populate('projects_created').exec()
+
+  res.json(user.projects_created)
+  
+
+  
+
+
+})
+
 
 module.exports = router;

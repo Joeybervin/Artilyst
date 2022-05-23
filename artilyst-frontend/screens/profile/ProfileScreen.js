@@ -6,7 +6,7 @@ import { expoUrlJoey } from '../../ExpoUrl';
 
 
 //^ Module de balise
-import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity, ActivityIndicator} from 'react-native';
+import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Text, Button } from '@rneui/base';
 import { Overlay } from "@rneui/themed";
 //^ module bonus (icons)
@@ -29,7 +29,7 @@ function ProfileScreen(props) {
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
 
-    const [user, setUser] = useState(props.user) 
+    const [user, setUser] = useState(props.user)
     const [overlayVisibility, setOverlayVisibility] = useState(false); // Pour le chargement de l'image
 
 
@@ -58,7 +58,7 @@ function ProfileScreen(props) {
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             quality: 1,
-            accessPrivileges : "all"
+            accessPrivileges: "all"
         });
 
         if (!MediaLibraryResult.cancelled) {
@@ -67,41 +67,41 @@ function ProfileScreen(props) {
 
             if (MediaLibraryResult.uri) {
 
-            setOverlayVisibility(true)
+                setOverlayVisibility(true)
 
-            data.append("token" , user.token ) // J'envoie le token de l'utilisateur
-            data.append(
-                'image_uploaded', {
-                uri: MediaLibraryResult.uri,
-                type: 'image/jpeg',
-                name: 'image_uploaded.jpeg',
-                
-            });
-        
-            
+                data.append("token", user.token) // J'envoie le token de l'utilisateur
+                data.append(
+                    'image_uploaded', {
+                    uri: MediaLibraryResult.uri,
+                    type: 'image/jpeg',
+                    name: 'image_uploaded.jpeg',
 
-            let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
-            {
-                method: 'PUT',
-                body: data , 
-            })
-            let result = await data_uploaded.json()
+                });
 
-            props.addPictures(result.url, user)
-           
 
-            if (result) {
-                setOverlayVisibility(false)
-            }
 
-            let copyUserInfos = {...props.user}
-            setUser(copyUserInfos)
-            
-            
+                let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
+                    {
+                        method: 'PUT',
+                        body: data,
+                    })
+                let result = await data_uploaded.json()
+
+                props.addPictures(result.url, user)
+
+
+                if (result) {
+                    setOverlayVisibility(false)
+                }
+
+                let copyUserInfos = { ...props.user }
+                setUser(copyUserInfos)
+
+
             }
         }
 
-        
+
     }
 
     /* Pour ouvrir la camera de l'utilisateur prendre une photo et la rajouter (database + reducer  => profil) */
@@ -116,48 +116,48 @@ function ProfileScreen(props) {
 
         const resultCamera = await ImagePicker.launchCameraAsync();
 
-        
+
         if (!resultCamera.cancelled) {
 
             sheetRef.current.snapTo(1) // Pou abaisser le BottomSheet
 
             if (resultCamera.uri) {
 
-            setOverlayVisibility(true) // chargement de la photo
+                setOverlayVisibility(true) // chargement de la photo
 
-            data.append("token" , user.token) // J'envoie le token de l'utilisateur
-            data.append(
-                'image_uploaded', {
-                uri: resultCamera.uri,
-                type: 'image/jpeg',
-                name: 'image_uploaded.jpg',
-                
-            });
- 
-            
-            
-            let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
-             {
-                method: 'PUT',
-                body: data , 
-            })
+                data.append("token", user.token) // J'envoie le token de l'utilisateur
+                data.append(
+                    'image_uploaded', {
+                    uri: resultCamera.uri,
+                    type: 'image/jpeg',
+                    name: 'image_uploaded.jpg',
 
-            let result = await data_uploaded.json()
-            props.addPictures(result.url, user)
-            if (result) {
-                setOverlayVisibility(false)
-            }
-            
-            let copyUserInfos = {...props.user}
-            setUser(copyUserInfos)
-            
+                });
+
+
+
+                let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
+                    {
+                        method: 'PUT',
+                        body: data,
+                    })
+
+                let result = await data_uploaded.json()
+                props.addPictures(result.url, user)
+                if (result) {
+                    setOverlayVisibility(false)
+                }
+
+                let copyUserInfos = { ...props.user }
+                setUser(copyUserInfos)
+
             }
         }
     }
 
     /* Pour rediriger vers la gallery */ // ! A DEMANDER
     const goToGallery = () => {
-        props.navigation.navigate("GalleryScreen", {profileImage : "profileImage"})
+        props.navigation.navigate("GalleryScreen", { profileImage: "profileImage" })
     }
 
     const renderInner = () => (
@@ -211,7 +211,7 @@ function ProfileScreen(props) {
         console.log("je suis ici")
         userProfileImages = props.user.profile_photo
     }
-    else  {
+    else {
         console.log("LAAAAAAA")
         userProfileImages = ["https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg"]
     }
@@ -236,123 +236,212 @@ function ProfileScreen(props) {
 
 
 
-    return (
-
-        <ScrollView style={styles.container}>
-
-            <Overlay
-            isVisible={overlayVisibility}
-            >
-                <ActivityIndicator size="large" color="#000000"/>
-                <Text>Chargement de l'image</Text>
-
-            </Overlay>
-
-            <BottomSheet
-                ref={sheetRef}
-                snapPoints={[500, 0]}
-                renderContent={renderInner}
-                renderHeader={renderHeader}
-                initialSnap={1}
-                callBackNode={fall}
-                enabledContentGestureInteraction={true}
-                borderRadius={10}
-            />
-
-
-            <View style={styles.mainContainer}>
-
-                {/* -------- CARROUSEL D'IMAGES --------  */}
-                <View style={styles.swipperContainer}>
-                    <Swiper style={styles.wrapper} showsButtons={false} activeDotColor="white" dotColor='rgba(0,0,0,.6)' showsHorizontalScrollIndicator={true}>
-
-                        {userPhotos}
-
-                    </Swiper>
-                    <Ionicons style={{ position: 'absolute', bottom: 5, right: 25, padding: 15, borderRadius: 50 }}
-                        name={user.profile_photo.length === 0 ? 'images' : "camera-outline"} color="#ffffff" size={30}
-                        onPress={() => sheetRef.current.snapTo(0)} />
-
-                </View>
-
-
-                {/* -------- BOUTONS --------  */}
-                <View style={{ flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginBottom: 15, backgroundColor: '#33333341', width: "100%" }} >
-                    <Button
-                        title="Portfolio"
-                        titleStyle={{ paddingHorizontal: 30 }}
-                        buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
-                        onPress={() => {
-                            props.navigation.navigate('PortfoliosScreen')
-                        }}
-                    />
-                    <Button
-                        title="Modifier profil"
-                        titleStyle={{ paddingHorizontal: 25 }}
-                        buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
-                        onPress={() => {
-                            props.navigation.navigate('ProfileEditScreen')
-                        }}
-                    />
-                </View>
-
-
-                {/* -------- INFORMATIONS --------  */}
-                <View style={styles.firstInformations} >
-                    <Text h5 style={{ fontWeight: "bold", marginRight: 35, fontSize: 20 }}>{user.name}
-                        <Ionicons name={genderIcon(user.gender ? user.gender : "male-female-outline")} size={19} color='black' />
-                    </Text>
-                    <View style={styles.location}>
-                        <Ionicons name={'location-sharp'} size={24} color='black' />
-                        <Text h5 style={{ fontSize: 20, marginLeft: 10 }}>{user.city ? user.city : "non renseigné"}</Text>
+    if (user.occupation === "recruteur") {
+        return (
+            <ScrollView style={styles.container}>
+    
+                <Overlay
+                    isVisible={overlayVisibility}
+                >
+                    <ActivityIndicator size="large" color="#000000" />
+                    <Text>Chargement de l'image</Text>
+    
+                </Overlay>
+    
+                <BottomSheet
+                    ref={sheetRef}
+                    snapPoints={[500, 0]}
+                    renderContent={renderInner}
+                    renderHeader={renderHeader}
+                    initialSnap={1}
+                    callBackNode={fall}
+                    enabledContentGestureInteraction={true}
+                    borderRadius={10}
+                />
+    
+    
+                <View style={styles.mainContainer}>
+    
+                    {/* -------- CARROUSEL D'IMAGES --------  */}
+                    <View style={styles.swipperContainer}>
+                        <Swiper style={styles.wrapper} showsButtons={false} activeDotColor="white" dotColor='rgba(0,0,0,.6)' showsHorizontalScrollIndicator={true}>
+    
+                            {userPhotos}
+    
+                        </Swiper>
+                        <Ionicons style={{ position: 'absolute', bottom: 5, right: 25, padding: 15, borderRadius: 50 }}
+                            name={user.profile_photo.length === 0 ? 'images' : "camera-outline"} color="#ffffff" size={30}
+                            onPress={() => sheetRef.current.snapTo(0)} />
+    
                     </View>
+    
+    
+                    {/* -------- BOUTONS --------  */}
+                    <View style={{ flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginBottom: 15, backgroundColor: '#33333341', width: "100%" }} >
+                        <Button
+                            title="Portfolio"
+                            titleStyle={{ paddingHorizontal: 30 }}
+                            buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
+                            onPress={() => {
+                                props.navigation.navigate('PortfoliosScreen')
+                            }}
+                        />
+                        <Button
+                            title="Modifier profil"
+                            titleStyle={{ paddingHorizontal: 25 }}
+                            buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
+                            onPress={() => {
+                                props.navigation.navigate('ProfileEditScreen')
+                            }}
+                        />
+                    </View>
+    
+    
+                    {/* -------- INFORMATIONS --------  */}
+                    <View style={styles.firstInformations} >
+                        <Text h5 style={{ fontWeight: "bold", marginRight: 35, fontSize: 20 }}>{user.name}
+                        </Text>
+                        <View style={styles.location}>
+                            <Ionicons name={'location-sharp'} size={24} color='black' />
+                            <Text h5 style={{ fontSize: 20, marginLeft: 10 }}>{user.city ? user.city : "non renseigné"}</Text>
+                        </View>
+                    </View>
+    
+    
+                    {/* -------- CATEGORIE --------  */}
+                    <View style={styles.occupationContainer}>
+                        <Text style={styles.occupationText}>{user.occupation ? user.occupation : "non renseigné"}</Text>
+                    </View>
+    
+                    {/* -------- ABOUT --------  */}
+                    <View style={{ marginBottom: 25 }}>
+                        <Text style={{ fontWeight: "bold", marginBottom: 10 }}>À propos :</Text>
+                        <Text>{user.description !== undefined ? user.description : "non renseigné"}</Text>
+                    </View>
+    
+    
+                    {/* -------- USER CARACTERISTICS --------  */}
+    
                 </View>
+            </ScrollView>
+        );
+    }
+    else {
+        return (
+            <ScrollView style={styles.container}>
+
+                <Overlay
+                    isVisible={overlayVisibility}
+                >
+                    <ActivityIndicator size="large" color="#000000" />
+                    <Text>Chargement de l'image</Text>
+
+                </Overlay>
+
+                <BottomSheet
+                    ref={sheetRef}
+                    snapPoints={[500, 0]}
+                    renderContent={renderInner}
+                    renderHeader={renderHeader}
+                    initialSnap={1}
+                    callBackNode={fall}
+                    enabledContentGestureInteraction={true}
+                    borderRadius={10}
+                />
 
 
-                {/* -------- CATEGORIE --------  */}
-                <View style={styles.occupationContainer}>
-                    <Text style={styles.occupationText}>{user.occupation ? user.occupation : "non renseigné"}</Text>
+                <View style={styles.mainContainer}>
+
+                    {/* -------- CARROUSEL D'IMAGES --------  */}
+                    <View style={styles.swipperContainer}>
+                        <Swiper style={styles.wrapper} showsButtons={false} activeDotColor="white" dotColor='rgba(0,0,0,.6)' showsHorizontalScrollIndicator={true}>
+
+                            {userPhotos}
+
+                        </Swiper>
+                        <Ionicons style={{ position: 'absolute', bottom: 5, right: 25, padding: 15, borderRadius: 50 }}
+                            name={user.profile_photo.length === 0 ? 'images' : "camera-outline"} color="#ffffff" size={30}
+                            onPress={() => sheetRef.current.snapTo(0)} />
+
+                    </View>
+
+
+                    {/* -------- BOUTONS --------  */}
+                    <View style={{ flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginBottom: 15, backgroundColor: '#33333341', width: "100%" }} >
+                        <Button
+                            title="Portfolio"
+                            titleStyle={{ paddingHorizontal: 30 }}
+                            buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
+                            onPress={() => {
+                                props.navigation.navigate('PortfoliosScreen')
+                            }}
+                        />
+                        <Button
+                            title="Modifier profil"
+                            titleStyle={{ paddingHorizontal: 25 }}
+                            buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
+                            onPress={() => {
+                                props.navigation.navigate('ProfileEditScreen')
+                            }}
+                        />
+                    </View>
+
+
+                    {/* -------- INFORMATIONS --------  */}
+                    <View style={styles.firstInformations} >
+                        <Text h5 style={{ fontWeight: "bold", marginRight: 35, fontSize: 20 }}>{user.name}
+                            <Ionicons name={genderIcon(user.gender ? user.gender : "male-female-outline")} size={19} color='black' />
+                        </Text>
+                        <View style={styles.location}>
+                            <Ionicons name={'location-sharp'} size={24} color='black' />
+                            <Text h5 style={{ fontSize: 20, marginLeft: 10 }}>{user.city ? user.city : "non renseigné"}</Text>
+                        </View>
+                    </View>
+
+
+                    {/* -------- CATEGORIE --------  */}
+                    <View style={styles.occupationContainer}>
+                        <Text style={styles.occupationText}>{user.occupation ? user.occupation : "non renseigné"}</Text>
+                    </View>
+
+                    {/* -------- ABOUT --------  */}
+                    <View style={{ marginBottom: 25 }}>
+                        <Text style={{ fontWeight: "bold", marginBottom: 10 }}>À propos de moi :</Text>
+                        <Text>{user.description !== undefined ? user.description : "non renseigné"}</Text>
+                    </View>
+
+
+                    {/* -------- USER CARACTERISTICS --------  */}
+
+
+                    <View style={styles.caracteristicsContainer}>
+
+                        <Text>Groupe ethnique : {user.characteristics.ethnicGroup === null ? "non renseigné" : user.characteristics.ethnicGroup}</Text>
+
+
+                        <Text>couleur des yeux : {user.characteristics.eyes === null ? "non renseigné" : user.characteristics.eyes}</Text>
+                        <Text>couleur des cheveux : {user.characteristics.hair === null ? "non renseigné" : user.characteristics.hair}</Text>
+
+
+
+                        <Text>Corpulence : {user.characteristics.corpulence !== null ? user.characteristics.corpulence : "non renseigné"}</Text>
+
+                        <Text>Taille : {user.characteristics.height !== null ? user.characteristics.height : "--"} cm  Poids : {user.characteristics.weight !== null ? user.characteristics.weight : "--"} kg</Text>
+                        {/* Mensuration */}
+
+                        <Text>Mensurations :</Text>
+                        <Text>taille : {user.characteristics.measurements.waist !== null ? user.characteristics.measurements.waist : "--"} cm  -  poitrine : {user.characteristics.measurements.bust !== null ? user.characteristics.measurements.bust : "--"} cm -  hanche : {user.characteristics.measurements.hips !== null ? user.characteristics.measurements.hips : "--"} cm</Text>
+
+
+                    </View>
+
+
+
+
                 </View>
-
-                {/* -------- ABOUT --------  */}
-                <View style={{ marginBottom: 25 }}>
-                    <Text style={{ fontWeight: "bold", marginBottom: 10 }}>À propos de moi :</Text>
-                    <Text>{user.description !== undefined ? user.description : "non renseigné"}</Text>
-                </View>
-
-
-                {/* -------- USER CARACTERISTICS --------  */}
-                
-
-                <View style={styles.caracteristicsContainer}>
-
-                    <Text>Groupe ethnique : {user.characteristics.ethnicGroup === null ? "non renseigné" : user.characteristics.ethnicGroup}</Text>
-
-
-                    <Text>couleur des yeux : {user.characteristics.eyes === null ? "non renseigné" : user.characteristics.eyes}</Text>
-                    <Text>couleur des cheveux : {user.characteristics.hair === null ? "non renseigné" : user.characteristics.hair}</Text>
-
-                    
-
-                    <Text>Corpulence : {user.characteristics.corpulence !== null ? user.characteristics.corpulence : "non renseigné"}</Text>
-
-                    <Text>Taille : {user.characteristics.height !== null ? user.characteristics.height : "--"} cm  Poids : {user.characteristics.weight !== null ? user.characteristics.weight : "--" } kg</Text>
-                    {/* Mensuration */}
-
-                    <Text>Mensurations :</Text>
-                    <Text>taille : {user.characteristics.measurements.waist !== null ? user.characteristics.measurements.waist : "--"} cm  -  poitrine : {user.characteristics.measurements.bust !== null ? user.characteristics.measurements.bust : "--"} cm -  hanche : {user.characteristics.measurements.hips !== null ? user.characteristics.measurements.hips : "--"} cm</Text>
-                    
-
-                </View>
-
-
-        
-
-      </View>
-      </ScrollView>
-     
-       
-    );
+            </ScrollView>
+        );
+    }
 }
 
 // * ___________________________ STYLES ___________________________
@@ -494,7 +583,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         addPictures: function (photoUrl, user) {
-            dispatch({ type: 'addPictures', photoUrl , user })
+            dispatch({ type: 'addPictures', photoUrl, user })
         }
     }
 }

@@ -24,12 +24,11 @@ function AnnoncesScreen(props) {
     /* VARIABLES D'ÉTAT  */
     const [value, setValue] = useState(null); // String : récupère le type de casting choisis
     const [isFocus, setIsFocus] = useState(false);
-
-    const [checked, setChecked] = useState(false); // Bolean : Pour changer l'état de mon swith (gère si on cherche des castings rémunéré ou non)
-
+    const [checked, setChecked] = useState(false); // Bolean : Pour changer l'état de mon swith ( gère la rémunération => rémunéré ou non)
     const [matchingCasting, setMatchingCasting] = useState([]); // Tableau des données venant du backend
     const [castingCategory, setCastingCategory] = useState(''); // Valeur choisie dans le menu déroulant
     const [isPaid, setIsPaid] = useState(false); // Valeur du switch "projets rémunérés"
+    const [recruiterListProjects, setRecruiterListProjects] = useState([])
  
 
     /* VARIABLES */
@@ -45,11 +44,25 @@ function AnnoncesScreen(props) {
         { label: 'Tous types', value: '' },
     ];
 
+
+
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
-console.log(props.user)
     // Réception des casting filtrés pour l'utilisateur
     useEffect(() => {
+        
+        // * Recruiter case
+        async function loadProjects() {
+            var rawResponse = await fetch(`http://${expoUrlJoey}/recruiter_projects`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `token=${props.user.token}`,
+            })
+            let response = await rawResponse.json();
+            setRecruiterListProjects(response)
+        }
+
+        // * Artiste case
         async function loadCasting() {
             var rawResponse = await fetch(`http://${expoUrlJoey}/search_casting`, {
                 method: 'POST',
@@ -60,7 +73,9 @@ console.log(props.user)
             setMatchingCasting(response.matchingProjects)
             console.log("reponse",response.matchingProjects)
         }
-        loadCasting();
+
+        if (props.user.occupation === "recruteur" ) loadProjects()
+        if (props.user.occupation !== "recruteur" ) loadCasting();
     }, []);
 
     /* SECONDE */
@@ -88,7 +103,6 @@ console.log(props.user)
     if (castingCategory != '') {
         myTab = myTab.filter(e => e.category == castingCategory)
     }
-
     if (isPaid) {
         myTab = myTab.filter(e => e.remuneration == true)
     } 
@@ -126,72 +140,132 @@ console.log(props.user)
 
     // * ___________________________ PAGE ___________________________
 
-    return (
-        <ScrollView style={styles.scrollView}>
-
-            <View style={styles.container}>
-
+    if (props.user.occupation === "recruteur") {
+        return (
+            <ScrollView style={styles.scrollView}>
+                <View style={styles.container}>
                 <Text h4 style={{ marginTop: 25, marginBottom: 30 }}>Casting vous Correspondant</Text>
+    
+    {/* Choix de la catégorie dans laquel l'utilisateur souhaite chercher un casting */}
+    <Dropdown
+        style={[styles.dropdown, isFocus && { borderColor: '#1ADBAC' }]}
+        placeholderStyle={styles.placeholderStyle}
+        selectedTextStyle={styles.selectedTextStyle}
+        inputSearchStyle={styles.inputSearchStyle}
+        iconStyle={styles.iconStyle}
+        data={recruiterListProjects}
+        maxHeight={300}
+        labelField="title"
+        valueField="title"
+        placeholder={'Choisissez un type de casting'}
+        value={value}
+        onFocus={() => setIsFocus(true)}
+        onBlur={() => setIsFocus(false)}
+        onChange={item => {
+            setValue(item.value);
+            setIsFocus(false);
+            setCastingCategory(item.value);
+        }}
+        renderLeftIcon={() => (
+        <Ionicons style={styles.icon} color={isFocus ? '#1ADBAC' : 'black'} name="search" size={20} />)}
+    />
 
-                {/* Choix de la catégorie dans laquel l'utilisateur souhaite chercher un casting */}
-                <Dropdown
-                    style={[styles.dropdown, isFocus && { borderColor: '#1ADBAC' }]}
-                    placeholderStyle={styles.placeholderStyle}
-                    selectedTextStyle={styles.selectedTextStyle}
-                    inputSearchStyle={styles.inputSearchStyle}
-                    iconStyle={styles.iconStyle}
-                    data={dropdownData}
-                    maxHeight={300}
-                    labelField="label"
-                    valueField="value"
-                    placeholder={'Choisissez un type de casting'}
-                    value={value}
-                    onFocus={() => setIsFocus(true)}
-                    onBlur={() => setIsFocus(false)}
-                    onChange={item => {
-                        setValue(item.value);
-                        setIsFocus(false);
-                        setCastingCategory(item.value);
-                        //console.log('casting:', castingCategory)
-                        // filter(item.value);
-                        // chooseCategory(item.value);
-                        //   console.log("log du ",item)
-                    }}
-                    renderLeftIcon={() => (
-                        <Ionicons
-                            style={styles.icon}
-                            color={isFocus ? '#1ADBAC' : 'black'}
-                            name="search"
-                            size={20}
-                        />
-                    )}
-                />
+    <View style={{ borderRadius: 7, flexDirection: "row", alignItems: "center", justifyContent: "center", borderColor: 'black', borderWidth: 0.5, width: "85%", height: 140, marginTop: 30 }}>
 
-                {/* Switch pour la rémunération souhaité ou non ==> Boolean */}
-                <View style={styles.remunerationContainer} >
-                    <Text>Afficher uniquement projet rémunéré ? </Text>
-                    <Switch
-                        color='#21AC89F1'
-                        value={checked}
-                        onValueChange=
-                        {(value) => {
-                            setChecked(value),
-                                setIsPaid(!isPaid)
-                                //filter(castingCategory)
-                                // choosePaid(value)
-                            // console.log('CONSOLE LOG VALEUR DU SWITCH:', value)
-                        }}
+    <Image
+        containerStyle={{ width: 110, height: 108, }}
+        resizeMode="contain"
+        source={{uri : "https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg"}}
+        style={{ borderRadius: 10, marginRight: 10 }}
+        PlaceholderContent="ff"
+    />
 
-                    />
+    <View style={{ width: 200, height: 108 }}>
+        <Text style={{ fontWeight: "bold", marginBottom: 3 }}>Un jolie titre</Text>
+        <Text style={{ marginBottom: 5 }}>Pleinde texte de description</Text>
+        <Button
+            color='#1ADBAC'
+            buttonStyle={{ backgroundcolor: '#1ADBAC' }}
+            title="recruter" onPress={()=>console.log('recruter')}/>
+    </View>
+
+    </View>
+
                 </View>
+            </ScrollView>
 
-                {/* AFFICHAGE DES CASTING */}
-                {castingDisplay}
+        )
+    }
+    else {
+        return (
+            <ScrollView style={styles.scrollView}>
+    
+                <View style={styles.container}>
+    
+                    <Text h4 style={{ marginTop: 25, marginBottom: 30 }}>Casting vous Correspondant</Text>
+    
+                    {/* Choix de la catégorie dans laquel l'utilisateur souhaite chercher un casting */}
+                    <Dropdown
+                        style={[styles.dropdown, isFocus && { borderColor: '#1ADBAC' }]}
+                        placeholderStyle={styles.placeholderStyle}
+                        selectedTextStyle={styles.selectedTextStyle}
+                        inputSearchStyle={styles.inputSearchStyle}
+                        iconStyle={styles.iconStyle}
+                        data={dropdownData}
+                        maxHeight={300}
+                        labelField="label"
+                        valueField="value"
+                        placeholder={'Choisissez un type de casting'}
+                        value={value}
+                        onFocus={() => setIsFocus(true)}
+                        onBlur={() => setIsFocus(false)}
+                        onChange={item => {
+                            setValue(item.value);
+                            setIsFocus(false);
+                            setCastingCategory(item.value);
+                            //console.log('casting:', castingCategory)
+                            // filter(item.value);
+                            // chooseCategory(item.value);
+                            //   console.log("log du ",item)
+                        }}
+                        renderLeftIcon={() => (
+                            <Ionicons
+                                style={styles.icon}
+                                color={isFocus ? '#1ADBAC' : 'black'}
+                                name="search"
+                                size={20}
+                            />
+                        )}
+                    />
+    
+                    {/* Switch pour la rémunération souhaité ou non ==> Boolean */}
+                    <View style={styles.remunerationContainer} >
+                        <Text>Afficher uniquement projet rémunéré ? </Text>
+                        <Switch
+                            color='#21AC89F1'
+                            value={checked}
+                            onValueChange=
+                            {(value) => {
+                                setChecked(value),
+                                    setIsPaid(!isPaid)
+                                    //filter(castingCategory)
+                                    // choosePaid(value)
+                                // console.log('CONSOLE LOG VALEUR DU SWITCH:', value)
+                            }}
+    
+                        />
+                    </View>
+    
+                    {/* AFFICHAGE DES CASTING */}
+                    {castingDisplay}
+    
+                </View>
+    
+            </ScrollView>
+        );
 
-            </View>
-
-        </ScrollView>
-    );
+    }
+    
 }
 
 // * ___________________________ STYLES ___________________________
