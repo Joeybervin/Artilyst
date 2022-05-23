@@ -1,26 +1,10 @@
 import Animated from 'react-native-reanimated';
-
-import React, { useRef, useState, useEffect } from 'react';
-
+import React, { useState } from 'react';
 import { expoUrlJoey } from '../../ExpoUrl';
-
-
 //^ Module de balise
-import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity, ActivityIndicator} from 'react-native';
-import { Text, Button } from '@rneui/base';
-import { Overlay } from "@rneui/themed";
-
-
-//^ module bonus (icons)
-import { Ionicons } from '@expo/vector-icons';
-// ^ Carousel
-import Swiper from 'react-native-swiper'
-
-// ^Redux
-import { connect } from 'react-redux';
-
+import { StyleSheet, View, TouchableOpacity} from 'react-native';
+import { Text } from '@rneui/base';
 import BottomSheet from 'reanimated-bottom-sheet';
-
 import * as ImagePicker from "expo-image-picker";
 
 

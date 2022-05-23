@@ -210,11 +210,6 @@ router.put('/upload_image_profil', async function (req, res, next) {
 // Uploader Photo dans Cloundinary et récuperer l'URL de la photo dans cloudinary */
 router.put('/upload_image_portfolio', async function (req, res, next) {
 
-  // console.log(req.body.token)
-  // console.log(req.body.portofolioName)
-  // console.log(req.files.image_uploaded)
-
-
   let image = './tmp/' + uniqid() + '.jpg' 
 
   let user_token = req.body.token
@@ -222,20 +217,17 @@ router.put('/upload_image_portfolio', async function (req, res, next) {
 
   let user = await userModel.findOne({token : user_token})
 
-  console.log("BEFORE UPDATE : " , user)
-
   var resultCopy = await req.files.image_uploaded.mv(image);
 
   if (!resultCopy) {
+
     var resultCloudinary = await cloudinary.uploader.upload(image);
 
-    console.log("LE TYPE DE : ... ", typeof portfolioIndex)
-    let index = parseInt(portfolioIndex)
-    console.log("LE TYPE DE : ... ", typeof index)
-
-    console.log(user.portofolio)
-    
-    
+    user.portfolio[parseInt(portfolioIndex)].images.push(resultCloudinary.url)
+   
+    await userModel.updateOne(
+    { token: user_token},
+    { portfolio :  user.portfolio } )
 
     res.json(resultCloudinary);
   } else {
@@ -244,17 +236,7 @@ router.put('/upload_image_portfolio', async function (req, res, next) {
 
   fs.unlinkSync(image); // suppression de la photo du dossier tmp
 
-  await userModel.updateOne( // ! A REVOIR
-    { token: user_token,
-    portfolio : {title : portofolioName} },
-    { $push:  { images : resultCloudinary.url }
-    } )
-
-    console.log(userModel)
-
-
-
-});
+ });
 
 router.put('/upload_portfolio', async function (req, res, next) {
 
@@ -307,17 +289,19 @@ router.delete('/delete_portfolio_image', async function (req, res, next) {
 
   let portfolioImageUrl = req.body.portfolioImageUrl
   let user_token = req.body.token
-  let portfolioTitle = req.body.portfolioTitle
 
-  console.log(portfolioTitle)
+  let portfolioIndex = req.body.portfolioIndex
 
-  let deleteresult = await userModel.updateOne(
-    {token: user_token},
-    {$pull: {portfolio : {
-      title : portfolioTitle,
-      images : portfolioImageUrl}}}
-    );
-    console.log(deleteresult) 
+  let user = await userModel.findOne({token : user_token})
+
+  let indexOfImage = user.portfolio[parseInt(portfolioIndex)].images.indexOf(portfolioImageUrl)
+  user.portfolio[parseInt(portfolioIndex)].images.splice(parseInt(indexOfImage), 1)
+   
+    await userModel.updateOne(
+    { token: user_token},
+    { portfolio :  user.portfolio } )
+
+    res.json({status : "supprimé"})
 })
 
 // Pour que l'utilisateur puisse supprimer une image de son portofolio
