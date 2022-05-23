@@ -220,18 +220,22 @@ router.put('/upload_image_portfolio', async function (req, res, next) {
   let user_token = req.body.token
   let portfolioIndex = req.body.portfolioIndex
 
-  let user = userModel.findOne({token : user_token})
+  let user = await userModel.findOne({token : user_token})
 
-  console.log("BEFORE UPDATE : " , user.portofolio0)
+  console.log("BEFORE UPDATE : " , user)
 
   var resultCopy = await req.files.image_uploaded.mv(image);
 
   if (!resultCopy) {
     var resultCloudinary = await cloudinary.uploader.upload(image);
 
-    user.portofolio[portfolioIndex].push(resultCloudinary.url)
+    console.log("LE TYPE DE : ... ", typeof portfolioIndex)
+    let index = parseInt(portfolioIndex)
+    console.log("LE TYPE DE : ... ", typeof index)
+
+    console.log(user.portofolio)
     
-    console.log("AFTER UPDATE : " , user.portofolio0)
+    
 
     res.json(resultCloudinary);
   } else {
