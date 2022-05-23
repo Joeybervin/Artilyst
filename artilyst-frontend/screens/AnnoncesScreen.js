@@ -107,6 +107,35 @@ function AnnoncesScreen(props) {
         myTab = myTab.filter(e => e.remuneration == true)
     } 
 
+    const tableau = ["https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg","https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg","https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg","https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg","https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg","https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg","https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg","https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg"]
+
+    const recruiterArtistsList = tableau.map((element, index) => {
+        return(
+
+            <View style={{ borderRadius: 7, flexDirection: "row", alignItems: "center", justifyContent: "center", borderColor: 'black', borderWidth: 0.5, width: "85%", height: 140, marginTop: 30 }}>
+
+            <Image
+                containerStyle={{ width: 110, height: 108, }}
+                resizeMode="contain"
+                source={{uri : element}}
+                style={{ borderRadius: 10, marginRight: 10 }}
+                PlaceholderContent="ff"
+            />
+        
+            <View style={{ width: 200, height: 108 }}>
+                <Text style={{ fontWeight: "bold", marginBottom: 3 }}>Un jolie titre</Text>
+                <Text style={{ marginBottom: 5 }}>Pleinde texte de description</Text>
+                <Button
+                    color='#1ADBAC'
+                    buttonStyle={{ backgroundcolor: '#1ADBAC' }}
+                    title="recruter" onPress={()=>console.log('recruter')}/>
+            </View>
+        
+            </View>
+
+        )
+    })
+
     
 
 
@@ -138,13 +167,15 @@ function AnnoncesScreen(props) {
     })
 
 
+
+
     // * ___________________________ PAGE ___________________________
 
     if (props.user.occupation === "recruteur") {
         return (
             <ScrollView style={styles.scrollView}>
                 <View style={styles.container}>
-                <Text h4 style={{ marginTop: 25, marginBottom: 30 }}>Casting vous Correspondant</Text>
+                <Text h4 style={{ marginTop: 25, marginBottom: 30 }}>Artistes correspondant à votre projet</Text>
     
     {/* Choix de la catégorie dans laquel l'utilisateur souhaite chercher un casting */}
     <Dropdown
@@ -170,26 +201,9 @@ function AnnoncesScreen(props) {
         <Ionicons style={styles.icon} color={isFocus ? '#1ADBAC' : 'black'} name="search" size={20} />)}
     />
 
-    <View style={{ borderRadius: 7, flexDirection: "row", alignItems: "center", justifyContent: "center", borderColor: 'black', borderWidth: 0.5, width: "85%", height: 140, marginTop: 30 }}>
+    {recruiterListProjects.length === 0 ? <Text>Créer votre premier projet</Text> : recruiterArtistsList  }
 
-    <Image
-        containerStyle={{ width: 110, height: 108, }}
-        resizeMode="contain"
-        source={{uri : "https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg"}}
-        style={{ borderRadius: 10, marginRight: 10 }}
-        PlaceholderContent="ff"
-    />
 
-    <View style={{ width: 200, height: 108 }}>
-        <Text style={{ fontWeight: "bold", marginBottom: 3 }}>Un jolie titre</Text>
-        <Text style={{ marginBottom: 5 }}>Pleinde texte de description</Text>
-        <Button
-            color='#1ADBAC'
-            buttonStyle={{ backgroundcolor: '#1ADBAC' }}
-            title="recruter" onPress={()=>console.log('recruter')}/>
-    </View>
-
-    </View>
 
                 </View>
             </ScrollView>
