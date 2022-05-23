@@ -116,7 +116,7 @@ function ProfilScreen(props) {
             });
             console.log( "DATA : ", data)
 
-            let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_photo_profil`,
+            let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_photo_profil`,
              {
                 method: 'post',
                 headers: {
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: "center",
     },
-    containerJoey: {
+    containerRaf: {
         marginHorizontal: 10
     },
     swipperContainer: {

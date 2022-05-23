@@ -23,7 +23,7 @@ cloudinary.config({
  api_secret: '2ir7uEavjtm5ntcCK8wk6n1oKuM' 
 });*/
 cloudinary.config({
-  cloud_name: 'joeybervin',
+  cloud_name: 'Rafbervin',
   api_key: '557384916495445',
   api_secret: '4ODzJdCJtyRDjFNwkIL15nXYf9A'
 });
@@ -333,7 +333,11 @@ router.delete('/delete_portfolio', async function (req, res, next) {
 // Pour filtrer et chercher les castings correpondant au critères de l'artiste
 router.post('/search_casting', async function (req, res, next) {
 
+  console.log(req.body.token);
+
   let user = await userModel.findOne({ token: req.body.token });
+
+  
 
   function getAge(dateString) {
     let ageInMilliseconds = new Date() - new Date(dateString);
@@ -348,6 +352,8 @@ router.post('/search_casting', async function (req, res, next) {
   )
 
   let matchingProjects = projects.filter(e => e.age_min < userAge);
+
+  console.log('RESULTAT :', matchingProjects)
 
   res.json({ matchingProjects })
 

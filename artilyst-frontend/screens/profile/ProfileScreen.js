@@ -77,7 +77,7 @@ function ProfileScreen(props) {
         
             
 
-            let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
+            let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
             {
                 method: 'PUT',
                 body: data , 
@@ -133,7 +133,7 @@ function ProfileScreen(props) {
  
             
             
-            let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
+            let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
              {
                 method: 'PUT',
                 body: data , 
@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: "center",
     },
-    containerJoey: {
+    containerRaf: {
         marginHorizontal: 10
     },
     swipperContainer: {

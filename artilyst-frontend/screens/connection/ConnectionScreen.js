@@ -25,7 +25,7 @@ function ConnectionScreen(props) {
     useEffect(() => {
         console.log("coucou")
         async function loadData() {
-            const rawResponse = await fetch(`http://${expoUrlJoey}/user_profile`, {
+            const rawResponse = await fetch(`http://${expoUrlRaf}/user_profile`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `token=i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT`,
