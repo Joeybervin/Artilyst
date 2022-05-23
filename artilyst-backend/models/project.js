@@ -14,7 +14,7 @@ var projectSchema = mongoose.Schema({
     users_selected : Array,
     age_min: Number,
     age_max:Number,
-    collaborators_caracteristics : Object,
+    collaborators_characteristics : Object,
     localisation : String,
 })
 
