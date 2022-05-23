@@ -47,7 +47,7 @@ function AnnoncesScreen(props) {
 
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
-
+console.log(props.user)
     // Réception des casting filtrés pour l'utilisateur
     useEffect(() => {
         async function loadCasting() {
