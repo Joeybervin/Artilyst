@@ -331,8 +331,6 @@ router.post('/search_casting', async function (req, res, next) {
 
   let user = await userModel.findOne({ token: req.body.token });
 
-  // console.log('UTILISATEUR : ' + user)
-
   function getAge(dateString) {
     let ageInMilliseconds = new Date() - new Date(dateString);
     return Math.floor(ageInMilliseconds / 1000 / 60 / 60 / 24 / 365); // convert to years
@@ -342,21 +340,12 @@ router.post('/search_casting', async function (req, res, next) {
   console.log('AGE', userAge);
 
   let projects = await projectModel.find(
-    { gender: user.gender, localisation: user.city }
+    { gender: user.characteristics.gender, localisation: user.city }
   )
-
-  console.log('PROJETS', projects);
 
   let matchingProjects = projects.filter(e => e.age_min < userAge);
 
-  // age_min: { $gt: userAge }, age_max: { $lt: userAge }
-  // console.log(user.gender);
-  // console.log(user.city);
-  // console.log(typeof(userAge));
-  console.log('MATCHING PROJECTS :', matchingProjects);
-
   res.json({ matchingProjects })
-
 
 })
 
