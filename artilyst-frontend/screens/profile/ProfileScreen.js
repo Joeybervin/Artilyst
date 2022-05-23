@@ -6,10 +6,12 @@ import { expoUrlJoey } from '../../ExpoUrl';
 
 
 //^ Module de balise
-import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity, ActivityIndicator} from 'react-native';
 import { Text, Button } from '@rneui/base';
+import { Overlay } from "@rneui/themed";
 //^ module bonus (icons)
 import { Ionicons } from '@expo/vector-icons';
+
 // ^ Carousel
 import Swiper from 'react-native-swiper'
 
@@ -18,27 +20,17 @@ import { connect } from 'react-redux';
 
 import BottomSheet from 'reanimated-bottom-sheet';
 
-import { Entypo } from '@expo/vector-icons';
-
 import * as ImagePicker from "expo-image-picker";
 
 
-function ProfilScreen(props) {
+function ProfileScreen(props) {
 
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
 
-
-    const [user, setUser] = useState(props.user)
-
-    const [image, setImage] = useState(null);
-    const [hasPermission, setHasPermission] = useState(false);
-
-    const [modalVisible, setModalVisible] = useState(false);
-
-    const [pickedImagePath, setPickedImagePath] = useState("")
-
+    const [user, setUser] = useState(props.user) 
+    const [overlayVisibility, setOverlayVisibility] = useState(false); // Pour le chargement de l'image
 
 
     /* VARIABLES */
@@ -46,18 +38,12 @@ function ProfilScreen(props) {
     let fall = new Animated.Value(1);
     let data = new FormData();
 
-
-
-
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
-
-    // Récupérer infos du profil utilisateur
-
-
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
 
+    /* Pour ouvrir le dossier image/video de l'utilisateur et la rajouter (database + reducer  => profil) */
     const showImagePicker = async () => {
         // Ask the user for the permission to access the media library 
         const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -69,47 +55,47 @@ function ProfilScreen(props) {
 
         // const result = await ImagePicker.launchImageLibraryAsync();
         const MediaLibraryResult = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
-
-            aspect: [4, 3],
             quality: 1,
+            accessPrivileges : "all"
         });
-
-        // Explore the result
 
         if (!MediaLibraryResult.cancelled) {
 
+            sheetRef.current.snapTo(1) // Pou abaisser le BottomSheet
+
             if (MediaLibraryResult.uri) {
 
+            setOverlayVisibility(true)
+
+            data.append("token" , user.token ) // J'envoie le token de l'utilisateur
             data.append(
                 'image_uploaded', {
                 uri: MediaLibraryResult.uri,
                 type: 'image/jpeg',
-                name: user.token, // ! A CORRIGER
+                name: 'image_uploaded.jpeg',
                 
             });
-         
-            props.navigation.navigate('AllMyProfilePicturesScreen')
+        
+            
 
-            let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_photo_profil`,
-             {
-                method: 'post',
-                headers: {
-                    'Content-Type': 'multipart/form-data; ',
-                  },
+            let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
+            {
+                method: 'PUT',
                 body: data , 
             })
             let result = await data_uploaded.json()
 
             props.addPictures(result.url, user)
-            user.profile_photo.push(result.url)
-
            
+
+            if (result) {
+                setOverlayVisibility(false)
+            }
 
             let copyUserInfos = {...props.user}
             setUser(copyUserInfos)
-            console.log("JE SUIS PASSE PAR ICI !!!!!!!")
             
             
             }
@@ -133,35 +119,45 @@ function ProfilScreen(props) {
         
         if (!resultCamera.cancelled) {
 
+            sheetRef.current.snapTo(1) // Pou abaisser le BottomSheet
+
             if (resultCamera.uri) {
 
+            setOverlayVisibility(true) // chargement de la photo
+
+            data.append("token" , user.token) // J'envoie le token de l'utilisateur
             data.append(
                 'image_uploaded', {
                 uri: resultCamera.uri,
                 type: 'image/jpeg',
-                name: user.token, // ! A CORRIGER
+                name: 'image_uploaded.jpg',
                 
             });
  
-            props.navigation.navigate('AllMyProfilePicturesScreen')
             
-            let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_photo_profil`,
+            
+            let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
              {
-                method: 'post',
-                headers: {
-                    'Content-Type': 'multipart/form-data; ',
-                  },
+                method: 'PUT',
                 body: data , 
             })
 
             let result = await data_uploaded.json()
             props.addPictures(result.url, user)
-
+            if (result) {
+                setOverlayVisibility(false)
+            }
+            
             let copyUserInfos = {...props.user}
             setUser(copyUserInfos)
-            props.navigation.navigate('AllMyProfilePicturesScreen')
+            
             }
         }
+    }
+
+    /* Pour rediriger vers la gallery */ // ! A DEMANDER
+    const goToGallery = () => {
+        props.navigation.navigate("GalleryScreen", {profileImage : "profileImage"})
     }
 
     const renderInner = () => (
@@ -170,6 +166,9 @@ function ProfilScreen(props) {
                 <Text style={styles.panelTitle}>Modifier vos photos</Text>
                 <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
             </View>
+            <TouchableOpacity style={styles.panelButton} onPress={goToGallery}>
+                <Text style={styles.panelButtonTitle}>Gallery photos</Text>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.panelButton} onPress={openCamera}>
                 <Text style={styles.panelButtonTitle}>Take Photo</Text>
             </TouchableOpacity>
@@ -192,6 +191,7 @@ function ProfilScreen(props) {
         </View>
     );
 
+    /* Pour afficher l'icon de "genre" des utilisateurs */
     const genderIcon = (gender) => { //pour montrer le logo correspondant au sexe de l'utilisateur
         if (gender === 'femme') {
             return "female-outline"
@@ -206,8 +206,17 @@ function ProfilScreen(props) {
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
 
+    let userProfileImages
+    if (user.profile_photo.length > 0) {
+        userProfileImages = props.user.profile_photo
+    }
+    else  {
+        userProfileImages = ["https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg"]
+    }
 
-    const userPhotos = user.profile_photo.map((element, index) => {
+
+    const userPhotos = userProfileImages.map((element, index) => {
+        console.log(element)
         return (
             <View key={index} style={{ width: "100%", height: "100%", borderRadius: 10, alignItems: "center" }}>
                 <Image
@@ -229,9 +238,17 @@ function ProfilScreen(props) {
 
         <ScrollView style={styles.container}>
 
+            <Overlay
+            isVisible={overlayVisibility}
+            >
+                <ActivityIndicator size="large" color="#000000"/>
+                <Text>Chargement de l'image</Text>
+
+            </Overlay>
+
             <BottomSheet
                 ref={sheetRef}
-                snapPoints={[400, 0]}
+                snapPoints={[500, 0]}
                 renderContent={renderInner}
                 renderHeader={renderHeader}
                 initialSnap={1}
@@ -263,13 +280,15 @@ function ProfilScreen(props) {
                         title="Portfolio"
                         titleStyle={{ paddingHorizontal: 30 }}
                         buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
+                        onPress={() => {
+                            props.navigation.navigate('PortfoliosScreen')
+                        }}
                     />
                     <Button
                         title="Modifier profil"
                         titleStyle={{ paddingHorizontal: 25 }}
                         buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
                         onPress={() => {
-                            props.getAllUserInformations(user)
                             props.navigation.navigate('ProfileEditScreen')
                         }}
                     />
@@ -279,38 +298,48 @@ function ProfilScreen(props) {
                 {/* -------- INFORMATIONS --------  */}
                 <View style={styles.firstInformations} >
                     <Text h5 style={{ fontWeight: "bold", marginRight: 35, fontSize: 20 }}>{user.name}
-                        <Ionicons name={genderIcon(user.gender)} size={19} color='black' />
+                        <Ionicons name={genderIcon(user.gender ? user.gender : "male-female-outline")} size={19} color='black' />
                     </Text>
                     <View style={styles.location}>
                         <Ionicons name={'location-sharp'} size={24} color='black' />
-                        <Text h5 style={{ fontSize: 20, marginLeft: 10 }}>{user.city}</Text>
+                        <Text h5 style={{ fontSize: 20, marginLeft: 10 }}>{user.city ? user.city : "non renseigné"}</Text>
                     </View>
                 </View>
 
 
                 {/* -------- CATEGORIE --------  */}
                 <View style={styles.occupationContainer}>
-                    <Text style={styles.occupationText}>{user.occupation}</Text>
+                    <Text style={styles.occupationText}>{user.occupation ? user.occupation : "non renseigné"}</Text>
                 </View>
 
                 {/* -------- ABOUT --------  */}
                 <View style={{ marginBottom: 25 }}>
                     <Text style={{ fontWeight: "bold", marginBottom: 10 }}>À propos de moi :</Text>
-                    <Text>{user.description}</Text>
+                    <Text>{user.description !== undefined ? user.description : "non renseigné"}</Text>
                 </View>
 
 
                 {/* -------- USER CARACTERISTICS --------  */}
-                <View style={styles.caracteristicsContainer}>
-                    <Text>couleur des yeux : {user.user_caracteristics.eyes}</Text>
-                    <Text>Ethnie : {user.user_caracteristics.ethnie}</Text>
+                
 
-                    <Text>Corpulence : {user.user_caracteristics.corpulence}</Text>
-                    <Text>Taille : {user.user_caracteristics.height}cm  Poids : {user.user_caracteristics.weight}kg</Text>
+                <View style={styles.caracteristicsContainer}>
+
+                    <Text>Groupe ethnique : {user.characteristics.ethnicGroup === null ? "non renseigné" : user.characteristics.ethnicGroup}</Text>
+
+
+                    <Text>couleur des yeux : {user.characteristics.eyes === null ? "non renseigné" : user.characteristics.eyes}</Text>
+                    <Text>couleur des cheveux : {user.characteristics.hair === null ? "non renseigné" : user.characteristics.hair}</Text>
+
+                    
+
+                    <Text>Corpulence : {user.characteristics.corpulence !== null ? user.characteristics.corpulence : "non renseigné"}</Text>
+
+                    <Text>Taille : {user.characteristics.height !== null ? user.characteristics.height : "--"} cm  Poids : {user.characteristics.weight !== null ? user.characteristics.weight : "--" } kg</Text>
                     {/* Mensuration */}
+
                     <Text>Mensurations :</Text>
-                    <Text>taille : {user.user_caracteristics.measurments.waist} cm  -  poitrine : {user.user_caracteristics.measurments.bust} cm</Text>
-                    <Text></Text>
+                    <Text>taille : {user.characteristics.measurements.waist !== null ? user.characteristics.measurements.waist : "--"} cm  -  poitrine : {user.characteristics.measurements.bust !== null ? user.characteristics.measurements.bust : "--"} cm -  hanche : {user.characteristics.measurements.hips !== null ? user.characteristics.measurements.hips : "--"} cm</Text>
+                    
 
                 </View>
 
@@ -377,7 +406,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     panel: {
-        height: 400,
+        height: 500,
         padding: 20,
         backgroundColor: '#FFFFFF',
         paddingTop: 20,
@@ -462,9 +491,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getAllUserInformations: function (user) {
-            dispatch({ type: 'addInfosToUser', user })
-        },
         addPictures: function (photoUrl, user) {
             dispatch({ type: 'addPictures', photoUrl , user })
         }
@@ -474,6 +500,6 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(ProfilScreen);
+)(ProfileScreen);
 
 
