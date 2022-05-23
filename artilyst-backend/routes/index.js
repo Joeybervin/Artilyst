@@ -1,15 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var uniqid = require('uniqid');
-var cloudinary = require('cloudinary').v2;
+var cloudinary = require('cloudinary').v2; // module de stockage d'image
 var fs = require('fs'); // chargement du fs qui nous permettra de supprimer la photo du dossier tmp
-
-/***** config du cloudinary avec le compte cloudinary de mustapha */
-cloudinary.config({
- cloud_name: 'dxmpjeafy',
- api_key: '854443517271688',
- api_secret: '2ir7uEavjtm5ntcCK8wk6n1oKuM' 
-});
 
 // ^ Models
 var userModel = require('../models/user');
@@ -22,10 +15,25 @@ var uid2 = require('uid2');
 var bcrypt = require('bcrypt');
 const cost = 10;
 
+// ^ Paramètres et configurations
+/* config du cloudinary avec le compte cloudinary de mustapha 
+cloudinary.config({
+ cloud_name: 'dxmpjeafy',
+ api_key: '854443517271688',
+ api_secret: '2ir7uEavjtm5ntcCK8wk6n1oKuM' 
+});*/
+cloudinary.config({
+  cloud_name: 'joeybervin',
+  api_key: '557384916495445',
+  api_secret: '4ODzJdCJtyRDjFNwkIL15nXYf9A'
+});
+
 // var request = require('sync-request');
 
 
-// * Création d'un compte
+//* ____________________________________ CONNEXION ________________________________
+
+// Création d'un compte
 router.post('/sign-up', async function (req, res, next) {
 
   const userInfos = req.body.userInfos // Object : récupération des données envoyés par le front
@@ -59,7 +67,7 @@ router.post('/sign-up', async function (req, res, next) {
 
 });
 
-// * Connexion à un compte déjà existant
+// Connexion à un compte déjà existant
 router.post('/sign-in', async function (req, res, next) {
 
   let email = req.body.email;
@@ -81,43 +89,56 @@ router.post('/sign-in', async function (req, res, next) {
 
 });
 
+//* ____________________________________ PROFILE ________________________________
 
-// * Pour afficher le profil de l'utilisateur
+// Pour afficher le profil de l'utilisateur
 router.post('/user_profile', async function (req, res, next) {
 
-
-  console.log(req.body)
   let token = req.body.token // Je récupère le token de l'utilisateur envoyé par le front end
   /* Je récupère toutes les infos de l'utilisateur */
-  console.log(token);
   let user_account = await userModel.findOne({
     token: token,
   });
-
-  res.json({ user_account }) // Object :  Je renvoie les informations au front-end
+  console.log(user_account)
+  res.json(user_account) // Object :  Je renvoie les informations au front-end
 })
 
-//* Pour modifier les informations du profil de l'utilisateur
+// Pour modifier les informations du profil de l'utilisateur
 router.put('/update_user_profile', async function (req, res, next) {
 
   let user_new_informations = req.body.user_new_informations // Je récupère les infos entrées
 
-  await userModel.updateOne(
-    {token: user_new_informations.token},
-     {
-      occupation : user_new_informations.occupation,
+console.log(user_new_informations.characteristics)
+  await userModel.updateOne( 
+    { token: user_new_informations.token },
+    {
       name : user_new_informations.name,
-      gender :  user_new_informations.gender,
-
       description: user_new_informations.description,
       cv: user_new_informations.cv,
-      user_caracteristics: user_new_informations.user_caracteristics,
       city: user_new_informations.city,
+      characteristics: {
+        gender: user_new_informations.gender, 
+        ethnicGroup: user_new_informations.ethnicGroup,
+        hair: user_new_informations.hair, 
+        eyes: user_new_informations.eyes, 
+        height: user_new_informations.height, 
+        weight: user_new_informations.weight, 
+        corpulence: user_new_informations.corpulence,
+        measurements: { 
+            waist: user_new_informations.waistSize, 
+            bust: user_new_informations.bustSize, 
+            hips: user_new_informations.hipMeasurement },
+    
+      },
+      
       siren: user_new_informations.siren, // 14 chiffre
     }
   );
+
+  res.json({changement : "terminé"})
 })
 
+//* ____________________________________ PROJET ________________________________
 
 // Creer un projet 
 router.post('/project', async function (req, res, next) {
@@ -138,8 +159,8 @@ router.post('/project', async function (req, res, next) {
     remuneration: projectInfos.remuneration,
     photos: '',
     users_selected: projectInfos.userstable, // table de tokens des users selectionnées
-
-    age_range: { age_min: projectInfos.ageMin, age_max: projectInfos.ageMax },
+    age_min:projectInfos.ageMin,
+    age_max: projectInfos.ageMax,
     collaborators_caracteristics: {},
     localisation: projectInfos.location,
 
@@ -158,80 +179,214 @@ router.post('/project', async function (req, res, next) {
   res.json({ new_project: true }) // je renvoie au front l'état de l'enregistrement dans la BDD
 
 
+});
+
+//* ____________________________________ PHOTOS / GALLERY ________________________________
+
+//? AJOUT
+// Uploader Photo dans Cloundinary et récuperer l'URL de la photo dans cloudinary */
+router.put('/upload_image_profil', async function (req, res, next) {
+
+  let image = './tmp/' + uniqid() + '.jpg' // récupérer la photo du tmp en lui donnant un nom aleatoire avec uniqid
+
+  var user_token = req.body.token
+  var resultCopy = await req.files.image_uploaded.mv(image);
+
+  if (!resultCopy) {
+    var resultCloudinary = await cloudinary.uploader.upload(image);
+    res.json(resultCloudinary);
+  } else {
+    res.json({ error: resultCopy });
+  }
+
+  fs.unlinkSync(image); // suppression de la photo du dossier tmp
+
+  await userModel.updateOne(
+    { token: user_token },
+    { $push: { profile_photo: resultCloudinary.url } })
 
 });
 
-/******* Uploader Photo dans Cloundinary et récuperer l'URL de la photo dans cloudinary */
+// Uploader Photo dans Cloundinary et récuperer l'URL de la photo dans cloudinary */
+router.put('/upload_image_portfolio', async function (req, res, next) {
+
+  // console.log(req.body.token)
+  // console.log(req.body.portofolioName)
+  // console.log(req.files.image_uploaded)
 
 
+  let image = './tmp/' + uniqid() + '.jpg' 
 
-router.post('/upload_photo_profil', async function(req, res, next) {  
+  let user_token = req.body.token
+  let portofolioName = req.body.portofolioName
 
-  var image = './tmp/'+uniqid()+'.jpg' // récupérer la photo du tmp en lui donnant un nom aleatoire avec uniqid
-  //var image = './tmp/avatar.jpg'
+  var resultCopy = await req.files.image_uploaded.mv(image);
 
-  var resultCopy = await req.files.avatar.mv(image);
-  if(!resultCopy) {
+  if (!resultCopy) {
     var resultCloudinary = await cloudinary.uploader.upload(image);
-    res.json(resultCloudinary);      
+    res.json(resultCloudinary);
   } else {
-    res.json({error: resultCopy});
+    res.json({ error: resultCopy });
   }
 
-  //fs.unlinkSync(image); // suppression de la photo du dossier tmp
+  fs.unlinkSync(image); // suppression de la photo du dossier tmp
 
-  await userModel.updateOne(
-    { token: req.body.token },
-    { $push: {profile_photo: resultCloudinary.url} })
+  await userModel.updateOne( // ! A REVOIR
+    { token: user_token,
+    portfolio : {title : portofolioName} },
+    { $push:  { images : resultCloudinary.url }
+    } )
 
-    var test = await userModel.findOne({token:req.body.token})
-  
-  console.log( 'resultat cloud' , resultCloudinary);
-  console.log('cloudinary.uploader',cloudinary.uploader)
-  //console.log('req.files',req.files)
-  //console.log('test',test)
-  
- });
+    console.log(userModel)
 
 
-/************ Route permettant d'envoyer à la BDD le nom du nouveau portfolio + les url des images */
- router.post('/add_portfolio', async function(req, res, next) {  
 
-  var porfolioName = req.body.porfolio.name // récuperer le nom du porfolio créé , on suppose que le req.body récuper un object de la form { name : nom du porolio , listImages : [ urlImage1 , urlImage2... ]}
-  var imageUrlListFront = req.body.porfolio.listImages // récuperer une table d'url d'images séléctionnées (photos dans le smartphone)
-  var listUrlImageCloudinary =[] // initialisation de la table d'URL des photos dans cloudinary
-  var resultCloudinary
-  var portfolio = {} // initialisation de l'object porfolio à pusher dans la bdd
+});
 
-  //var resultCopy = await req.files.avatar.mv(image);
-  if(imageUrlListFront.length>0) {
-    imageUrlListFront.map((image)=> {
-      //resultCloudinary = await cloudinary.uploader.upload(image);// envoie de l'URL de l'image selectionnées au cloud
-      listUrlImageCloudinary.push(resultCloudinary.url) // ajout de l'URL cloud de l'image dans le table (que l'on renvoie apres au front)
-    }
+router.put('/upload_portfolio', async function (req, res, next) {
 
-    )
-    res.json(listUrlImageCloudinary);  // envoie de la table des url cloud au front pour les afficher    
-    portfolio['title']=porfolioName;
-    portfolio['images']=listUrlImageCloudinary
+  let user_token = req.body.token
+  let portfolioName = req.body.portfolioName
 
-  } else {
-    res.json({error: resultCopy});
+  let user = await userModel.findOne({token : user_token})
+
+  const doublePortfolio = user.portfolio.find( element => element.title === portfolioName)
+
+  if (!doublePortfolio ) {
+
+    await userModel.updateOne(
+        { token: user_token },
+        { $push: { portfolio: {
+          title : portfolioName,
+          images : [] }
+        } })
+
+        res.json({upload : true})
+  }
+  else {
+
+    res.json({upload : false})
   }
 
-  //fs.unlinkSync(image); // suppression de la photo du dossier tmp
+  
+
+});
+
+
+//? SUPPRESSION
+// Pour que l'utilisateur supprime une photo de ses iamges de profil
+router.delete('/delete_profile_Image', async function (req, res, next) {
+
+  let profileImageUrl = req.body.profileImageUrl
+  let user_token = req.body.token
 
   await userModel.updateOne(
-    { token: req.body.token },
-    { $push: {portfolio : portfolio} })
+    {token: user_token},
+    {$pull : {profile_photo : profileImageUrl}}
+    );
 
-    var test = await userModel.findOne({token:req.body.token})
-  
-  console.log( 'resultat cloud' , resultCloudinary);
-  console.log('req.body.token',req.body.token)
-  console.log('test',test)
-  
- });
+    res.json({status : "supprimé"})
 
+})
+
+// Pour que l'utilisateur puisse supprimer un portofolio
+router.delete('/delete_portfolio_image', async function (req, res, next) {
+
+  let portfolioImageUrl = req.body.portfolioImageUrl
+  let user_token = req.body.token
+  let portfolioTitle = req.body.portfolioTitle
+
+  console.log(portfolioTitle)
+
+  let deleteresult = await userModel.updateOne(
+    {token: user_token},
+    {$pull: {portfolio : {
+      title : portfolioTitle,
+      images : portfolioImageUrl}}}
+    );
+    console.log(deleteresult) 
+})
+
+// Pour que l'utilisateur puisse supprimer une image de son portofolio
+router.delete('/delete_portfolio', async function (req, res, next) {
+
+  
+  let user_token = req.body.token
+  let portfolioName = req.body.portfolioName
+
+    await userModel.updateOne(
+        { token: user_token },
+        { $pull: { portfolio: {
+          title : portfolioName }
+        } })
+
+    res.json({deleteStatus : true})
+
+})
+
+//* ____________________________________ ANNONCES / RECHERCHE / FILTRE ________________________________
+
+// Pour filtrer et chercher les castings correpondant au critères de l'artiste
+router.post('/search_casting', async function (req, res, next) {
+
+  let user = await userModel.findOne({ token: req.body.token });
+
+  function getAge(dateString) {
+    let ageInMilliseconds = new Date() - new Date(dateString);
+    return Math.floor(ageInMilliseconds / 1000 / 60 / 60 / 24 / 365); // convert to years
+  }
+
+  let userAge = getAge(user.date_of_birth);
+  console.log('AGE', userAge);
+
+  let projects = await projectModel.find(
+    { gender: user.characteristics.gender, localisation: user.city }
+  )
+
+  let matchingProjects = projects.filter(e => e.age_min < userAge);
+
+  res.json({ matchingProjects })
+
+})
+
+// Pour qu'un artiste puisse postuler à des offres
+router.post('/postuler', async function (req, res, next) {
+
+  var id_Projet_Selected = req.body.projectId
+  var userSelected = req.body.userSelected //table de id des users selectionnés par le rectruteur (dans la table project)
+  var match = false // le false est juste pour tester, ensuite on définira une condition pour vérifier le match (true/false)
+  var token = req.body.token
+
+  var user = await userModel.findOne({token:token}) // on recherche le user connecté pour récuperer son id et comparer pour le match
+  
+  const idProjectExist = user.projects_selected.find(id => id.idProject === id_Projet_Selected) // vérifier si le projet a déja été séléctionné ou pas 
+ 
+  //console.log("id_Projet_Selected",id_Projet_Selected)
+  // console.log(token)
+  console.log("userSelected",userSelected)
+  //console.log(user)
+  //console.log("user.projects_selected",user.projects_selected)
+  //console.log("idProjectExist",idProjectExist)
+
+  if(!idProjectExist){
+    const matchVerify = userSelected.find(id => id == user._id);
+  console.log(matchVerify)
+  if(matchVerify){
+  match = true
+  }
+  console.log("matchVerify",matchVerify)
+
+  await userModel.updateOne(
+    { token: token },
+    { $push: { projects_selected:{idProject: id_Projet_Selected , match:match } } }
+  )
+
+  res.json( {already:false , saveProjectSelected : true } )
+  }
+  else {
+    res.json( {already:true} )
+  }
+
+})
 
 module.exports = router;

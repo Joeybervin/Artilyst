@@ -5,7 +5,7 @@ var projectSchema = mongoose.Schema({
     title: String,
     description : String,
     collaborators : String,
-    gender : Array,
+    gender : String,
     insert_date : Date, 
     project_dates : Object, // début => fin
     category : String,
@@ -13,8 +13,9 @@ var projectSchema = mongoose.Schema({
     photos : Array,
     users_selected : Array,
 
-    age_range : Object,
-    collaborators_caracteristics : Object,
+    age_min: Number,
+    age_max:Number,
+    collaborators_characteristics : Object,
     localisation : String,
 })
 

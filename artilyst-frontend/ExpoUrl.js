@@ -1,11 +1,11 @@
 // Regroupement des urls de chacun
 
-const expoUrlJoey = "192.168.1.100:3000";
+const expoUrlJoey = "192.168.1.101:3000";
 
-const expoUrlRaf = "192.168.10.138:3000";
+const expoUrlRaf = "192.168.10.134:3000";
 
 const expoUrlBertin = "192.168.10.115:3000";
 
-const expoUrlMustafa = "192.168.10.126:3000";
+const expoUrlMustafa = "192.168.10.139:3000";
 
-export  {expoUrlRaf, expoUrlBertin, expoUrlJoey, expoUrlMustafa}
+export  {expoUrlJoey, expoUrlBertin, expoUrlRaf, expoUrlMustafa}

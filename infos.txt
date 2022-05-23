@@ -2,3 +2,14 @@ Mongoose infos :
 nom de la database : Atilyst
 username : joey
 mdp : mdpjoey
+
+Tous les npm install
+
+front-end : 19/05/2022
+
+npm install
+npm i unimodules-permissions-interface
+
+front_end : 22/05/2022
+
+expo install expo-location
