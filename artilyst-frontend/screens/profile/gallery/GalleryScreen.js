@@ -97,7 +97,7 @@ function GalleryScreen(props) {
             setOverlayVisibility(true)
 
             data.append("token" , user.token ) // J'envoie le token de l'utilisateur
-            if ( params.profileImage !== "profileImage") data.append("portofolioName" , props.user.portfolio[params.portfolioIndex].title ) 
+            if ( params.profileImage !== "profileImage") data.append("portfolioIndex" , params.portfolioIndex ) 
             data.append(
                 'image_uploaded', {
                 uri: MediaLibraryResult.uri,
@@ -153,7 +153,7 @@ function GalleryScreen(props) {
            setOverlayVisibility(true) //  chargement de la photo
 
             data.append("token" , user.token ) // J'envoie le token de l'utilisateur
-            if ( params.profileImage !== "profileImage") data.append("portofolioName" , props.user.portfolio[params.portfolioIndex].title ) 
+            if ( params.profileImage !== "profileImage") data.append("portfolioIndex" , params.portfolioIndex )  
          
             data.append(
                 'image_uploaded', {
