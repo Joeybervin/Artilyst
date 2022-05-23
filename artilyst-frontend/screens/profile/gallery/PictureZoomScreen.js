@@ -37,25 +37,38 @@ function pictureZoomScreen(props) {
             body: `profileImageUrl=${params.profileImageUrl}&token=${user.token}`,
         })
 
-        props.deleteProfileImage(params.profileImageUrl, user) // suppression dans le store
-        props.navigation.navigate('GalleryScreen') // retour vers la gallery
-        // let copyUserInfos = {...props.user}
-        // setUser(copyUserInfos)
         let response = await rawResponse.json() // Object : Réponse du back-end
+
+        if (response) {
+            props.deleteProfileImage(params.profileImageUrl, user) // suppression dans le store
+            props.navigation.navigate('GalleryScreen') // retour vers la gallery
+        }
+        else {
+            console.log("Un problème est suvenue avec la suppression de l'iamge")
+        }
+
     }
     if (params.portfolioImageUrl) {
-        // const rawResponse = await fetch(`http://${expoUrlJoey}/delete_portfolio_image`, {
-        //     method: 'DELETE',
-        //     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        //     body: `portfolioImageUrl=${params.portfolioImageUrl}&portfolioTitle=${user.portfolio[params.portfolioIndex].title}&token=${user.token}`,
-        // })
+        const rawResponse = await fetch(`http://${expoUrlJoey}/delete_portfolio_image`, {
+            method: 'DELETE',
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `portfolioImageUrl=${params.portfolioImageUrl}&token=${user.token}&portfolioIndex=${params.portfolioIndex}`,
+        })
+
         //! A REVOIR
-        console.log("je suis pas supp mais je continue")
-        props.deletePorfolioImage(params.portfolioImageUrl, params.portfolioIndex, user) // suppression dans le store
-        props.navigation.navigate('GalleryScreen') // retour vers la gallery
-        // let copyUserInfos = {...props.user}
-        // setUser(copyUserInfos)
         let response = await rawResponse.json() // Object : Réponse du back-end
+
+        if (response) {
+            console.log("je suis pas supp mais je continue")
+            props.deletePorfolioImage(params.portfolioImageUrl, params.portfolioIndex, user) // suppression dans le store
+            props.navigation.navigate('GalleryScreen') // retour vers la gallery
+        }
+        else {
+            console.log("un problème avec la suppression de l'image")
+        }
+        
+        
+        
     }
         
 

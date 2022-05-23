@@ -185,7 +185,7 @@ function GalleryScreen(props) {
     }
     
     // * ___________________________ AFFICHAGES DE LA PAGE ___________________________
-    if (props.user.profile_photo.length === 0  ) {
+    if (props.user.profile_photo.length < 0  ) {
         
         AllUserProfileImages = ["https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg"].map((element, index) => {
             return (
