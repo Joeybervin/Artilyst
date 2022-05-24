@@ -31,6 +31,7 @@ function AnnoncesScreen(props) {
     const [recruiterListProjects, setRecruiterListProjects] = useState([])
  
 
+
     /* VARIABLES */
     const dropdownData = [ // Collecte tous les catégories de projet disponnible
         { label: 'Création textile', value: 'Création textile' },
@@ -71,7 +72,6 @@ function AnnoncesScreen(props) {
             })
             let response = await rawResponse.json();
             setMatchingCasting(response.matchingProjects)
-            console.log("reponse",response.matchingProjects)
         }
 
         if (props.user.occupation === "recruteur" ) loadProjects()
@@ -86,10 +86,9 @@ function AnnoncesScreen(props) {
         var rawResponse = await fetch(`http://${expoUrlBertin}/postuler`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({token : props.user.token , projectId:id, userSelected:users }),
-            
+            body: JSON.stringify({ token: props.user.token, projectId: id, userSelected: users }),
+
         })
-        console.log("users",users)
         let response = await rawResponse.json();
 
 
@@ -105,44 +104,23 @@ function AnnoncesScreen(props) {
     }
     if (isPaid) {
         myTab = myTab.filter(e => e.remuneration == true)
-    } 
+    }
 
-    const tableau = ["https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg","https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg","https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg","https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg","https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg","https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg","https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg","https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg"]
-
-    const recruiterArtistsList = tableau.map((element, index) => {
-        return(
-
-            <View style={{ borderRadius: 7, flexDirection: "row", alignItems: "center", justifyContent: "center", borderColor: 'black', borderWidth: 0.5, width: "85%", height: 140, marginTop: 30 }}>
-
-            <Image
-                containerStyle={{ width: 110, height: 108, }}
-                resizeMode="contain"
-                source={{uri : element}}
-                style={{ borderRadius: 10, marginRight: 10 }}
-                PlaceholderContent="ff"
-            />
-        
-            <View style={{ width: 200, height: 108 }}>
-                <Text style={{ fontWeight: "bold", marginBottom: 3 }}>Un jolie titre</Text>
-                <Text style={{ marginBottom: 5 }}>Pleinde texte de description</Text>
-                <Button
-                    color='#1ADBAC'
-                    buttonStyle={{ backgroundcolor: '#1ADBAC' }}
-                    title="recruter" onPress={()=>console.log('recruter')}/>
-            </View>
-        
-            </View>
-
-        )
-    })
-
-    
-
-
+    // Affichage d'une card
     let castingDisplay = myTab.map((casting, i) => {
 
         return (
-            <View key={i} style={{ borderRadius: 7, flexDirection: "row", alignItems: "center", justifyContent: "center", borderColor: 'black', borderWidth: 0.5, width: "85%", height: 140, marginTop: 30 }}>
+            <View key={i} style={{
+                borderRadius: 7,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                borderColor: 'black',
+                borderWidth: 0.5,
+                width: "85%",
+                height: 160,
+                marginTop: 10
+            }}>
 
                 <Image
                     containerStyle={{ width: 110, height: 108, }}
@@ -152,13 +130,13 @@ function AnnoncesScreen(props) {
                     PlaceholderContent="ff"
                 />
 
-                <View style={{ width: 200, height: 108 }}>
-                    <Text style={{ fontWeight: "bold", marginBottom: 3 }}>{casting.title}</Text>
-                    <Text style={{ marginBottom: 5 }}>{casting.description}</Text>
+                <View style={{ width: 200, height: 108, alignItems: 'center', justifyContent: 'center' }}>
+                    <Text style={{ fontWeight: "bold", marginBottom: 3, fontSize: 16 }}>{casting.title}</Text>
+                    <Text style={{ marginTop: 5, marginBottom: 5, width: '90%', alignItems: 'center', textAlign: 'center' }}>{casting.description}</Text>
                     <Button
                         color='#1ADBAC'
                         buttonStyle={{ backgroundcolor: '#1ADBAC' }}
-                        title="postuler" onPress={()=>Postuler(casting._id , casting.users_selected)}/>
+                        title="postuler" onPress={() => Postuler(casting._id, casting.users_selected)} />
                 </View>
 
             </View>

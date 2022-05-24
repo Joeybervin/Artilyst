@@ -4,7 +4,6 @@ var userSchema = mongoose.Schema({
     name : String,
     email :  String,
     password :  String,
-    gender :  String,
     occupation : String,
     description: String,
     cv : String,
@@ -13,7 +12,6 @@ var userSchema = mongoose.Schema({
     projects_selected :  Array , // On=bjeect => id du projet + match en booleen
     projects_created : [ {type: mongoose.Schema.Types.ObjectId, ref: 'projects' }],
     insert_date: Date,
-
     date_of_birth :  Date,
     characteristics : Object,
     /*  {
@@ -30,8 +28,6 @@ var userSchema = mongoose.Schema({
             hipMeasurement: Number }
     }, */
     location : String,
-
-
     token : String,
     siren : Number, // 14 chiffre
 })

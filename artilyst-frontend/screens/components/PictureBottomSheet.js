@@ -1,6 +1,10 @@
 import Animated from 'react-native-reanimated';
-import React, { useState } from 'react';
+
+import React, { useRef, useState, useEffect } from 'react';
+
 import { expoUrlBertin } from '../../ExpoUrl';
+
+
 //^ Module de balise
 import { StyleSheet, View, TouchableOpacity} from 'react-native';
 import { Text } from '@rneui/base';
@@ -198,7 +202,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: "center",
     },
-    containerJoey: {
+    containerRaf: {
         marginHorizontal: 10
     },
     swipperContainer: {

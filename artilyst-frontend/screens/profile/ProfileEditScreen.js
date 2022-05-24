@@ -45,7 +45,7 @@ function ProfileEditScreen(props) {
     const [hips, setHips] = useState(user.hips === "" ? 0 : user.hips); // hips
     const [corpulence, setCorpulence] = useState(user.corpulence === "" ? "" : user.corpulence);// Corpulence 
 
-    /* Pour la géolocalisation */
+    /* Pour la géolocation */
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
 
@@ -57,7 +57,7 @@ function ProfileEditScreen(props) {
         let enabled = await Location.hasServicesEnabledAsync();
         if (!enabled) {
             Alert.alert(
-                'Le système de géolocalisation est désactivez',
+                'Le système de géolocation est désactivez',
                 'Veuillez le réactivez, afin de continuer',
                 [{ text: 'OK' }],
                 { cancelable: false }

@@ -12,9 +12,8 @@ var projectSchema = mongoose.Schema({
     remuneration : Boolean,
     photos : Array,
     users_selected : Array,
-
     age_min: Number,
-    age_max:Number,
+    age_max: Number,
     collaborators_characteristics : Object,
     location : String,
 })
