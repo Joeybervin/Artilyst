@@ -53,21 +53,21 @@ router.post('/sign-up', async function (req, res, next) {
       occupation: userInfos.occupation,
       date_of_birth: new Date(userInfos.birthday_date),
       insert_date: new Date(),
-      description: undefined,
-      cv: undefined,
-      city: undefined,
+      description: null,
+      cv: null,
+      city: null,
       characteristics: {
-        gender: undefined, 
-        ethnicGroup: undefined,
-        hair: undefined, 
-        eyes: undefined, 
-        height: undefined, 
-        weight: undefined, 
-        corpulence: undefined,
+        gender: null, 
+        ethnicGroup: null,
+        hair: null, 
+        eyes: null, 
+        height: null, 
+        weight: null, 
+        corpulence: null,
         measurements: { 
-            waist: undefined, 
-            bust: undefined, 
-            hips: undefined },
+            waist: null, 
+            bust: null, 
+            hips: null },
       },
       portfolio : [
         {title : "exemple",
@@ -76,7 +76,7 @@ router.post('/sign-up', async function (req, res, next) {
       profile_photo : [],
       projects_selected : [],
       projects_created : [],
-      siren: "", // 14 chiffre
+      siren: null, // 14 chiffre
       token: uid2(32),
     })
 

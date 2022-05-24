@@ -49,14 +49,15 @@ function RegisterFormScreen2(props) {
             body: JSON.stringify({userInfos : userInfos}),
         })
 
-        let response = await rawResponse.json() // Object : Réponse du back-end
+        let response = await rawResponse.json() // OBJECT : Réponse du back-end
 
         /* Si l'utilisateur n'existe pas */
         if (response.new_user === true) {
             setLogin(true)
-            /* NE MARCHE PAS */
-            props.navigation.navigate('PagesStacks') // redirection vers le Annonce
             props.getUserInformations(response.user) // OBJECT : J'ajoute les informations dans mon store
+            console.log("ENVOIE AU STORE : ",response.user)
+            props.navigation.navigate('PagesStacks') // redirection vers le Annonce
+            
         }
         else {
             console.log("Ce compte existe déjà")

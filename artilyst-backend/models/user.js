@@ -13,7 +13,19 @@ var userSchema = mongoose.Schema({
     projects_created : [ {type: mongoose.Schema.Types.ObjectId, ref: 'projects' }],
     insert_date: Date,
     date_of_birth :  Date,
-    characteristics : Object,
+    characteristics : {
+        gender: String, 
+        ethnicGroup: String,
+        hair: String, 
+        eyes: String, 
+        height: Number, 
+        weight: Number, 
+        corpulence: String,
+        measurements: { 
+            waist: Number, 
+            bust: Number, 
+            hips: Number },
+      },
     city : String,
     token : String,
     siren : Number, // 14 chiffre

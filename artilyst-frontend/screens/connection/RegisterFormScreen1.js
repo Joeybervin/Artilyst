@@ -151,7 +151,7 @@ export default function RegisterFormScreen1(props) {
         handleSubmit()
         if (firstStepLogin) {
             props.navigation.navigate('RegisterFormScreen2',
-            {name : name , email : email, password : password, birthday_date : String(birthdayDateView), occupation: params === undefined ? "" : params.occupation})
+            {name : name , email : email, password : password, birthday_date : String(birthdayDate), occupation: params === undefined ? "" : params.occupation})
         }
     }
 
@@ -249,7 +249,6 @@ export default function RegisterFormScreen1(props) {
 
 
         </View>
-
     );
 }
 
