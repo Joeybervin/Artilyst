@@ -30,36 +30,31 @@ function ConnectionFormScreen(props) {
 
     const [passwordVisibility, setPasswordVisibility] = useState(true); // Changement de la visibilité du mot de passe
 
-    const [login, setLogin] = useState(false); // condition pour envoyer la donné au back-end
+    let login = false; // condition pour envoyer la donné au back-end
     const [newMemberMessage, setNewMemberMessage] = useState("") // renvoie d'un message si la base de données n'a pas trouvé l'utilisateur
     
     /* VARIABLES */
+    var emailValid = false;
+    var passwordValid = false;
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
 
-    /* Check des erreurs possible à la submission du formulaire de connexion*/
-    const handleSubmit = () => {
-        var emailValid = false;
+
+    const handleSubmit = () => { // Check des erreurs possible à la submission du formulaire de connexion
+        
         if(email.length == 0){
             setEmailError("Ce champs est obligatoire");
-        }      
-        else if(email.indexOf(' ') >= 0){        
-            setEmailError('Un email ne peut contenit d\'espaces');                          
-        }    
+        }  
         else{
             setEmailError("")
             emailValid = true
         }
     
-        var passwordValid = false;
         if(password.length == 0){
             setPasswordError("Ce champs est obligatoire");
-        }       
-        else if(password.indexOf(' ') >= 0){        
-            setPasswordError('Un email ne peut contenit d\'espaces');                          
-        }    
+        }   
         else{
             setPasswordError("")
             passwordValid = true
@@ -68,7 +63,7 @@ function ConnectionFormScreen(props) {
         if(emailValid && passwordValid){     
             setEmail("");
             setPassword("");
-            setLogin(true)
+            login = true
         }        
     
     }
@@ -80,6 +75,7 @@ function ConnectionFormScreen(props) {
 
         /* Je n'envoie les données que si mes input sont bon */
         if (login) {
+            console.log("LA CONNEXION EST BONNE")
         const rawResponse = await fetch(`http://${expoUrlJoey}/sign-in`, {
             method: 'POST',
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -88,13 +84,16 @@ function ConnectionFormScreen(props) {
 
         let response = await rawResponse.json() // Object : Réponse du back-end
 
+        console.log(response)
+
         /* Si l'utilisateur n'existe pas */
         if (response.already_member === true) {
+
+            props.getUserInformations(response.user) // J'ajoute les informations dans mon store
             props.navigation.navigate('PagesStacks') // redirection vers toutes les annonces
-            props.getUserInformations({user_token : response.token}) // J'ajoute les informations dans mon store
+            
         }
         else {
-            /* MARCHE PAS */
             setNewMemberMessage("Ce compte n'existe pas dans notre base de données")
         }
         }

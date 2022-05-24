@@ -105,7 +105,7 @@ router.post('/sign-in', async function (req, res, next) {
 
 
   if (user_account !== null && bcrypt.compareSync(password, user_account.password)) {
-    res.json({ already_member: true, token: user_account.token })
+    res.json({ already_member: true, user: user_account })
 
   }
   else {
