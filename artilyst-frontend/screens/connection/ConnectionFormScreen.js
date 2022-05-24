@@ -5,7 +5,7 @@ import {expoUrlJoey} from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
-LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
 //^ Module de balise
 import { StyleSheet,  View} from 'react-native';
@@ -25,20 +25,18 @@ function ConnectionFormScreen(props) {
     /* VARIABLES D'ÉTAT  */
     const [email, setEmail] = useState(""); // champs de l'email
     const [emailError, setEmailError] = useState(""); // message d'erreur de l'email
+
     const [password, setPassword] = useState("");// champs du mot de passe
     const [passwordError, setPasswordError] = useState(""); // message d'erreur du mot de passe
-
     const [passwordVisibility, setPasswordVisibility] = useState(true); // Changement de la visibilité du mot de passe
-
-    let login = false; // condition pour envoyer la donné au back-end
+    
     const [newMemberMessage, setNewMemberMessage] = useState("") // renvoie d'un message si la base de données n'a pas trouvé l'utilisateur
     
     /* VARIABLES */
     var emailValid = false;
     var passwordValid = false;
-    // * ___________________________ INITIALISATION DE LA PAGE ___________________________
-    /* PREMIÈRE */
-    /* SECONDE */
+    let login = false; // condition pour envoyer la donné au back-end
+
     // * ___________________________ FUNCTIONS ___________________________
 
 
@@ -71,23 +69,18 @@ function ConnectionFormScreen(props) {
     /* Appuie sur le boutton connexion : envoie des données à la database */
     const signInUser = async () => {
 
-        handleSubmit() // Boolean :  Vérifications des inputs
+        handleSubmit() // BOOLEAN :  Vérifications des inputs ==> Je n'envoie les données que si mes input sont bons
 
-        /* Je n'envoie les données que si mes input sont bon */
         if (login) {
-            console.log("LA CONNEXION EST BONNE")
         const rawResponse = await fetch(`http://${expoUrlJoey}/sign-in`, {
             method: 'POST',
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: `email=${email}&password=${password}`,
         })
 
-        let response = await rawResponse.json() // Object : Réponse du back-end
+        let response = await rawResponse.json() // OBJECT : Réponse du back-end
 
-        console.log(response)
-
-        /* Si l'utilisateur n'existe pas */
-        if (response.already_member === true) {
+        if (response.already_member === true) { // récupération de la données envoyé par le back-end
 
             props.getUserInformations(response.user) // J'ajoute les informations dans mon store
             props.navigation.navigate('PagesStacks') // redirection vers toutes les annonces

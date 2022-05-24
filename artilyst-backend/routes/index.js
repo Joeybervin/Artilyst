@@ -98,18 +98,16 @@ router.post('/sign-in', async function (req, res, next) {
   let email = req.body.email;
   let password = req.body.password;
 
-  /* Vérifications des informations données */
-  let user_account = await userModel.findOne({
-    email: email,
-  });
+  /* Recher du user dans la base de données */
+  let user_account = await userModel.findOne({ email: email });
 
-
+  /* Vérification de la correspondance avec le mot de passe +  envoie */
   if (user_account !== null && bcrypt.compareSync(password, user_account.password)) {
-    res.json({ already_member: true, user: user_account })
+    res.json({ already_member: true, user: user_account }) // OBJECT
 
   }
   else {
-    res.json({ already_member: false })
+    res.json({ already_member: false }) // OBJECT
   }
 
 });
