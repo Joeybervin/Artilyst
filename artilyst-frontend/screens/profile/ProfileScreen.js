@@ -378,7 +378,6 @@ function ProfileScreen(props) {
                         />
                     </View>
 
-
                     {/* -------- INFORMATIONS --------  */}
                     <View style={styles.firstInformations} >
                         <Text h5 style={{ fontWeight: "bold", marginRight: 35, fontSize: 20 }}>{user.name}

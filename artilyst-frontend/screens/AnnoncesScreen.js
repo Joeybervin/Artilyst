@@ -30,6 +30,7 @@ function AnnoncesScreen(props) {
     const [isPaid, setIsPaid] = useState(false); // Valeur du switch "projets rémunérés"
     const [recruiterListProjects, setRecruiterListProjects] = useState([])
  
+    const [disabled, setDisabled]=useState(false)
 
 
     /* VARIABLES */
@@ -72,6 +73,7 @@ function AnnoncesScreen(props) {
             })
             let response = await rawResponse.json();
             setMatchingCasting(response.matchingProjects)
+            //console.log("reponse",response.matchingProjects)
         }
 
         if (props.user.occupation === "recruteur" ) loadProjects()
@@ -90,6 +92,8 @@ function AnnoncesScreen(props) {
 
         })
         let response = await rawResponse.json();
+
+        
 
 
     }
@@ -137,6 +141,9 @@ function AnnoncesScreen(props) {
                         color='#1ADBAC'
                         buttonStyle={{ backgroundcolor: '#1ADBAC' }}
                         title="postuler" onPress={() => Postuler(casting._id, casting.users_selected)} />
+                        
+                        
+                       
                 </View>
 
             </View>

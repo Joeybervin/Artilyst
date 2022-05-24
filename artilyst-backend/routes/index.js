@@ -100,7 +100,7 @@ router.post('/user_profile', async function (req, res, next) {
   let user_account = await userModel.findOne({
     token: token,
   });
-  console.log(user_account)
+  //console.log(user_account)
   res.json(user_account) // Object :  Je renvoie les informations au front-end
 })
 
@@ -109,8 +109,8 @@ router.put('/update_user_profile', async function (req, res, next) {
 
   let user_new_informations = req.body.user_new_informations // Je récupère les infos entrées
 
-  console.log(user_new_informations.characteristics)
-  await userModel.updateOne(
+//console.log(user_new_informations.characteristics)
+  await userModel.updateOne( 
     { token: user_new_informations.token },
     {
       name: user_new_informations.name,
@@ -170,7 +170,7 @@ router.post('/project', async function (req, res, next) {
 
   await newProject.save() // enregistrement dans la base de données
 
-  console.log(newProject._id)
+  //console.log(newProject._id)
 
   await userModel.updateOne(
     { token: projectInfos.token },
@@ -178,7 +178,7 @@ router.post('/project', async function (req, res, next) {
   )
 
 
-  res.json({ new_project: true }) // je renvoie au front l'état de l'enregistrement dans la BDD
+  res.json(newProject._id) // je renvoie au front l'état de l'enregistrement dans la BDD
 
 
 });
@@ -288,9 +288,7 @@ router.delete('/delete_profile_Image', async function (req, res, next) {
 
   res.json({ status: "supprimé" })
 
-})
-
-// Pour que l'utilisateur puisse supprimer un portofolio
+  })
 router.delete('/delete_portfolio_image', async function (req, res, next) {
 
   let portfolioImageUrl = req.body.portfolioImageUrl
@@ -410,47 +408,128 @@ router.post('/postuler', async function (req, res, next) {
   const idProjectExist = user.projects_selected.find(id => id.idProject === id_Projet_Selected) // vérifier si le projet a déja été séléctionné ou pas 
 
   //console.log("id_Projet_Selected",id_Projet_Selected)
-  //console.log(token)
-  //console.log("userSelected", userSelected)
-  //console.log(user)
+  console.log("token",token)
+  //console.log("userSelected",userSelected)
+  console.log("user",user)
   //console.log("user.projects_selected",user.projects_selected)
   //console.log("idProjectExist",idProjectExist)
 
-  if (!idProjectExist) {
+
+  if(!idProjectExist){
     const matchVerify = userSelected.find(id => id == user._id);
-    console.log(matchVerify)
-    if (matchVerify) {
-      match = true
-    }
-    console.log("matchVerify", matchVerify)
+  console.log(matchVerify)
+  if(matchVerify){
+  match = true
+  }
+  //console.log("matchVerify",matchVerify)
 
     await userModel.updateOne(
       { token: token },
       { $push: { projects_selected: { idProject: id_Projet_Selected, match: match } } }
     )
 
-    res.json({ already: false, saveProjectSelected: true })
+  res.json( {result: true } )
   }
   else {
-    res.json({ already: true })
+    res.json( {result :true} )
   }
 
 })
 
-//* ____________________________________ RECRUTEUR ________________________________
-//* _______________________________________________________________________________
+/************************************************************************************ */
+// Pour qu'un artiste puisse postuler à des offres
+router.post('/recruter', async function (req, res, next) {
 
-// Pour afficher tous les projets du recruteur
-router.post('/recruiter_projects', async function (req, res, next) {
+  var id_Projet = req.body.projectId  // l'id du projet concerné
+  var userSelectedId = req.body.userSelectedId // l'id du user selectionné
+  var token = req.body.token // au cas ou...
+  var match = false // le false est juste pour tester, ensuite on définira une condition pour vérifier le match (true/false)
 
-  let recruiter_token = req.body.token;
+  var project = await projectModel.findOne({_id:id_Projet}) // chercher le projet concerné par le recrutement
+  var  userHired = await userModel.findOne({_id:userSelectedId}) // chercher le user recruté
 
-  let user = await userModel.findOne({ token: recruiter_token }).populate('projects_created').exec()
+  const idUserSelectedExist = project.users_selected.find(id => id=== userSelectedId) // vérifier si le juser est déja dans la table user selected
 
-  res.json(user.projects_created)
+  //console.log("userHired",userHired)
 
+
+  if(!idUserSelectedExist){
+    const matchVerify = userHired.projects_selected.find(e => e.idProject == id_Projet); // vérifier si le project concerné par le rectutement existe déja dans la table projectselected (pour le match)
+  console.log(matchVerify)
+  if(matchVerify){
+  match = true
+  }
+  //console.log("matchVerify",matchVerify)
+
+  await projectModel.updateOne(
+    { _id: id_Projet },
+    { $push: { users_selected:userSelectedId} }
+  )
+
+  console.log(userHired.projects_selected.length)
+  
+for (let i = 0; i < userHired.projects_selected.length; i++) {
+  if (userHired.projects_selected[i].idProject == id_Projet){
+    userHired.projects_selected[i].match = match
+  }
+      
+}
+
+  let status = await userHired.save()
+
+  console.log(status)
+
+
+  res.json({userHired})
+  }
+  else {
+    res.json( {result : false} )
+  }
 
 })
+
+
+
+router.post('/displayProjects', async function (req, res, next) {
+  var token = req.body.token
+  //console.log(token)
+
+  var user = await userModel.findOne({token:token})
+  //console.log(user)
+
+ let resultat=[]
+
+  for (let i=0; i<user.projects_created.length; i++) {
+    var project= await projectModel.findOne({_id: user.projects_created[i] })
+    console.log("project",project)
+     //var projectObject = {idProject :project._id , title : project.title , image : project.photos[0] }
+     //console.log(projectObject)
+  
+     resultat.push(project)
+
+  }
+
+  //await user.projects_created.forEach( async (e) => {
+ 
+  
+ // } )
+ console.log("resultat",resultat)
+  res.json(resultat)
+
+})
+
+router.delete('/deleteProject', async function (req, res, next) {
+
+  
+  let idProject = req.query.id
+  console.log("idProject",idProject)
+  await projectModel.deleteOne({ _id: idProject});
+  
+    res.json({deleteStatus : true})
+
+})
+
+
 
 
 module.exports = router;
