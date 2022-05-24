@@ -1,26 +1,12 @@
-import Animated from 'react-native-reanimated';
-
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { expoUrlJoey } from '../ExpoUrl';
 
-
 //^ Module de balise
-import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity, ActivityIndicator, TouchableHighlight  } from 'react-native';
+import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity} from 'react-native';
 import { Text, Button } from '@rneui/base';
 import { Divider , Avatar } from "@rneui/themed";
-//^ module bonus (icons)
-import { Ionicons } from '@expo/vector-icons';
 
-// ^ Carousel
-import Swiper from 'react-native-swiper'
-
-// ^Redux
-import { connect } from 'react-redux';
-
-import BottomSheet from 'reanimated-bottom-sheet';
-
-import * as ImagePicker from "expo-image-picker";
 
 let { width : screenWidth , height : screenHeight } = Dimensions.get('screen')
 
@@ -47,12 +33,10 @@ export default function MessagesScreen() {
 
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
+
+
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
-
-
-    // * ___________________________ PAGE ___________________________
-
     const AcceptedCollaboraions = allUsersAccount.map( (element, index) => {
         return (
             <View key={index + 2} style={{justifyContent : 'space-between', alignItems : "center", marginHorizontal : 10}}>
@@ -96,7 +80,9 @@ export default function MessagesScreen() {
 
         )
     })
-    
+
+    // * ___________________________ PAGE ___________________________
+
     return (
         <ScrollView style={styles.ScrollContainer}>
 
