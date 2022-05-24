@@ -91,6 +91,12 @@ router.post('/sign-in', async function (req, res, next) {
 });
 
 //* ____________________________________ PROFILE ________________________________
+// Pour afficher tous les utilisateurs //! TEMPORAIRE
+router.get('/all_users_profile', async function (req, res, next) {
+
+  let all_users_account = await userModel.find();
+  res.json(all_users_account) // Object :  Je renvoie les informations au front-end
+})
 
 // Pour afficher le profil de l'utilisateur
 router.post('/user_profile', async function (req, res, next) {
@@ -101,6 +107,7 @@ router.post('/user_profile', async function (req, res, next) {
     token: token,
   });
   console.log(user_account)
+  //console.log(user_account)
   res.json(user_account) // Object :  Je renvoie les informations au front-end
 })
 
@@ -367,8 +374,11 @@ router.post('/postuler', async function (req, res, next) {
   //console.log("idProjectExist",idProjectExist)
 
   if(!idProjectExist){
-    const matchVerify = userSelected.find(id => id == user._id);
+
+    const matchVerify = userSelected.find(id => id === user._id);
+
   console.log(matchVerify)
+
   if(matchVerify){
   match = true
   }
@@ -376,13 +386,15 @@ router.post('/postuler', async function (req, res, next) {
 
   await userModel.updateOne(
     { token: token },
-    { $push: { projects_selected:{idProject: id_Projet_Selected , match:match } } }
+    { $push: { projects_selected:{idProject: id_Projet_Selected , match : match } } }
   )
 
-  res.json( {already:false , saveProjectSelected : true } )
+  res.json( {already : false , saveProjectSelected : true } )
   }
   else {
-    res.json( {already:true} )
+
+    let project = await  projectModel.find({_id : id_Projet_Selected})
+    res.json( {already : true, photoProjet : project.photos } )
   }
 
 })
@@ -399,10 +411,6 @@ router.post('/recruiter_projects', async function (req, res, next) {
 
   res.json(user.projects_created)
   
-
-  
-
-
 })
 
 
