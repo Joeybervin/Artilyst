@@ -1,6 +1,8 @@
 
 export default function( userInfos = {}, action) {
     if(action.type === "userConnection") {
+
+        console.log("COPY DANS REDUCER : ",{...action.user})
         return {...action.user}
         
     }

@@ -21,6 +21,7 @@ import { connect } from 'react-redux';
 import BottomSheet from 'reanimated-bottom-sheet';
 
 import * as ImagePicker from "expo-image-picker";
+import { useIsFocused } from '@react-navigation/native';
 
 
 function ProfileScreen(props) {
@@ -34,9 +35,19 @@ function ProfileScreen(props) {
 
 
     /* VARIABLES */
+    const params  = props.route.params;
+    const isFocused = useIsFocused();
+    let userProfileImages;
     let sheetRef = React.useRef(null);
     let fall = new Animated.Value(1);
     let data = new FormData();
+
+    if (!isFocused) { // ! A REVOIR
+        params.user = "current"
+    }
+
+    if (params.user === "current") console.log("current")
+    if (params.user !== "current") console.log("other")
 
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
@@ -205,10 +216,8 @@ function ProfileScreen(props) {
 
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
-
-    let userProfileImages
+    
     if (user.profile_photo.length > 0) {
-        console.log("je suis ici")
         userProfileImages = props.user.profile_photo
     }
     else {
@@ -236,7 +245,17 @@ function ProfileScreen(props) {
 
 
 
-    if (user.occupation === "recruteur") {
+    if (user.occupation === "recruteur" && params.user === "current") {
+
+        let editProdilleButton = <Button
+        title="Modifier profil"
+        titleStyle={{ paddingHorizontal: 25 }}
+        buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
+        onPress={() => {
+            props.navigation.navigate('ProfileEditScreen')
+        }}
+    />
+
         return (
             <ScrollView style={styles.container}>
     
@@ -327,6 +346,54 @@ function ProfileScreen(props) {
         );
     }
     else {
+
+        let currentUserButtons = (
+            <View style={{ flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginBottom: 15, backgroundColor: '#33333341', width: "100%" }} >
+                <Button
+                    title="Portfolio"
+                    titleStyle={{ paddingHorizontal: 30 }}
+                    buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
+                    onPress={() => {
+                        props.navigation.navigate('PortfoliosScreen', {user : "current"})
+                    }}
+                />
+
+                <Button
+                    title="Modifier profil"
+                    titleStyle={{ paddingHorizontal: 25 }}
+                    buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
+                    onPress={() => {
+                        props.navigation.navigate('ProfileEditScreen')
+                    }}
+                />
+
+            </View>)
+        
+        
+        let anotherUserButtons = (
+            <View style={{ flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginBottom: 15, backgroundColor: '#33333341', width: "100%" }} >
+                        
+                <Button
+                    title="Portfolio"
+                    titleStyle={{ paddingHorizontal: 30 }}
+                    buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
+                    onPress={() => {
+                        props.navigation.navigate('PortfoliosScreen', {user : params.user})
+                    }}
+                />
+
+            <Button
+                title="engager"
+                titleStyle={{ paddingHorizontal: 25 }}
+                buttonStyle={{ borderRadius: 8, backgroundColor: "#1ADBAC", color: "black" }}
+                onPress={() => {console.log("ROUTE DE MUSTAFA !!! ")}}
+            />
+
+                        
+        </View>
+        
+        
+)
         return (
             <ScrollView style={styles.container}>
 
@@ -367,24 +434,9 @@ function ProfileScreen(props) {
 
 
                     {/* -------- BOUTONS --------  */}
-                    <View style={{ flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginBottom: 15, backgroundColor: '#33333341', width: "100%" }} >
-                        <Button
-                            title="Portfolio"
-                            titleStyle={{ paddingHorizontal: 30 }}
-                            buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
-                            onPress={() => {
-                                props.navigation.navigate('PortfoliosScreen')
-                            }}
-                        />
-                        <Button
-                            title="Modifier profil"
-                            titleStyle={{ paddingHorizontal: 25 }}
-                            buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
-                            onPress={() => {
-                                props.navigation.navigate('ProfileEditScreen')
-                            }}
-                        />
-                    </View>
+
+                    {params.token ===  user.token ? currentUserButtons : anotherUserButtons }
+                    
 
 
                     {/* -------- INFORMATIONS --------  */}
