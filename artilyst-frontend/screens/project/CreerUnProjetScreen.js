@@ -51,7 +51,7 @@ function CreerUnProjetScreen(props) {
 }, []);
 
 //console.log( "response2",listProjet)
-console.log("props.listproject",props.listproject)
+//console.log("props.listproject",props.listproject)
   //console.log("user",props.user)
 
   // fonction pour supprimer le projet séléctionné
@@ -67,7 +67,7 @@ method : 'DELETE'
   /* MAP */
 
  
- console.log("props.listproject",props.listproject)
+ //console.log("props.listproject",props.listproject)
 
   const allUserPorjects = props.listproject.map((element, index) => { // Tous les prjets de l'utilisateur
     console.log("element",element)
