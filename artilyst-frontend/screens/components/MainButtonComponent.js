@@ -87,6 +87,8 @@ export function NeomButton() {
     );
 }
 
+// FEUILLES DE STYLES
+
 const styles = StyleSheet.create({
 
     // PLAIN BUTTON

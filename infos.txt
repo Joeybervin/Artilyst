@@ -1,5 +1,5 @@
 Mongoose infos :
-nom de la database : Atilyst
+nom de la database : Artilyst
 username : Raf
 mdp : mdpRaf
 

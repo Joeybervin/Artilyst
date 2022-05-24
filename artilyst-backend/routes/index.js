@@ -212,12 +212,12 @@ router.put('/upload_image_profil', async function (req, res, next) {
 // Uploader Photo dans Cloundinary et récuperer l'URL de la photo dans cloudinary */
 router.put('/upload_image_portfolio', async function (req, res, next) {
 
-  let image = './tmp/' + uniqid() + '.jpg' 
+  let image = './tmp/' + uniqid() + '.jpg'
 
   let user_token = req.body.token
   let portfolioIndex = req.body.portfolioIndex
 
-  let user = await userModel.findOne({token : user_token})
+  let user = await userModel.findOne({ token: user_token })
 
   var resultCopy = await req.files.image_uploaded.mv(image);
 
@@ -226,10 +226,10 @@ router.put('/upload_image_portfolio', async function (req, res, next) {
     var resultCloudinary = await cloudinary.uploader.upload(image);
 
     user.portfolio[parseInt(portfolioIndex)].images.push(resultCloudinary.url)
-   
+
     await userModel.updateOne(
-    { token: user_token},
-    { portfolio :  user.portfolio } )
+      { token: user_token },
+      { portfolio: user.portfolio })
 
     res.json(resultCloudinary);
   } else {
@@ -238,7 +238,7 @@ router.put('/upload_image_portfolio', async function (req, res, next) {
 
   fs.unlinkSync(image); // suppression de la photo du dossier tmp
 
- });
+});
 
 router.put('/upload_portfolio', async function (req, res, next) {
 
@@ -298,17 +298,17 @@ router.delete('/delete_portfolio_image', async function (req, res, next) {
 
   let portfolioIndex = req.body.portfolioIndex
 
-  let user = await userModel.findOne({token : user_token})
+  let user = await userModel.findOne({ token: user_token })
 
   let indexOfImage = user.portfolio[parseInt(portfolioIndex)].images.indexOf(portfolioImageUrl)
   user.portfolio[parseInt(portfolioIndex)].images.splice(parseInt(indexOfImage), 1)
-   
-    await userModel.updateOne(
-    { token: user_token},
-    { portfolio :  user.portfolio } )
 
-    res.json({status : "supprimé"})
-    
+  await userModel.updateOne(
+    { token: user_token },
+    { portfolio: user.portfolio })
+
+  res.json({ status: "supprimé" })
+
   let deleteresult = await userModel.updateOne(
     { token: user_token },
     {
@@ -358,30 +358,44 @@ router.post('/search_casting', async function (req, res, next) {
 
   let userAge = getAge(user.date_of_birth);
 
-  let projects = await projectModel.find(
-    { gender: user.characteristics.gender, location: user.city }
+  let matchingProjects = await projectModel.find(
+    { gender: user.characteristics.gender, location: user.location, age_min :{$lt: userAge}, age_max:{$gt:userAge} }
   )
 
-  let matchingProjects = projects.filter(e => e.age_min < userAge);
-  //matchingProjects = projects.filter(e => e.age_max > userAge);
+  // RAPPEL : RAJOUTER COLLABORATORS : USER.OCCUPATION DANS LES FILTRES
+  //console.log('MATCHING USERS :', matchingProjects.length);
 
   res.json({ matchingProjects })
 
 })
 
+
+
 // Affichage des artistes correspondants aux critères du projet
 router.post('/search_artist', async function (req, res, next) {
 
-  let activeUser = await userModel.findOne({ token: req.body.token }).populate('projects_created').exec();
+  let project = await projectModel.findOne({ _id: req.body._id })
 
+  // console.log('PROJET :', project);
+  console.log(project.location, project.gender, project.collaborators);
 
-  let matchingUsers = await userModel.find(
-    { gender: activeUser.projects_created.gender, city: activeUser.projects_created.location,  }
-  )
+  let matchingUsers = await userModel.find({location: project.location, occupation: project.collaborators})
+
+  // function getAge(dateString) {
+  //   let ageInMilliseconds = new Date() - new Date(dateString);
+  //   return Math.floor(ageInMilliseconds / 1000 / 60 / 60 / 24 / 365); // convert to years
+  // }
+
+  // let userAge = getAge(users.date_of_birth);
+
+  // // let matchingUsers = users.filter(e => e.userAge > project.age_min && e.userAge < project.age_max)
+
+  console.log('MATCHING USERS :', matchingUsers.length);
 
   res.json({ matchingUsers })
-
 })
+
+
 
 // Pour qu'un artiste puisse postuler à des offres
 router.post('/postuler', async function (req, res, next) {
@@ -431,10 +445,10 @@ router.post('/recruiter_projects', async function (req, res, next) {
 
   let recruiter_token = req.body.token;
 
-  let user = await userModel.findOne({token : recruiter_token}).populate('projects_created').exec()
+  let user = await userModel.findOne({ token: recruiter_token }).populate('projects_created').exec()
 
   res.json(user.projects_created)
-  
+
 
 })
 

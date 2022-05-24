@@ -15,8 +15,6 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { expoUrlRaf } from '../ExpoUrl';
 
-
-
 import { connect } from 'react-redux';
 
 
@@ -46,7 +44,6 @@ function AnnoncesScreen(props) {
         { label: 'Shooting', value: 'Shooting' },
         { label: 'Tous types', value: '' },
     ];
-
 
 
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
