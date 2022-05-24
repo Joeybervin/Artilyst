@@ -11,5 +11,16 @@ npm install
 npm i unimodules-permissions-interface
 
 front_end : 22/05/2022
-
 expo install expo-location
+
+front-end : 23/05/2022
+
+npm install @react-navigation/material-top-tabs react-native-tab-view 
+https://reactnavigation.org/docs/material-top-tab-navigator
+
+
+expo install react-native-pager-view
+https://github.com/callstack/react-native-pager-view 
+
+https://github.com/InTeach/react-native-scroll-indicator
+

@@ -13,6 +13,7 @@ var projectModel = require('../models/project');
 var uid2 = require('uid2');
 /* MOT DE PASSE : Module de chiffrement de mot de passe + Nombre de tour */
 var bcrypt = require('bcrypt');
+const { populate } = require('../models/user');
 const cost = 10;
 
 // ^ Paramètres et configurations
@@ -52,12 +53,36 @@ router.post('/sign-up', async function (req, res, next) {
       occupation: userInfos.occupation,
       date_of_birth: new Date(userInfos.birthday_date),
       insert_date: new Date(),
-      token: uid2(32)
+      description: undefined,
+      cv: undefined,
+      city: undefined,
+      characteristics: {
+        gender: undefined, 
+        ethnicGroup: undefined,
+        hair: undefined, 
+        eyes: undefined, 
+        height: undefined, 
+        weight: undefined, 
+        corpulence: undefined,
+        measurements: { 
+            waist: undefined, 
+            bust: undefined, 
+            hips: undefined },
+      },
+      portfolio : [
+        {title : "exemple",
+        images : []}
+      ],
+      profile_photo : [],
+      projects_selected : [],
+      projects_created : [],
+      siren: "", // 14 chiffre
+      token: uid2(32),
     })
 
     await newUser.save() // enregistrement dans la base de données
 
-    res.json({ new_user: true, token: newUser.token }) // je r'envoie au front l'état de la connexion et le token de l'utilisateur me permettant de l'identifier tout au long de sa navigation
+    res.json({ new_user: true, user: newUser }) // Object : Je renvoie un message de réussite et les données de l'utilisateur
 
   }
   else {
@@ -90,6 +115,12 @@ router.post('/sign-in', async function (req, res, next) {
 });
 
 //* ____________________________________ PROFILE ________________________________
+// Pour afficher tous les utilisateurs //! TEMPORAIRE
+router.get('/all_users_profile', async function (req, res, next) {
+
+  let all_users_account = await userModel.find();
+  res.json(all_users_account) // Object :  Je renvoie les informations au front-end
+})
 
 // Pour afficher le profil de l'utilisateur
 router.post('/user_profile', async function (req, res, next) {
@@ -99,6 +130,7 @@ router.post('/user_profile', async function (req, res, next) {
   let user_account = await userModel.findOne({
     token: token,
   });
+  console.log(user_account)
   //console.log(user_account)
   res.json(user_account) // Object :  Je renvoie les informations au front-end
 })
@@ -210,23 +242,24 @@ router.put('/upload_image_profil', async function (req, res, next) {
 // Uploader Photo dans Cloundinary et récuperer l'URL de la photo dans cloudinary */
 router.put('/upload_image_portfolio', async function (req, res, next) {
 
-  // console.log(req.body.token)
-  // console.log(req.body.portofolioName)
-  // console.log(req.files.image_uploaded)
-
-
   let image = './tmp/' + uniqid() + '.jpg' 
 
   let user_token = req.body.token
   let portfolioIndex = req.body.portfolioIndex
-  let user = userModel.findOne({token : user_token})
+
+  let user = await userModel.findOne({token : user_token})
+
   var resultCopy = await req.files.image_uploaded.mv(image);
 
   if (!resultCopy) {
+
     var resultCloudinary = await cloudinary.uploader.upload(image);
 
-    user.portofolio[portfolioIndex].push(resultCloudinary.url)
-    console.log("AFTER UPDATE : " , user.portofolio0)
+    user.portfolio[parseInt(portfolioIndex)].images.push(resultCloudinary.url)
+   
+    await userModel.updateOne(
+    { token: user_token},
+    { portfolio :  user.portfolio } )
 
     res.json(resultCloudinary);
   } else {
@@ -235,17 +268,7 @@ router.put('/upload_image_portfolio', async function (req, res, next) {
 
   fs.unlinkSync(image); // suppression de la photo du dossier tmp
 
-  await userModel.updateOne( // ! A REVOIR
-    { token: user_token,
-    portfolio : {title : portofolioName} },
-    { $push:  { images : resultCloudinary.url }
-    } )
-
-    console.log(userModel)
-
-
-
-});
+ });
 
 router.put('/upload_portfolio', async function (req, res, next) {
 
@@ -296,17 +319,19 @@ router.delete('/delete_portfolio_image', async function (req, res, next) {
 
   let portfolioImageUrl = req.body.portfolioImageUrl
   let user_token = req.body.token
-  let portfolioTitle = req.body.portfolioTitle
 
-  console.log(portfolioTitle)
+  let portfolioIndex = req.body.portfolioIndex
 
-  let deleteresult = await userModel.updateOne(
-    {token: user_token},
-    {$pull: {portfolio : {
-      title : portfolioTitle,
-      images : portfolioImageUrl}}}
-    );
-    console.log(deleteresult) 
+  let user = await userModel.findOne({token : user_token})
+
+  let indexOfImage = user.portfolio[parseInt(portfolioIndex)].images.indexOf(portfolioImageUrl)
+  user.portfolio[parseInt(portfolioIndex)].images.splice(parseInt(indexOfImage), 1)
+   
+    await userModel.updateOne(
+    { token: user_token},
+    { portfolio :  user.portfolio } )
+
+    res.json({status : "supprimé"})
 })
 
 // Pour que l'utilisateur puisse supprimer une image de son portofolio
@@ -372,8 +397,11 @@ router.post('/postuler', async function (req, res, next) {
 
 
   if(!idProjectExist){
-    const matchVerify = userSelected.find(id => id == user._id);
+
+    const matchVerify = userSelected.find(id => id === user._id);
+
   console.log(matchVerify)
+
   if(matchVerify){
   match = true
   }
@@ -381,13 +409,15 @@ router.post('/postuler', async function (req, res, next) {
 
   await userModel.updateOne(
     { token: token },
-    { $push: { projects_selected:{idProject: id_Projet_Selected , match:match } } }
+    { $push: { projects_selected:{idProject: id_Projet_Selected , match : match } } }
   )
 
-  res.json( {result: true } )
+  res.json( {already : false , saveProjectSelected : true } )
   }
   else {
-    res.json( {result :true} )
+
+    let project = await  projectModel.find({_id : id_Projet_Selected})
+    res.json( {already : true, photoProjet : project.photos } )
   }
 
 })
@@ -486,6 +516,21 @@ router.delete('/deleteProject', async function (req, res, next) {
 })
 
 
+
+
+//* ____________________________________ RECRUTEUR ________________________________
+//* _______________________________________________________________________________
+
+// Pour afficher tous les prjets du recruteur
+router.post('/recruiter_projects', async function (req, res, next) {
+
+  let recruiter_token = req.body.token
+
+  let user = await userModel.findOne({token : recruiter_token}).populate('projects_created').exec()
+
+  res.json(user.projects_created)
+  
+})
 
 
 module.exports = router;
