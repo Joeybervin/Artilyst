@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // & import des urls de chacune
-import { expoUrlJoey } from '../../ExpoUrl';
+import { expoUrlBertin } from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
@@ -73,7 +73,7 @@ function ProfileEditScreen(props) {
         let user_new_informations = {token: user.token, city: city, description: description, cv: cv, name : name,
                 gender: gender, ethnicGroup: ethnicGroup, hair: hair, eyes: eyes, height: height, weight: weight, corpulence: corpulence, waist: waist, bust: bust, hips: hips }
 
-        const rawResponse = await fetch(`http://${expoUrlJoey}/update_user_profile`, {
+        const rawResponse = await fetch(`http://${expoUrlBertin}/update_user_profile`, {
             method: 'PUT',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({user_new_informations})

@@ -1,6 +1,6 @@
 
 import Animated from 'react-native-reanimated';
-import { expoUrlJoey } from '../../../ExpoUrl';
+import { expoUrlBertin } from '../../../ExpoUrl';
 
 import React, { useRef, useState, useEffect } from 'react';
 
@@ -108,7 +108,7 @@ function GalleryScreen(props) {
         
             
 
-            let data_uploaded = await fetch(`http://${expoUrlJoey}/${indexRoute}`,
+            let data_uploaded = await fetch(`http://${expoUrlBertin}/${indexRoute}`,
             {
                 method: 'PUT',
                 body: data , 
@@ -162,7 +162,7 @@ function GalleryScreen(props) {
                 name: 'image_uploaded.jpeg',
             });
 
-            let data_uploaded = await fetch(`http://${expoUrlJoey}/${indexRoute}`,
+            let data_uploaded = await fetch(`http://${expoUrlBertin}/${indexRoute}`,
              {
                 method: 'PUT',
                 body: data , 

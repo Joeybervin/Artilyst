@@ -16,7 +16,7 @@ var projectSchema = mongoose.Schema({
     age_min: Number,
     age_max:Number,
     collaborators_characteristics : Object,
-    localisation : String,
+    location : String,
 })
 
 

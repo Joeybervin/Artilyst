@@ -29,7 +29,7 @@ var userSchema = mongoose.Schema({
             bustSize: Number, 
             hipMeasurement: Number }
     }, */
-    city : String,
+    location : String,
 
 
     token : String,

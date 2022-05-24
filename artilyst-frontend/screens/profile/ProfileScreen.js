@@ -2,7 +2,7 @@ import Animated from 'react-native-reanimated';
 
 import React, { useRef, useState, useEffect } from 'react';
 
-import { expoUrlJoey } from '../../ExpoUrl';
+import { expoUrlBertin } from '../../ExpoUrl';
 
 
 //^ Module de balise
@@ -80,7 +80,7 @@ function ProfileScreen(props) {
 
 
 
-                let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
+                let data_uploaded = await fetch(`http://${expoUrlBertin}/upload_image_profil`,
                     {
                         method: 'PUT',
                         body: data,
@@ -136,7 +136,7 @@ function ProfileScreen(props) {
 
 
 
-                let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
+                let data_uploaded = await fetch(`http://${expoUrlBertin}/upload_image_profil`,
                     {
                         method: 'PUT',
                         body: data,
@@ -207,7 +207,7 @@ function ProfileScreen(props) {
     /* MAP */
 
     let userProfileImages
-    if (user.profile_photo.length > 0) {
+    if (user.profile_photo.length > 1) {
         console.log("je suis ici")
         userProfileImages = props.user.profile_photo
     }

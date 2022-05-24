@@ -1,7 +1,7 @@
 import React from 'react';
 
 // ^ Wanings messages
-import { LogBox, Button, ScrollView } from 'react-native';
+import { LogBox, Button, ScrollView, Image } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']);
 
 //^ Module de balise
@@ -20,7 +20,6 @@ export default function ArtisteCorrespondantScreen(props) {
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
 
-
     // * ___________________________ PAGE ___________________________
 
     return (
@@ -29,73 +28,167 @@ export default function ArtisteCorrespondantScreen(props) {
 
                 <Text>Artiste Correspondant à votre recherche </Text>
 
-                <View style={{ flexDirection: 'row', marginTop: 50, width: 300, height: 200 }} >
-                    <View style={{ borderColor: 'black', borderWidth: 1, width: 140, height: 200, }} >
-                        <View style={{  borderWidth: 1, width: 140, height: 120, }}  >
-                        <Text>image profil</Text>
-                        </View>
-                        <Text>Nom</Text>
-                        <Text>Domaine </Text>
-                        <Button style={{ width: 20, height: 20 }} title="recruter  " />
+                {/*   profil correpondant */}
+
+                <View style={{ flexDirection: 'row', marginTop: 50}} >
+
+                     {/*   profil 1  */}
+                <View style={{ flexDirection: 'column', borderColor: 'black', borderWidth: 0.5, borderRadius: 7, width: 150, height: 210, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10 }}>
+                            {/* image profil */}
+                            <View style={{ height: 140, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10, marginTop: 5, alignItems: "center" }}>
+                                <Image style={{ width: 140, height: 140 }} source={{ uri: 'https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387' }} />
+                            </View>
+
+                            {/* Nom et domaine */}
+                            <View style={{ flexDirection: 'row', justifyContent: "space-between" }} >
+                                <Text style={{ fontWeight: 'bold' }}> Sarah  </Text>
+                                <Text style={{ fontWeight: 'bold' }}> Photographe </Text>
+                            </View>
+                            {/* Bouton rejeter /recruter */}
+                            <View style={{ paddingLeft: 5, paddingRight: 5}} >
+                                <Button
+                                    color='#1ADBAC'
+                                    buttonStyle={{ backgroundcolor: '#1ADBAC' }}
+                                    title="recruter" />
+                                
+                            </View>
+
                     </View>
 
-                    <View style={{ borderColor: 'black', borderWidth: 1, width: 140, height: 200, marginLeft: 18 }} >
-                    <View style={{  borderWidth: 1, width: 140, height: 120, }}  >
-                        <Text>image profil</Text>
-                        </View>
-                        <Text>Nom</Text>
-                        <Text>Domaine </Text>
-                        <Button style={{ width: 20, height: 20 }} title="recruter  " />
+                    
+                             {/*   profil 2  */}
+                             <View style={{ flexDirection: 'column', borderColor: 'black', borderWidth: 0.5, borderRadius: 7, width: 150, height: 210, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10 }}>
+                            {/* image profil */}
+                            <View style={{ height: 140, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10, marginTop: 5, alignItems: "center" }}>
+                                <Image style={{ width: 140, height: 140 }} source={{ uri: 'https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387' }} />
+                            </View>
+
+                            {/* Nom et domaine */}
+                            <View style={{ flexDirection: 'row', justifyContent: "space-between" }} >
+                                <Text style={{ fontWeight: 'bold' }}> Sarah  </Text>
+                                <Text style={{ fontWeight: 'bold' }}> Photographe </Text>
+                            </View>
+                            {/* Bouton rejeter /recruter */}
+                            <View style={{ paddingLeft: 5, paddingRight: 5}} >
+                                <Button
+                                    color='#1ADBAC'
+                                    buttonStyle={{ backgroundcolor: '#1ADBAC' }}
+                                    title="recruter" />
+                                
+                            </View>
+
                     </View>
 
+                
 
                 </View>
 
+                <View style={{ flexDirection: 'row', marginTop: 50}} >
 
-                <View style={{flexDirection: 'row', marginTop: 50, width: 300,height: 200}} >
-                <View style={{ borderColor: 'black', borderWidth: 1, width: 140, height: 200, }} >
-                        <View style={{  borderWidth: 1, width: 140, height: 120, }}  >
-                        <Text>image profil</Text>
-                        </View>
-                        <Text>Nom</Text>
-                        <Text>Domaine </Text>
-                        <Button style={{ width: 20, height: 20 }} title="recruter  " />
+{/*   profil 1  */}
+<View style={{ flexDirection: 'column', borderColor: 'black', borderWidth: 0.5, borderRadius: 7, width: 150, height: 210, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10 }}>
+                            {/* image profil */}
+                            <View style={{ height: 140, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10, marginTop: 5, alignItems: "center" }}>
+                                <Image style={{ width: 140, height: 140 }} source={{ uri: 'https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387' }} />
+                            </View>
+
+                            {/* Nom et domaine */}
+                            <View style={{ flexDirection: 'row', justifyContent: "space-between" }} >
+                                <Text style={{ fontWeight: 'bold' }}> Sarah  </Text>
+                                <Text style={{ fontWeight: 'bold' }}> Photographe </Text>
+                            </View>
+                            {/* Bouton rejeter /recruter */}
+                            <View style={{ paddingLeft: 5, paddingRight: 5}} >
+                                <Button
+                                    color='#1ADBAC'
+                                    buttonStyle={{ backgroundcolor: '#1ADBAC' }}
+                                    title="recruter" />
+                                
+                            </View>
+
                     </View>
 
-                    <View style={{ borderColor: 'black', borderWidth: 1, width: 140, height: 200, marginLeft: 18 }} >
-                    <View style={{  borderWidth: 1, width: 140, height: 120, }}  >
-                        <Text>image profil</Text>
-                        </View>
-                        <Text>Nom</Text>
-                        <Text>Domaine </Text>
-                        <Button style={{ width: 20, height: 20 }} title="recruter  " />
+
+        {/*   profil 2  */}
+        <View style={{ flexDirection: 'column', borderColor: 'black', borderWidth: 0.5, borderRadius: 7, width: 150, height: 210, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10 }}>
+                            {/* image profil */}
+                            <View style={{ height: 140, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10, marginTop: 5, alignItems: "center" }}>
+                                <Image style={{ width: 140, height: 140 }} source={{ uri: 'https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387' }} />
+                            </View>
+
+                            {/* Nom et domaine */}
+                            <View style={{ flexDirection: 'row', justifyContent: "space-between" }} >
+                                <Text style={{ fontWeight: 'bold' }}> Sarah  </Text>
+                                <Text style={{ fontWeight: 'bold' }}> Photographe </Text>
+                            </View>
+                            {/* Bouton rejeter /recruter */}
+                            <View style={{ paddingLeft: 5, paddingRight: 5}} >
+                                <Button
+                                    color='#1ADBAC'
+                                    buttonStyle={{ backgroundcolor: '#1ADBAC' }}
+                                    title="recruter" />
+                                
+                            </View>
+
                     </View>
+
+
+</View>
+
+
+<View style={{ flexDirection: 'row', marginTop: 50}} >
+
+                     {/*   profil 1  */}
+                     <View style={{ flexDirection: 'column', borderColor: 'black', borderWidth: 0.5, borderRadius: 7, width: 150, height: 210, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10 }}>
+                            {/* image profil */}
+                            <View style={{ height: 140, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10, marginTop: 5, alignItems: "center" }}>
+                                <Image style={{ width: 140, height: 140 }} source={{ uri: 'https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387' }} />
+                            </View>
+
+                            {/* Nom et domaine */}
+                            <View style={{ flexDirection: 'row', justifyContent: "space-between" }} >
+                                <Text style={{ fontWeight: 'bold' }}> Sarah  </Text>
+                                <Text style={{ fontWeight: 'bold' }}> Photographe </Text>
+                            </View>
+                            {/* Bouton rejeter /recruter */}
+                            <View style={{ paddingLeft: 5, paddingRight: 5}} >
+                                <Button
+                                    color='#1ADBAC'
+                                    buttonStyle={{ backgroundcolor: '#1ADBAC' }}
+                                    title="recruter" />
+                                
+                            </View>
+
+                    </View>
+
+
+                    
+                             {/*   profil 2  */}
+                             <View style={{ flexDirection: 'column', borderColor: 'black', borderWidth: 0.5, borderRadius: 7, width: 150, height: 210, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10 }}>
+                            {/* image profil */}
+                            <View style={{ height: 140, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10, marginTop: 5, alignItems: "center" }}>
+                                <Image style={{ width: 140, height: 140 }} source={{ uri: 'https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387' }} />
+                            </View>
+
+                            {/* Nom et domaine */}
+                            <View style={{ flexDirection: 'row', justifyContent: "space-between" }} >
+                                <Text style={{ fontWeight: 'bold' }}> Sarah  </Text>
+                                <Text style={{ fontWeight: 'bold' }}> Photographe </Text>
+                            </View>
+                            {/* Bouton rejeter /recruter */}
+                            <View style={{ paddingLeft: 5, paddingRight: 5}} >
+                                <Button
+                                    color='#1ADBAC'
+                                    buttonStyle={{ backgroundcolor: '#1ADBAC' }}
+                                    title="recruter" />
+                                
+                            </View>
+
+                    </View>
+
+                
+
                 </View>
-
-                <View style={{flexDirection: 'row', marginTop: 50, width: 300,height: 200}} >
-                <View style={{ borderColor: 'black', borderWidth: 1, width: 140, height: 200, }} >
-                        <View style={{  borderWidth: 1, width: 140, height: 120, }}  >
-                        <Text>image profil</Text>
-                        </View>
-                        <Text>Nom</Text>
-                        <Text>Domaine </Text>
-                        <Button style={{ width: 20, height: 20 }} title="recruter  " />
-                    </View>
-
-                    <View style={{ borderColor: 'black', borderWidth: 1, width: 140, height: 200, marginLeft: 18 }} >
-                    <View style={{  borderWidth: 1, width: 140, height: 120, }}  >
-                        <Text>image profil</Text>
-                        </View>
-                        <Text>Nom</Text>
-                        <Text>Domaine </Text>
-                        <Button style={{ width: 20, height: 20 }} title="recruter  " />
-                    </View>
-                </View>
-
-
-
-      
-
 
 
             </View>
@@ -116,3 +209,5 @@ const styles = StyleSheet.create({
 });
 
 // * ___________________________ REDUX ___________________________
+
+

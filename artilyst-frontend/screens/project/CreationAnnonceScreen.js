@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {connect} from 'react-redux';
 
 // & import des urls de chacune
-import {expoUrlJoey} from '../../ExpoUrl';
+import {expoUrlBertin} from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox, Button, Switch } from 'react-native';
@@ -35,14 +35,14 @@ function CreationAnnonceScreen(props) {
     const projectSave = async () => {
         
         
-        const rawResponse = await fetch(`http://${expoUrlJoey}/project`, {
+        const rawResponse = await fetch(`http://${expoUrlBertin}/project`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({projectInfos : projectInfos}),
         })
 
         let response = await rawResponse.json() 
-        props.navigation.navigate('Annonces')
+        props.navigation.navigate('ArtisteCorrespondantScreen')
     
     }// Object : Réponse du back-end
 
@@ -115,8 +115,14 @@ function CreationAnnonceScreen(props) {
     title="Lancer la recherche "
     onPress={() => projectSave()}
 
-    
 />
+
+<Button
+    buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
+    title="Lancer"
+    onPress={() => props.navigation.navigate('ArtisteCorrespondantScreen')}
+/>
+
 
 
      

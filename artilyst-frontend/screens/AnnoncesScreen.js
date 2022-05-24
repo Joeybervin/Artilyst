@@ -13,7 +13,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 // ^ Icon
 import { Ionicons } from '@expo/vector-icons';
 
-import { expoUrlJoey } from '../ExpoUrl';
+import { expoUrlBertin } from '../ExpoUrl';
 
 import { connect } from 'react-redux';
 
@@ -44,7 +44,7 @@ function AnnoncesScreen(props) {
         { label: 'Tous types', value: '' },
     ];
 
-
+    console.log(recruiterListProjects)
 
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
@@ -53,7 +53,7 @@ function AnnoncesScreen(props) {
         
         // * Recruiter case
         async function loadProjects() {
-            var rawResponse = await fetch(`http://${expoUrlJoey}/recruiter_projects`, {
+            var rawResponse = await fetch(`http://${expoUrlBertin}/recruiter_projects`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.user.token}`,
@@ -64,7 +64,7 @@ function AnnoncesScreen(props) {
 
         // * Artiste case
         async function loadCasting() {
-            var rawResponse = await fetch(`http://${expoUrlJoey}/search_casting`, {
+            var rawResponse = await fetch(`http://${expoUrlBertin}/search_casting`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.user.token}`,
@@ -83,7 +83,7 @@ function AnnoncesScreen(props) {
 //*********** envoyer les infos necessaires au match au backen  */
   
   const Postuler = async (id , users) =>{
-        var rawResponse = await fetch(`http://${expoUrlJoey}/postuler`, {
+        var rawResponse = await fetch(`http://${expoUrlBertin}/postuler`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({token : props.user.token , projectId:id, userSelected:users }),
