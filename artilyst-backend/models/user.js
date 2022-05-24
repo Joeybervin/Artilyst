@@ -1,16 +1,21 @@
 var mongoose = require('mongoose');
 
+var projects_selected = mongoose.Schema({
+    idProject:{type: mongoose.Schema.Types.ObjectId, ref: 'projects' },
+    match : Boolean,
+});
+
 var userSchema = mongoose.Schema({
     name : String,
     email :  String,
     password :  String,
-    gender :  String,
+    //gender :  String,
     occupation : String,
     description: String,
     cv : String,
     profile_photo : Array,
     portfolio :  Array, // portofolios : Array => Object
-    projects_selected :  Array , // On=bjeect => id du projet + match en booleen
+    projects_selected :  [projects_selected] , // On=bjeect => id du projet + match en booleen
     projects_created : [ {type: mongoose.Schema.Types.ObjectId, ref: 'projects' }],
     insert_date: Date,
 
@@ -29,7 +34,7 @@ var userSchema = mongoose.Schema({
             bustSize: Number, 
             hipMeasurement: Number }
     }, */
-    city : String,
+    location : String,
 
 
     token : String,

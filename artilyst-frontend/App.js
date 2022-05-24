@@ -52,10 +52,11 @@ import MessagesScreen from './screens/MessagesScreen';
 //^ Redux
 /* reducers */
 import user from './reducers/userReducer';
+import ListProjet from './reducers/Project.reducer';
 import {createStore, combineReducers} from 'redux';
 import {Provider} from 'react-redux';
 /* store */
-const store = createStore(combineReducers({user}));
+const store = createStore(combineReducers({user,ListProjet}));
 
 //^ module bonus (style + icons)
 import { Ionicons } from '@expo/vector-icons'; 

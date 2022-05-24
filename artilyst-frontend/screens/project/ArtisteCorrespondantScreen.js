@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 // ^ Wanings messages
 import { LogBox, Button, ScrollView } from 'react-native';
@@ -8,7 +9,7 @@ LogBox.ignoreLogs(['Warning: ...']);
 import { StyleSheet, Text, View } from 'react-native';
 /* import { Text } from '@rneui/base'; */
 
-export default function ArtisteCorrespondantScreen(props) {
+function ArtisteCorrespondantScreen(props) {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
@@ -17,6 +18,24 @@ export default function ArtisteCorrespondantScreen(props) {
     /* PREMIÈRE */
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
+    const Recruter = async (id , users) =>{
+      
+        var rawResponse = await fetch(`http://${expoUrlMustafa}/recruter`, {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({token :props.user.token , projectId:id, userSelectedId:users}),
+            
+        })
+       // console.log("props.user.token",props.user.token)
+        let response = await rawResponse.json();
+
+        
+
+
+    }
+
+
+
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
 
@@ -116,3 +135,13 @@ const styles = StyleSheet.create({
 });
 
 // * ___________________________ REDUX ___________________________
+
+
+function mapStateToProps(state) {
+    return { user: state.user }
+}
+
+export default connect(
+    mapStateToProps,
+    null
+)(ArtisteCorrespondantScreen);
