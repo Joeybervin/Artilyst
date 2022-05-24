@@ -3,7 +3,7 @@ import Animated from 'react-native-reanimated';
 
 import React, { useRef, useState, useEffect } from 'react';
 
-import { expoUrlJoey } from '../../../ExpoUrl';
+import { expoUrlRaf } from '../../../ExpoUrl';
 
 //^ Module de balise
 import { Dimensions, StyleSheet, View, ScrollView, TouchableOpacity, ImageBackground, ActivityIndicator } from 'react-native';
@@ -38,7 +38,7 @@ function PortfoliosScreen(props) {
             setTitleMessageError("Champs invalide !")
         }
         else {
-            const rawResponse = await fetch(`http://${expoUrlJoey}/upload_portfolio`, {
+            const rawResponse = await fetch(`http://${expoUrlRaf}/upload_portfolio`, {
                 method: 'PUT',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `portfolioName=${title}&token=${user.token}`,
@@ -59,7 +59,7 @@ function PortfoliosScreen(props) {
 
     const deletePortfolio = async (portfolioName, portfolioIndex) => {
 
-        const rawResponse = await fetch(`http://${expoUrlJoey}/delete_portfolio`, {
+        const rawResponse = await fetch(`http://${expoUrlRaf}/delete_portfolio`, {
             method: 'DELETE',
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: `portfolioName=${portfolioName}&token=${user.token}`,

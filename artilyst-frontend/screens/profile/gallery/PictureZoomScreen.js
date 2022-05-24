@@ -4,7 +4,7 @@ import Animated from 'react-native-reanimated';
 import React, { useRef, useState, useEffect } from 'react';
 
 // & import des urls de chacune
-import {expoUrlJoey} from '../../../ExpoUrl';
+import {expoUrlRaf} from '../../../ExpoUrl';
 
 
 //^ Module de balise
@@ -31,7 +31,7 @@ function pictureZoomScreen(props) {
     const deletePicture = async () => {
         
     if (params.profileImageUrl) {
-        const rawResponse = await fetch(`http://${expoUrlJoey}/delete_profile_image`, {
+        const rawResponse = await fetch(`http://${expoUrlRaf}/delete_profile_image`, {
             method: 'DELETE',
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: `profileImageUrl=${params.profileImageUrl}&token=${user.token}`,
@@ -49,12 +49,20 @@ function pictureZoomScreen(props) {
 
     }
     if (params.portfolioImageUrl) {
+<<<<<<< HEAD
         const rawResponse = await fetch(`http://${expoUrlJoey}/delete_portfolio_image`, {
             method: 'DELETE',
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: `portfolioImageUrl=${params.portfolioImageUrl}&token=${user.token}&portfolioIndex=${params.portfolioIndex}`,
         })
 
+=======
+        // const rawResponse = await fetch(`http://${expoUrlRaf}/delete_portfolio_image`, {
+        //     method: 'DELETE',
+        //     headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        //     body: `portfolioImageUrl=${params.portfolioImageUrl}&portfolioTitle=${user.portfolio[params.portfolioIndex].title}&token=${user.token}`,
+        // })
+>>>>>>> raf
         //! A REVOIR
         let response = await rawResponse.json() // Object : Réponse du back-end
 

@@ -64,36 +64,32 @@ function ProfileScreen(props) {
 
             if (MediaLibraryResult.uri) {
 
-                setOverlayVisibility(true)
+            setOverlayVisibility(true)
 
-                data.append("token", user.token) // J'envoie le token de l'utilisateur
-                data.append(
-                    'image_uploaded', {
-                    uri: MediaLibraryResult.uri,
-                    type: 'image/jpeg',
-                    name: 'image_uploaded.jpeg',
+            data.append("token" , user.token ) // J'envoie le token de l'utilisateur
+            data.append(
+                'image_uploaded', {
+                uri: MediaLibraryResult.uri,
+                type: 'image/jpeg',
+                name: 'image_uploaded.jpeg',
+                
+            });
+        
+            
 
-                });
+            let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
+            {
+                method: 'PUT',
+                body: data , 
+            })
+            let result = await data_uploaded.json()
 
+            props.addPictures(result.url, user)
+           
 
-
-                let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
-                    {
-                        method: 'PUT',
-                        body: data,
-                    })
-                let result = await data_uploaded.json()
-
-                props.addPictures(result.url, user)
-
-
-                if (result) {
-                    setOverlayVisibility(false)
-                }
-
-                let copyUserInfos = { ...props.user }
-                setUser(copyUserInfos)
-
+            if (result) {
+                setOverlayVisibility(false)
+            }
 
             }
         }
@@ -120,34 +116,34 @@ function ProfileScreen(props) {
 
             if (resultCamera.uri) {
 
-                setOverlayVisibility(true) // chargement de la photo
+            setOverlayVisibility(true) // chargement de la photo
 
-                data.append("token", user.token) // J'envoie le token de l'utilisateur
-                data.append(
-                    'image_uploaded', {
-                    uri: resultCamera.uri,
-                    type: 'image/jpeg',
-                    name: 'image_uploaded.jpg',
+            data.append("token" , user.token) // J'envoie le token de l'utilisateur
+            data.append(
+                'image_uploaded', {
+                uri: resultCamera.uri,
+                type: 'image/jpeg',
+                name: 'image_uploaded.jpg',
+                
+            });
+ 
+            
+            
+            let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
+             {
+                method: 'PUT',
+                body: data , 
+            })
 
-                });
-
-
-
-                let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
-                    {
-                        method: 'PUT',
-                        body: data,
-                    })
-
-                let result = await data_uploaded.json()
-                props.addPictures(result.url, user)
-                if (result) {
-                    setOverlayVisibility(false)
-                }
-
-                let copyUserInfos = { ...props.user }
-                setUser(copyUserInfos)
-
+            let result = await data_uploaded.json()
+            props.addPictures(result.url, user)
+            if (result) {
+                setOverlayVisibility(false)
+            }
+            
+            let copyUserInfos = {...props.user}
+            setUser(copyUserInfos)
+            
             }
         }
     }
@@ -452,7 +448,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: "center",
     },
-    containerJoey: {
+    containerRaf: {
         marginHorizontal: 10
     },
     swipperContainer: {
