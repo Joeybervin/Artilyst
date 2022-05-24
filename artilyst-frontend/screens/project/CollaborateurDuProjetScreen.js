@@ -14,6 +14,29 @@ import { Overlay, Button } from "@rneui/base";
 
 export default function CollaborateurDuProjetScreen(props) {
 
+
+
+
+
+    // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
+    /* VARIABLES D'ÉTAT  */
+
+    const [dateDebut, setDateDebut] = useState("JJ/MM/AAAA");
+    const [dateFin, setDateFin] = useState("JJ/MM/AAAA");
+
+    const [userOccupation, setUserOccupation] = useState("")
+    const [userOccupationClicked, setUserOccupationClicked] = useState(true) // vérifie si l'utilisateur à bien clické sur un bouton
+    const [alerte, setAlerte] = useState("")
+
+    const [ovelayDebutVisible, setOvelayDebutVisible] = useState(false);
+    const [ovelayFinVisible, setOvelayFinVisible] = useState(false);
+
+    /* VARIABLES */
+
+    var datevalide = true
+
+    // * ___________________________ FUNCTIONS ___________________________
+
     const getTheDateFormat = (date) => {
         if (date === "JJ/MM/AAAA") {
             return "JJ/MM/AAAA"
@@ -38,30 +61,8 @@ export default function CollaborateurDuProjetScreen(props) {
     }
 
 
-
-    // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
-    /* VARIABLES D'ÉTAT  */
-
-    const [dateDebut, setDateDebut] = useState("JJ/MM/AAAA");
-    const [dateFin, setDateFin] = useState("JJ/MM/AAAA");
-
-    const [userOccupation, setUserOccupation] = useState("")
-    const [userOccupationClicked, setUserOccupationClicked] = useState(true) // vérifie si l'utilisateur à bien clické sur un bouton
-    const [alerte, setAlerte] = useState("")
-
-
-
-
-    const [ovelayDebutVisible, setOvelayDebutVisible] = useState(false);
-    const [ovelayFinVisible, setOvelayFinVisible] = useState(false);
-
-    /*********** Variable */
-
-    var datevalide = true
-
-
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
-    /******* varification de la coherence des dates et affichage d'alerte */
+    /* varification de la coherence des dates et affichage d'alerte */
     useEffect(() => {
         async function VerifData() {
 
@@ -86,8 +87,6 @@ export default function CollaborateurDuProjetScreen(props) {
         } 12
         VerifData()
     }, [dateDebut, dateFin, userOccupation]);
-
-
 
     /* Pour ajouter le métier de l'utilisateur au données qui seront envoyées à la base de données  */
     const addUserOccupation = (userOccupation) => {
@@ -133,6 +132,7 @@ export default function CollaborateurDuProjetScreen(props) {
                             buttonStyle={{ borderColor: '#000000', width: '100%' }}
                             titleStyle={{ color: 'black' }}
                         />
+                        
                         <Overlay overlayStyle={{ width: "90%", justifyContent: "center", backgroundColor: "white" }} isVisible={ovelayDebutVisible} >
                             <DatePicker
                                 mode="calendar"
@@ -166,15 +166,7 @@ export default function CollaborateurDuProjetScreen(props) {
                             </View>
 
                         </Overlay>
-                        {/*  <DateField
-                    labelDate="JJ"
-                    labelMonth="MM"
-                    labelYear="AAAA"
-                    styleInput={styles.inputDate}
-
-                    onSubmit={(value) => setDateDebut(value)}
-                /> */}
-
+                    
                     </View>
 
                     <View>

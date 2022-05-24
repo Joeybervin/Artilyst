@@ -6,15 +6,10 @@ LogBox.ignoreLogs(['Warning: ...']);
 
 //^ Module de balise
 import { StyleSheet, View } from 'react-native';
-import { Text, Input } from '@rneui/base';
-//^ module bonus (icons)
+import { Text, Input, Button, Overlay} from '@rneui/base';
+//^ module bonus
 import { Ionicons } from '@expo/vector-icons'; 
-
-// ^ Module : date input
-// ? doc : https://www.npmjs.com/package/react-native-datefield
-import DateField from 'react-native-datefield';
-
-
+import DatePicker from 'react-native-modern-datepicker';
 
 
 export default function RegisterFormScreen1(props) {
@@ -23,6 +18,12 @@ export default function RegisterFormScreen1(props) {
 
     /* VARIABLES */
     const  params  = props.route.params; // Object : Je vais chercher si on m'a envoyé des paramètres (en cas de retour depuis la deuxième pasge de mon formulaire)
+    let age = 0 // Définition de l'age de l'utilisateur 
+    let birthdayDateValid = false;
+    let emailValid = false;
+    let passwordValid = false;
+    let firstStepLogin = false // Boolean :  condition pour envoyer la donné au back-end 
+
  
     /* VARIABLES D'ÉTAT  */
     const [email, setEmail] = useState(params === undefined ? "" : props.route.params.email); // String : email de mon formulaire
@@ -35,32 +36,56 @@ export default function RegisterFormScreen1(props) {
     const [passwordError, setPasswordError] = useState(""); // message d'erreur du mot de passe
     const [passwordVisibility, setPasswordVisibility] = useState(true); // Bolean : définit la visibilité de mon mot de passe
 
+    const [ovelayVisibility, setOvelayVisibility] = useState(false);
+
+    const [birthdayDateView, setBirthdayDateView] = useState("JJ/MM/AAAA"); // DATE : date de mon formulaire
     const [birthdayDate, setBirthdayDate] = useState(params === undefined ? new Date() : props.route.params.birthday_date); // DATE : date de mon formulaire
     const [birthdayDateError, setBirthdayDateError] = useState(""); // message d'erreur du mot de passe
-    let age = 0 // Définition de l'age de l'utilisateur 
-    let firstStepLogin = false // Boolean :  condition pour envoyer la donné au back-end 
+
     
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
 
+    const getTheDateFormat = (date) => {
+        if (date === "JJ/MM/AAAA") {
+            return "JJ/MM/AAAA"
+        } else {
+            let day, month, year;
+            let today = date
+            day = today.getDate();
+            month = today.getMonth() + 1; // take care of the month's number here ⚠️
+            year = today.getFullYear();
+
+            if (day < 10) {
+                day = '0' + day;
+            }
+
+            if (month < 10) {
+                month = '0' + month;
+            }
+            return `${day}/${month}/${year}`
+
+        }
+
+    }
 
     /* Check des erreurs possible à la submission du formulaire de connexion*/
     const handleSubmit = () => {
 
+        console.log(birthdayDate)
         let today = new Date() // Je récupère la date d'aujourd'hui
-        if (birthdayDate !== undefined || birthdayDate !== today) {
+        if (birthdayDate !== undefined || birthdayDate !== today || birthdayDate !== "JJ/MM/AAAA") {
             let birthDate = new Date(birthdayDate)
+            console.log("transforme age : ",birthDate)
             let ageDiff = today.getTime() - birthDate.getTime() // je calcule la différence entre la date d'aujourd'hui et celle envoyé
-            var ageDate = new Date(ageDiff)// je met le résulta obtenue sous forme d'une date
+            var ageDate = new Date(ageDiff) // je met le résulta obtenue sous forme d'une date
             age  = Math.abs(ageDate.getFullYear() - 1970) // je calcule le nombre d'année de différence avec 1970
+            console.log("AGE : ", age)
         }
 
-
-        var birthdayDateValid = false;
-
-        if (age == 0) {
+        if (age === 0) {
             setBirthdayDateError("Ce champs est obligatoire");
         }
         else if (age < 18 ) {
@@ -70,11 +95,11 @@ export default function RegisterFormScreen1(props) {
             setBirthdayDateError("Toujours en vie ? Félicitations !")
         }
         else {
-        
+            setBirthdayDateError("")
             birthdayDateValid = true;
         }
 
-        var emailValid = false;
+        
 
         if (email === undefined) {
             setEmailError("Ce champs est obligatoire");
@@ -93,7 +118,7 @@ export default function RegisterFormScreen1(props) {
             emailValid = true
         }
     
-        var passwordValid = false;
+        
         
         if (password === undefined) {
             setPasswordError("Ce champs est obligatoire");
@@ -128,7 +153,7 @@ export default function RegisterFormScreen1(props) {
             setEmail("");
             setPassword("");
             setName("");
-            setBirthdayDate("");
+            setBirthdayDateView("");
             firstStepLogin = true
             
         }        
@@ -139,9 +164,10 @@ export default function RegisterFormScreen1(props) {
     const validFirstStep = () =>  {
         handleSubmit()
         if (firstStepLogin) {
-            console.log("PARAMS : ",{name : name , email : email, password : password, birthday_date : String(birthdayDate), occupation: params === undefined ? "" : params.occupation})
+            console.log("PARAMS : ",{name : name , email : email, password : password, birthday_date : new Date(birthdayDateView), occupation: params === undefined ? "" : params.occupation})
+
             props.navigation.navigate('RegisterFormScreen2',
-            {name : name , email : email, password : password, birthday_date : String(birthdayDate), occupation: params === undefined ? "" : params.occupation})
+            {name : name , email : email, password : password, birthday_date : String(birthdayDateView), occupation: params === undefined ? "" : params.occupation})
         }
     }
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
@@ -180,14 +206,51 @@ export default function RegisterFormScreen1(props) {
             />
 
             {/* Date de naissance */}
-            <DateField
-                labelDate="JJ"
-                labelMonth="MM"
-                labelYear="AAAA"
-                styleInput={styles.inputDate}
-                
-                onSubmit={(value) => setBirthdayDate(value)}
-            />
+            <View style={{ marginTop: 25, marginBottom: 25 }}>
+                        <Text>Date de naissance</Text>
+                        <Button type="outline" title={birthdayDateView} onPress={() => { setOvelayVisibility(true) }}
+                            buttonStyle={{ borderColor: '#000000', width: '100%' }}
+                            titleStyle={{ color: 'black' }}
+                        />
+                        
+                        <Overlay overlayStyle={{ width: "90%", justifyContent: "center", backgroundColor: "white" }} isVisible={ovelayVisibility} >
+                            <DatePicker
+                                mode="calendar"
+                                style={{ width: "100%", borderRadius: 10 }}
+                                options={{
+                                    textHeaderColor: '#333333',
+                                    textDefaultColor: '#000000',
+                                    selectedTextColor: '#fff',
+                                    mainColor: '#1ADBAC',
+                                    textSecondaryColor: '#44A38B',
+                                    borderColor: 'rgba(122, 146, 165, 0.1)',
+                                }}
+
+                                onSelectedChange={date => {
+                                    setBirthdayDate(date)
+                                    let dateselected = getTheDateFormat(new Date(date))
+                                    
+                                    setBirthdayDateView(dateselected)
+                                    
+                                }}
+
+
+                            />
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+
+                                <Button title="supprimer" buttonStyle={{ backgroundColor: '#000000', width: 150 }} onPress={() => {
+                                    setBirthdayDateView("JJ/MM/AAAA")
+                                    setOvelayVisibility(false)
+                                }} />
+                                <Button title="ok" buttonStyle={{ backgroundColor: '#1ADBAC', width: 150 }} onPress={() => setOvelayVisibility(false)} />
+
+                            </View>
+
+                        </Overlay>
+                    
+                    </View>
+
+
             <Text>{birthdayDateError}</Text>
 
             <View style={{ flexDirection: 'row', marginTop: 50, alignItems: 'center'}}>

@@ -53,12 +53,36 @@ router.post('/sign-up', async function (req, res, next) {
       occupation: userInfos.occupation,
       date_of_birth: new Date(userInfos.birthday_date),
       insert_date: new Date(),
-      token: uid2(32)
+      description: undefined,
+      cv: undefined,
+      city: undefined,
+      characteristics: {
+        gender: undefined, 
+        ethnicGroup: undefined,
+        hair: undefined, 
+        eyes: undefined, 
+        height: undefined, 
+        weight: undefined, 
+        corpulence: undefined,
+        measurements: { 
+            waist: undefined, 
+            bust: undefined, 
+            hips: undefined },
+      },
+      portfolio : [
+        {title : "exemple",
+        images : []}
+      ],
+      profile_photo : [],
+      projects_selected : [],
+      projects_created : [],
+      siren: "", // 14 chiffre
+      token: uid2(32),
     })
 
     await newUser.save() // enregistrement dans la base de données
 
-    res.json({ new_user: true, token: newUser.token }) // je r'envoie au front l'état de la connexion et le token de l'utilisateur me permettant de l'identifier tout au long de sa navigation
+    res.json({ new_user: true, user: newUser }) // Object : Je renvoie un message de réussite et les données de l'utilisateur
 
   }
   else {
