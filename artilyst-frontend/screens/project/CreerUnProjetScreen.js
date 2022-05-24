@@ -30,7 +30,7 @@ export default function CreerUnProjetScreen(props) {
   // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
   /* MAP */
 
-  const allUserPorjects = images.map((element, index) => { // Tous les prjets de l'utilisateur
+  const allUserProjects = images.map((element, index) => { // Tous les prjets de l'utilisateur
     return (
       <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center" }} onPress={() => console.log("PROJET !!")} key={index}>
 
@@ -105,7 +105,7 @@ export default function CreerUnProjetScreen(props) {
           <Text style={{ fontWeight: "bold", fontSize: 20, marginBottom: 25, width: "90%", marginLeft: 20 }}>Mes projets </Text>
 
 
-          {allUserPorjects}
+          {allUserProjects}
 
 
         </View>
