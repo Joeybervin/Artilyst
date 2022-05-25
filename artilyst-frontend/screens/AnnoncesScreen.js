@@ -21,7 +21,7 @@ import { connect } from 'react-redux';
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from './components/GlobalStyles';
 
 import { useTheme } from '@react-navigation/native';
-import { NeomButton, PostulerBtn } from './components/ButtonsStyles';
+import { PostulerBtnLight, PostulerBtn } from './components/ButtonsStyles';
 
 
 
@@ -169,7 +169,7 @@ function AnnoncesScreen(props) {
         let description = casting.description
 
         return (
-            <View key={i} style={{ borderRadius: 7, flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderColor: 'gray', borderWidth: 0.5, width: "85%", height: 150, marginTop: 30, paddingLeft: 7, paddinRight: 5 }}>
+            <View key={i} style={{ backgroundColor: '#353535', flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderColor: 'gray', borderWidth: 0, width: "85%", height: 150, marginTop: 30, paddingLeft: 7, paddinRight: 5, shadowColor: 'black', shadowOffset: { width: 2, height: 4 }, shadowOpacity: 0.4, shadowRadius: 3 }}>
 
                 <Image
                     containerStyle={{ width: 110, height: '85%', }}
@@ -184,7 +184,8 @@ function AnnoncesScreen(props) {
                     <Text style={styles.cardTitle}>{description.substring(0, 30) + ' ...'}</Text>
                     <Text style={styles.cardText}>{description.substring(0, 50) + ' ...'}</Text>
 
-                    <PostulerBtn onPressHandler={() => Postuler(casting._id, casting.users_selected)} />
+                    <PostulerBtnLight onPressHandler={() => Postuler(casting._id, casting.users_selected)} />
+                    
                     {/* <Button
                         color='#1ADBAC'
                         buttonStyle={{ backgroundcolor: '#1ADBAC' }}
@@ -303,7 +304,7 @@ function AnnoncesScreen(props) {
 
                 <View style={styles.container}>
 
-                    <Text style={styles.title}>Casting vous Correspondant</Text>
+                    <Text style={styles.title}>Casting vous correspondant</Text>
 
                     {/* Choix de la catégorie dans laquel l'utilisateur souhaite chercher un casting */}
                     <Dropdown
@@ -404,7 +405,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
     placeholderStyle: {
-        fontSize: 16,
+        fontSize: 14,
         color: 'white',
         fontWeight: 'bold',
     },

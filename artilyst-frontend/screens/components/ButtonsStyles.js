@@ -7,24 +7,19 @@ import { useNavigation } from '@react-navigation/native';
 
 
 // A COPIER :
-// import { GradientButton, PostulerBtn, RecruterBtn } from '../components/ButtonsStyles';
+// import { FullBtn, PostulerBtn, RecruterBtnn, RejeterBtn } from '../components/ButtonsStyles';
 
-// GRADIENT BUTTON ------------------------
-export function GradientButton(props) {
+// FULL BUTTON ------------------------
+export function FullBtn(props) {
 
     return (
         <View>
             <TouchableOpacity
                 activeOpacity={.7}
                 onPress={props.onPressHandler}
-                style={styles.EmptyButton}
+                style={styles.btn}
             >
-                <LinearGradient
-                    colors={['#36e599', '#597ee7', '#b44be0']}
-                    end={[1, 0.5]}
-                    style={styles.btn}>
-                    <Text style={styles.textBtn}>Text</Text>
-                </LinearGradient>
+                <Text style={styles.textBtn}>Text</Text>
             </TouchableOpacity>
         </View>
     );
@@ -51,6 +46,34 @@ export function PostulerBtn(props) {
                     activeOpacity={.7}
                     onPress={props.onPressHandler}
                     style={styles.EmptyButton}
+                >
+                    <Text style={styles.textBtn}>Postuler</Text>
+                </TouchableOpacity>
+            </LinearGradient>
+        </View >
+    );
+}
+
+export function PostulerBtnLight(props) {
+
+    return (
+        <View>
+            <LinearGradient
+                colors={['#36e599', '#597ee7', '#b44be0']}
+                end={[1, 0.5]}
+                style={{
+                    height: 38, width: 135,
+                    textAlign: 'center',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 16,
+                    padding: 1,
+                    margin: 3
+                }}>
+                <TouchableOpacity
+                    activeOpacity={.7}
+                    onPress={props.onPressHandler}
+                    style={styles.EmptyButtonLight}
                 >
                     <Text style={styles.textBtn}>Postuler</Text>
                 </TouchableOpacity>
@@ -116,7 +139,7 @@ export function RejeterBtn(props) {
 
 
 // BOUTON NEOMORPH ------------------
-export function NeomorphButton(props) {
+export function NeomorphBtn(props) {
 
     const navigation = useNavigation()
 
@@ -165,7 +188,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     // GRADIENT BUTTON
-    gradientbtn: {
+    btn: {
         padding: 16,
         borderRadius: 16,
         margin: 14,
@@ -183,6 +206,14 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         margin: 0,
         backgroundColor: '#282828',
+        justifyContent: 'center'
+    },
+    EmptyButtonLight: {
+        height: '100%',
+        width: '100%',
+        borderRadius: 16,
+        margin: 0,
+        backgroundColor: '#353535',
         justifyContent: 'center'
     },
     // NEOMORPH BUTTON

@@ -15,7 +15,7 @@ import { log } from 'react-native-reanimated';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // Styles
-import { GradientButton, PostulerBtn, RecruterBtn } from '../components/ButtonsStyles';
+import { FullBtn, PostulerBtn, RecruterBtn } from '../components/ButtonsStyles';
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
 
 /* import { Text } from '@rneui/base'; */
