@@ -109,7 +109,6 @@ function ProfileEditScreen(props) {
                 setOverlayVisibility(false)
                 setCity(response[0].city)
             }
-
             
     }
 }

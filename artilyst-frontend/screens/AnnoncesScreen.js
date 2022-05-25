@@ -33,7 +33,7 @@ function AnnoncesScreen(props) {
     const [projectImages, setProjectImages] = useState([]); // ARRAY
 
     /* VARIABLES */
-    let matchingCastingListCopy = matchingCasting;
+    let myTab = matchingCasting;
 
     const dropdownData = [ // Collecte tous les catégories de projet disponnible
         { label: 'Création textile', value: 'Création textile' },
@@ -108,10 +108,10 @@ function AnnoncesScreen(props) {
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
     if (castingCategory != '') {
-        matchingCastingListCopy = matchingCastingListCopy.filter(e => e.category == castingCategory)
+        myTab = myTab.filter(e => e.category == castingCategory)
     }
     if (isPaid) {
-        matchingCastingListCopy = matchingCastingListCopy.filter(e => e.remuneration == true)
+        myTab = myTab.filter(e => e.remuneration == true)
     }
 
 
@@ -146,7 +146,7 @@ function AnnoncesScreen(props) {
         )
     })
 
-    let castingDisplay = matchingCastingListCopy.map((casting, i) => {
+    let castingDisplay = myTab.map((casting, i) => {
         let title = casting.title
         let description = casting.description
         return (
@@ -333,7 +333,7 @@ function AnnoncesScreen(props) {
                     </View>
 
                     {/* AFFICHAGE DES CASTING */}
-                    {matchingCastingListCopy.lenght === 0 ? <Text> Compléter votre profile, pour voir des castings vous correspondant</Text> : castingDisplay}
+                    {myTab.lenght === 0 ? <Text> Compléter votre profile, pour voir des castings vous correspondant</Text> : castingDisplay}
 
                 </View>
 
