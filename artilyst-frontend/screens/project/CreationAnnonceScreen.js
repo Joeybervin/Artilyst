@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 // & import des urls de chacune
-import { expoUrlRaf } from '../../ExpoUrl';
+import { expoUrlBertin } from '../../ExpoUrl';
 
 // ^ Wanings messages
 
@@ -47,7 +47,7 @@ function CreationAnnonceScreen(props) {
     const projectSave = async () => {
 
 
-        const rawResponse = await fetch(`http://${expoUrlRaf}/project`, {
+        const rawResponse = await fetch(`http://${expoUrlBertin}/project`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ projectInfos: projectInfos }),

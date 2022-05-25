@@ -14,9 +14,10 @@ import { Dropdown } from 'react-native-element-dropdown';
 // ^ Icon
 import { Ionicons } from '@expo/vector-icons';
 
-import { expoUrlRaf } from '../ExpoUrl';
+import { expoUrlBertin } from '../ExpoUrl';
 
 import { connect } from 'react-redux';
+import { CardStyleInterpolators } from '@react-navigation/stack';
 
 let { width: screenWidth, height: screenHeight } = Dimensions.get('screen')
 
@@ -59,7 +60,7 @@ function AnnoncesScreen(props) {
     useEffect(() => {
         // ! TEMPORAIRE LE TEMPS QUE RAF FINISSE LA ROUTE =======> Joey :)
         async function allUsers() {
-            var rawResponse = await fetch(`http://${expoUrlRaf}/all_users_profile`, {
+            var rawResponse = await fetch(`http://${expoUrlBertin}/all_users_profile`, {
             })
             let response = await rawResponse.json();
             console.log(response)
@@ -68,7 +69,7 @@ function AnnoncesScreen(props) {
 
         // * Si un recruteur se connecte => DropDown de tous ses projets en cours
         async function loadProjects() {
-            var rawResponse = await fetch(`http://${expoUrlRaf}/recruiter_projects`, {
+            var rawResponse = await fetch(`http://${expoUrlBertin}/recruiter_projects`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.user.token}`,
@@ -79,7 +80,7 @@ function AnnoncesScreen(props) {
 
         // * Si un artiste se connecte => Visualisation de tous les projets le correspondant
         async function loadCasting() {
-            var rawResponse = await fetch(`http://${expoUrlRaf}/search_casting`, {
+            var rawResponse = await fetch(`http://${expoUrlBertin}/search_casting`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.user.token}`,
@@ -98,7 +99,7 @@ function AnnoncesScreen(props) {
 //*********** envoyer les infos necessaires au match au backend  */
   
   const Postuler = async (id , users) =>{
-        var rawResponse = await fetch(`http://${expoUrlRaf}/postuler`, {
+        var rawResponse = await fetch(`http://${expoUrlBertin}/postuler`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ token: props.user.token, projectId: id, userSelected: users }),
@@ -131,7 +132,7 @@ function AnnoncesScreen(props) {
     const recruiterArtistsList = allUsersAccount.map((element, index) => {
         return (
 
-            <TouchableOpacity key={index + 1}
+            <TouchableOpacity     key={index + 1}
                 activeOpacity={.2} style={{ borderRadius: 7, flexDirection: "row", alignItems: "center", justifyContent: "center", borderColor: 'black', borderWidth: 0.5, width: "85%", height: 140, marginTop: 30 }}
                 onPress={() => props.navigation.navigate('OtherUserProfileScreen', { userToken: element.token })}>
 
@@ -140,10 +141,10 @@ function AnnoncesScreen(props) {
                     resizeMode="contain"
                     source={{ uri: element.profile_photo[Math.floor(Math.random() * (element.profile_photo.length - 1))] }}
                     style={{ borderRadius: 10, marginRight: 10 }}
-                    PlaceholderContent="ff"
+                    // PlaceholderContent=""
                 />
 
-                <View style={{ width: 200, height: 108 }}>
+                <View style={{ width: 200, height: 108  }}>
                     <Text style={{ fontWeight: "bold", marginBottom: 2 }}>{element.name}</Text>
                     <Text style={{ fontWeight: "bold", marginBottom: 4 }}>{element.occupation}</Text>
                     <Text style={{ marginBottom: 5 }}>{element.description}</Text>
@@ -162,21 +163,27 @@ function AnnoncesScreen(props) {
     let castingDisplay = myTab.map((casting, i) => {
         let title = casting.title
         let description = casting.description
+    
+
+
 
         return (
             <View key={i} style={{ borderRadius: 7, flexDirection: "row", alignItems: "center", justifyContent: "center", borderColor: 'black', borderWidth: 0.5, width: "85%", height: 150, marginTop: 30 }}>
-
-                <Image
+ 
+                 <Image
                     containerStyle={{ width: 110, height: '85%', }}
                     resizeMode="contain"
-                    source={{}}
+                    source={{uri:casting.photos[0]}}
                     style={{ borderRadius: 10, marginRight: 10 }}
                     PlaceholderContent="ff"
-                />
+                /> 
+
+                  
+                
 
                 <View style={{ width: 200, height: '85%', justifyContent : 'space-between' }}>
                     <View>
-                        <Text style={{ fontWeight: "bold", marginBottom: 3 }}>{description.substring(0,30)+' ...'}</Text>
+                        <Text style={{ fontWeight: "bold", marginBottom: 3 }}>{title.substring(0,30)+' ...'}</Text>
                         <Text style={{ marginBottom: 5, fontSize: 12 }}>{description.substring(0,50)+' ...'}</Text>
                     </View>
                     <Button

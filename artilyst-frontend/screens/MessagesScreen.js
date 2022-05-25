@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { expoUrlRaf } from '../ExpoUrl';
+import { expoUrlBertin } from '../ExpoUrl';
 
 //^ Module de balise
 import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity} from 'react-native';
@@ -22,7 +22,7 @@ export default function MessagesScreen() {
     useEffect(() => {
         // ! TEMPORAIRE LE TEMPS QUE RAF FINISSE LA ROUTE =======> Joey :)
         async function allUsers() {
-            var rawResponse = await fetch(`http://${expoUrlRaf}/all_users_profile`, {
+            var rawResponse = await fetch(`http://${expoUrlBertin}/all_users_profile`, {
                 })
                 let response = await rawResponse.json();
                 console.log(response)

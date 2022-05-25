@@ -66,6 +66,9 @@ import { Button, Badge } from '@rneui/base';
 
 import { MenuProvider } from 'react-native-popup-menu';
 
+// Import néomorphisme 
+
+
 // * _______________________________________________________ TAB BOTTOM NAVIGATION _______________________________________________________
 // *
 const TabNavigator = createBottomTabNavigator();
@@ -100,9 +103,14 @@ function PagesStacks(props) {
       }}>
 
          {/* ------------------------ BOTTOM TAB BAR ------------------------ */}
-        <TabNavigator.Screen name="Mes projets" component={CreationProjectScreen}  />
+       
+    
+        
+        <TabNavigator.Screen name="Mes projets" component={CreationProjectScreen}  style={{  }} />
         <TabNavigator.Screen name="Annonces" component={AnnoncesScreen}  options={{ initialRouteName: true }}  />
         <TabNavigator.Screen name="Likes" component={LikesScreen}  options={{ tabBarBadge: 0 , tabBarBadgeStyle:{backgroundColor:"#1ADBAC", color:"#fff"}}}  />
+       
+
 
         {/* ------------------------ HEADER TAB ------------------------ */}
         {/* PROFIL */}

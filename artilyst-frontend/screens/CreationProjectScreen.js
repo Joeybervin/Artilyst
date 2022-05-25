@@ -33,14 +33,16 @@ export default function CreationProjectScreen(props) {
 
             <Text  style={{marginBottom : 30, marginLeft : "auto", marginRight : "auto", fontSize: 30}}>ARTILYST</Text>
 
-            <Text style={{marginBottom : 30}}>Cher(e) Artiste, ici vous allez pouvoir créer des ANNONCES pour vos projets</Text>
+            <Text style={{marginBottom : 30, marginLeft : "auto", marginRight : "auto"}}>Cher(e) Artiste, ici vous allez pouvoir créer des ANNONCES pour vos projets</Text>
 
-            <Text style={{marginBottom : 15}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis magna sem, nec lobortis orci vestibulum id. Donec consectetur sagittis ex, non dictum ex convallis in. Donec eu faucibus est. Maecenas vitae eros ac dui aliquam sollicitudin et vitae lacus. Ut rutrum turpis a libero eleifend mattis. Integer luctus mi vel neque dapibus, id tincidunt ligula dictum. Quisque gravida auctor risus, et viverra quam cursus sed. Cras vitae laoreet lorem, iaculis sodales magna. Morbi justo metus, fermentum quis laoreet quis, molestie non ligula.</Text>
+            <Text style={{marginBottom : 15, marginLeft : "auto", marginRight : "auto"}}>Pourquoi créer un projet? </Text>
 
-            <Text style={{marginBottom : 15}}t>Etiam lobortis mi elit, in faucibus lectus mattis ut. Praesent a semper arcu. Proin risus orci, vestibulum eget eleifend nec, ullamcorper varius est. Nulla ut purus feugiat, finibus enim in, maximus sapien. S</Text>
+            <Text style={{marginBottom : 15, marginLeft : "auto", marginRight : "auto"}}t>Avec la création d'un PROJET</Text>
 
         
-            <Text style={{marginBottom : 15}}>Praesent sem ligula, gravida vel blandit quis, euismod sit amet mi. Donec vel sodales nibh. Curabitur ut tincidunt arcu, non elementum nibh. Maecenas mollis, nibh at elementum condimentum, mauris turpis imperdiet tortor, ut sodales urna lacus quis nisi. Sed rutrum nisi vel magna vestibulum volutpat.</Text>
+            <Text style={{marginBottom : 15, marginLeft : "auto", marginRight : "auto"}}>Vous pourrez chercher, les PROFILS des artistes qui correspondent à vos critères, et les recruter.</Text>
+
+            <Text style={{marginBottom : 15, marginLeft : "auto", marginRight : "auto"}}>Ce projet apparaitra dans les annonces, des artistes concernés, ils pourront ainsi postuler</Text>
            
         </View>
         

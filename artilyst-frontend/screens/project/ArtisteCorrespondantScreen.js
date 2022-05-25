@@ -10,7 +10,7 @@ import { StyleSheet, Text, View } from 'react-native';
 /* import { Text } from '@rneui/base'; */
 // const [DisplayArtist, setDisplayArtist]= useState()
 
-import { expoUrlRaf } from '../../ExpoUrl';
+import { expoUrlBertin } from '../../ExpoUrl';
 
 function ArtisteCorrespondantScreen(props) {
 
@@ -31,7 +31,7 @@ function ArtisteCorrespondantScreen(props) {
     useEffect(() => {
 
         async function loadArtists() {
-            var rawResponse = await fetch(`http://${expoUrlRaf}/search_artist`, {
+            var rawResponse = await fetch(`http://${expoUrlBertin}/search_artist`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `id=${props.project.id}`,

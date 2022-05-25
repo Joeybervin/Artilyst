@@ -37,7 +37,7 @@ export default function LikesScreen(props) {
                     <ScrollView horizontal={true}>
 
                         {/* profil 1 */}
-                        <View style={{ flexDirection: 'column', borderColor: 'black', borderWidth: 0.5, borderRadius: 7, width: 180, height: 210, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10 }}>
+                        <View style={styles.profilCards}>
                             {/* image profil */}
                             <View style={{ height: 140, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10, marginTop: 5, alignItems: "center" }}>
                                 <Image style={{ width: 170, height: 140, borderRadius: 7 }} source={{ uri: 'https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387' }} />
@@ -45,8 +45,8 @@ export default function LikesScreen(props) {
 
                             {/* Nom et domaine */}
                             <View style={{ flexDirection: 'row', justifyContent: "space-between", paddingBottom:3 }} >
-                                <Text style={{ fontWeight: 'bold' }}> Sarah  </Text>
-                                <Text style={{ fontWeight: 'bold' }}> Photographe </Text>
+                                <Text style={styles.importantTextCard}> Sarah  </Text>
+                                <Text style={styles.importantTextCard}> Photographe </Text>
                             </View>
                             {/* Bouton rejeter /recruter */}
                             <View style={{ flexDirection: 'row', justifyContent: "space-between", paddingBottom: 5, paddingLeft: 5, paddingRight: 5  }} >
@@ -214,7 +214,7 @@ export default function LikesScreen(props) {
                             <View style={{ width: 340, height: 160, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10, flexDirection: 'row' }}>
                                 {/* image  */}
                                 <View style={{ height: 140, backgroundcolor: '#1ADBAC', marginLeft: 0, marginRight: 0, marginTop: 10, }}>
-                                    <Image style={{ width: 130, height: 130 }} source={{ uri: 'https://images.unsplash.com/photo-1574446615002-35ec8a8f0da2?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070' }} />
+                                    <Image style={{ width: 130, height: 130, borderRadius: 7 }} source={{ uri: 'https://images.unsplash.com/photo-1574446615002-35ec8a8f0da2?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070' }} />
                                 </View>
 
                                 {/* texte  */}
@@ -269,10 +269,36 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        //   backgroundColor: '#fff',
+          backgroundColor: 'black',
         alignItems: 'center',
         justifyContent: 'center',
-    }
+    },
+
+    profilCards: { 
+    flexDirection: 'column',
+     borderColor: 'white', 
+     borderWidth: 0.5, 
+     borderRadius: 7, 
+     width: 180, 
+     height: 210, 
+     backgroundcolor: '#1ADBAC', 
+     marginLeft: 10, 
+     marginRight: 10,
+     color:'white'
+
+    },
+
+    importantTextCard: {
+        color: "white",
+        fontWeight: 'bold',
+    },
+    minorText: {
+        color: "white",
+    },
+    importantTextProject: {
+        color: "white",
+        fontWeight: 'bold',
+    },
 });
 
 // * ___________________________ REDUX ___________________________
