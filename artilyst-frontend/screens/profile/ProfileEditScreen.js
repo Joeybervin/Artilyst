@@ -72,7 +72,24 @@ function ProfileEditScreen(props) {
     async function updateUserProfile() {
 
         let user_new_informations = {token: user.token, city: city, description: description, cv: cv, name : name,
-                gender: gender, ethnicGroup: ethnicGroup, hair: hair, eyes: eyes, height: height, weight: weight, corpulence: corpulence, waist: waist, bust: bust, hips: hips }
+                gender: gender, ethnicGroup: ethnicGroup, hair: hair, eyes: eyes, height: height, weight: weight, corpulence: corpulence, measurements : {}, waist: waist, bust: bust, hips: hips }
+
+        for(const infos in user_new_informations ) {
+            if (user_new_informations[infos] === undefined || user_new_informations[infos] === "") {
+                user_new_informations[infos] = null
+            }
+        }
+        user_new_informations.measurements = {
+            waist: waist, bust: bust, hips: hips
+        }
+
+        for (const measurementsInfos in user_new_informations.measurements) {
+            if (user_new_informations.measurements[measurementsInfos] === undefined || user_new_informations.measurements[measurementsInfos] === "") {
+                user_new_informations.measurements[measurementsInfos] = null
+            }
+        }
+
+        console.log("APRES MODIF :",user_new_informations)
 
         const rawResponse = await fetch(`http://${expoUrlJoey}/update_user_profile`, {
             method: 'PUT',
@@ -109,6 +126,7 @@ function ProfileEditScreen(props) {
                 setOverlayVisibility(false)
                 setCity(response[0].city)
             }
+
             
     }
 }

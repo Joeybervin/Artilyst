@@ -16,7 +16,7 @@ import RegisterFormScreen1 from './screens/connection/RegisterFormScreen1';
 import RegisterFormScreen2 from './screens/connection/RegisterFormScreen2';
 
 /* project screens */
-import CreerUnProjetScreen from './screens/project/CreerUnProjetScreen'; // Étape 1/4
+import CreationProjectScreen from './screens/CreationProjectScreen';
 /* Formulaire de création de projet */
 import CollaborateurDuProjetScreen from './screens/project/CollaborateurDuProjetScreen'; // Étape 2/4
 
@@ -33,7 +33,6 @@ import CreationAnnonceScreen from './screens/project/CreationAnnonceScreen';
 import ArtisteCorrespondantScreen from './screens/project/ArtisteCorrespondantScreen';
 
 /* bottom tab bar screens */
-import CreationProjectScreen from './screens/CreationProjectScreen';
 import AnnoncesScreen from './screens/AnnoncesScreen';
 import LikesScreen from './screens/LikesScreen';
 
@@ -116,18 +115,16 @@ function PagesStacks(props) {
         <TabNavigator.Screen name="MessagesScreen" component={MessagesScreen}  options={{ tabBarButton: () => null }}/>
 
         {/*  ------------------------ PROJECT ------------------------ */}
-        {/* FORMULAIRE :  Étape 1/4 */}
-        <TabNavigator.Screen name="CreerUnProjetScreen" component={CreerUnProjetScreen}  options={{ tabBarButton: () => null }}/> 
-        {/* FORMULAIRE :  Étape 2/4 */}
+        {/* FORMULAIRE :  Étape 1/3 */}
         <TabNavigator.Screen name="CollaborateurDuProjetScreen" component={CollaborateurDuProjetScreen}  options={{ tabBarButton: () => null }}/>
-        {/* FORMULAIRE :  Étape 3/4 */}
+        {/* FORMULAIRE :  Étape 2/3 */}
         <TabNavigator.Screen name="ComedienCollaborateurScreen" component={ComedienCollaborateurScreen}  options={{ tabBarButton: () => null }}/>
         <TabNavigator.Screen name="PhotographeCollaborateurScreen" component={PhotographCollaborateurScreen}  options={{ tabBarButton: () => null }}/>
         <TabNavigator.Screen name="PhotographCollaborateurScreen" component={PhotographCollaborateurScreen}  options={{ tabBarButton: () => null}}/>
         <TabNavigator.Screen name="ModeleCollaborateurScreen" component={ModeleCollaborateurScreen}  options={{ tabBarButton: () => null }}/>
         <TabNavigator.Screen name="RealisateurCollaborateurScreen" component={RealisateurCollaborateurScreen}  options={{ tabBarButton: () => null }}/>
         <TabNavigator.Screen name="StylisteCollaborateurScreen" component={StylisteCollaborateurScreen}  options={{ tabBarButton: () => null}}/>
-        {/* FORMULAIRE :  Étape 4/4 */}
+        {/* FORMULAIRE :  Étape 3/3 */}
         <TabNavigator.Screen name="CategorieDuProjetScreen" component={CategorieDuProjetScreen}  options={{ tabBarButton: () => null}}/>
 
          {/* ------------------------ SEARCH ------------------------ */}
