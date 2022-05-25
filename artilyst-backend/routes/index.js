@@ -439,5 +439,11 @@ router.post('/recruiter_projects', async function (req, res, next) {
   
 })
 
+router.get('/trouve', async function (req, res, next) {
 
+  let projects = await projectModel.find({users_selected : "628dfffdf3f264bf71a5e7e9"})
+
+  res.json(projects)
+  
+})
 module.exports = router;
