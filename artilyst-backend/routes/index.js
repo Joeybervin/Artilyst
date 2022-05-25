@@ -31,6 +31,9 @@ cloudinary.config({
 
 // var request = require('sync-request');
 
+router.get('/', async function (req, res, next) {
+  res.render('index', {title : "Express"})
+});
 
 //* ____________________________________ CONNEXION ________________________________
 
@@ -138,6 +141,8 @@ router.put('/update_user_profile', async function (req, res, next) {
 
   let user_new_informations = req.body.user_new_informations // Je récupère les infos entrées
 
+  console.log(user_new_informations)
+
 console.log(user_new_informations.characteristics)
   await userModel.updateOne( 
     { token: user_new_informations.token },
@@ -155,10 +160,9 @@ console.log(user_new_informations.characteristics)
         weight: user_new_informations.weight, 
         corpulence: user_new_informations.corpulence,
         measurements: { 
-            waist: user_new_informations.waistSize, 
-            bust: user_new_informations.bustSize, 
-            hips: user_new_informations.hipMeasurement },
-    
+            waist: user_new_informations.waist, 
+            bust: user_new_informations.bust, 
+            hips: user_new_informations.hips },
       },
       
       siren: user_new_informations.siren, // 14 chiffre

@@ -27,7 +27,6 @@ function ProfileEditScreen(props) {
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
 
-
     const user = props.user
     const [name, setName] = useState(user.name === "" ? "" : user.name);// Ville
     const [city, setCity] = useState(user.city === "" ? "" : user.city);// Ville
@@ -129,7 +128,7 @@ function ProfileEditScreen(props) {
 
             
     }
-}
+    }
 
 // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
 
