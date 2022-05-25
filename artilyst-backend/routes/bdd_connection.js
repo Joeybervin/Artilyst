@@ -12,7 +12,7 @@ mongoose.connect('mongodb+srv://joey:mdpjoey@cluster.0tz9c.mongodb.net/Artilyst?
         if (err) {
             console.log(`error, failed to connect to the database because --> ${err}`);
         } else {
-            console.info('*** Database connection : Success ***');
+            console.info(' Database connection : Success ');
         }
     }
 )

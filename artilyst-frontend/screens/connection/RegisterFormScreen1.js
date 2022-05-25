@@ -68,7 +68,7 @@ export default function RegisterFormScreen1(props) {
 
     }
 
-    /* Check des erreurs possible à la submission du formulaire de connexion*/
+    /* Check des erreurs possibles à la submission du formulaire de connexion*/
     const handleSubmit = () => {
 
         let today = new Date() // Je récupère la date d'aujourd'hui

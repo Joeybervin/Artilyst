@@ -1,6 +1,10 @@
 import Animated from 'react-native-reanimated';
-import React, { useState } from 'react';
-import { expoUrlJoey } from '../../ExpoUrl';
+
+import React, { useRef, useState, useEffect } from 'react';
+
+import { expoUrlRaf } from '../../ExpoUrl';
+
+
 //^ Module de balise
 import { StyleSheet, View, TouchableOpacity} from 'react-native';
 import { Text } from '@rneui/base';
@@ -58,7 +62,7 @@ export default function PictureBottomSheet(props) {
             
                 
     
-                let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
+                let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
                 {
                     method: 'post',
                     body: data , 
@@ -113,7 +117,7 @@ export default function PictureBottomSheet(props) {
      
                 
                 
-                let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
+                let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
                  {
                     method: 'post',
                     body: data , 
@@ -198,7 +202,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: "center",
     },
-    containerJoey: {
+    containerRaf: {
         marginHorizontal: 10
     },
     swipperContainer: {

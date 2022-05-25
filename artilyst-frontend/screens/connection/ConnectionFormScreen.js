@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // & import des urls de chacune
-import {expoUrlJoey} from '../../ExpoUrl';
+import {expoUrlRaf} from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
@@ -72,7 +72,7 @@ function ConnectionFormScreen(props) {
         handleSubmit() // BOOLEAN :  Vérifications des inputs ==> Je n'envoie les données que si mes input sont bons
 
         if (login) {
-        const rawResponse = await fetch(`http://${expoUrlJoey}/sign-in`, {
+        const rawResponse = await fetch(`http://${expoUrlRaf}/sign-in`, {
             method: 'POST',
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: `email=${email}&password=${password}`,

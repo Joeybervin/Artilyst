@@ -2,7 +2,7 @@ import Animated from 'react-native-reanimated';
 
 import React, { useRef, useState, useEffect } from 'react';
 
-import { expoUrlJoey } from '../../ExpoUrl';
+import { expoUrlRaf } from '../../ExpoUrl';
 
 
 //^ Module de balise
@@ -19,7 +19,6 @@ import Swiper from 'react-native-swiper'
 import { connect } from 'react-redux';
 
 import BottomSheet from 'reanimated-bottom-sheet';
-
 import * as ImagePicker from "expo-image-picker";
 
 
@@ -67,20 +66,24 @@ function ProfileScreen(props) {
 
             if (MediaLibraryResult.uri) {
 
-                setOverlayVisibility(true)
+            setOverlayVisibility(true)
 
-                data.append("token", user.token) // J'envoie le token de l'utilisateur
-                data.append(
-                    'image_uploaded', {
-                    uri: MediaLibraryResult.uri,
-                    type: 'image/jpeg',
-                    name: 'image_uploaded.jpeg',
+            data.append("token" , user.token ) // J'envoie le token de l'utilisateur
+            data.append(
+                'image_uploaded', {
+                uri: MediaLibraryResult.uri,
+                type: 'image/jpeg',
+                name: 'image_uploaded.jpeg',
+                
+            });
+        
+            
 
-                });
+            
+           
 
 
-
-                let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
+                let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
                     {
                         method: 'PUT',
                         body: data,
@@ -123,7 +126,7 @@ function ProfileScreen(props) {
 
             if (resultCamera.uri) {
 
-                setOverlayVisibility(true) // chargement de la photo
+            setOverlayVisibility(true) // chargement de la photo
 
                 data.append("token", user.token) // J'envoie le token de l'utilisateur
                 data.append(
@@ -136,21 +139,22 @@ function ProfileScreen(props) {
 
 
 
-                let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
+                let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
                     {
                         method: 'PUT',
                         body: data,
                     })
 
-                let result = await data_uploaded.json()
-                props.addPictures(result.url, user)
-                if (result) {
-                    setOverlayVisibility(false)
-                }
 
-                let copyUserInfos = { ...props.user }
-                setUser(copyUserInfos)
-
+            let result = await data_uploaded.json()
+            props.addPictures(result.url, user)
+            if (result) {
+                setOverlayVisibility(false)
+            }
+            
+            let copyUserInfos = {...props.user}
+            setUser(copyUserInfos)
+            
             }
         }
     }
@@ -227,7 +231,6 @@ function ProfileScreen(props) {
             </View>
         )
     })
-
 
 
     // * ___________________________ PAGE ___________________________
@@ -381,7 +384,6 @@ function ProfileScreen(props) {
                         />
                     </View>
 
-
                     {/* -------- INFORMATIONS --------  */}
                     <View style={styles.firstInformations} >
                         <Text h5 style={{ fontWeight: "bold", marginRight: 35, fontSize: 20 }}>{user.name}
@@ -450,7 +452,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: "center",
     },
-    containerJoey: {
+    containerRaf: {
         marginHorizontal: 10
     },
     swipperContainer: {
@@ -587,4 +589,4 @@ export default connect(
     mapDispatchToProps
 )(ProfileScreen);
 
-
+    

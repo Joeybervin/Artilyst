@@ -3,6 +3,7 @@ import { LogBox, StatusBar } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
 //^ Navigation
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -52,33 +53,38 @@ import MessagesScreen from './screens/MessagesScreen';
 //^ Redux
 /* reducers */
 import user from './reducers/userReducer';
-import {createStore, combineReducers} from 'redux';
-import {Provider} from 'react-redux';
+import ListProjet from './reducers/Project.reducer';
+import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
 /* store */
-const store = createStore(combineReducers({user}));
+const store = createStore(combineReducers({ user, ListProjet }));
 
 //^ module bonus (style + icons)
-import { Ionicons } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons';
 import { Button, Badge } from '@rneui/base';
 
-
 import { MenuProvider } from 'react-native-popup-menu';
+
+// Import néomorphisme 
+
 
 // * _______________________________________________________ TAB BOTTOM NAVIGATION _______________________________________________________
 // *
 const TabNavigator = createBottomTabNavigator();
 
 function PagesStacks(props) {
+
+
   return (
-    
-      <TabNavigator.Navigator 
+
+    <TabNavigator.Navigator
       initialRouteName="Annonces" // Première page qui s'affiche après sign_in / sign-up
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color }) => {
           let iconName;
           if (route.name === 'Mes projets') {
             iconName = 'ios-create'
-            
+
           } else if (route.name === 'Annonces') {
             iconName = 'ios-search'
           }
@@ -136,7 +142,7 @@ function PagesStacks(props) {
       </TabNavigator.Navigator>
 
   );
-} 
+}
 
 
 
@@ -147,64 +153,65 @@ const StackNavigator = createStackNavigator();
 
 export default function App() {
   return (
-    <MenuProvider>
-    <Provider store={store}>
-      <StatusBar barStyle="light-content" backgroundColor="#333333" />
-      <NavigationContainer >
-        <StackNavigator.Navigator >
+      <MenuProvider>
+        <Provider store={store}>
+          <StatusBar barStyle="light-content" backgroundColor="#333333" />
+          <NavigationContainer >
+            <StackNavigator.Navigator >
 
-           {/* ------------------------ CONNEXION ------------------------ */}
-          <StackNavigator.Screen  name="ConnectionScreen" component={ConnectionScreen} options={{headerShown: false}} />
-          {/* SIGN-IN */}
-          <StackNavigator.Screen  name="ConnectionFormScreen" component={ConnectionFormScreen} options={{headerShown: false}} />
-          {/* SIGN-UP */}
-          <StackNavigator.Screen  name="RegisterFormScreen1" component={RegisterFormScreen1} options={{headerShown: false}} />
-          <StackNavigator.Screen  name="RegisterFormScreen2" component={RegisterFormScreen2} options={{headerShown: false}} />
-          {/* Porfil ==> Gallery */}
-          <TabNavigator.Screen name="PictureZoomScreen" component={PictureZoomScreen}  options={{  headerShown: false}} />
-          
-           {/* ------------------------ HEADER TAB BAR ------------------------ */}
-          <StackNavigator.Screen  name="PagesStacks" component={PagesStacks} 
-          options={({ navigation }) => ({
-            title: "ARTILYST",
-            headerTitleAlign: 'center',
-            headerStyle: {
-              backgroundColor: '#333333',
-              height : 70, 
-            },
-            headerTitleStyle: {
-              fontWeight: 'bold',
-              color: '#FFFFFF',
-            },
-          headerLeft: () => ( // PROFIL
-            <Button
-              icon={<Ionicons name={"person"} size={20} color="white" />}
-              buttonStyle= {{marginHorizontal : 25, borderRadius : 100}}
-              color="#BBBBBB"
-              onPress={() => navigation.navigate('ProfileScreen')}
-            />
-          ),
-          headerRight: () => ( // MESSAGERIE
-            <Button
-              icon={<Ionicons name={"mail"} size={20} color="white" />}
-              buttonStyle= {{marginHorizontal : 25, borderRadius : 100}}
-              color="#BBBBBB"
-              onPress={() => navigation.navigate('MessagesScreen')}
-            >
-              {/* Badge de notification */}
-            <Badge
-              badgeStyle={{backgroundColor :"#1ADBAC"}}
-              value={0}
-              containerStyle={{ position: 'absolute', top: 0, left: 30 }}
-            />
-            </Button>
-          ),
-      })}/>
+              {/* ------------------------ CONNEXION ------------------------ */}
+              <StackNavigator.Screen name="ConnectionScreen" component={ConnectionScreen} options={{ headerShown: false }} />
+              {/* SIGN-IN */}
+              <StackNavigator.Screen name="ConnectionFormScreen" component={ConnectionFormScreen} options={{ headerShown: false }} />
+              {/* SIGN-UP */}
+              <StackNavigator.Screen name="RegisterFormScreen1" component={RegisterFormScreen1} options={{ headerShown: false }} />
+              <StackNavigator.Screen name="RegisterFormScreen2" component={RegisterFormScreen2} options={{ headerShown: false }} />
+              {/* Porfil ==> Gallery */}
+              <TabNavigator.Screen name="PictureZoomScreen" component={PictureZoomScreen} options={{ headerShown: false }} />
 
-        </StackNavigator.Navigator>
-      </NavigationContainer>
-      </Provider>
-    </MenuProvider>
+              {/* ------------------------ HEADER TAB BAR ------------------------ */}
+              <StackNavigator.Screen name="PagesStacks" component={PagesStacks}
+                options={({ navigation }) => ({
+                  title: "ARTILYST",
+                  headerTitleAlign: 'center',
+                  headerStyle: {
+                    backgroundColor: '#333333',
+                    height: 70,
+                  },
+                  headerTitleStyle: {
+                    fontWeight: 'bold',
+                    color: '#FFFFFF',
+                  },
+                  headerLeft: () => ( // PROFIL
+                    <Button
+                      icon={<Ionicons name={"person"} size={20} color="white" />}
+                      buttonStyle={{ marginHorizontal: 25, borderRadius: 100 }}
+                      color="#BBBBBB"
+                      onPress={() => navigation.navigate('ProfileScreen')}
+                    />
+                  ),
+                  headerRight: () => ( // MESSAGERIE
+                    <Button
+                      icon={<Ionicons name={"mail"} size={20} color="white" />}
+                      buttonStyle={{ marginHorizontal: 25, borderRadius: 100 }}
+                      color="#BBBBBB"
+                      onPress={() => navigation.navigate('MessagesScreen')}
+                    >
+                      {/* Badge de notification */}
+                      <Badge
+                        badgeStyle={{ backgroundColor: "#1ADBAC" }}
+                        value={0}
+                        containerStyle={{ position: 'absolute', top: 0, left: 30 }}
+                      />
+                    </Button>
+                  ),
+                })} />
+
+            </StackNavigator.Navigator>
+          </NavigationContainer>
+        </Provider>
+
+      </MenuProvider>
   );
 }
 

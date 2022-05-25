@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // & import des urls de chacune
-import { expoUrlJoey } from '../../ExpoUrl';
+import { expoUrlRaf } from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
@@ -44,7 +44,7 @@ function ProfileEditScreen(props) {
     const [hips, setHips] = useState(user.hips === "" ? 0 : user.hips); // hips
     const [corpulence, setCorpulence] = useState(user.corpulence === "" ? "" : user.corpulence);// Corpulence 
 
-    /* Pour la géolocalisation */
+    /* Pour la géolocation */
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
     const [overlayVisibility, setOverlayVisibility] = useState(false);
@@ -57,7 +57,7 @@ function ProfileEditScreen(props) {
         let enabled = await Location.hasServicesEnabledAsync();
         if (!enabled) {
             Alert.alert(
-                'Le système de géolocalisation est désactivez',
+                'Le système de géolocation est désactivez',
                 'Veuillez le réactivez, afin de continuer',
                 [{ text: 'OK' }],
                 { cancelable: false }
@@ -90,7 +90,7 @@ function ProfileEditScreen(props) {
 
         console.log("APRES MODIF :",user_new_informations)
 
-        const rawResponse = await fetch(`http://${expoUrlJoey}/update_user_profile`, {
+        const rawResponse = await fetch(`http://${expoUrlRaf}/update_user_profile`, {
             method: 'PUT',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({user_new_informations})

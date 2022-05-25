@@ -1,5 +1,5 @@
-import React, {useEffect, useState}from 'react';
-import { expoUrlJoey } from '../../ExpoUrl';
+import React, { useEffect, useState } from 'react';
+import { expoUrlRaf } from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
@@ -11,6 +11,12 @@ import { Text, Button } from '@rneui/base';
 
 // ^Redux
 import { connect } from 'react-redux';
+import { log } from 'react-native-reanimated';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
+// Styles
+import { FullBtn, PostulerBtn, RecruterBtn } from '../components/ButtonsStyles';
+import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
 
 function ConnectionScreen(props) {
 
@@ -22,14 +28,16 @@ function ConnectionScreen(props) {
     /* PREMIÈRE */
     useEffect(() => {
         async function loadData() {
-            const rawResponse = await fetch(`http://${expoUrlJoey}/user_profile`, {
+            const rawResponse = await fetch(`http://${expoUrlRaf}/user_profile`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `token=i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT`,
+                body: `token=KWXlcU4sPT_mj9eDlkaawYfPyX1-okID` // i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT
             })
             let response = await rawResponse.json();
-            let responseCopy = {...response}
+            let responseCopy = { ...response }
             setUserData(responseCopy)
+            console.log('logloglog', response)
+
         }
         loadData();
     }, []);
@@ -37,12 +45,19 @@ function ConnectionScreen(props) {
     // * ___________________________ PAGE ___________________________
 
     return (
-        <View style={styles.container}>
+        <View style={styles.pageBackground}>
 
-            <Text onPress={() =>{
+
+            <Text style={styles.title}>Test de titre !</Text>
+            <Text style={styles.subTitle}>Test de sous-titre</Text>
+            <Text style={styles.textRegular}>Test de texteTest de texteTest de texteTest de texteTest de texte</Text>
+
+
+            <Text onPress={() => {
                 props.getUserInformations(userData)
+                console.log(userData)
                 props.navigation.navigate('PagesStacks')
-                }}>ConnectionScreen</Text>
+            }}>ConnectionScreen</Text>
 
             <Button
                 title="Se connecter"
@@ -56,6 +71,8 @@ function ConnectionScreen(props) {
                 containerStyle={{ margin: 5 }}
             />
 
+            
+
         </View>
     );
 }
@@ -68,7 +85,29 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+
+    // -- GLOBAL STYLE ----------
+    pageBackground: {
+        ...pageBackground
+    },
+    title: {
+        ...title
+    },
+    subTitle: {
+        ...subTitle
+    }, 
+    textRegular: {
+        ...textRegular
+    },
+    cardTitle: {
+        ...cardTitle
+    },
+    cardText: {
+        ...cardText
     }
+
+
 });
 
 // * ___________________________ REDUX ___________________________
