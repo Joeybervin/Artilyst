@@ -13,8 +13,6 @@ import { Switch, Image, Text, Overlay, Avatar } from '@rneui/themed';
 import { Dropdown } from 'react-native-element-dropdown';
 import { Ionicons } from '@expo/vector-icons';
 
-import { expoUrlRaf } from '../ExpoUrl';
-
 // ^ Redux
 import { connect } from 'react-redux';
 import { CardStyleInterpolators } from '@react-navigation/stack';

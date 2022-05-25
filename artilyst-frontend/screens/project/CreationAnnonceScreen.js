@@ -10,9 +10,9 @@ import { LogBox, Button, Switch } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
 //^ Module de balise
-import { LogBox, Switch, StyleSheet, View, TextInput, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TextInput, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
 /* import { Text } from '@rneui/base'; */
-import { Text, Button } from '@rneui/base';
+import { Text } from '@rneui/base';
 import { Overlay } from "@rneui/themed";
 import BottomSheet from 'reanimated-bottom-sheet';
 import * as ImagePicker from "expo-image-picker";

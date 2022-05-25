@@ -211,12 +211,7 @@ function ProfileScreen(props) {
     /* MAP */
 
     let userProfileImages
-<<<<<<< HEAD
-    if (user.profile_photo.length > 1) {
-        console.log("je suis ici")
-=======
     if (user.profile_photo.length > 0) {
->>>>>>> f6aa7fc75499d428a8e618105d4aaa49567f9bd1
         userProfileImages = props.user.profile_photo
     }
     else {
