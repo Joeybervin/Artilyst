@@ -221,7 +221,6 @@ function ProfileScreen(props) {
         userProfileImages = props.user.profile_photo
     }
     else {
-        console.log("LAAAAAAA")
         userProfileImages = ["https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg"]
     }
 
