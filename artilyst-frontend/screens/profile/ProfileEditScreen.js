@@ -8,9 +8,9 @@ import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
 // ^ Module de balise
-import { StyleSheet, View, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { StyleSheet, View, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { Text, Button } from '@rneui/base';
-import { Input, CheckBox, Slider, Divider } from "@rneui/themed";
+import { Input, CheckBox, Slider, Divider, Overlay } from "@rneui/themed";
 
 //^ module bonus (icons)
 import { Ionicons } from '@expo/vector-icons';
@@ -48,6 +48,7 @@ function ProfileEditScreen(props) {
     /* Pour la géolocalisation */
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
+    const [overlayVisibility, setOverlayVisibility] = useState(false);
 
     /* VARIABLES */
 
@@ -84,7 +85,6 @@ function ProfileEditScreen(props) {
         if (response.changement === "terminé") {
             props.updateUserInformation(user_new_informations)
         }
-      
     }
 
     const geolocation = async () => {
@@ -94,10 +94,9 @@ function ProfileEditScreen(props) {
             return;
         }
 
+        setOverlayVisibility(true)
         let location = await Location.getCurrentPositionAsync();
-
-      
-
+        
         if (location) {
             const latitude = location.coords.latitude
             const longitude = location.coords.longitude
@@ -106,9 +105,12 @@ function ProfileEditScreen(props) {
                 longitude
             });
 
-            console.log(response)
-            setCity(response[0].city)
-        
+            if (response) {
+                setOverlayVisibility(false)
+                setCity(response[0].city)
+            }
+
+            
     }
 }
 
@@ -117,11 +119,14 @@ function ProfileEditScreen(props) {
 
 // * ___________________________ PAGE ___________________________
 return (
-    <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.container}
-    >
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container} >
         <ScrollView>
+
+        <Overlay isVisible={overlayVisibility} >
+            <ActivityIndicator size="large" color="#000000" />
+            <Text>Nous cherchons votre localisasion ...</Text>
+        </Overlay>
+
             <View style={{width : "100%", justifyContent: 'center', alignItems : 'center', alignItem : 'center'}}>
 
                 <Text style={{marginBottom : 35, marginTop : 50, fontSize : 25, fontWeight : "bold"}}>Modifier son profil : </Text>

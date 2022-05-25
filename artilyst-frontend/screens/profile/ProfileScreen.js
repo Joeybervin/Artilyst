@@ -208,7 +208,6 @@ function ProfileScreen(props) {
 
     let userProfileImages
     if (user.profile_photo.length > 0) {
-        console.log("je suis ici")
         userProfileImages = props.user.profile_photo
     }
     else {
@@ -318,9 +317,6 @@ function ProfileScreen(props) {
                         <Text>{user.description !== undefined ? user.description : "non renseigné"}</Text>
                     </View>
     
-    
-                    {/* -------- USER CARACTERISTICS --------  */}
-    
                 </View>
             </ScrollView>
         );
@@ -411,8 +407,6 @@ function ProfileScreen(props) {
 
 
                     {/* -------- USER CARACTERISTICS --------  */}
-
-
                     <View style={styles.caracteristicsContainer}>
 
                         <Text>Groupe ethnique : {user.characteristics.ethnicGroup === null ? "non renseigné" : user.characteristics.ethnicGroup}</Text>
@@ -452,6 +446,7 @@ const styles = StyleSheet.create({
     },
     mainContainer: {
         marginTop: 10,
+        marginBottom : 50,
         justifyContent: 'center',
         alignItems: "center",
     },
