@@ -118,7 +118,7 @@ function RegisterFormScreen2(props) {
             <Text>{messageError}</Text>
 
             <View style={{ flexDirection: 'row', marginTop: 50 }}>
-                <Text onPress={() => props.navigation.navigate('RegisterFormScreen1', userInfos)}>Retour</Text> />
+                <Text onPress={() => props.navigation.navigate('RegisterFormScreen1', userInfos)}>Retour</Text>
 
                 {/* <Button
                     buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
