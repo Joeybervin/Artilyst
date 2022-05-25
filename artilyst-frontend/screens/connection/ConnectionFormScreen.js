@@ -5,7 +5,7 @@ import {expoUrlJoey} from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
-LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
 //^ Module de balise
 import { StyleSheet,  View} from 'react-native';
@@ -25,41 +25,34 @@ function ConnectionFormScreen(props) {
     /* VARIABLES D'ÉTAT  */
     const [email, setEmail] = useState(""); // champs de l'email
     const [emailError, setEmailError] = useState(""); // message d'erreur de l'email
+
     const [password, setPassword] = useState("");// champs du mot de passe
     const [passwordError, setPasswordError] = useState(""); // message d'erreur du mot de passe
-
     const [passwordVisibility, setPasswordVisibility] = useState(true); // Changement de la visibilité du mot de passe
-
-    const [login, setLogin] = useState(false); // condition pour envoyer la donné au back-end
+    
     const [newMemberMessage, setNewMemberMessage] = useState("") // renvoie d'un message si la base de données n'a pas trouvé l'utilisateur
     
     /* VARIABLES */
-    // * ___________________________ INITIALISATION DE LA PAGE ___________________________
-    /* PREMIÈRE */
-    /* SECONDE */
+    var emailValid = false;
+    var passwordValid = false;
+    let login = false; // condition pour envoyer la donné au back-end
+
     // * ___________________________ FUNCTIONS ___________________________
 
-    /* Check des erreurs possible à la submission du formulaire de connexion*/
-    const handleSubmit = () => {
-        var emailValid = false;
+
+    const handleSubmit = () => { // Check des erreurs possible à la submission du formulaire de connexion
+        
         if(email.length == 0){
             setEmailError("Ce champs est obligatoire");
-        }      
-        else if(email.indexOf(' ') >= 0){        
-            setEmailError('Un email ne peut contenit d\'espaces');                          
-        }    
+        }  
         else{
             setEmailError("")
             emailValid = true
         }
     
-        var passwordValid = false;
         if(password.length == 0){
             setPasswordError("Ce champs est obligatoire");
-        }       
-        else if(password.indexOf(' ') >= 0){        
-            setPasswordError('Un email ne peut contenit d\'espaces');                          
-        }    
+        }   
         else{
             setPasswordError("")
             passwordValid = true
@@ -68,7 +61,7 @@ function ConnectionFormScreen(props) {
         if(emailValid && passwordValid){     
             setEmail("");
             setPassword("");
-            setLogin(true)
+            login = true
         }        
     
     }
@@ -76,9 +69,8 @@ function ConnectionFormScreen(props) {
     /* Appuie sur le boutton connexion : envoie des données à la database */
     const signInUser = async () => {
 
-        handleSubmit() // Boolean :  Vérifications des inputs
+        handleSubmit() // BOOLEAN :  Vérifications des inputs ==> Je n'envoie les données que si mes input sont bons
 
-        /* Je n'envoie les données que si mes input sont bon */
         if (login) {
         const rawResponse = await fetch(`http://${expoUrlJoey}/sign-in`, {
             method: 'POST',
@@ -86,15 +78,15 @@ function ConnectionFormScreen(props) {
             body: `email=${email}&password=${password}`,
         })
 
-        let response = await rawResponse.json() // Object : Réponse du back-end
+        let response = await rawResponse.json() // OBJECT : Réponse du back-end
 
-        /* Si l'utilisateur n'existe pas */
-        if (response.already_member === true) {
+        if (response.already_member === true) { // récupération de la données envoyé par le back-end
+
+            props.getUserInformations(response.user) // J'ajoute les informations dans mon store
             props.navigation.navigate('PagesStacks') // redirection vers toutes les annonces
-            props.getUserInformations({user_token : response.token}) // J'ajoute les informations dans mon store
+            
         }
         else {
-            /* MARCHE PAS */
             setNewMemberMessage("Ce compte n'existe pas dans notre base de données")
         }
         }

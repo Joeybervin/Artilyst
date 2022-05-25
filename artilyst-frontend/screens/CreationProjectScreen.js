@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 // ^ Wanings messages
 import { LogBox , ScrollView } from 'react-native';
-LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
 //^ Module de balise
 import { StyleSheet, Text,  View } from 'react-native';

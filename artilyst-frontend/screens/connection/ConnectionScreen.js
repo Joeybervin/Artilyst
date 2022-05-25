@@ -3,7 +3,7 @@ import { expoUrlJoey } from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
-LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
 //^ Module de balise
 import { StyleSheet, View } from 'react-native';
@@ -11,8 +11,6 @@ import { Text, Button } from '@rneui/base';
 
 // ^Redux
 import { connect } from 'react-redux';
-
-/* import { Text } from '@rneui/base'; */
 
 function ConnectionScreen(props) {
 
@@ -23,7 +21,6 @@ function ConnectionScreen(props) {
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
     useEffect(() => {
-        console.log("coucou")
         async function loadData() {
             const rawResponse = await fetch(`http://${expoUrlJoey}/user_profile`, {
                 method: 'POST',
@@ -36,10 +33,6 @@ function ConnectionScreen(props) {
         }
         loadData();
     }, []);
-    /* SECONDE */
-    // * ___________________________ FUNCTIONS ___________________________
-    // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
-    /* MAP */
 
     // * ___________________________ PAGE ___________________________
 
@@ -64,7 +57,6 @@ function ConnectionScreen(props) {
             />
 
         </View>
-
     );
 }
 
