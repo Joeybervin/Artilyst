@@ -301,7 +301,7 @@ function ProfileScreen(props) {
                         </Text>
                         <View style={styles.location}>
                             <Ionicons name={'location-sharp'} size={24} color='black' />
-                            <Text h5 style={{ fontSize: 20, marginLeft: 10 }}>{user.city ? user.city : "non renseigné"}</Text>
+                            <Text h5 style={{ fontSize: 20, marginLeft: 10 }}>{user.location ? user.location : "non renseigné"}</Text>
                         </View>
                     </View>
     
@@ -385,11 +385,11 @@ function ProfileScreen(props) {
                     {/* -------- INFORMATIONS --------  */}
                     <View style={styles.firstInformations} >
                         <Text h5 style={{ fontWeight: "bold", marginRight: 35, fontSize: 20 }}>{user.name}
-                            <Ionicons name={genderIcon(user.gender ? user.gender : "male-female-outline")} size={19} color='black' />
+                            <Ionicons name={genderIcon(user.characteristics.gender ? user.characteristics.gender : "male-female-outline")} size={19} color='black' />
                         </Text>
                         <View style={styles.location}>
                             <Ionicons name={'location-sharp'} size={24} color='black' />
-                            <Text h5 style={{ fontSize: 20, marginLeft: 10 }}>{user.city ? user.city : "non renseigné"}</Text>
+                            <Text h5 style={{ fontSize: 20, marginLeft: 10 }}>{user.location ? user.location : "non renseigné"}</Text>
                         </View>
                     </View>
 

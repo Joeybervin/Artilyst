@@ -97,10 +97,10 @@ function ProfileEditScreen(props) {
         })
 
         let response = await rawResponse.json()
+        console.log("ENVPOIE AU REDUCER : ",user_new_informations)
 
-        if (response.changement === "terminé") {
-            props.updateUserInformation(user_new_informations)
-        }
+        props.updateUserInformation(user_new_informations)
+        
     }
 
     const geolocation = async () => {
