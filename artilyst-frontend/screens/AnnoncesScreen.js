@@ -1,23 +1,24 @@
 import React, { FC, useEffect, useState } from 'react';
 
 // ^ Wanings messages
-import { LogBox, Button } from 'react-native';
+import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']);
 
 //^ Module de balise
-import { StyleSheet, View, ScrollView } from 'react-native';
-import { Switch, Image, Text } from '@rneui/themed';
+import { StyleSheet, View, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import { Button } from '@rneui/base';
+import { Switch, Image, Text, Overlay, Avatar } from '@rneui/themed';
 
 // ^ Dropwown
 import { Dropdown } from 'react-native-element-dropdown';
 // ^ Icon
 import { Ionicons } from '@expo/vector-icons';
 
-import { expoUrlBertin } from '../ExpoUrl';
+import { expoUrlRaf } from '../ExpoUrl';
 
 import { connect } from 'react-redux';
 
-
+let { width: screenWidth, height: screenHeight } = Dimensions.get('screen')
 
 function AnnoncesScreen(props) {
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
@@ -29,10 +30,15 @@ function AnnoncesScreen(props) {
     const [castingCategory, setCastingCategory] = useState(''); // Valeur choisie dans le menu déroulant
     const [isPaid, setIsPaid] = useState(false); // Valeur du switch "projets rémunérés"
     const [recruiterListProjects, setRecruiterListProjects] = useState([])
- 
+    const [allUsersAccount, setAllUsersAccount] = useState([])
+    const [overlayVisibility, setOverlayVisibility] = useState(false)
+    const [projectImages, setProjectImages] = useState([]); //
+
 
 
     /* VARIABLES */
+    let myTab = matchingCasting;
+
     const dropdownData = [ // Collecte tous les catégories de projet disponnible
         { label: 'Création textile', value: 'Création textile' },
         { label: 'Défilés', value: 'Défilés' },
@@ -51,10 +57,18 @@ function AnnoncesScreen(props) {
     /* PREMIÈRE */
     // Réception des casting filtrés pour l'utilisateur
     useEffect(() => {
-        
-        // * Recruiter case
+        // ! TEMPORAIRE LE TEMPS QUE RAF FINISSE LA ROUTE =======> Joey :)
+        async function allUsers() {
+            var rawResponse = await fetch(`http://${expoUrlRaf}/all_users_profile`, {
+            })
+            let response = await rawResponse.json();
+            console.log(response)
+            setAllUsersAccount(response)
+        }
+
+        // * Si un recruteur se connecte => DropDown de tous ses projets en cours
         async function loadProjects() {
-            var rawResponse = await fetch(`http://${expoUrlBertin}/recruiter_projects`, {
+            var rawResponse = await fetch(`http://${expoUrlRaf}/recruiter_projects`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.user.token}`,
@@ -63,41 +77,47 @@ function AnnoncesScreen(props) {
             setRecruiterListProjects(response)
         }
 
-        // * Artiste case
+        // * Si un artiste se connecte => Visualisation de tous les projets le correspondant
         async function loadCasting() {
-            var rawResponse = await fetch(`http://${expoUrlBertin}/search_casting`, {
+            var rawResponse = await fetch(`http://${expoUrlRaf}/search_casting`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.user.token}`,
             })
             let response = await rawResponse.json();
             setMatchingCasting(response.matchingProjects)
+            console.log("reponse", response.matchingProjects)
         }
 
-        if (props.user.occupation === "recruteur" ) loadProjects()
-        if (props.user.occupation !== "recruteur" ) loadCasting();
+        if (props.user.occupation === "recruteur") { loadProjects(); allUsers() }//! TEMPORAIRE ==> Joey
+        if (props.user.occupation !== "recruteur") loadCasting();
     }, []);
 
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
-//*********** envoyer les infos necessaires au match au backen  */
+//*********** envoyer les infos necessaires au match au backend  */
   
   const Postuler = async (id , users) =>{
-        var rawResponse = await fetch(`http://${expoUrlBertin}/postuler`, {
+        var rawResponse = await fetch(`http://${expoUrlRaf}/postuler`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ token: props.user.token, projectId: id, userSelected: users }),
 
         })
+        console.log("users", users)
         let response = await rawResponse.json();
 
+        if (response.already) {
+            setProjectImages(response.photoProjet)
+            setOverlayVisibility(true)
+        }
 
     }
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
 
     /* MAP */
 
-    let myTab = matchingCasting;
+
 
     if (castingCategory != '') {
         myTab = myTab.filter(e => e.category == castingCategory)
@@ -106,37 +126,66 @@ function AnnoncesScreen(props) {
         myTab = myTab.filter(e => e.remuneration == true)
     }
 
-    // Affichage d'une card
-    let castingDisplay = myTab.map((casting, i) => {
 
+
+    const recruiterArtistsList = allUsersAccount.map((element, index) => {
         return (
-            <View key={i} style={{
-                borderRadius: 7,
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
-                borderColor: 'black',
-                borderWidth: 0.5,
-                width: "85%",
-                height: 160,
-                marginTop: 10
-            }}>
+
+            <TouchableOpacity key={index + 1}
+                activeOpacity={.2} style={{ borderRadius: 7, flexDirection: "row", alignItems: "center", justifyContent: "center", borderColor: 'black', borderWidth: 0.5, width: "85%", height: 140, marginTop: 30 }}
+                onPress={() => props.navigation.navigate('OtherUserProfileScreen', { userToken: element.token })}>
 
                 <Image
                     containerStyle={{ width: 110, height: 108, }}
+                    resizeMode="contain"
+                    source={{ uri: element.profile_photo[Math.floor(Math.random() * (element.profile_photo.length - 1))] }}
+                    style={{ borderRadius: 10, marginRight: 10 }}
+                    PlaceholderContent="ff"
+                />
+
+                <View style={{ width: 200, height: 108 }}>
+                    <Text style={{ fontWeight: "bold", marginBottom: 2 }}>{element.name}</Text>
+                    <Text style={{ fontWeight: "bold", marginBottom: 4 }}>{element.occupation}</Text>
+                    <Text style={{ marginBottom: 5 }}>{element.description}</Text>
+                    <Button
+                        color='#1ADBAC'
+                        buttonStyle={{ backgroundcolor: '#1ADBAC' }}
+                        title="recruter" onPress={() => console.log('recruter')} />
+                </View>
+
+            </TouchableOpacity>
+
+        )
+    })
+
+    // Affichage d'une card
+    let castingDisplay = myTab.map((casting, i) => {
+        let title = casting.title
+        let description = casting.description
+
+        return (
+            <View key={i} style={{ borderRadius: 7, flexDirection: "row", alignItems: "center", justifyContent: "center", borderColor: 'black', borderWidth: 0.5, width: "85%", height: 150, marginTop: 30 }}>
+
+                <Image
+                    containerStyle={{ width: 110, height: '85%', }}
                     resizeMode="contain"
                     source={{}}
                     style={{ borderRadius: 10, marginRight: 10 }}
                     PlaceholderContent="ff"
                 />
 
-                <View style={{ width: 200, height: 108, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text style={{ fontWeight: "bold", marginBottom: 3, fontSize: 16 }}>{casting.title}</Text>
-                    <Text style={{ marginTop: 5, marginBottom: 5, width: '90%', alignItems: 'center', textAlign: 'center' }}>{casting.description}</Text>
+                <View style={{ width: 200, height: '85%', justifyContent : 'space-between' }}>
+                    <View>
+                        <Text style={{ fontWeight: "bold", marginBottom: 3 }}>{description.substring(0,30)+' ...'}</Text>
+                        <Text style={{ marginBottom: 5, fontSize: 12 }}>{description.substring(0,50)+' ...'}</Text>
+                    </View>
                     <Button
                         color='#1ADBAC'
                         buttonStyle={{ backgroundcolor: '#1ADBAC' }}
                         title="postuler" onPress={() => Postuler(casting._id, casting.users_selected)} />
+                        
+                        
+                       
                 </View>
 
             </View>
@@ -146,56 +195,116 @@ function AnnoncesScreen(props) {
 
 
 
-
     // * ___________________________ PAGE ___________________________
 
     if (props.user.occupation === "recruteur") {
+
+
         return (
             <ScrollView style={styles.scrollView}>
                 <View style={styles.container}>
-                <Text h4 style={{ marginTop: 25, marginBottom: 30 }}>Artistes correspondant à votre projet</Text>
-    
-    {/* Choix de la catégorie dans laquel l'utilisateur souhaite chercher un casting */}
-    <Dropdown
-        style={[styles.dropdown, isFocus && { borderColor: '#1ADBAC' }]}
-        placeholderStyle={styles.placeholderStyle}
-        selectedTextStyle={styles.selectedTextStyle}
-        inputSearchStyle={styles.inputSearchStyle}
-        iconStyle={styles.iconStyle}
-        data={recruiterListProjects}
-        maxHeight={300}
-        labelField="title"
-        valueField="title"
-        placeholder={'Choisissez un type de casting'}
-        value={value}
-        onFocus={() => setIsFocus(true)}
-        onBlur={() => setIsFocus(false)}
-        onChange={item => {
-            setValue(item.value);
-            setIsFocus(false);
-            setCastingCategory(item.value);
-        }}
-        renderLeftIcon={() => (
-        <Ionicons style={styles.icon} color={isFocus ? '#1ADBAC' : 'black'} name="search" size={20} />)}
-    />
+                    <Text h4 style={{ marginTop: 25, marginBottom: 30 }}>Artistes correspondant à votre projet</Text>
 
-    {recruiterListProjects.length === 0 ? <Text>Créer votre premier projet</Text> : recruiterArtistsList  }
+                    {/* Choix de la catégorie dans laquel l'utilisateur souhaite chercher un casting */}
+                    <Dropdown
+                        style={[styles.dropdown, isFocus && { borderColor: '#1ADBAC' }]}
+                        placeholderStyle={styles.placeholderStyle}
+                        selectedTextStyle={styles.selectedTextStyle}
+                        inputSearchStyle={styles.inputSearchStyle}
+                        iconStyle={styles.iconStyle}
+                        data={recruiterListProjects}
+                        maxHeight={300}
+                        labelField="title"
+                        valueField="title"
+                        placeholder={'Choisissez un type de casting'}
+                        value={value}
+                        onFocus={() => setIsFocus(true)}
+                        onBlur={() => setIsFocus(false)}
+                        onChange={item => {
+                            setValue(item.value);
+                            setIsFocus(false);
+                            setCastingCategory(item.value);
+                        }}
+                        renderLeftIcon={() => (
+                            <Ionicons style={styles.icon} color={isFocus ? '#1ADBAC' : 'black'} name="search" size={20} />)}
+                    />
 
-
-
+                    {recruiterListProjects.length === 0 ? <Text>Créer votre premier projet</Text> : recruiterArtistsList}
                 </View>
             </ScrollView>
-
         )
     }
     else {
         return (
             <ScrollView style={styles.scrollView}>
-    
+
+                {/* Overlay */}
+                <Overlay
+                    overlayStyle={{ alignItems: 'center', justifyContent: "center" }}
+                    fullScreen
+                    isVisible={overlayVisibility}
+                >
+                    <View style={{ width: "90%", height: "85%", alignItems: 'center' }}>
+
+                        {/* Texte */}
+                        <Text h2 style={{ marginBottom: 10 }}  >C'est un match !</Text>
+                        <Text style={{ fontSize: 20 }} >Vous pouvez collaborer</Text>
+
+
+                        {/* Photos */}
+                        <View style={{ flexDirection: 'row', width: "100%", justifyContent: 'space-between', marginTop: screenWidth / 4 }}>
+
+                            <Avatar
+                                size={'xlarge'}
+                                rounded
+                                source={props.user.profile_photo.length === 0 ? { uri: "https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg" } : { uri: props.user.profile_photo[0] }}
+                                containerStyle={{}}
+                            />
+
+                            <Avatar
+                                size={'xlarge'}
+                                rounded
+                                source={{ uri: "https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg" }}
+                                // ! A CHANGER source={projectImages.length > 0 ? {uri : "https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg" }: {uri : projectImages[0]}}
+                                containerStyle={{}}
+                            />
+                        </View>
+
+                        {/* -------- BOUTONS --------  */}
+                        <View style={{ justifyContent: "space-between", alignItems: "center", height: 125, marginTop: screenWidth / 3 }} >
+                            <Button
+                                title="Envoyer un message"
+                                titleStyle={{ paddingHorizontal: 49, paddingVertical: 7 }}
+                                buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
+                                onPress={() => {
+                                    setOverlayVisibility(false)
+                                    props.navigation.navigate('MessagesScreen')
+
+                                }}
+                            />
+                            <Button
+                                title="Continuer la recherche"
+                                titleStyle={{ paddingHorizontal: 40, paddingVertical: 7 }}
+                                buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
+                                onPress={() => {
+                                    setOverlayVisibility(false)
+                                }}
+                            />
+                        </View>
+
+
+
+                    </View>
+
+
+
+                </Overlay>
+
+
                 <View style={styles.container}>
-    
+
                     <Text h4 style={{ marginTop: 25, marginBottom: 30 }}>Casting vous Correspondant</Text>
-    
+
                     {/* Choix de la catégorie dans laquel l'utilisateur souhaite chercher un casting */}
                     <Dropdown
                         style={[styles.dropdown, isFocus && { borderColor: '#1ADBAC' }]}
@@ -229,7 +338,7 @@ function AnnoncesScreen(props) {
                             />
                         )}
                     />
-    
+
                     {/* Switch pour la rémunération souhaité ou non ==> Boolean */}
                     <View style={styles.remunerationContainer} >
                         <Text>Afficher uniquement projet rémunéré ? </Text>
@@ -240,24 +349,24 @@ function AnnoncesScreen(props) {
                             {(value) => {
                                 setChecked(value),
                                     setIsPaid(!isPaid)
-                                    //filter(castingCategory)
-                                    // choosePaid(value)
+                                //filter(castingCategory)
+                                // choosePaid(value)
                                 // console.log('CONSOLE LOG VALEUR DU SWITCH:', value)
                             }}
-    
+
                         />
                     </View>
-    
+
                     {/* AFFICHAGE DES CASTING */}
                     {castingDisplay}
-    
+
                 </View>
-    
+
             </ScrollView>
         );
 
     }
-    
+
 }
 
 // * ___________________________ STYLES ___________________________

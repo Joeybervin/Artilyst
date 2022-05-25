@@ -53,12 +53,36 @@ router.post('/sign-up', async function (req, res, next) {
       occupation: userInfos.occupation,
       date_of_birth: new Date(userInfos.birthday_date),
       insert_date: new Date(),
-      token: uid2(32)
+      description: undefined,
+      cv: undefined,
+      city: undefined,
+      characteristics: {
+        gender: undefined, 
+        ethnicGroup: undefined,
+        hair: undefined, 
+        eyes: undefined, 
+        height: undefined, 
+        weight: undefined, 
+        corpulence: undefined,
+        measurements: { 
+            waist: undefined, 
+            bust: undefined, 
+            hips: undefined },
+      },
+      portfolio : [
+        {title : "exemple",
+        images : []}
+      ],
+      profile_photo : [],
+      projects_selected : [],
+      projects_created : [],
+      siren: "", // 14 chiffre
+      token: uid2(32),
     })
 
     await newUser.save() // enregistrement dans la base de données
 
-    res.json({ new_user: true, token: newUser.token }) // je r'envoie au front l'état de la connexion et le token de l'utilisateur me permettant de l'identifier tout au long de sa navigation
+    res.json({ new_user: true, user: newUser }) // Object : Je renvoie un message de réussite et les données de l'utilisateur
 
   }
   else {
@@ -91,6 +115,12 @@ router.post('/sign-in', async function (req, res, next) {
 });
 
 //* ____________________________________ PROFILE ________________________________
+// Pour afficher tous les utilisateurs //! TEMPORAIRE
+router.get('/all_users_profile', async function (req, res, next) {
+
+  let all_users_account = await userModel.find();
+  res.json(all_users_account) // Object :  Je renvoie les informations au front-end
+})
 
 // Pour afficher le profil de l'utilisateur
 router.post('/user_profile', async function (req, res, next) {
@@ -101,6 +131,7 @@ router.post('/user_profile', async function (req, res, next) {
     token: token,
   });
   console.log(user_account)
+  //console.log(user_account)
   res.json(user_account) // Object :  Je renvoie les informations au front-end
 })
 
@@ -109,7 +140,7 @@ router.put('/update_user_profile', async function (req, res, next) {
 
   let user_new_informations = req.body.user_new_informations // Je récupère les infos entrées
 
-  console.log(user_new_informations.characteristics)
+  //console.log(user_new_informations.characteristics)
   await userModel.updateOne(
     { token: user_new_informations.token },
     {
@@ -170,7 +201,7 @@ router.post('/project', async function (req, res, next) {
 
   await newProject.save() // enregistrement dans la base de données
 
-  console.log(newProject._id)
+  //console.log(newProject._id)
 
   await userModel.updateOne(
     { token: projectInfos.token },
@@ -178,7 +209,7 @@ router.post('/project', async function (req, res, next) {
   )
 
 
-  res.json({ new_project: true }) // je renvoie au front l'état de l'enregistrement dans la BDD
+  res.json(newProject._id) // je renvoie au front l'état de l'enregistrement dans la BDD
 
 
 });
@@ -289,8 +320,6 @@ router.delete('/delete_profile_Image', async function (req, res, next) {
   res.json({ status: "supprimé" })
 
 })
-
-// Pour que l'utilisateur puisse supprimer un portofolio
 router.delete('/delete_portfolio_image', async function (req, res, next) {
 
   let portfolioImageUrl = req.body.portfolioImageUrl
@@ -351,6 +380,8 @@ router.post('/search_casting', async function (req, res, next) {
 
   let user = await userModel.findOne({ token: req.body.token });
 
+  //console.log('USERS :', user);
+
   function getAge(dateString) {
     let ageInMilliseconds = new Date() - new Date(dateString);
     return Math.floor(ageInMilliseconds / 1000 / 60 / 60 / 24 / 365); // convert to years
@@ -359,38 +390,29 @@ router.post('/search_casting', async function (req, res, next) {
   let userAge = getAge(user.date_of_birth);
 
   let matchingProjects = await projectModel.find(
-    { gender: user.characteristics.gender, location: user.location, age_min :{$lt: userAge}, age_max:{$gt:userAge} }
+    { gender: user.characteristics.gender, location: user.location, age_min: { $lt: userAge }, age_max: { $gt: userAge } }
   )
 
   // RAPPEL : RAJOUTER COLLABORATORS : USER.OCCUPATION DANS LES FILTRES
-  //console.log('MATCHING USERS :', matchingProjects.length);
+  // console.log('MATCHING USERS :', matchingProjects);
 
   res.json({ matchingProjects })
 
 })
 
 
-
 // Affichage des artistes correspondants aux critères du projet
 router.post('/search_artist', async function (req, res, next) {
 
-  let project = await projectModel.findOne({ _id: req.body._id })
+  let project = await projectModel.findById(req.body._id)
 
-  // console.log('PROJET :', project);
-  console.log(project.location, project.gender, project.collaborators);
+  console.log('PROJECT :', project);
+  
 
-  let matchingUsers = await userModel.find({location: project.location, occupation: project.collaborators})
+  let matchingUsers = await userModel.find({ location: project.location, occupation: project.collaborators })
 
-  // function getAge(dateString) {
-  //   let ageInMilliseconds = new Date() - new Date(dateString);
-  //   return Math.floor(ageInMilliseconds / 1000 / 60 / 60 / 24 / 365); // convert to years
-  // }
 
-  // let userAge = getAge(users.date_of_birth);
-
-  // // let matchingUsers = users.filter(e => e.userAge > project.age_min && e.userAge < project.age_max)
-
-  console.log('MATCHING USERS :', matchingUsers.length);
+  console.log('MATCHING USERS :', matchingUsers);
 
   res.json({ matchingUsers })
 })
@@ -410,47 +432,134 @@ router.post('/postuler', async function (req, res, next) {
   const idProjectExist = user.projects_selected.find(id => id.idProject === id_Projet_Selected) // vérifier si le projet a déja été séléctionné ou pas 
 
   //console.log("id_Projet_Selected",id_Projet_Selected)
-  //console.log(token)
-  //console.log("userSelected", userSelected)
-  //console.log(user)
+  console.log("token", token)
+  //console.log("userSelected",userSelected)
+  console.log("user", user)
   //console.log("user.projects_selected",user.projects_selected)
   //console.log("idProjectExist",idProjectExist)
 
-  if (!idProjectExist) {
-    const matchVerify = userSelected.find(id => id == user._id);
+  if(!idProjectExist){
+
+    const matchVerify = userSelected.find(id => id === user._id);
+
+  console.log(matchVerify)
+
+  if(matchVerify){
+  match = true
+  }
+  console.log("matchVerify",matchVerify)
+
+  await userModel.updateOne(
+    { token: token },
+    { $push: { projects_selected:{idProject: id_Projet_Selected , match : match } } }
+  )
+
+  res.json( {already : false , saveProjectSelected : true } )
+  }
+  else {
+
+    let project = await  projectModel.find({_id : id_Projet_Selected})
+    res.json( {already : true, photoProjet : project.photos } )
+  }
+
+})
+
+/************************************************************************************ */
+// Pour qu'un artiste puisse postuler à des offres
+router.post('/recruter', async function (req, res, next) {
+
+  var id_Projet = req.body.projectId  // l'id du projet concerné
+  var userSelectedId = req.body.userSelectedId // l'id du user selectionné
+  var token = req.body.token // au cas ou...
+  var match = false // le false est juste pour tester, ensuite on définira une condition pour vérifier le match (true/false)
+
+  var project = await projectModel.findOne({ _id: id_Projet }) // chercher le projet concerné par le recrutement
+  var userHired = await userModel.findOne({ _id: userSelectedId }) // chercher le user recruté
+
+  const idUserSelectedExist = project.users_selected.find(id => id === userSelectedId) // vérifier si le juser est déja dans la table user selected
+
+  //console.log("userHired",userHired)
+
+
+  if (!idUserSelectedExist) {
+    const matchVerify = userHired.projects_selected.find(e => e.idProject == id_Projet); // vérifier si le project concerné par le rectutement existe déja dans la table projectselected (pour le match)
     console.log(matchVerify)
     if (matchVerify) {
       match = true
     }
-    console.log("matchVerify", matchVerify)
+    //console.log("matchVerify",matchVerify)
 
-    await userModel.updateOne(
-      { token: token },
-      { $push: { projects_selected: { idProject: id_Projet_Selected, match: match } } }
+    await projectModel.updateOne(
+      { _id: id_Projet },
+      { $push: { users_selected: userSelectedId } }
     )
 
-    res.json({ already: false, saveProjectSelected: true })
+    console.log(userHired.projects_selected.length)
+
+    for (let i = 0; i < userHired.projects_selected.length; i++) {
+      if (userHired.projects_selected[i].idProject == id_Projet) {
+        userHired.projects_selected[i].match = match
+      }
+
+    }
+
+    let status = await userHired.save()
+
+    console.log(status)
+
+
+    res.json({ userHired })
   }
   else {
-    res.json({ already: true })
+    res.json({ result: false })
   }
 
+  // ?? res.json(user.projects_created)
+  
 })
 
-//* ____________________________________ RECRUTEUR ________________________________
-//* _______________________________________________________________________________
 
-// Pour afficher tous les projets du recruteur
-router.post('/recruiter_projects', async function (req, res, next) {
 
-  let recruiter_token = req.body.token;
+router.post('/displayProjects', async function (req, res, next) {
+  var token = req.body.token
+  //console.log(token)
 
-  let user = await userModel.findOne({ token: recruiter_token }).populate('projects_created').exec()
+  var user = await userModel.findOne({ token: token })
+  //console.log(user)
 
-  res.json(user.projects_created)
+  let resultat = []
 
+  for (let i = 0; i < user.projects_created.length; i++) {
+    var project = await projectModel.findOne({ _id: user.projects_created[i] })
+    console.log("project", project)
+    //var projectObject = {idProject :project._id , title : project.title , image : project.photos[0] }
+    //console.log(projectObject)
+
+    resultat.push(project)
+
+  }
+
+  //await user.projects_created.forEach( async (e) => {
+
+
+  // } )
+  console.log("resultat", resultat)
+  res.json(resultat)
 
 })
+
+router.delete('/deleteProject', async function (req, res, next) {
+
+
+  let idProject = req.query.id
+  console.log("idProject", idProject)
+  await projectModel.deleteOne({ _id: idProject });
+
+  res.json({ deleteStatus: true })
+
+})
+
+
 
 
 module.exports = router;

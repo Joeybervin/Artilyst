@@ -7,8 +7,8 @@ import { useNavigation } from '@react-navigation/native';
 
 // BOUTON 1 ------------------------
 export function PlainButton() {
-
-    const navigation = useNavigation()
+    
+    // const navigation = useNavigation()
 
     return (
         <View>
@@ -28,7 +28,7 @@ export function PlainButton() {
 // BOUTON VIDE ------------------------
 export function EmptyButton() {
 
-    const navigation = useNavigation()
+    // const navigation = useNavigation()
 
     return (
         <View>
@@ -36,7 +36,7 @@ export function EmptyButton() {
                 colors={['#36e599', '#597ee7', '#b44be0']}
                 end={[1, 0.5]}
                 style={{
-                    height: 45, width: 180,
+                    height: 38, width: 150,
                     textAlign: 'center',
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
         padding: 16,
         borderRadius: 16,
         margin: 14,
-        backgroundColor: '#159678',
+        backgroundColor: '#FFFFFF',
         borderRadius: 16,
         shadowColor: '#232323',
         shadowOffset: { width: 2, height: 4 },
@@ -110,18 +110,18 @@ const styles = StyleSheet.create({
         width: '100%',
         borderRadius: 16,
         margin: 0,
-        backgroundColor: '#1b6560',
+        backgroundColor: '#FFF',
         justifyContent: 'center'
     },
     textBtn: {
         justifyContent: 'center',
         alignItems: 'center',
-        color: '#E3FFF8',
+        color: '#000000',
         fontWeight: 'bold',
         fontSize: 18,
         textAlign: 'center'
     },
-    
+
     // NEOMORPH BUTTON
     btnOut: {
         margin: 14,
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     },
     btnIn: {
         margin: 14,
-        backgroundColor: '#1b6560',
+        backgroundColor: '#333333',
         borderRadius: 16,
         shadowColor: '#268e87',
         shadowOffset: { width: -7, height: -7 },

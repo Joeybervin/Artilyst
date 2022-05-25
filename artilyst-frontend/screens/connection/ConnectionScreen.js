@@ -1,5 +1,5 @@
 import React, {useEffect, useState}from 'react';
-import { expoUrlBertin } from '../../ExpoUrl';
+import { expoUrlRaf } from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
@@ -26,7 +26,7 @@ function ConnectionScreen(props) {
     useEffect(() => {
 
         async function loadData() {
-            const rawResponse = await fetch(`http://${expoUrlBertin}/user_profile`, {
+            const rawResponse = await fetch(`http://${expoUrlRaf}/user_profile`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `token=i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT`,

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // & import des urls de chacune
-import {expoUrlBertin} from '../../ExpoUrl';
+import {expoUrlRaf} from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
@@ -43,7 +43,7 @@ function RegisterFormScreen2(props) {
     const signUpUser = async () => {
         console.log("USERINFOS : ",userInfos)
         
-        const rawResponse = await fetch(`http://${expoUrlBertin}/sign-up`, {
+        const rawResponse = await fetch(`http://${expoUrlRaf}/sign-up`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({userInfos : userInfos}),
@@ -56,7 +56,7 @@ function RegisterFormScreen2(props) {
             setLogin(true)
             /* NE MARCHE PAS */
             props.navigation.navigate('PagesStacks') // redirection vers le Annonce
-            props.getUserInformations({user_token : response.token}) // J'ajoute les informations dans mon store
+            props.getUserInformations(response.user) // OBJECT : J'ajoute les informations dans mon store
         }
         else {
             console.log("Ce compte existe déjà")
