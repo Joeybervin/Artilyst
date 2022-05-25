@@ -56,7 +56,7 @@ function RegisterFormScreen2(props) {
             setLogin(true)
             /* NE MARCHE PAS */
             props.navigation.navigate('PagesStacks') // redirection vers le Annonce
-            props.getUserInformations({user_token : response.token}) // J'ajoute les informations dans mon store
+            props.getUserInformations(response.user) // OBJECT : J'ajoute les informations dans mon store
         }
         else {
             console.log("Ce compte existe déjà")

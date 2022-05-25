@@ -19,7 +19,9 @@ import Swiper from 'react-native-swiper'
 import { connect } from 'react-redux';
 
 import BottomSheet from 'reanimated-bottom-sheet';
+
 import * as ImagePicker from "expo-image-picker";
+import { useIsFocused } from '@react-navigation/native';
 
 
 function ProfileScreen(props) {
@@ -33,9 +35,19 @@ function ProfileScreen(props) {
 
 
     /* VARIABLES */
+    const params  = props.route.params;
+    const isFocused = useIsFocused();
+    let userProfileImages;
     let sheetRef = React.useRef(null);
     let fall = new Animated.Value(1);
     let data = new FormData();
+
+    if (!isFocused) { // ! A REVOIR
+        params.user = "current"
+    }
+
+    if (params.user === "current") console.log("current")
+    if (params.user !== "current") console.log("other")
 
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
@@ -66,21 +78,17 @@ function ProfileScreen(props) {
 
             if (MediaLibraryResult.uri) {
 
-            setOverlayVisibility(true)
+                setOverlayVisibility(true)
 
-            data.append("token" , user.token ) // J'envoie le token de l'utilisateur
-            data.append(
-                'image_uploaded', {
-                uri: MediaLibraryResult.uri,
-                type: 'image/jpeg',
-                name: 'image_uploaded.jpeg',
-                
-            });
-        
-            
+                data.append("token", user.token) // J'envoie le token de l'utilisateur
+                data.append(
+                    'image_uploaded', {
+                    uri: MediaLibraryResult.uri,
+                    type: 'image/jpeg',
+                    name: 'image_uploaded.jpeg',
 
-            
-           
+                });
+
 
 
                 let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
@@ -126,7 +134,7 @@ function ProfileScreen(props) {
 
             if (resultCamera.uri) {
 
-            setOverlayVisibility(true) // chargement de la photo
+                setOverlayVisibility(true) // chargement de la photo
 
                 data.append("token", user.token) // J'envoie le token de l'utilisateur
                 data.append(
@@ -145,16 +153,15 @@ function ProfileScreen(props) {
                         body: data,
                     })
 
+                let result = await data_uploaded.json()
+                props.addPictures(result.url, user)
+                if (result) {
+                    setOverlayVisibility(false)
+                }
 
-            let result = await data_uploaded.json()
-            props.addPictures(result.url, user)
-            if (result) {
-                setOverlayVisibility(false)
-            }
-            
-            let copyUserInfos = {...props.user}
-            setUser(copyUserInfos)
-            
+                let copyUserInfos = { ...props.user }
+                setUser(copyUserInfos)
+
             }
         }
     }
@@ -209,10 +216,8 @@ function ProfileScreen(props) {
 
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
-
-    let userProfileImages
-    if (user.profile_photo.length > 1) {
-        console.log("je suis ici")
+    
+    if (user.profile_photo.length > 0) {
         userProfileImages = props.user.profile_photo
     }
     else {
@@ -235,11 +240,22 @@ function ProfileScreen(props) {
     })
 
 
+
     // * ___________________________ PAGE ___________________________
 
 
 
-    if (user.occupation === "recruteur") {
+    if (user.occupation === "recruteur" && params.user === "current") {
+
+        let editProdilleButton = <Button
+        title="Modifier profil"
+        titleStyle={{ paddingHorizontal: 25 }}
+        buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
+        onPress={() => {
+            props.navigation.navigate('ProfileEditScreen')
+        }}
+    />
+
         return (
             <ScrollView style={styles.container}>
     
@@ -330,6 +346,54 @@ function ProfileScreen(props) {
         );
     }
     else {
+
+        let currentUserButtons = (
+            <View style={{ flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginBottom: 15, backgroundColor: '#33333341', width: "100%" }} >
+                <Button
+                    title="Portfolio"
+                    titleStyle={{ paddingHorizontal: 30 }}
+                    buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
+                    onPress={() => {
+                        props.navigation.navigate('PortfoliosScreen', {user : "current"})
+                    }}
+                />
+
+                <Button
+                    title="Modifier profil"
+                    titleStyle={{ paddingHorizontal: 25 }}
+                    buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
+                    onPress={() => {
+                        props.navigation.navigate('ProfileEditScreen')
+                    }}
+                />
+
+            </View>)
+        
+        
+        let anotherUserButtons = (
+            <View style={{ flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginBottom: 15, backgroundColor: '#33333341', width: "100%" }} >
+                        
+                <Button
+                    title="Portfolio"
+                    titleStyle={{ paddingHorizontal: 30 }}
+                    buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
+                    onPress={() => {
+                        props.navigation.navigate('PortfoliosScreen', {user : params.user})
+                    }}
+                />
+
+            <Button
+                title="engager"
+                titleStyle={{ paddingHorizontal: 25 }}
+                buttonStyle={{ borderRadius: 8, backgroundColor: "#1ADBAC", color: "black" }}
+                onPress={() => {console.log("ROUTE DE MUSTAFA !!! ")}}
+            />
+
+                        
+        </View>
+        
+        
+)
         return (
             <ScrollView style={styles.container}>
 
@@ -370,24 +434,10 @@ function ProfileScreen(props) {
 
 
                     {/* -------- BOUTONS --------  */}
-                    <View style={{ flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginBottom: 15, backgroundColor: '#33333341', width: "100%" }} >
-                        <Button
-                            title="Portfolio"
-                            titleStyle={{ paddingHorizontal: 30 }}
-                            buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
-                            onPress={() => {
-                                props.navigation.navigate('PortfoliosScreen')
-                            }}
-                        />
-                        <Button
-                            title="Modifier profil"
-                            titleStyle={{ paddingHorizontal: 25 }}
-                            buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
-                            onPress={() => {
-                                props.navigation.navigate('ProfileEditScreen')
-                            }}
-                        />
-                    </View>
+
+                    {params.token ===  user.token ? currentUserButtons : anotherUserButtons }
+                    
+
 
                     {/* -------- INFORMATIONS --------  */}
                     <View style={styles.firstInformations} >
@@ -458,7 +508,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: "center",
     },
-    containerRaf: {
+    containerJoey: {
         marginHorizontal: 10
     },
     swipperContainer: {
@@ -595,4 +645,4 @@ export default connect(
     mapDispatchToProps
 )(ProfileScreen);
 
-    
+

@@ -41,6 +41,7 @@ import LikesScreen from './screens/LikesScreen';
 // profil
 import ProfileScreen from './screens/profile/ProfileScreen';
 import ProfileEditScreen from './screens/profile/ProfileEditScreen';
+import OtherUserProfileScreen from './screens/profile/OtherUserProfileScreen';
 /* Gallery */
 import GalleryScreen from './screens/profile/gallery/GalleryScreen'
 import PortfoliosScreen from './screens/profile/gallery/PortfoliosScreen'
@@ -69,7 +70,7 @@ import { MenuProvider } from 'react-native-popup-menu';
 // *
 const TabNavigator = createBottomTabNavigator();
 
-function PagesStacks() {
+function PagesStacks(props) {
   return (
     
       <TabNavigator.Navigator 
@@ -105,7 +106,8 @@ function PagesStacks() {
 
         {/* ------------------------ HEADER TAB ------------------------ */}
         {/* PROFIL */}
-        <TabNavigator.Screen name="ProfileScreen" component={ProfileScreen}  options={{ tabBarButton: () => null }} />
+        <TabNavigator.Screen name="ProfileScreen" component={ProfileScreen} initialParams={{ user: "current" }}  options={{ tabBarButton: () => null }} />
+        <TabNavigator.Screen name="OtherUserProfileScreen" component={OtherUserProfileScreen} initialParams={{ user: "current" }}  options={{ tabBarButton: () => null }} />
         <TabNavigator.Screen name="ProfileEditScreen" component={ProfileEditScreen}  options={{ tabBarButton: () => null}}/>
         {/* GALLERY */}
         <TabNavigator.Screen name="GalleryScreen" component={GalleryScreen}  options={{ tabBarButton: () => null }}/>
