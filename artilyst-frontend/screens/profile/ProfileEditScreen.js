@@ -27,7 +27,6 @@ function ProfileEditScreen(props) {
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
 
-
     const user = props.user
     const [name, setName] = useState(user.name === "" ? "" : user.name);// Ville
     const [city, setCity] = useState(user.city === "" ? "" : user.city);// Ville
@@ -72,7 +71,24 @@ function ProfileEditScreen(props) {
     async function updateUserProfile() {
 
         let user_new_informations = {token: user.token, city: city, description: description, cv: cv, name : name,
-                gender: gender, ethnicGroup: ethnicGroup, hair: hair, eyes: eyes, height: height, weight: weight, corpulence: corpulence, waist: waist, bust: bust, hips: hips }
+                gender: gender, ethnicGroup: ethnicGroup, hair: hair, eyes: eyes, height: height, weight: weight, corpulence: corpulence, measurements : {}, waist: waist, bust: bust, hips: hips }
+
+        for(const infos in user_new_informations ) {
+            if (user_new_informations[infos] === undefined || user_new_informations[infos] === "") {
+                user_new_informations[infos] = null
+            }
+        }
+        user_new_informations.measurements = {
+            waist: waist, bust: bust, hips: hips
+        }
+
+        for (const measurementsInfos in user_new_informations.measurements) {
+            if (user_new_informations.measurements[measurementsInfos] === undefined || user_new_informations.measurements[measurementsInfos] === "") {
+                user_new_informations.measurements[measurementsInfos] = null
+            }
+        }
+
+        console.log("APRES MODIF :",user_new_informations)
 
         const rawResponse = await fetch(`http://${expoUrlJoey}/update_user_profile`, {
             method: 'PUT',
@@ -81,10 +97,10 @@ function ProfileEditScreen(props) {
         })
 
         let response = await rawResponse.json()
+        console.log("ENVPOIE AU REDUCER : ",user_new_informations)
 
-        if (response.changement === "terminé") {
-            props.updateUserInformation(user_new_informations)
-        }
+        props.updateUserInformation(user_new_informations)
+        
     }
 
     const geolocation = async () => {
@@ -109,9 +125,10 @@ function ProfileEditScreen(props) {
                 setOverlayVisibility(false)
                 setCity(response[0].city)
             }
+
             
     }
-}
+    }
 
 // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
 

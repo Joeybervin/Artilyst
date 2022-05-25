@@ -26,7 +26,7 @@ var userSchema = mongoose.Schema({
             bust: Number, 
             hips: Number },
       },
-    city : String,
+    location : String,
     token : String,
     siren : Number, // 14 chiffre
 })

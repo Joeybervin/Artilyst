@@ -24,3 +24,6 @@ https://github.com/callstack/react-native-pager-view
 
 https://github.com/InTeach/react-native-scroll-indicator
 
+back-end 25/05/2022 :
+npm i express-fileupload
+npm install @react-native-async-storage/async-storage --save
