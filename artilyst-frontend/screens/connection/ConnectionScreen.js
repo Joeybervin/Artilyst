@@ -12,8 +12,11 @@ import { Text, Button } from '@rneui/base';
 // ^Redux
 import { connect } from 'react-redux';
 import { log } from 'react-native-reanimated';
-import { PostulerBtn } from '../components/MainButtonComponent';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
+// Styles
+import { GradientButton, PostulerBtn, RecruterBtn } from '../components/ButtonsStyles';
+import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
 
 /* import { Text } from '@rneui/base'; */
 
@@ -31,7 +34,7 @@ function ConnectionScreen(props) {
             const rawResponse = await fetch(`http://${expoUrlRaf}/user_profile`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `token=i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT`,
+                body: `token=KWXlcU4sPT_mj9eDlkaawYfPyX1-okID` // i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT
             })
             let response = await rawResponse.json();
             let responseCopy = { ...response }
@@ -49,7 +52,13 @@ function ConnectionScreen(props) {
     // * ___________________________ PAGE ___________________________
 
     return (
-        <View style={styles.container}>
+        <View style={styles.pageBackground}>
+
+
+            <Text style={styles.title}>Test de titre !</Text>
+            <Text style={styles.subTitle}>Test de sous-titre</Text>
+            <Text style={styles.textRegular}>Test de texteTest de texteTest de texteTest de texteTest de texte</Text>
+
 
             <Text onPress={() => {
                 props.getUserInformations(userData)
@@ -69,6 +78,7 @@ function ConnectionScreen(props) {
                 containerStyle={{ margin: 5 }}
             />
 
+            
 
         </View>
 
@@ -83,7 +93,29 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+
+    // -- GLOBAL STYLE ----------
+    pageBackground: {
+        ...pageBackground
+    },
+    title: {
+        ...title
+    },
+    subTitle: {
+        ...subTitle
+    }, 
+    textRegular: {
+        ...textRegular
+    },
+    cardTitle: {
+        ...cardTitle
+    },
+    cardText: {
+        ...cardText
     }
+
+
 });
 
 // * ___________________________ REDUX ___________________________

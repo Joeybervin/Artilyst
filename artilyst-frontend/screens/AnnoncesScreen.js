@@ -18,10 +18,10 @@ import { expoUrlRaf } from '../ExpoUrl';
 
 import { connect } from 'react-redux';
 
-import { pageBackground, textRegular, title } from './components/Styles';
+import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from './components/GlobalStyles';
 
 import { useTheme } from '@react-navigation/native';
-import { NeomButton, PostulerBtn } from './components/MainButtonComponent';
+import { NeomButton, PostulerBtn } from './components/ButtonsStyles';
 
 
 
@@ -141,14 +141,14 @@ function AnnoncesScreen(props) {
                 onPress={() => props.navigation.navigate('OtherUserProfileScreen', { userToken: element.token })}>
 
                 <Image
-                    containerStyle={{ width: 110, height: 108, }}
+                    containerStyle={{ width: 110, height: 108 }}
                     resizeMode="contain"
                     source={{ uri: element.profile_photo[Math.floor(Math.random() * (element.profile_photo.length - 1))] }}
                     style={{ borderRadius: 10, marginRight: 10 }}
                     PlaceholderContent="ff"
                 />
 
-                <View style={{ width: 200, height: 108 }}>
+                <View style={{ flexDirection: 'column', width: 200, height: 108, justifyContent: 'space-between', alignItems: 'space-between' }}>
                     <Text style={{ fontWeight: "bold", marginBottom: 2 }}>{element.name}</Text>
                     <Text style={{ fontWeight: "bold", marginBottom: 4 }}>{element.occupation}</Text>
                     <Text style={{ marginBottom: 5 }}>{element.description}</Text>
@@ -169,7 +169,7 @@ function AnnoncesScreen(props) {
         let description = casting.description
 
         return (
-            <View key={i} style={{ borderRadius: 7, flexDirection: "row", alignItems: "center", justifyContent: "center", borderColor: 'black', borderWidth: 0.5, width: "85%", height: 150, marginTop: 30 }}>
+            <View key={i} style={{ borderRadius: 7, flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderColor: 'gray', borderWidth: 0.5, width: "85%", height: 150, marginTop: 30, paddingLeft: 7, paddinRight: 5 }}>
 
                 <Image
                     containerStyle={{ width: 110, height: '85%', }}
@@ -180,15 +180,15 @@ function AnnoncesScreen(props) {
                 />
 
                 <View style={{ width: 200, height: '85%', justifyContent: 'space-between' }}>
-                    <View>
-                        <Text style={{ fontWeight: "bold", marginBottom: 3 }}>{description.substring(0, 30) + ' ...'}</Text>
-                        <Text style={{ marginBottom: 5, fontSize: 12 }}>{description.substring(0, 50) + ' ...'}</Text>
-                    </View>
-                    <PostulerBtn onPress={() => Postuler(casting._id, casting.users_selected)} />
+
+                    <Text style={styles.cardTitle}>{description.substring(0, 30) + ' ...'}</Text>
+                    <Text style={styles.cardText}>{description.substring(0, 50) + ' ...'}</Text>
+
+                    <PostulerBtn onPressHandler={() => Postuler(casting._id, casting.users_selected)} />
                     {/* <Button
                         color='#1ADBAC'
                         buttonStyle={{ backgroundcolor: '#1ADBAC' }}
-                        title="postuler" onPress={() => Postuler(casting._id, casting.users_selected)} /> */}
+                        title="postuler" onPressHandler={() => Postuler(casting._id, casting.users_selected)} /> */}
 
 
 
@@ -203,6 +203,8 @@ function AnnoncesScreen(props) {
 
     // * ___________________________ PAGE ___________________________
 
+
+    // RECRUTEUR
     if (props.user.occupation === "recruteur") {
 
 
@@ -214,6 +216,7 @@ function AnnoncesScreen(props) {
                     {/* Choix de la catégorie dans laquel l'utilisateur souhaite chercher un casting */}
                     <Dropdown
                         style={[styles.dropdown, isFocus && { borderColor: '#1ADBAC' }]}
+                        containerStyle={{ backgroundColor: '#313131' }}
                         placeholderStyle={styles.placeholderStyle}
                         selectedTextStyle={styles.selectedTextStyle}
                         inputSearchStyle={styles.inputSearchStyle}
@@ -240,6 +243,7 @@ function AnnoncesScreen(props) {
             </ScrollView>
         )
     }
+    // ARTISTE
     else {
         return (
             <ScrollView style={styles.scrollView}>
@@ -251,11 +255,9 @@ function AnnoncesScreen(props) {
                     isVisible={overlayVisibility}
                 >
                     <View style={{ width: "90%", height: "85%", alignItems: 'center' }}>
-
                         {/* Texte */}
                         <Text h2 style={{ marginBottom: 10 }}  >C'est un match !</Text>
                         <Text style={{ fontSize: 20 }} >Vous pouvez collaborer</Text>
-
 
                         {/* Photos */}
                         <View style={{ flexDirection: 'row', width: "100%", justifyContent: 'space-between', marginTop: screenWidth / 4 }}>
@@ -266,7 +268,6 @@ function AnnoncesScreen(props) {
                                 source={props.user.profile_photo.length === 0 ? { uri: "https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg" } : { uri: props.user.profile_photo[0] }}
                                 containerStyle={{}}
                             />
-
                             <Avatar
                                 size={'xlarge'}
                                 rounded
@@ -285,7 +286,6 @@ function AnnoncesScreen(props) {
                                 onPress={() => {
                                     setOverlayVisibility(false)
                                     props.navigation.navigate('MessagesScreen')
-
                                 }}
                             />
                             <Button
@@ -297,13 +297,7 @@ function AnnoncesScreen(props) {
                                 }}
                             />
                         </View>
-
-
-
                     </View>
-
-
-
                 </Overlay>
 
 
@@ -314,6 +308,7 @@ function AnnoncesScreen(props) {
                     {/* Choix de la catégorie dans laquel l'utilisateur souhaite chercher un casting */}
                     <Dropdown
                         style={[styles.dropdown, isFocus && { borderColor: '#1ADBAC' }]}
+                        containerStyle={{ backgroundColor: '#303030' }}
                         placeholderStyle={styles.placeholderStyle}
                         selectedTextStyle={styles.selectedTextStyle}
                         inputSearchStyle={styles.inputSearchStyle}
@@ -338,7 +333,7 @@ function AnnoncesScreen(props) {
                         renderLeftIcon={() => (
                             <Ionicons
                                 style={styles.icon}
-                                color={isFocus ? '#1ADBAC' : 'black'}
+                                color={isFocus ? '#1ADBAC' : 'white'}
                                 name="search"
                                 size={20}
                             />
@@ -347,9 +342,10 @@ function AnnoncesScreen(props) {
 
                     {/* Switch pour la rémunération souhaité ou non ==> Boolean */}
                     <View style={styles.remunerationContainer} >
-                        <Text style={styles.textRegular}>Afficher uniquement projet rémunéré ? </Text>
+                        <Text style={styles.textRegular}>Afficher uniquement les projets rémunérés</Text>
                         <Switch
                             color='#21AC89F1'
+                            marginLeft={5}
                             value={checked}
                             onValueChange=
                             {(value) => {
@@ -380,7 +376,7 @@ function AnnoncesScreen(props) {
 const styles = StyleSheet.create({
     scrollView: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#282828',
     },
     container: {
         flex: 1,
@@ -396,11 +392,11 @@ const styles = StyleSheet.create({
         width: "90%"
     },
     icon: {
-        marginRight: 5,
+        marginRight: 10,
     },
     label: {
         position: 'absolute',
-        backgroundColor: 'white',
+        backgroundColor: 'grey',
         left: 22,
         top: 8,
         zIndex: 999,
@@ -409,30 +405,51 @@ const styles = StyleSheet.create({
     },
     placeholderStyle: {
         fontSize: 16,
+        color: 'white',
+        fontWeight: 'bold',
     },
     selectedTextStyle: {
         fontSize: 16,
+        color: 'white',
     },
     iconStyle: {
-        width: 20,
-        height: 20,
+        width: 25,
+        height: 25,
+        color: 'white',
+        fontWeight: 'bold',
     },
     inputSearchStyle: {
         height: 40,
         fontSize: 16,
+        color: 'white'
     },
     remunerationContainer: {
         flexDirection: "row",
         alignItems: "center",
-        marginTop: 15,
-        marginBottom: 30
+        marginTop: 25,
+        marginBottom: 20
     },
-    textRegular : {
+
+    // -- GLOBAL STYLE ----------
+    pageBackground: {
+        ...pageBackground
+    },
+    title: {
+        ...title
+    },
+    subTitle: {
+        ...subTitle
+    },
+    textRegular: {
         ...textRegular
     },
-    title : {
-        ...title
+    cardTitle: {
+        ...cardTitle
+    },
+    cardText: {
+        ...cardText
     }
+
 });
 
 // * ___________________________ REDUX ___________________________

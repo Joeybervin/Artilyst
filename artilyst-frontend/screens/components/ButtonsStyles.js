@@ -5,14 +5,20 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import { useNavigation } from '@react-navigation/native';
 
-// GRADIENT BUTTON ------------------------
-export function GradientButton() {
 
-    // const navigation = useNavigation()
+// A COPIER :
+// import { GradientButton, PostulerBtn, RecruterBtn } from '../components/ButtonsStyles';
+
+// GRADIENT BUTTON ------------------------
+export function GradientButton(props) {
 
     return (
         <View>
-            <TouchableOpacity activeOpacity={.7}>
+            <TouchableOpacity
+                activeOpacity={.7}
+                onPress={props.onPressHandler}
+                style={styles.EmptyButton}
+            >
                 <LinearGradient
                     colors={['#36e599', '#597ee7', '#b44be0']}
                     end={[1, 0.5]}
@@ -20,13 +26,12 @@ export function GradientButton() {
                     <Text style={styles.textBtn}>Text</Text>
                 </LinearGradient>
             </TouchableOpacity>
-
         </View>
     );
 }
 
 // BORDERED BUTTON ------------------------
-export function PostulerBtn() {
+export function PostulerBtn(props) {
 
     return (
         <View>
@@ -39,10 +44,14 @@ export function PostulerBtn() {
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderRadius: 16,
-                    padding: 2
+                    padding: 1,
+                    margin: 3
                 }}>
-                <TouchableOpacity activeOpacity={.7}
-                    style={styles.EmptyButton} >
+                <TouchableOpacity
+                    activeOpacity={.7}
+                    onPress={props.onPressHandler}
+                    style={styles.EmptyButton}
+                >
                     <Text style={styles.textBtn}>Postuler</Text>
                 </TouchableOpacity>
             </LinearGradient>
@@ -50,7 +59,7 @@ export function PostulerBtn() {
     );
 }
 
-export function RecruterBtn() {
+export function RecruterBtn(props) {
 
     return (
         <View>
@@ -63,9 +72,12 @@ export function RecruterBtn() {
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderRadius: 16,
-                    padding: 2
+                    padding: 1,
+                    margin: 3
                 }}>
-                <TouchableOpacity activeOpacity={.7}
+                <TouchableOpacity
+                    activeOpacity={.7}
+                    onPress={props.onPressHandler}
                     style={styles.EmptyButton} >
                     <Text style={styles.textBtn}>Recruter</Text>
                 </TouchableOpacity>
@@ -74,7 +86,7 @@ export function RecruterBtn() {
     );
 }
 
-export function RejeterBtn() {
+export function RejeterBtn(props) {
 
     return (
         <View>
@@ -87,10 +99,14 @@ export function RejeterBtn() {
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderRadius: 16,
-                    padding: 2
+                    padding: 1,
+                    margin: 3
                 }}>
-                <TouchableOpacity activeOpacity={.7}
-                    style={styles.EmptyButton} >
+                <TouchableOpacity
+                    activeOpacity={.7}
+                    onPress={props.onPressHandler}
+                    style={styles.EmptyButton}
+                >
                     <Text style={styles.textBtn}>Rejeter</Text>
                 </TouchableOpacity>
             </LinearGradient>
@@ -100,7 +116,7 @@ export function RejeterBtn() {
 
 
 // BOUTON NEOMORPH ------------------
-export function NeomorphButton() {
+export function NeomorphButton(props) {
 
     const navigation = useNavigation()
 
@@ -119,7 +135,9 @@ export function NeomorphButton() {
     return (
         <TouchableWithoutFeedback
             onPressIn={handlePressIn}
-            onPressOut={handlePressOut}>
+            onPressOut={handlePressOut}
+            onPress={props.onPressHandler}
+        >
             <View style={styles.btnOut}>
                 <View style={styles.btnIn}>
                     <LinearGradient
@@ -141,7 +159,7 @@ const styles = StyleSheet.create({
     textBtn: {
         justifyContent: 'center',
         alignItems: 'center',
-        color: '#000',
+        color: '#fff',
         fontWeight: 'bold',
         fontSize: 16,
         textAlign: 'center'
@@ -164,7 +182,7 @@ const styles = StyleSheet.create({
         width: '100%',
         borderRadius: 16,
         margin: 0,
-        backgroundColor: '#FFF',
+        backgroundColor: '#282828',
         justifyContent: 'center'
     },
     // NEOMORPH BUTTON

@@ -13,7 +13,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { expoUrlRaf } from '../../ExpoUrl';
 
 import { useIsFocused } from '@react-navigation/native';
-import { EmptyButton, NeomButton, PlainButton } from '../components/MainButtonComponent';
 
 
 
