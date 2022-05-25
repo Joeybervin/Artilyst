@@ -18,6 +18,13 @@ import { expoUrlRaf } from '../ExpoUrl';
 
 import { connect } from 'react-redux';
 
+import { pageBackground, textRegular, title } from './components/Styles';
+
+import { useTheme } from '@react-navigation/native';
+import { NeomButton, PostulerBtn } from './components/MainButtonComponent';
+
+
+
 let { width: screenWidth, height: screenHeight } = Dimensions.get('screen')
 
 function AnnoncesScreen(props) {
@@ -95,9 +102,9 @@ function AnnoncesScreen(props) {
 
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
-//*********** envoyer les infos necessaires au match au backend  */
-  
-  const Postuler = async (id , users) =>{
+    //*********** envoyer les infos necessaires au match au backend  */
+
+    const Postuler = async (id, users) => {
         var rawResponse = await fetch(`http://${expoUrlRaf}/postuler`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
@@ -125,8 +132,6 @@ function AnnoncesScreen(props) {
     if (isPaid) {
         myTab = myTab.filter(e => e.remuneration == true)
     }
-
-
 
     const recruiterArtistsList = allUsersAccount.map((element, index) => {
         return (
@@ -174,18 +179,19 @@ function AnnoncesScreen(props) {
                     PlaceholderContent="ff"
                 />
 
-                <View style={{ width: 200, height: '85%', justifyContent : 'space-between' }}>
+                <View style={{ width: 200, height: '85%', justifyContent: 'space-between' }}>
                     <View>
-                        <Text style={{ fontWeight: "bold", marginBottom: 3 }}>{description.substring(0,30)+' ...'}</Text>
-                        <Text style={{ marginBottom: 5, fontSize: 12 }}>{description.substring(0,50)+' ...'}</Text>
+                        <Text style={{ fontWeight: "bold", marginBottom: 3 }}>{description.substring(0, 30) + ' ...'}</Text>
+                        <Text style={{ marginBottom: 5, fontSize: 12 }}>{description.substring(0, 50) + ' ...'}</Text>
                     </View>
-                    <Button
+                    <PostulerBtn onPress={() => Postuler(casting._id, casting.users_selected)} />
+                    {/* <Button
                         color='#1ADBAC'
                         buttonStyle={{ backgroundcolor: '#1ADBAC' }}
-                        title="postuler" onPress={() => Postuler(casting._id, casting.users_selected)} />
-                        
-                        
-                       
+                        title="postuler" onPress={() => Postuler(casting._id, casting.users_selected)} /> */}
+
+
+
                 </View>
 
             </View>
@@ -303,7 +309,7 @@ function AnnoncesScreen(props) {
 
                 <View style={styles.container}>
 
-                    <Text h4 style={{ marginTop: 25, marginBottom: 30 }}>Casting vous Correspondant</Text>
+                    <Text style={styles.title}>Casting vous Correspondant</Text>
 
                     {/* Choix de la catégorie dans laquel l'utilisateur souhaite chercher un casting */}
                     <Dropdown
@@ -341,7 +347,7 @@ function AnnoncesScreen(props) {
 
                     {/* Switch pour la rémunération souhaité ou non ==> Boolean */}
                     <View style={styles.remunerationContainer} >
-                        <Text>Afficher uniquement projet rémunéré ? </Text>
+                        <Text style={styles.textRegular}>Afficher uniquement projet rémunéré ? </Text>
                         <Switch
                             color='#21AC89F1'
                             value={checked}
@@ -377,10 +383,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     container: {
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
-
     dropdown: {
         height: 50,
         borderColor: 'gray',
@@ -420,6 +426,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginTop: 15,
         marginBottom: 30
+    },
+    textRegular : {
+        ...textRegular
+    },
+    title : {
+        ...title
     }
 });
 

@@ -5,9 +5,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import { useNavigation } from '@react-navigation/native';
 
-// BOUTON 1 ------------------------
-export function PlainButton() {
-    
+// GRADIENT BUTTON ------------------------
+export function GradientButton() {
+
     // const navigation = useNavigation()
 
     return (
@@ -25,10 +25,8 @@ export function PlainButton() {
     );
 }
 
-// BOUTON VIDE ------------------------
-export function EmptyButton() {
-
-    // const navigation = useNavigation()
+// BORDERED BUTTON ------------------------
+export function PostulerBtn() {
 
     return (
         <View>
@@ -36,7 +34,7 @@ export function EmptyButton() {
                 colors={['#36e599', '#597ee7', '#b44be0']}
                 end={[1, 0.5]}
                 style={{
-                    height: 38, width: 150,
+                    height: 38, width: 135,
                     textAlign: 'center',
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -45,15 +43,64 @@ export function EmptyButton() {
                 }}>
                 <TouchableOpacity activeOpacity={.7}
                     style={styles.EmptyButton} >
-                    <Text style={styles.textBtn}>Text</Text>
+                    <Text style={styles.textBtn}>Postuler</Text>
                 </TouchableOpacity>
             </LinearGradient>
         </View >
     );
 }
 
+export function RecruterBtn() {
+
+    return (
+        <View>
+            <LinearGradient
+                colors={['#36e599', '#597ee7', '#b44be0']}
+                end={[1, 0.5]}
+                style={{
+                    height: 38, width: 135,
+                    textAlign: 'center',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 16,
+                    padding: 2
+                }}>
+                <TouchableOpacity activeOpacity={.7}
+                    style={styles.EmptyButton} >
+                    <Text style={styles.textBtn}>Recruter</Text>
+                </TouchableOpacity>
+            </LinearGradient>
+        </View >
+    );
+}
+
+export function RejeterBtn() {
+
+    return (
+        <View>
+            <LinearGradient
+                colors={['#36e599', '#597ee7', '#b44be0']}
+                end={[1, 0.5]}
+                style={{
+                    height: 38, width: 135,
+                    textAlign: 'center',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 16,
+                    padding: 2
+                }}>
+                <TouchableOpacity activeOpacity={.7}
+                    style={styles.EmptyButton} >
+                    <Text style={styles.textBtn}>Rejeter</Text>
+                </TouchableOpacity>
+            </LinearGradient>
+        </View >
+    );
+}
+
+
 // BOUTON NEOMORPH ------------------
-export function NeomButton() {
+export function NeomorphButton() {
 
     const navigation = useNavigation()
 
@@ -67,7 +114,7 @@ export function NeomButton() {
         setIsDown(false)
     }, [setIsDown])
 
-    const gradColors = isDown ? ['#185b56', '#1d6c67'] : ['#1d6c67', '#185b56'];
+    const gradColors = isDown ? ['#222', '#444'] : ['#444', '#222'];
 
     return (
         <TouchableWithoutFeedback
@@ -77,7 +124,7 @@ export function NeomButton() {
                 <View style={styles.btnIn}>
                     <LinearGradient
                         colors={gradColors}
-                        start={[0.5, 0.6]}
+                        start={[0.4, 0.4]}
                         style={styles.linear}>
                         <Text style={styles.textBtn}>Text</Text>
                     </LinearGradient>
@@ -90,9 +137,17 @@ export function NeomButton() {
 // FEUILLES DE STYLES
 
 const styles = StyleSheet.create({
-
-    // PLAIN BUTTON
-    btn: {
+    // TEXTES
+    textBtn: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: '#000',
+        fontWeight: 'bold',
+        fontSize: 16,
+        textAlign: 'center'
+    },
+    // GRADIENT BUTTON
+    gradientbtn: {
         padding: 16,
         borderRadius: 16,
         margin: 14,
@@ -103,8 +158,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.4,
         shadowRadius: 3,
     },
-
-    // EMPTY BUTTON
+    // BORDERED BUTTON
     EmptyButton: {
         height: '100%',
         width: '100%',
@@ -113,37 +167,27 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         justifyContent: 'center'
     },
-    textBtn: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        color: '#000000',
-        fontWeight: 'bold',
-        fontSize: 18,
-        textAlign: 'center'
-    },
-
     // NEOMORPH BUTTON
     btnOut: {
         margin: 14,
         borderRadius: 16,
-        shadowColor: '#103c39',
+        shadowColor: '#333333',
         shadowOffset: { width: 7, height: 7 },
         shadowOpacity: 1,
-        shadowRadius: 15,
+        shadowRadius: 8,
     },
     btnIn: {
         margin: 14,
         backgroundColor: '#333333',
         borderRadius: 16,
-        shadowColor: '#268e87',
+        shadowColor: '#333333',
         shadowOffset: { width: -7, height: -7 },
         shadowOpacity: 0.8,
-        shadowRadius: 15,
+        shadowRadius: 8,
     },
     linear: {
         padding: 16,
         borderRadius: 16,
-
     }
 });
 

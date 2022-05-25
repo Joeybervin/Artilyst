@@ -19,7 +19,7 @@ var userSchema = mongoose.Schema({
     insert_date: Date,
     date_of_birth :  Date,
     characteristics : Object,
-    city : String,
+    location : String,
     token : String,
     siren : Number, // 14 chiffre
 })

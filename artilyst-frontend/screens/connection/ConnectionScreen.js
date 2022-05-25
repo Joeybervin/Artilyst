@@ -1,4 +1,4 @@
-import React, {useEffect, useState}from 'react';
+import React, { useEffect, useState } from 'react';
 import { expoUrlRaf } from '../../ExpoUrl';
 
 // ^ Wanings messages
@@ -12,6 +12,8 @@ import { Text, Button } from '@rneui/base';
 // ^Redux
 import { connect } from 'react-redux';
 import { log } from 'react-native-reanimated';
+import { PostulerBtn } from '../components/MainButtonComponent';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 /* import { Text } from '@rneui/base'; */
 
@@ -32,10 +34,10 @@ function ConnectionScreen(props) {
                 body: `token=i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT`,
             })
             let response = await rawResponse.json();
-            let responseCopy = {...response}
+            let responseCopy = { ...response }
             setUserData(responseCopy)
-            console.log('logloglog',response)
-            
+            console.log('logloglog', response)
+
         }
         loadData();
     }, []);
@@ -49,11 +51,11 @@ function ConnectionScreen(props) {
     return (
         <View style={styles.container}>
 
-            <Text onPress={() =>{
+            <Text onPress={() => {
                 props.getUserInformations(userData)
                 console.log(userData)
                 props.navigation.navigate('PagesStacks')
-                }}>ConnectionScreen</Text>
+            }}>ConnectionScreen</Text>
 
             <Button
                 title="Se connecter"
@@ -66,6 +68,7 @@ function ConnectionScreen(props) {
                 onPress={() => props.navigation.navigate('RegisterFormScreen1')}
                 containerStyle={{ margin: 5 }}
             />
+
 
         </View>
 

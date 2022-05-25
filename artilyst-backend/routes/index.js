@@ -130,8 +130,8 @@ router.post('/user_profile', async function (req, res, next) {
   let user_account = await userModel.findOne({
     token: token,
   });
-  console.log(user_account)
-  //console.log(user_account)
+  // console.log(user_account)
+  // console.log(user_account)
   res.json(user_account) // Object :  Je renvoie les informations au front-end
 })
 
@@ -349,7 +349,7 @@ router.delete('/delete_portfolio_image', async function (req, res, next) {
       }
     }
   );
-  console.log(deleteresult)
+  // console.log(deleteresult)
 })
 
 // Pour que l'utilisateur puisse supprimer une image de son portofolio
@@ -404,15 +404,11 @@ router.post('/search_casting', async function (req, res, next) {
 // Affichage des artistes correspondants aux critères du projet
 router.post('/search_artist', async function (req, res, next) {
 
-  let project = await projectModel.findById(req.body._id)
-
-  console.log('PROJECT :', project);
+  let project = await projectModel.findById(req.body.id)
+  console.log('PROJECT :', req.body.id);
   
-
   let matchingUsers = await userModel.find({ location: project.location, occupation: project.collaborators })
-
-
-  console.log('MATCHING USERS :', matchingUsers);
+  console.log('MATCHING USERS :', matchingUsers.length);
 
   res.json({ matchingUsers })
 })
@@ -432,9 +428,9 @@ router.post('/postuler', async function (req, res, next) {
   const idProjectExist = user.projects_selected.find(id => id.idProject === id_Projet_Selected) // vérifier si le projet a déja été séléctionné ou pas 
 
   //console.log("id_Projet_Selected",id_Projet_Selected)
-  console.log("token", token)
+  //console.log("token", token)
   //console.log("userSelected",userSelected)
-  console.log("user", user)
+  //console.log("user", user)
   //console.log("user.projects_selected",user.projects_selected)
   //console.log("idProjectExist",idProjectExist)
 
@@ -442,12 +438,12 @@ router.post('/postuler', async function (req, res, next) {
 
     const matchVerify = userSelected.find(id => id === user._id);
 
-  console.log(matchVerify)
+  //console.log(matchVerify)
 
   if(matchVerify){
   match = true
   }
-  console.log("matchVerify",matchVerify)
+  //console.log("matchVerify",matchVerify)
 
   await userModel.updateOne(
     { token: token },
@@ -483,7 +479,7 @@ router.post('/recruter', async function (req, res, next) {
 
   if (!idUserSelectedExist) {
     const matchVerify = userHired.projects_selected.find(e => e.idProject == id_Projet); // vérifier si le project concerné par le rectutement existe déja dans la table projectselected (pour le match)
-    console.log(matchVerify)
+    //console.log(matchVerify)
     if (matchVerify) {
       match = true
     }
@@ -505,7 +501,7 @@ router.post('/recruter', async function (req, res, next) {
 
     let status = await userHired.save()
 
-    console.log(status)
+    //console.log(status)
 
 
     res.json({ userHired })
@@ -531,7 +527,7 @@ router.post('/displayProjects', async function (req, res, next) {
 
   for (let i = 0; i < user.projects_created.length; i++) {
     var project = await projectModel.findOne({ _id: user.projects_created[i] })
-    console.log("project", project)
+    //console.log("project", project)
     //var projectObject = {idProject :project._id , title : project.title , image : project.photos[0] }
     //console.log(projectObject)
 
@@ -543,7 +539,7 @@ router.post('/displayProjects', async function (req, res, next) {
 
 
   // } )
-  console.log("resultat", resultat)
+  //console.log("resultat", resultat)
   res.json(resultat)
 
 })
@@ -552,7 +548,7 @@ router.delete('/deleteProject', async function (req, res, next) {
 
 
   let idProject = req.query.id
-  console.log("idProject", idProject)
+  //console.log("idProject", idProject)
   await projectModel.deleteOne({ _id: idProject });
 
   res.json({ deleteStatus: true })

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 // ^ Wanings messages
-import { LogBox, Button, ScrollView, Image } from 'react-native';
+import { LogBox, Button, ScrollView, Image, Appearance } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']);
 
 //^ Module de balise
@@ -30,14 +30,16 @@ function ArtisteCorrespondantScreen(props) {
     useEffect(() => {
 
         async function loadArtists() {
+            //console.log('TEST FETCH :', projectId)
             var rawResponse = await fetch(`http://${expoUrlRaf}/search_artist`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `id=${props.project.id}`,
+                body: `id=${projectId.id}`,
             })
             let response = await rawResponse.json();
+            //console.log('REPONSE DU BACKEND',response.matchingUsers)
             setMatchingArtists(response.matchingUsers)
-            console.log("REPONSE",response.matchingUsers)
+            console.log('TABLEAU MATCHING', matchingArtists);
         }
         loadArtists()
     }, []);
@@ -49,25 +51,39 @@ function ArtisteCorrespondantScreen(props) {
     // Affichage des artistes sous forme de "cards"
     let artistsDisplay = matchingArtists.map((artist, i) => {
 
-        <View key={i} style={{ flexDirection: 'column', borderColor: 'black', borderWidth: 0.5, borderRadius: 7, width: 150, height: 210, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10 }}>
-            {/* image profil */}
-            <View style={{ height: 140, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10, marginTop: 5, alignItems: "center" }}>
-                <Image style={{ width: 140, height: 140 }} source={{ uri: artist.profile_photo[0] }} />
-            </View>
+        return (
 
-            {/* Nom et domaine */}
-            <View style={{ flexDirection: 'row', justifyContent: "space-between" }} >
-                <Text style={{ fontWeight: 'bold' }}>{artist.name}</Text>
-                <Text style={{ fontWeight: 'bold' }}>{artist.occupation}</Text>
+            <View key={i} style={{
+                flexDirection: 'column',
+                justifyContent:'space-around',
+                borderColor: 'black',
+                borderWidth: 0.5,
+                borderRadius: 7,
+                width: 160,
+                height: 230,
+                backgroundcolor: '#1ADBAC',
+                margin: 8
+                
+            }}>
+                {/* image profil */}
+                <View style={{ height: 140, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10, marginTop: 5, alignItems: "center" }}>
+                    <Image style={{ width: '100%', height: '100%' }} source={{ uri: artist.profile_photo[0] }} />
+                </View>
+
+                {/* Nom et domaine */}
+                <View style={{ flexDirection: 'row', justifyContent: "space-around" }} >
+                    <Text style={{ fontWeight: 'bold' }}>{artist.name}</Text>
+                    <Text style={{ fontWeight: 'bold' }}>{artist.occupation}</Text>
+                </View>
+                {/* Bouton rejeter /recruter */}
+                <View style={{ paddingLeft: 5, paddingRight: 5 }} >
+                    <Button
+                        color='#1ADBAC'
+                        buttonStyle={{ backgroundcolor: '#1ADBAC' }}
+                        title="recruter" />
+                </View>
             </View>
-            {/* Bouton rejeter /recruter */}
-            <View style={{ paddingLeft: 5, paddingRight: 5 }} >
-                <Button
-                    color='#1ADBAC'
-                    buttonStyle={{ backgroundcolor: '#1ADBAC' }}
-                    title="recruter" />
-            </View>
-        </View>
+        )
     })
 
     // * ___________________________ PAGE ___________________________
@@ -78,55 +94,13 @@ function ArtisteCorrespondantScreen(props) {
 
                 <Text>Artistes correspondant à votre recherche </Text>
 
-
-                <View style={{ flexDirection: 'row', marginTop: 50 }} >
-
-                    {/*   profil 1  */}
-                    <View style={{ flexDirection: 'column', borderColor: 'black', borderWidth: 0.5, borderRadius: 7, width: 150, height: 210, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10 }}>
-                        {/* image profil */}
-                        <View style={{ height: 140, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10, marginTop: 5, alignItems: "center" }}>
-                            <Image style={{ width: 140, height: 140 }} source={{ uri: 'https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387' }} />
-                        </View>
-
-                        {/* Nom et domaine */}
-                        <View style={{ flexDirection: 'row', justifyContent: "space-between" }} >
-                            <Text style={{ fontWeight: 'bold' }}> Sarah  </Text>
-                            <Text style={{ fontWeight: 'bold' }}> Photographe </Text>
-                        </View>
-                        {/* Bouton rejeter /recruter */}
-                        <View style={{ paddingLeft: 5, paddingRight: 5 }} >
-                            <Button
-                                color='#1ADBAC'
-                                buttonStyle={{ backgroundcolor: '#1ADBAC' }}
-                                title="recruter" />
-
-                        </View>
-
-                    </View>
-
-
-                    {/*   profil 2  */}
-                    <View style={{ flexDirection: 'column', borderColor: 'black', borderWidth: 0.5, borderRadius: 7, width: 150, height: 210, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10 }}>
-                        {/* image profil */}
-                        <View style={{ height: 140, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10, marginTop: 5, alignItems: "center" }}>
-                            <Image style={{ width: 140, height: 140 }} source={{ uri: 'https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387' }} />
-                        </View>
-
-                        {/* Nom et domaine */}
-                        <View style={{ flexDirection: 'row', justifyContent: "space-between" }} >
-                            <Text style={{ fontWeight: 'bold' }}> Sarah  </Text>
-                            <Text style={{ fontWeight: 'bold' }}> Photographe </Text>
-                        </View>
-                        {/* Bouton rejeter /recruter */}
-                        <View style={{ paddingLeft: 5, paddingRight: 5 }} >
-                            <Button
-                                color='#1ADBAC'
-                                buttonStyle={{ backgroundcolor: '#1ADBAC' }}
-                                title="recruter" />
-
-                        </View>
-
-                    </View>
+                <View style={{
+                    flexWrap: 'wrap',
+                    flexDirection: 'row',
+                    marginTop: 10,
+                    width: '100%',
+                    justifyContent: 'center'
+                }} >
 
                     {artistsDisplay}
 

@@ -90,9 +90,6 @@ function CreerUnProjetScreen(props) {
   // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
   /* MAP */
 
-
-  console.log("props.listproject", props.listproject)
-
   const allUserProjects = props.listproject.map((element, index) => { // Tous les prjets de l'utilisateur
 
     if (element) {
@@ -119,6 +116,7 @@ function CreerUnProjetScreen(props) {
               <MenuOption onSelect={() => props.navigation.navigate('ArtisteCorrespondantScreen', { id: element._id })} text='Voir les artistes correspondants' />
 
               <MenuOption onSelect={() => deleteFunction(element._id, index)} text='Supprimer' />
+              {/* {console.log('LOG DE ID', element._id)}; */}
 
             </MenuOptions>
           </Menu>
