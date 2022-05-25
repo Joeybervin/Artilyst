@@ -19,6 +19,8 @@ function CreationAnnonceScreen(props) {
     const [description, setDescription]=useState('')
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+ 
+
     
     //********** Récuperation params */
     var ParamsProject3=props.route.params;
@@ -117,11 +119,11 @@ function CreationAnnonceScreen(props) {
 
 />
 
-<Button
+{/* <Button
     buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
     title="Lancer"
     onPress={() => props.navigation.navigate('ArtisteCorrespondantScreen')}
-/>
+/> */}
 
 
 

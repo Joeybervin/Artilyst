@@ -7,6 +7,7 @@ LogBox.ignoreLogs(['Warning: ...']);
 //^ Module de balise
 import { StyleSheet, Text, View } from 'react-native';
 /* import { Text } from '@rneui/base'; */
+// const [DisplayArtist, setDisplayArtist]= useState()
 
 export default function ArtisteCorrespondantScreen(props) {
 
