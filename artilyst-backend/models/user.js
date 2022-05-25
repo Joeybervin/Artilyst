@@ -14,20 +14,7 @@ var userSchema = mongoose.Schema({
     insert_date: Date,
     date_of_birth :  Date,
     characteristics : Object,
-    /*  {
-        gender: String, 
-        ethnicGroup: String,
-        hair: String, 
-        eyes: String, 
-        height: Number, 
-        weight: Number, 
-        corpulence: String,
-        measurements: { 
-            waistSize: Number, 
-            bustSize: Number, 
-            hipMeasurement: Number }
-    }, */
-    location : String,
+    city : String,
     token : String,
     siren : Number, // 14 chiffre
 })
