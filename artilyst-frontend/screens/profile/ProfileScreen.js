@@ -2,7 +2,7 @@ import Animated from 'react-native-reanimated';
 
 import React, { useRef, useState, useEffect } from 'react';
 
-import { expoUrlRaf } from '../../ExpoUrl';
+import { expoUrlBertin } from '../../ExpoUrl';
 
 
 //^ Module de balise
@@ -83,7 +83,7 @@ function ProfileScreen(props) {
            
 
 
-                let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
+                let data_uploaded = await fetch(`http://${expoUrlBertin}/upload_image_profil`,
                     {
                         method: 'PUT',
                         body: data,
@@ -139,7 +139,7 @@ function ProfileScreen(props) {
 
 
 
-                let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
+                let data_uploaded = await fetch(`http://${expoUrlBertin}/upload_image_profil`,
                     {
                         method: 'PUT',
                         body: data,

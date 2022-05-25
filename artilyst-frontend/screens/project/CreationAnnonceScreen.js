@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 // & import des urls de chacune
-import { expoUrlRaf } from '../../ExpoUrl';
+import { expoUrlBertin } from '../../ExpoUrl';
 
 // ^ Wanings messages
 
@@ -47,7 +47,7 @@ function CreationAnnonceScreen(props) {
     const projectSave = async () => {
 
 
-        const rawResponse = await fetch(`http://${expoUrlRaf}/project`, {
+        const rawResponse = await fetch(`http://${expoUrlBertin}/project`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ projectInfos: projectInfos }),
@@ -109,10 +109,53 @@ function CreationAnnonceScreen(props) {
                     value={isEnabled}
                 />
 
-            </View >
+  <Text>Je rémunère</Text>
+  
+  <Switch
+        trackColor={{ false: "#767577", true: "#81b0ff" }}
+        thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch}
+        value={isEnabled}
+      />
 
+  </View >
+
+     <View style={{ flex: 1, flexDirection: 'row', justifyConten:'space-between', alignItems: "center" }}>
+         <Text> Ajouter photo </Text>
+        <Button title="+" onPress={() => props.navigation.navigate('')} />
+     
+
+    
+
+     <View style={{ flexDirection: 'row', marginTop: 50 }}>
+
+<Button
+    buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
+    title="retour"
+    onPress={() => props.navigation.navigate('CategorieDuProjetScreen')}
+/>
+<Button
+    buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
+    title="Lancer la recherche "
+    onPress={() => projectSave()}
+
+/>
+
+{/* <Button
+    buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
+    title="Lancer"
+    onPress={() => props.navigation.navigate('ArtisteCorrespondantScreen')}
+/> */}
+
+
+
+     
+            
+
+        </View>
+            </View >
             <View style={{ flexDirection: 'row', justifyConten: 'space-between', alignItems: "center", marginTop: 10 }}>
-                <Text> Ajouter photo </Text>
                 <Button title="add picture" onPress={() => sheetRef.current.snapTo(0)} />
 
             </View>

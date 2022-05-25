@@ -2,7 +2,7 @@ import Animated from 'react-native-reanimated';
 
 import React, { useRef, useState, useEffect } from 'react';
 
-import { expoUrlRaf } from '../../ExpoUrl';
+import { expoUrlBertin } from '../../ExpoUrl';
 
 
 //^ Module de balise
@@ -35,7 +35,7 @@ function OtherUserProfileScreen(props) {
     useEffect(() => {
         // * Recruiter case
         const loadData = async () => {
-            var rawResponse = await fetch(`http://${expoUrlRaf}/user_profile`, {
+            var rawResponse = await fetch(`http://${expoUrlBertin}/user_profile`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${params.userToken}`,

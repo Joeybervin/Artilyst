@@ -8,8 +8,9 @@ LogBox.ignoreLogs(['Warning: ...']);
 //^ Module de balise
 import { StyleSheet, Text, View } from 'react-native';
 /* import { Text } from '@rneui/base'; */
+// const [DisplayArtist, setDisplayArtist]= useState()
 
-import { expoUrlRaf } from '../../ExpoUrl';
+import { expoUrlBertin } from '../../ExpoUrl';
 
 function ArtisteCorrespondantScreen(props) {
 

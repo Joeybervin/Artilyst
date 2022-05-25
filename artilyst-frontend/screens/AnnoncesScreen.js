@@ -14,9 +14,10 @@ import { Dropdown } from 'react-native-element-dropdown';
 // ^ Icon
 import { Ionicons } from '@expo/vector-icons';
 
-import { expoUrlRaf } from '../ExpoUrl';
+import { expoUrlBertin } from '../ExpoUrl';
 
 import { connect } from 'react-redux';
+import { CardStyleInterpolators } from '@react-navigation/stack';
 
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from './components/GlobalStyles';
 
@@ -66,7 +67,7 @@ function AnnoncesScreen(props) {
     useEffect(() => {
         // ! TEMPORAIRE LE TEMPS QUE RAF FINISSE LA ROUTE =======> Joey :)
         async function allUsers() {
-            var rawResponse = await fetch(`http://${expoUrlRaf}/all_users_profile`, {
+            var rawResponse = await fetch(`http://${expoUrlBertin}/all_users_profile`, {
             })
             let response = await rawResponse.json();
             console.log(response)
@@ -75,7 +76,7 @@ function AnnoncesScreen(props) {
 
         // * Si un recruteur se connecte => DropDown de tous ses projets en cours
         async function loadProjects() {
-            var rawResponse = await fetch(`http://${expoUrlRaf}/recruiter_projects`, {
+            var rawResponse = await fetch(`http://${expoUrlBertin}/recruiter_projects`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.user.token}`,
@@ -86,7 +87,7 @@ function AnnoncesScreen(props) {
 
         // * Si un artiste se connecte => Visualisation de tous les projets le correspondant
         async function loadCasting() {
-            var rawResponse = await fetch(`http://${expoUrlRaf}/search_casting`, {
+            var rawResponse = await fetch(`http://${expoUrlBertin}/search_casting`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.user.token}`,
@@ -136,7 +137,7 @@ function AnnoncesScreen(props) {
     const recruiterArtistsList = allUsersAccount.map((element, index) => {
         return (
 
-            <TouchableOpacity key={index + 1}
+            <TouchableOpacity     key={index + 1}
                 activeOpacity={.2} style={{ borderRadius: 7, flexDirection: "row", alignItems: "center", justifyContent: "center", borderColor: 'black', borderWidth: 0.5, width: "85%", height: 140, marginTop: 30 }}
                 onPress={() => props.navigation.navigate('OtherUserProfileScreen', { userToken: element.token })}>
 
@@ -145,7 +146,7 @@ function AnnoncesScreen(props) {
                     resizeMode="contain"
                     source={{ uri: element.profile_photo[Math.floor(Math.random() * (element.profile_photo.length - 1))] }}
                     style={{ borderRadius: 10, marginRight: 10 }}
-                    PlaceholderContent="ff"
+                    // PlaceholderContent=""
                 />
 
                 <View style={{ flexDirection: 'column', width: 200, height: 108, justifyContent: 'space-between', alignItems: 'space-between' }}>
@@ -167,6 +168,9 @@ function AnnoncesScreen(props) {
     let castingDisplay = myTab.map((casting, i) => {
         let title = casting.title
         let description = casting.description
+    
+
+
 
         return (
             <View key={i} style={{ backgroundColor: '#353535', flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderColor: 'gray', borderWidth: 0, width: "85%", height: 150, marginTop: 30, paddingLeft: 7, paddinRight: 5, shadowColor: 'black', shadowOffset: { width: 2, height: 4 }, shadowOpacity: 0.4, shadowRadius: 3 }}>
@@ -174,10 +178,13 @@ function AnnoncesScreen(props) {
                 <Image
                     containerStyle={{ width: 110, height: '85%', }}
                     resizeMode="contain"
-                    source={{}}
+                    source={{uri:casting.photos[0]}}
                     style={{ borderRadius: 10, marginRight: 10 }}
                     PlaceholderContent="ff"
-                />
+                /> 
+
+                  
+                
 
                 <View style={{ width: 200, height: '85%', justifyContent: 'space-between' }}>
 
