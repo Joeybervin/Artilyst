@@ -3,7 +3,7 @@ import { expoUrlRaf } from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
-LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
 //^ Module de balise
 import { StyleSheet, View } from 'react-native';
@@ -18,8 +18,6 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { FullBtn, PostulerBtn, RecruterBtn } from '../components/ButtonsStyles';
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
 
-/* import { Text } from '@rneui/base'; */
-
 function ConnectionScreen(props) {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
@@ -29,9 +27,8 @@ function ConnectionScreen(props) {
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
     useEffect(() => {
-
         async function loadData() {
-            const rawResponse = await fetch(`http://${expoUrlBertin}/user_profile`, {
+            const rawResponse = await fetch(`http://${expoUrlRaf}/user_profile`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `token=KWXlcU4sPT_mj9eDlkaawYfPyX1-okID` // i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT
@@ -44,10 +41,6 @@ function ConnectionScreen(props) {
         }
         loadData();
     }, []);
-    /* SECONDE */
-    // * ___________________________ FUNCTIONS ___________________________
-    // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
-    /* MAP */
 
     // * ___________________________ PAGE ___________________________
 
@@ -81,7 +74,6 @@ function ConnectionScreen(props) {
             
 
         </View>
-
     );
 }
 

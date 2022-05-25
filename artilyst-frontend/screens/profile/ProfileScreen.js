@@ -2,7 +2,7 @@ import Animated from 'react-native-reanimated';
 
 import React, { useRef, useState, useEffect } from 'react';
 
-import { expoUrlBertin } from '../../ExpoUrl';
+import { expoUrlRaf } from '../../ExpoUrl';
 
 
 //^ Module de balise
@@ -83,7 +83,7 @@ function ProfileScreen(props) {
            
 
 
-                let data_uploaded = await fetch(`http://${expoUrlBertin}/upload_image_profil`,
+                let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
                     {
                         method: 'PUT',
                         body: data,
@@ -139,7 +139,7 @@ function ProfileScreen(props) {
 
 
 
-                let data_uploaded = await fetch(`http://${expoUrlBertin}/upload_image_profil`,
+                let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
                     {
                         method: 'PUT',
                         body: data,
@@ -211,12 +211,15 @@ function ProfileScreen(props) {
     /* MAP */
 
     let userProfileImages
+<<<<<<< HEAD
     if (user.profile_photo.length > 1) {
         console.log("je suis ici")
+=======
+    if (user.profile_photo.length > 0) {
+>>>>>>> f6aa7fc75499d428a8e618105d4aaa49567f9bd1
         userProfileImages = props.user.profile_photo
     }
     else {
-        console.log("LAAAAAAA")
         userProfileImages = ["https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg"]
     }
 
@@ -306,7 +309,7 @@ function ProfileScreen(props) {
                         </Text>
                         <View style={styles.location}>
                             <Ionicons name={'location-sharp'} size={24} color='black' />
-                            <Text h5 style={{ fontSize: 20, marginLeft: 10 }}>{user.city ? user.city : "non renseigné"}</Text>
+                            <Text h5 style={{ fontSize: 20, marginLeft: 10 }}>{user.location ? user.location : "non renseigné"}</Text>
                         </View>
                     </View>
     
@@ -321,9 +324,6 @@ function ProfileScreen(props) {
                         <Text style={{ fontWeight: "bold", marginBottom: 10 }}>À propos :</Text>
                         <Text>{user.description !== undefined ? user.description : "non renseigné"}</Text>
                     </View>
-    
-    
-                    {/* -------- USER CARACTERISTICS --------  */}
     
                 </View>
             </ScrollView>
@@ -392,11 +392,11 @@ function ProfileScreen(props) {
                     {/* -------- INFORMATIONS --------  */}
                     <View style={styles.firstInformations} >
                         <Text h5 style={{ fontWeight: "bold", marginRight: 35, fontSize: 20 }}>{user.name}
-                            <Ionicons name={genderIcon(user.gender ? user.gender : "male-female-outline")} size={19} color='black' />
+                            <Ionicons name={genderIcon(user.characteristics.gender ? user.characteristics.gender : "male-female-outline")} size={19} color='black' />
                         </Text>
                         <View style={styles.location}>
                             <Ionicons name={'location-sharp'} size={24} color='black' />
-                            <Text h5 style={{ fontSize: 20, marginLeft: 10 }}>{user.city ? user.city : "non renseigné"}</Text>
+                            <Text h5 style={{ fontSize: 20, marginLeft: 10 }}>{user.location ? user.location : "non renseigné"}</Text>
                         </View>
                     </View>
 
@@ -414,8 +414,6 @@ function ProfileScreen(props) {
 
 
                     {/* -------- USER CARACTERISTICS --------  */}
-
-
                     <View style={styles.caracteristicsContainer}>
 
                         <Text>Groupe ethnique : {user.characteristics.ethnicGroup === null ? "non renseigné" : user.characteristics.ethnicGroup}</Text>
@@ -455,6 +453,7 @@ const styles = StyleSheet.create({
     },
     mainContainer: {
         marginTop: 10,
+        marginBottom : 50,
         justifyContent: 'center',
         alignItems: "center",
     },

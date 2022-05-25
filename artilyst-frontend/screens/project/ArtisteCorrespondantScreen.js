@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 // ^ Wanings messages
-import { LogBox, Button, ScrollView, Image, Appearance } from 'react-native';
-LogBox.ignoreLogs(['Warning: ...']);
+import { LogBox, Button, ScrollView } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
 //^ Module de balise
 import { StyleSheet, Text, View } from 'react-native';
 /* import { Text } from '@rneui/base'; */
 // const [DisplayArtist, setDisplayArtist]= useState()
 
-import { expoUrlBertin } from '../../ExpoUrl';
+import { expoUrlRaf } from '../../ExpoUrl';
 
 function ArtisteCorrespondantScreen(props) {
 

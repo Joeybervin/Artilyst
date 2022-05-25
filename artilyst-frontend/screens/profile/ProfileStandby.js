@@ -2,7 +2,7 @@ import Animated from 'react-native-reanimated';
 
 import React, { useRef, useState, useEffect } from 'react';
 
-import { expoUrlBertin } from '../../ExpoUrl';
+import { expoUrlRaf } from '../../ExpoUrl';
 
 
 //^ Module de balise
@@ -91,7 +91,7 @@ function ProfileScreen(props) {
 
 
 
-                let data_uploaded = await fetch(`http://${expoUrlBertin}/upload_image_profil`,
+                let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
                     {
                         method: 'PUT',
                         body: data,
@@ -147,7 +147,7 @@ function ProfileScreen(props) {
 
 
 
-                let data_uploaded = await fetch(`http://${expoUrlBertin}/upload_image_profil`,
+                let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
                     {
                         method: 'PUT',
                         body: data,
@@ -221,7 +221,6 @@ function ProfileScreen(props) {
         userProfileImages = props.user.profile_photo
     }
     else {
-        console.log("LAAAAAAA")
         userProfileImages = ["https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg"]
     }
 

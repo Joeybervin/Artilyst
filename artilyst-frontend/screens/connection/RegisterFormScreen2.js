@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
 // & import des urls de chacune
-import {expoUrlBertin} from '../../ExpoUrl';
+import {expoUrlRaf, expoUrlRaf} from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
-LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
 //^ Module de balise
 import { StyleSheet, View } from 'react-native';
@@ -18,63 +18,51 @@ function RegisterFormScreen2(props) {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
 
-
     /* VARIABLES D'ÉTAT  */
-
     const [userInfos, setUserInfos] = useState(props.route.params)// récupération des données entrées par l'utilisateur sur la screen précédente avec les paramètres
     const [userOccupation, setUserOccupation] = useState("")
     const [login, setLogin] = useState(false)
     const [userOccupationClicked, setUserOccupationClicked]  = useState(true) // vérifie si l'utilisateur à bien clické sur un bouton
-    /* VARIABLES */
+    const [messageError, setMessageError] = useState("")
 
-    // * ___________________________ INITIALISATION DE LA PAGE ___________________________
-    /* PREMIÈRE */
-    /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
 
-    /* Pour ajouter le métier de l'utilisateur au données qui seront envoyées à la base de données  */
-    const addUserOccupation = (userOccupation) => {
+    const addUserOccupation = (userOccupation) => { // Pour ajouter le métier de l'utilisateur au données qui seront envoyées à la base de données  
         setUserOccupation(userOccupation)
         userInfos['occupation'] = userOccupation // Ajour=t du choix à l'objet qui sera transmis à la base de données
         setUserOccupationClicked(false) // Rend le button "créer un compte" cliquable
     }
 
-    /* fonction pour sauvegarder un utilisateur dans la base de données */
-    const signUpUser = async () => {
-        console.log("USERINFOS : ",userInfos)
-        
-        const rawResponse = await fetch(`http://${expoUrlBertin}/sign-up`, {
+    const signUpUser = async () => { // sauvegarder un utilisateur dans la base de données
+        const rawResponse = await fetch(`http://${expoUrlRaf}/sign-up`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({userInfos : userInfos}),
         })
 
-        let response = await rawResponse.json() // Object : Réponse du back-end
+        let response = await rawResponse.json() // OBJECT : Réponse du back-end
 
         /* Si l'utilisateur n'existe pas */
         if (response.new_user === true) {
             setLogin(true)
-            /* NE MARCHE PAS */
-            props.navigation.navigate('PagesStacks') // redirection vers le Annonce
             props.getUserInformations(response.user) // OBJECT : J'ajoute les informations dans mon store
+            props.navigation.navigate('PagesStacks') // redirection vers le Annonce
+            
         }
         else {
-            console.log("Ce compte existe déjà")
+            setMessageError("Ce compte existe déjà dans notre base de données")
         }
         
     }
-    // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
-    /* MAP */
-
 
     // * ___________________________ PAGE ___________________________
 
     return (
         <View style={styles.container}>
 
-
             <Text>Sign-up</Text>
 
+            {/* Options des métiers à choisir */}
             <View dir="row" align="center" spacing={4}>
 
                 <Button
@@ -101,7 +89,6 @@ function RegisterFormScreen2(props) {
                 />
 
                 <Button
-                
                     buttonStyle={{ backgroundColor: '#074233' }}
                     title="Réalisateur/ice vidéaste"
                     onPress={() => addUserOccupation("réalisateur/ice vidéaste")}
@@ -115,6 +102,7 @@ function RegisterFormScreen2(props) {
                 width={1}
             />
 
+            {/* Bourrons pour les recruteur */}
             <Button
             containerStyle={{width : 210}}
                 buttonStyle={{ backgroundColor: '#AD4DB9' }}
@@ -122,6 +110,9 @@ function RegisterFormScreen2(props) {
 
                 onPress={() => addUserOccupation("recruteur")}
             />
+
+            {/* Message d'erreur si compte déjà existan */}
+            <Text>{ messageError }</Text>
 
             <View style={{ flexDirection: 'row', marginTop: 50 }}>
 
@@ -144,7 +135,6 @@ function RegisterFormScreen2(props) {
 
 
         </View>
-
     );
 }
 
@@ -160,14 +150,13 @@ const styles = StyleSheet.create({
 });
 
 // * ___________________________ REDUX ___________________________
+
 function mapDispatchToProps(dispatch) {
     return {
         getUserInformations: function (user) {
             dispatch({ type: 'userConnection', user })
-
         }
-    }
-}
+}}
 
 export default connect(
     null,

@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 // & import des urls de chacune
-import { expoUrlBertin } from '../../ExpoUrl';
+import { expoUrlRaf } from '../../ExpoUrl';
 
 // ^ Wanings messages
-
-LogBox.ignoreLogs(['Warning: ...']);
+import { LogBox, Button, Switch } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
 //^ Module de balise
 import { LogBox, Switch, StyleSheet, View, TextInput, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
@@ -47,7 +47,7 @@ function CreationAnnonceScreen(props) {
     const projectSave = async () => {
 
 
-        const rawResponse = await fetch(`http://${expoUrlBertin}/project`, {
+        const rawResponse = await fetch(`http://${expoUrlRaf}/project`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ projectInfos: projectInfos }),

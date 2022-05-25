@@ -1,21 +1,21 @@
-import React, { FC, useEffect, useState } from 'react';
-
 // ^ Wanings messages
 import { LogBox } from 'react-native';
-LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
+
+import React, { useEffect, useState } from 'react';
+
+import { expoUrlRaf } from '../ExpoUrl';
 
 //^ Module de balise
 import { StyleSheet, View, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { Button } from '@rneui/base';
 import { Switch, Image, Text, Overlay, Avatar } from '@rneui/themed';
-
-// ^ Dropwown
 import { Dropdown } from 'react-native-element-dropdown';
-// ^ Icon
 import { Ionicons } from '@expo/vector-icons';
 
-import { expoUrlBertin } from '../ExpoUrl';
+import { expoUrlRaf } from '../ExpoUrl';
 
+// ^ Redux
 import { connect } from 'react-redux';
 import { CardStyleInterpolators } from '@react-navigation/stack';
 
@@ -31,17 +31,16 @@ let { width: screenWidth, height: screenHeight } = Dimensions.get('screen')
 function AnnoncesScreen(props) {
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
-    const [value, setValue] = useState(null); // String : récupère le type de casting choisis
-    const [isFocus, setIsFocus] = useState(false);
-    const [checked, setChecked] = useState(false); // Bolean : Pour changer l'état de mon swith ( gère la rémunération => rémunéré ou non)
-    const [matchingCasting, setMatchingCasting] = useState([]); // Tableau des données venant du backend
-    const [castingCategory, setCastingCategory] = useState(''); // Valeur choisie dans le menu déroulant
-    const [isPaid, setIsPaid] = useState(false); // Valeur du switch "projets rémunérés"
-    const [recruiterListProjects, setRecruiterListProjects] = useState([])
-    const [allUsersAccount, setAllUsersAccount] = useState([])
-    const [overlayVisibility, setOverlayVisibility] = useState(false)
-    const [projectImages, setProjectImages] = useState([]); //
-
+    const [value, setValue] = useState(null); // STRING : récupère le type de casting choisis
+    const [isFocus, setIsFocus] = useState(false); // BOOLEAN
+    const [checked, setChecked] = useState(false); // BOOLEAN : Pour changer l'état de mon swith ( gère la rémunération => rémunéré ou non)
+    const [matchingCasting, setMatchingCasting] = useState([]); // ARRAY => OBECT :  Tableau des données venant du backend
+    const [castingCategory, setCastingCategory] = useState(''); // STRING : Valeur choisie dans le menu déroulant
+    const [isPaid, setIsPaid] = useState(false); // BOOLEAN :  Valeur du switch "projets rémunérés"
+    const [recruiterListProjects, setRecruiterListProjects] = useState([]); // ARRAY
+    const [allUsersAccount, setAllUsersAccount] = useState([]); // ARRAY
+    const [overlayVisibility, setOverlayVisibility] = useState(false); // ARRAY
+    const [projectImages, setProjectImages] = useState([]); // ARRAY
 
 
     /* VARIABLES */
@@ -59,24 +58,21 @@ function AnnoncesScreen(props) {
         { label: 'Tous types', value: '' },
     ];
 
-    console.log(recruiterListProjects)
-
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
     // Réception des casting filtrés pour l'utilisateur
     useEffect(() => {
-        // ! TEMPORAIRE LE TEMPS QUE RAF FINISSE LA ROUTE =======> Joey :)
         async function allUsers() {
-            var rawResponse = await fetch(`http://${expoUrlBertin}/all_users_profile`, {
+            // ! TEMPORAIRE LE TEMPS QUE RAF FINISSE LA ROUTE =======> Joey :)
+            var rawResponse = await fetch(`http://${expoUrlRaf}/all_users_profile`, {
             })
             let response = await rawResponse.json();
-            console.log(response)
             setAllUsersAccount(response)
         }
 
         // * Si un recruteur se connecte => DropDown de tous ses projets en cours
         async function loadProjects() {
-            var rawResponse = await fetch(`http://${expoUrlBertin}/recruiter_projects`, {
+            var rawResponse = await fetch(`http://${expoUrlRaf}/recruiter_projects`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.user.token}`,
@@ -87,24 +83,22 @@ function AnnoncesScreen(props) {
 
         // * Si un artiste se connecte => Visualisation de tous les projets le correspondant
         async function loadCasting() {
-            var rawResponse = await fetch(`http://${expoUrlBertin}/search_casting`, {
+            var rawResponse = await fetch(`http://${expoUrlRaf}/search_casting`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.user.token}`,
             })
             let response = await rawResponse.json();
             setMatchingCasting(response.matchingProjects)
-            console.log("reponse", response.matchingProjects)
         }
 
         if (props.user.occupation === "recruteur") { loadProjects(); allUsers() }//! TEMPORAIRE ==> Joey
         if (props.user.occupation !== "recruteur") loadCasting();
     }, []);
 
-    /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
-    //*********** envoyer les infos necessaires au match au backend  */
 
+    /* envoyer les infos necessaires au match au backend  */
     const Postuler = async (id, users) => {
         var rawResponse = await fetch(`http://${expoUrlRaf}/postuler`, {
             method: 'POST',
@@ -112,21 +106,18 @@ function AnnoncesScreen(props) {
             body: JSON.stringify({ token: props.user.token, projectId: id, userSelected: users }),
 
         })
-        console.log("users", users)
         let response = await rawResponse.json();
 
         if (response.already) {
-            setProjectImages(response.photoProjet)
-            setOverlayVisibility(true)
+            setProjectImages(response.photoProjet) // récupération de la données du back-end
+            setOverlayVisibility(true) // BOOLEAN : Si match un overlay apparaît
         }
 
     }
+
+
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
-
     /* MAP */
-
-
-
     if (castingCategory != '') {
         myTab = myTab.filter(e => e.category == castingCategory)
     }
@@ -168,10 +159,6 @@ function AnnoncesScreen(props) {
     let castingDisplay = myTab.map((casting, i) => {
         let title = casting.title
         let description = casting.description
-    
-
-
-
         return (
             <View key={i} style={{ backgroundColor: '#353535', flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderColor: 'gray', borderWidth: 0, width: "85%", height: 150, marginTop: 30, paddingLeft: 7, paddinRight: 5, shadowColor: 'black', shadowOffset: { width: 2, height: 4 }, shadowOpacity: 0.4, shadowRadius: 3 }}>
 
@@ -206,7 +193,6 @@ function AnnoncesScreen(props) {
         )
 
     })
-
 
 
     // * ___________________________ PAGE ___________________________
@@ -333,10 +319,6 @@ function AnnoncesScreen(props) {
                             setValue(item.value);
                             setIsFocus(false);
                             setCastingCategory(item.value);
-                            //console.log('casting:', castingCategory)
-                            // filter(item.value);
-                            // chooseCategory(item.value);
-                            //   console.log("log du ",item)
                         }}
                         renderLeftIcon={() => (
                             <Ionicons
@@ -348,7 +330,7 @@ function AnnoncesScreen(props) {
                         )}
                     />
 
-                    {/* Switch pour la rémunération souhaité ou non ==> Boolean */}
+                    {/* BOOLEAN :  Switch pour la rémunération */}
                     <View style={styles.remunerationContainer} >
                         <Text style={styles.textRegular}>Afficher uniquement les projets rémunérés</Text>
                         <Switch
@@ -358,17 +340,14 @@ function AnnoncesScreen(props) {
                             onValueChange=
                             {(value) => {
                                 setChecked(value),
-                                    setIsPaid(!isPaid)
-                                //filter(castingCategory)
-                                // choosePaid(value)
-                                // console.log('CONSOLE LOG VALEUR DU SWITCH:', value)
+                                setIsPaid(!isPaid)
                             }}
 
                         />
                     </View>
 
                     {/* AFFICHAGE DES CASTING */}
-                    {castingDisplay}
+                    {myTab.lenght === 0 ? <Text> Compléter votre profile, pour voir des castings vous correspondant</Text> : castingDisplay}
 
                 </View>
 

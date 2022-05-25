@@ -31,6 +31,9 @@ cloudinary.config({
 
 // var request = require('sync-request');
 
+router.get('/', async function (req, res, next) {
+  res.render('index', {title : "Express"})
+});
 
 //* ____________________________________ CONNEXION ________________________________
 
@@ -53,21 +56,21 @@ router.post('/sign-up', async function (req, res, next) {
       occupation: userInfos.occupation,
       date_of_birth: new Date(userInfos.birthday_date),
       insert_date: new Date(),
-      description: undefined,
-      cv: undefined,
-      city: undefined,
+      description: null,
+      cv: null,
+      city: null,
       characteristics: {
-        gender: undefined, 
-        ethnicGroup: undefined,
-        hair: undefined, 
-        eyes: undefined, 
-        height: undefined, 
-        weight: undefined, 
-        corpulence: undefined,
+        gender: null, 
+        ethnicGroup: null,
+        hair: null, 
+        eyes: null, 
+        height: null, 
+        weight: null, 
+        corpulence: null,
         measurements: { 
-            waist: undefined, 
-            bust: undefined, 
-            hips: undefined },
+            waist: null, 
+            bust: null, 
+            hips: null },
       },
       portfolio : [
         {title : "exemple",
@@ -76,7 +79,7 @@ router.post('/sign-up', async function (req, res, next) {
       profile_photo : [],
       projects_selected : [],
       projects_created : [],
-      siren: "", // 14 chiffre
+      siren: null, // 14 chiffre
       token: uid2(32),
     })
 
@@ -98,18 +101,16 @@ router.post('/sign-in', async function (req, res, next) {
   let email = req.body.email;
   let password = req.body.password;
 
-  /* Vérifications des informations données */
-  let user_account = await userModel.findOne({
-    email: email,
-  });
+  /* Recher du user dans la base de données */
+  let user_account = await userModel.findOne({ email: email });
 
-
+  /* Vérification de la correspondance avec le mot de passe +  envoie */
   if (user_account !== null && bcrypt.compareSync(password, user_account.password)) {
-    res.json({ already_member: true, token: user_account.token })
+    res.json({ already_member: true, user: user_account }) // OBJECT
 
   }
   else {
-    res.json({ already_member: false })
+    res.json({ already_member: false }) // OBJECT
   }
 
 });
@@ -140,8 +141,10 @@ router.put('/update_user_profile', async function (req, res, next) {
 
   let user_new_informations = req.body.user_new_informations // Je récupère les infos entrées
 
-  //console.log(user_new_informations.characteristics)
-  await userModel.updateOne(
+  console.log(user_new_informations)
+
+console.log(user_new_informations.characteristics)
+  await userModel.updateOne( 
     { token: user_new_informations.token },
     {
       name: user_new_informations.name,
@@ -156,12 +159,10 @@ router.put('/update_user_profile', async function (req, res, next) {
         height: user_new_informations.height,
         weight: user_new_informations.weight,
         corpulence: user_new_informations.corpulence,
-        measurements: {
-          waist: user_new_informations.waistSize,
-          bust: user_new_informations.bustSize,
-          hips: user_new_informations.hipMeasurement
-        },
-
+        measurements: { 
+            waist: user_new_informations.waist, 
+            bust: user_new_informations.bust, 
+            hips: user_new_informations.hips },
       },
 
       siren: user_new_informations.siren, // 14 chiffre
