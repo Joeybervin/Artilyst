@@ -26,7 +26,6 @@ function ConnectionScreen(props) {
     useEffect(() => {
 
         async function loadData() {
-            console.log('test')
             const rawResponse = await fetch(`http://${expoUrlRaf}/user_profile`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },

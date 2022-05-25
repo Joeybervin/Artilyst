@@ -22,37 +22,34 @@ export default function LikesScreen(props) {
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
 
-
     // * ___________________________ PAGE ___________________________
 
     return (
         <ScrollView style={{ backgroundColor: '#fff', }}>
             <View style={styles.container}>
 
-
                 <View style={{ flexDirection: 'row', marginTop: 20, marginBottom: 15 }}>
                     <Text style={{ fontWeight: 'bold' }}> Ils ont postulé à vos projets  </Text>
                 </View>
-
 
                 {/* profile intéressé par  les projet de l'utilisateur */}
                 <View style={{ flexDirection: 'row', marginTop: 20, marginBottom: 20, justifyContent: 'space-between' }}>
                     <ScrollView horizontal={true}>
 
                         {/* profil 1 */}
-                        <View style={{ flexDirection: 'column', borderColor: 'black', borderWidth: 0.5, borderRadius: 7, width: 210, height: 210, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10 }}>
+                        <View style={{ flexDirection: 'column', borderColor: 'black', borderWidth: 0.5, borderRadius: 7, width: 180, height: 210, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10 }}>
                             {/* image profil */}
                             <View style={{ height: 140, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10, marginTop: 5, alignItems: "center" }}>
-                                <Image style={{ width: 140, height: 140 }} source={{ uri: 'https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387' }} />
+                                <Image style={{ width: 170, height: 140, borderRadius: 7 }} source={{ uri: 'https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387' }} />
                             </View>
 
                             {/* Nom et domaine */}
-                            <View style={{ flexDirection: 'row', justifyContent: "space-between" }} >
+                            <View style={{ flexDirection: 'row', justifyContent: "space-between", paddingBottom:3 }} >
                                 <Text style={{ fontWeight: 'bold' }}> Sarah  </Text>
                                 <Text style={{ fontWeight: 'bold' }}> Photographe </Text>
                             </View>
                             {/* Bouton rejeter /recruter */}
-                            <View style={{ flexDirection: 'row', justifyContent: "space-between", paddingBottom: 5 }} >
+                            <View style={{ flexDirection: 'row', justifyContent: "space-between", paddingBottom: 5, paddingLeft: 5, paddingRight: 5  }} >
                                 <Button
                                     color='#1ADBAC'
                                     buttonStyle={{ backgroundcolor: '#1ADBAC' }}
@@ -65,18 +62,20 @@ export default function LikesScreen(props) {
                         </View>
 
                         {/* profil 2 */}
-                        <View style={{ flexDirection: 'column', borderColor: 'black', borderWidth: 0.5, borderRadius: 7, width: 210, height: 210, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10 }}>
+                        {/* https://images.unsplash.com/photo-1579112314617-0036fb38082d?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887 */}
+                        <View style={{ flexDirection: 'column', borderColor: 'black', borderWidth: 0.5, borderRadius: 7, width: 180, height: 210, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10 }}>
+                            {/* image profil */}
                             <View style={{ height: 140, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10, marginTop: 5, alignItems: "center" }}>
-                                <Image style={{ width: 140, height: 140 }} source={{ uri: 'https://images.unsplash.com/photo-1579112314617-0036fb38082d?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887' }} />
+                                <Image style={{ width: 170, height: 140, borderRadius: 7 }} source={{ uri: 'https://images.unsplash.com/photo-1579112314617-0036fb38082d?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887' }} />
                             </View>
 
-
-                            <View style={{ flexDirection: 'row', justifyContent: "space-between" }} >
+                            {/* Nom et domaine */}
+                            <View style={{ flexDirection: 'row', justifyContent: "space-between", paddingBottom:3 }} >
                                 <Text style={{ fontWeight: 'bold' }}> Pierre  </Text>
                                 <Text style={{ fontWeight: 'bold' }}> Photographe </Text>
                             </View>
-
-                            <View style={{ flexDirection: 'row', justifyContent: "space-between", paddingBottom: 5 }} >
+                            {/* Bouton rejeter /recruter */}
+                            <View style={{ flexDirection: 'row', justifyContent: "space-between", paddingBottom: 5, paddingLeft: 5, paddingRight: 5  }} >
                                 <Button
                                     color='#1ADBAC'
                                     buttonStyle={{ backgroundcolor: '#1ADBAC' }}
@@ -89,17 +88,20 @@ export default function LikesScreen(props) {
                         </View>
 
                         {/* profil 3 */}
-                        <View style={{ flexDirection: 'column', borderColor: 'black', borderWidth: 0.5, borderRadius: 7, width: 210, height: 210, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10 }}>
+                        {/* https://images.unsplash.com/photo-1604684116250-e79276b241fd?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=436 */}
+                        <View style={{ flexDirection: 'column', borderColor: 'black', borderWidth: 0.5, borderRadius: 7, width: 180, height: 210, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10 }}>
+                            {/* image profil */}
                             <View style={{ height: 140, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10, marginTop: 5, alignItems: "center" }}>
-                                <Image style={{ width: 140, height: 140 }} source={{ uri: 'https://images.unsplash.com/photo-1604684116250-e79276b241fd?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=436' }} />
+                                <Image style={{ width: 170, height: 140, borderRadius: 7 }} source={{ uri: 'https://images.unsplash.com/photo-1604684116250-e79276b241fd?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=436' }} />
                             </View>
 
-                            <View style={{ flexDirection: 'row', justifyContent: "space-between" }} >
-                                <Text style={{ fontWeight: 'bold' }}> Bechir  </Text>
+                            {/* Nom et domaine */}
+                            <View style={{ flexDirection: 'row', justifyContent: "space-between", paddingBottom:3 }} >
+                                <Text style={{ fontWeight: 'bold' }}> Bechir </Text>
                                 <Text style={{ fontWeight: 'bold' }}> Photographe </Text>
                             </View>
-
-                            <View style={{ flexDirection: 'row', justifyContent: "space-between", paddingBottom: 5 }} >
+                            {/* Bouton rejeter /recruter */}
+                            <View style={{ flexDirection: 'row', justifyContent: "space-between", paddingBottom: 5, paddingLeft: 5, paddingRight: 5  }} >
                                 <Button
                                     color='#1ADBAC'
                                     buttonStyle={{ backgroundcolor: '#1ADBAC' }}
@@ -113,16 +115,13 @@ export default function LikesScreen(props) {
 
 
 
-
                     </ScrollView>
                 </View>
-
 
 
                 <View style={{ flexDirection: 'row', marginTop: 20, marginBottom: 15 }}>
                     <Text style={{ fontWeight: 'bold' }}> Projets voulant vous recruter   </Text>
                 </View>
-
 
 
                 {/* projet voulant recruter l'utilisateur  */}
@@ -138,19 +137,18 @@ export default function LikesScreen(props) {
                             <View style={{ width: 340, height: 160, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10, flexDirection: 'row' }}>
                                 {/* image  */}
                                 <View style={{ height: 140, backgroundcolor: '#1ADBAC', marginLeft: 0, marginRight: 0, marginTop: 10, }}>
-                                    <Image style={{ width: 130, height: 130 }} source={{ uri: 'https://images.unsplash.com/photo-1554881070-74595ca2b74c?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170' }} />
+                                    <Image style={{ width: 130, height: 130, borderRadius: 7 }} source={{ uri: 'https://images.unsplash.com/photo-1554881070-74595ca2b74c?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170' }} />
                                 </View>
 
                                 {/* texte  */}
                                 <View style={{ marginTop: 5, marginLeft: 5, width: 200, height: 100, marginRight: 5, }}>
-                                    <Text style={{ fontWeight: 'bold', marginRight: 5, }}> Recherche Modele pour défilé </Text>
+                                    <Text style={{ fontWeight: 'bold', marginRight: 5,  paddingBottom:5 }}> Recherche Modele pour défilé </Text>
                                     <Text style={{ marginRight: 3, }} >La Marque LOREM IPSUM recherche modele , Femme et Homme  pour La Fashion Week. </Text>
                                 </View>
 
                             </View>
 
-
-                            <View style={{ flex: 1, flexDirection: 'row', width: 340, justifyContent: "space-between", paddingBottom: 5 }}>
+                            <View style={{ flex: 1, flexDirection: 'row', width: 340, justifyContent: "space-between", paddingBottom: 5, paddingLeft: 5, paddingRight: 5 }}>
                                 <Button
                                     color='#1ADBAC'
                                     Style={{ backgroundcolor: '#1ADBAC', marginBottom: 10, marginRight: 10, marginLeft: 10 }}
@@ -167,41 +165,48 @@ export default function LikesScreen(props) {
 
                         {/* Projet 2 */}
 
+                        {/* https://images.unsplash.com/photo-1614778265188-dff1832ae5a2?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464 */}
+                        {/* Recherche Mannequin Homme Femme  */}
+                        {/* Pour sa nouvelle campagne publicitaire, Artilyst Recherche, mannequin. */}
+
                         <View style={{ borderColor: 'black', borderWidth: 0.5, borderRadius: 7, width: 340, height: 200, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10 }}>
 
-                            {/* image et texte  */}
-                            <View style={{ width: 340, height: 160, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10, flexDirection: 'row' }}>
-                                {/* image  */}
-                                <View style={{ height: 140, backgroundcolor: '#1ADBAC', marginLeft: 0, marginRight: 0, marginTop: 10, }}>
-                                    <Image style={{ width: 130, height: 130 }} source={{ uri: 'https://images.unsplash.com/photo-1614778265188-dff1832ae5a2?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464' }} />
-                                </View>
+                    {/* image et texte  */}
+                        <View style={{ width: 340, height: 160, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10, flexDirection: 'row' }}>
+    {/* image  */}
+    <View style={{ height: 140, backgroundcolor: '#1ADBAC', marginLeft: 0, marginRight: 0, marginTop: 10, }}>
+        <Image style={{ width: 130, height: 130, borderRadius: 7 }} source={{ uri: 'https://images.unsplash.com/photo-1614778265188-dff1832ae5a2?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464' }} />
+    </View>
 
-                                {/* texte  */}
-                                <View style={{ marginTop: 5, marginLeft: 5, width: 200, height: 100, marginRight: 5, }}>
-                                    <Text style={{ fontWeight: 'bold', marginRight: 5, }}> Recherche Mannequin Homme Femme </Text>
-                                    <Text style={{ marginRight: 3, }} > Pour sa nouvelle campagne publicitaire, Artilyst Recherche, mannequin.  </Text>
-                                </View>
+    {/* texte  */}
+    <View style={{ marginTop: 5, marginLeft: 5, width: 200, height: 100, marginRight: 5, }}>
+        <Text style={{ fontWeight: 'bold', marginRight: 5,  paddingBottom:5 }}> Recherche Mannequin Homme Femme </Text>
+        <Text style={{ marginRight: 3, }} >Pour sa nouvelle campagne publicitaire, Artilyst Recherche, mannequin. </Text>
+    </View>
 
-                            </View>
+</View>
 
+<View style={{ flex: 1, flexDirection: 'row', width: 340, justifyContent: "space-between", paddingBottom: 5, paddingLeft: 5, paddingRight: 5 }}>
+    <Button
+        color='#1ADBAC'
+        Style={{ backgroundcolor: '#1ADBAC', marginBottom: 10, marginRight: 10, marginLeft: 10 }}
+        title="postuler"
+    />
+    <Button
+        color='#1ADBAC'
+        buttonStyle={{ backgroundcolor: '#1ADBAC' }}
+        title="rejeter"
+    />
+</View>
 
-                            <View style={{ flex: 1, flexDirection: 'row', width: 340, justifyContent: "space-between" }}>
-                                <Button
-                                    color='#1ADBAC'
-                                    Style={{ backgroundcolor: '#1ADBAC', marginBottom: 10, marginRight: 10, marginLeft: 10 }}
-                                    title="postuler"
-                                />
-                                <Button
-                                    color='#1ADBAC'
-                                    buttonStyle={{ backgroundcolor: '#1ADBAC' }}
-                                    title="rejeter"
-                                />
-                            </View>
+</View>
 
-                        </View>
+                        
 
                         {/* Projet 3 */}
-
+                        {/* https://images.unsplash.com/photo-1574446615002-35ec8a8f0da2?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070 */}
+                        {/* TItre projet    */}
+                        {/* lorem ipsum blabla bla lorem ipsum blabla bla lorem ipsum blabla bla lorem ipsum blabla bla lorem ipsum blabla bla lorem ipsum blabla bla lorem ipsum blabla bla */}
 
                         <View style={{ borderColor: 'black', borderWidth: 0.5, borderRadius: 7, width: 340, height: 200, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10 }}>
 
@@ -214,15 +219,14 @@ export default function LikesScreen(props) {
 
                                 {/* texte  */}
                                 <View style={{ marginTop: 5, marginLeft: 5, width: 200, height: 100 }}>
-                                    <Text style={{ fontWeight: 'bold' }}> TItre projet   </Text>
+                                    <Text style={{ fontWeight: 'bold', paddingBottom:5 }}> TItre projet   </Text>
                                     <Text> lorem ipsum blabla bla lorem ipsum blabla bla lorem ipsum blabla bla lorem ipsum blabla bla lorem ipsum blabla bla lorem ipsum blabla bla lorem ipsum blabla bla   </Text>
 
                                 </View>
 
                             </View>
 
-
-                            <View style={{ flex: 1, flexDirection: 'row', width: 340, justifyContent: "space-between" }}>
+                            <View style={{ flex: 1, flexDirection: 'row', width: 340, justifyContent: "space-between", paddingBottom: 5, paddingLeft: 5, paddingRight: 5 }}>
                                 <Button
                                     color='#1ADBAC'
                                     Style={{ backgroundcolor: '#1ADBAC', marginBottom: 10, marginRight: 10, marginLeft: 10 }}
@@ -241,12 +245,10 @@ export default function LikesScreen(props) {
 
 
 
-
                     </ScrollView>
                 </View>
 
                 {/* projet voulant recruter l'utilisateur  */}
-
 
 
 

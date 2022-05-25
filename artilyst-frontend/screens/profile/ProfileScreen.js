@@ -1,7 +1,9 @@
 import Animated from 'react-native-reanimated';
 
 import React, { useRef, useState, useEffect } from 'react';
+
 import { expoUrlRaf } from '../../ExpoUrl';
+
 
 //^ Module de balise
 import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
@@ -77,19 +79,27 @@ function ProfileScreen(props) {
         
             
 
-            let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
-            {
-                method: 'PUT',
-                body: data , 
-            })
-            let result = await data_uploaded.json()
-
-            props.addPictures(result.url, user)
+            
            
 
-            if (result) {
-                setOverlayVisibility(false)
-            }
+
+                let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
+                    {
+                        method: 'PUT',
+                        body: data,
+                    })
+                let result = await data_uploaded.json()
+
+                props.addPictures(result.url, user)
+
+
+                if (result) {
+                    setOverlayVisibility(false)
+                }
+
+                let copyUserInfos = { ...props.user }
+                setUser(copyUserInfos)
+
 
             }
         }
@@ -118,22 +128,23 @@ function ProfileScreen(props) {
 
             setOverlayVisibility(true) // chargement de la photo
 
-            data.append("token" , user.token) // J'envoie le token de l'utilisateur
-            data.append(
-                'image_uploaded', {
-                uri: resultCamera.uri,
-                type: 'image/jpeg',
-                name: 'image_uploaded.jpg',
-                
-            });
- 
-            
-            
-            let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
-             {
-                method: 'PUT',
-                body: data , 
-            })
+                data.append("token", user.token) // J'envoie le token de l'utilisateur
+                data.append(
+                    'image_uploaded', {
+                    uri: resultCamera.uri,
+                    type: 'image/jpeg',
+                    name: 'image_uploaded.jpg',
+
+                });
+
+
+
+                let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
+                    {
+                        method: 'PUT',
+                        body: data,
+                    })
+
 
             let result = await data_uploaded.json()
             props.addPictures(result.url, user)
@@ -200,7 +211,7 @@ function ProfileScreen(props) {
     /* MAP */
 
     let userProfileImages
-    if (user.profile_photo.length > 0) {
+    if (user.profile_photo.length > 1) {
         console.log("je suis ici")
         userProfileImages = props.user.profile_photo
     }

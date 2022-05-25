@@ -109,8 +109,8 @@ router.put('/update_user_profile', async function (req, res, next) {
 
   let user_new_informations = req.body.user_new_informations // Je récupère les infos entrées
 
-//console.log(user_new_informations.characteristics)
-  await userModel.updateOne( 
+  //console.log(user_new_informations.characteristics)
+  await userModel.updateOne(
     { token: user_new_informations.token },
     {
       name: user_new_informations.name,
@@ -288,7 +288,7 @@ router.delete('/delete_profile_Image', async function (req, res, next) {
 
   res.json({ status: "supprimé" })
 
-  })
+})
 router.delete('/delete_portfolio_image', async function (req, res, next) {
 
   let portfolioImageUrl = req.body.portfolioImageUrl
@@ -349,6 +349,8 @@ router.post('/search_casting', async function (req, res, next) {
 
   let user = await userModel.findOne({ token: req.body.token });
 
+  //console.log('USERS :', user);
+
   function getAge(dateString) {
     let ageInMilliseconds = new Date() - new Date(dateString);
     return Math.floor(ageInMilliseconds / 1000 / 60 / 60 / 24 / 365); // convert to years
@@ -357,38 +359,29 @@ router.post('/search_casting', async function (req, res, next) {
   let userAge = getAge(user.date_of_birth);
 
   let matchingProjects = await projectModel.find(
-    { gender: user.characteristics.gender, location: user.location, age_min :{$lt: userAge}, age_max:{$gt:userAge} }
+    { gender: user.characteristics.gender, location: user.location, age_min: { $lt: userAge }, age_max: { $gt: userAge } }
   )
 
   // RAPPEL : RAJOUTER COLLABORATORS : USER.OCCUPATION DANS LES FILTRES
-  //console.log('MATCHING USERS :', matchingProjects.length);
+  // console.log('MATCHING USERS :', matchingProjects);
 
   res.json({ matchingProjects })
 
 })
 
 
-
 // Affichage des artistes correspondants aux critères du projet
 router.post('/search_artist', async function (req, res, next) {
 
-  let project = await projectModel.findOne({ _id: req.body._id })
+  let project = await projectModel.findById(req.body._id)
 
-  // console.log('PROJET :', project);
-  console.log(project.location, project.gender, project.collaborators);
+  console.log('PROJECT :', project);
+  
 
-  let matchingUsers = await userModel.find({location: project.location, occupation: project.collaborators})
+  let matchingUsers = await userModel.find({ location: project.location, occupation: project.collaborators })
 
-  // function getAge(dateString) {
-  //   let ageInMilliseconds = new Date() - new Date(dateString);
-  //   return Math.floor(ageInMilliseconds / 1000 / 60 / 60 / 24 / 365); // convert to years
-  // }
 
-  // let userAge = getAge(users.date_of_birth);
-
-  // // let matchingUsers = users.filter(e => e.userAge > project.age_min && e.userAge < project.age_max)
-
-  console.log('MATCHING USERS :', matchingUsers.length);
+  console.log('MATCHING USERS :', matchingUsers);
 
   res.json({ matchingUsers })
 })
@@ -408,30 +401,30 @@ router.post('/postuler', async function (req, res, next) {
   const idProjectExist = user.projects_selected.find(id => id.idProject === id_Projet_Selected) // vérifier si le projet a déja été séléctionné ou pas 
 
   //console.log("id_Projet_Selected",id_Projet_Selected)
-  console.log("token",token)
+  console.log("token", token)
   //console.log("userSelected",userSelected)
-  console.log("user",user)
+  console.log("user", user)
   //console.log("user.projects_selected",user.projects_selected)
   //console.log("idProjectExist",idProjectExist)
 
 
-  if(!idProjectExist){
+  if (!idProjectExist) {
     const matchVerify = userSelected.find(id => id == user._id);
-  console.log(matchVerify)
-  if(matchVerify){
-  match = true
-  }
-  //console.log("matchVerify",matchVerify)
+    console.log(matchVerify)
+    if (matchVerify) {
+      match = true
+    }
+    //console.log("matchVerify",matchVerify)
 
     await userModel.updateOne(
       { token: token },
       { $push: { projects_selected: { idProject: id_Projet_Selected, match: match } } }
     )
 
-  res.json( {result: true } )
+    res.json({ result: true })
   }
   else {
-    res.json( {result :true} )
+    res.json({ result: true })
   }
 
 })
@@ -445,45 +438,45 @@ router.post('/recruter', async function (req, res, next) {
   var token = req.body.token // au cas ou...
   var match = false // le false est juste pour tester, ensuite on définira une condition pour vérifier le match (true/false)
 
-  var project = await projectModel.findOne({_id:id_Projet}) // chercher le projet concerné par le recrutement
-  var  userHired = await userModel.findOne({_id:userSelectedId}) // chercher le user recruté
+  var project = await projectModel.findOne({ _id: id_Projet }) // chercher le projet concerné par le recrutement
+  var userHired = await userModel.findOne({ _id: userSelectedId }) // chercher le user recruté
 
-  const idUserSelectedExist = project.users_selected.find(id => id=== userSelectedId) // vérifier si le juser est déja dans la table user selected
+  const idUserSelectedExist = project.users_selected.find(id => id === userSelectedId) // vérifier si le juser est déja dans la table user selected
 
   //console.log("userHired",userHired)
 
 
-  if(!idUserSelectedExist){
+  if (!idUserSelectedExist) {
     const matchVerify = userHired.projects_selected.find(e => e.idProject == id_Projet); // vérifier si le project concerné par le rectutement existe déja dans la table projectselected (pour le match)
-  console.log(matchVerify)
-  if(matchVerify){
-  match = true
-  }
-  //console.log("matchVerify",matchVerify)
+    console.log(matchVerify)
+    if (matchVerify) {
+      match = true
+    }
+    //console.log("matchVerify",matchVerify)
 
-  await projectModel.updateOne(
-    { _id: id_Projet },
-    { $push: { users_selected:userSelectedId} }
-  )
+    await projectModel.updateOne(
+      { _id: id_Projet },
+      { $push: { users_selected: userSelectedId } }
+    )
 
-  console.log(userHired.projects_selected.length)
-  
-for (let i = 0; i < userHired.projects_selected.length; i++) {
-  if (userHired.projects_selected[i].idProject == id_Projet){
-    userHired.projects_selected[i].match = match
-  }
-      
-}
+    console.log(userHired.projects_selected.length)
 
-  let status = await userHired.save()
+    for (let i = 0; i < userHired.projects_selected.length; i++) {
+      if (userHired.projects_selected[i].idProject == id_Projet) {
+        userHired.projects_selected[i].match = match
+      }
 
-  console.log(status)
+    }
+
+    let status = await userHired.save()
+
+    console.log(status)
 
 
-  res.json({userHired})
+    res.json({ userHired })
   }
   else {
-    res.json( {result : false} )
+    res.json({ result: false })
   }
 
 })
@@ -494,38 +487,38 @@ router.post('/displayProjects', async function (req, res, next) {
   var token = req.body.token
   //console.log(token)
 
-  var user = await userModel.findOne({token:token})
+  var user = await userModel.findOne({ token: token })
   //console.log(user)
 
- let resultat=[]
+  let resultat = []
 
-  for (let i=0; i<user.projects_created.length; i++) {
-    var project= await projectModel.findOne({_id: user.projects_created[i] })
-    console.log("project",project)
-     //var projectObject = {idProject :project._id , title : project.title , image : project.photos[0] }
-     //console.log(projectObject)
-  
-     resultat.push(project)
+  for (let i = 0; i < user.projects_created.length; i++) {
+    var project = await projectModel.findOne({ _id: user.projects_created[i] })
+    console.log("project", project)
+    //var projectObject = {idProject :project._id , title : project.title , image : project.photos[0] }
+    //console.log(projectObject)
+
+    resultat.push(project)
 
   }
 
   //await user.projects_created.forEach( async (e) => {
- 
-  
- // } )
- console.log("resultat",resultat)
+
+
+  // } )
+  console.log("resultat", resultat)
   res.json(resultat)
 
 })
 
 router.delete('/deleteProject', async function (req, res, next) {
 
-  
+
   let idProject = req.query.id
-  console.log("idProject",idProject)
-  await projectModel.deleteOne({ _id: idProject});
-  
-    res.json({deleteStatus : true})
+  console.log("idProject", idProject)
+  await projectModel.deleteOne({ _id: idProject });
+
+  res.json({ deleteStatus: true })
 
 })
 

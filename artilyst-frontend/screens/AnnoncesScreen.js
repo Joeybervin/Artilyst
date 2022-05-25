@@ -46,6 +46,7 @@ function AnnoncesScreen(props) {
         { label: 'Tous types', value: '' },
     ];
 
+    console.log(recruiterListProjects)
 
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
@@ -54,7 +55,7 @@ function AnnoncesScreen(props) {
         
         // * Recruiter case
         async function loadProjects() {
-            var rawResponse = await fetch(`http://${expoUrlJoey}/recruiter_projects`, {
+            var rawResponse = await fetch(`http://${expoUrlRaf}/recruiter_projects`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.user.token}`,
@@ -65,7 +66,6 @@ function AnnoncesScreen(props) {
 
         // * Artiste case
         async function loadCasting() {
-            console.log(props.user)
             var rawResponse = await fetch(`http://${expoUrlRaf}/search_casting`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -82,9 +82,9 @@ function AnnoncesScreen(props) {
 
     /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
-    //*********** envoyer les infos necessaires au match au backen  */
-
-    const Postuler = async (id, users) => {
+//*********** envoyer les infos necessaires au match au backend  */
+  
+  const Postuler = async (id , users) =>{
         var rawResponse = await fetch(`http://${expoUrlRaf}/postuler`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },

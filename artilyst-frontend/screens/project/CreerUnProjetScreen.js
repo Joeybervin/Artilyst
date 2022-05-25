@@ -34,7 +34,7 @@ function CreerUnProjetScreen(props) {
   // chargement des données pour afficher la liste des projets créés + envoie vers le store
   useEffect(() => {
     async function loadCasting() {
-        var rawResponse = await fetch(`http://${expoUrlMustafa}/displayProjects`, {
+        var rawResponse = await fetch(`http://${expoUrlRaf}/displayProjects`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `token=${props.user.token}`,
@@ -56,7 +56,7 @@ console.log("props.listproject",props.listproject)
 
   // fonction pour supprimer le projet séléctionné
  const deleteFunction = async(id , index) => {
- await fetch(`http://${expoUrlMustafa}/deleteProject?id=${id}`, {
+ await fetch(`http://${expoUrlRaf}/deleteProject?id=${id}`, {
 method : 'DELETE'
  })
  props.onDelete(index)
@@ -70,7 +70,7 @@ method : 'DELETE'
  console.log("props.listproject",props.listproject)
 
   const allUserPorjects = props.listproject.map((element, index) => { // Tous les prjets de l'utilisateur
-    console.log("element",element)
+    
     if (element) {
       return (
         <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center" }} onPress={() => console.log("PROJET !!")} key={index}>
@@ -92,7 +92,7 @@ method : 'DELETE'
   
               <MenuOption onSelect={() => alert(`Save`)} text='Modifier le projet' />
   
-              <MenuOption onSelect={() => alert(`Not called`)} text='Voir les artistes correspondants' />
+              <MenuOption onSelect={() => props.navigation.navigate('ArtisteCorrespondantScreen', {id: element._id})} text='Voir les artistes correspondants' />
   
               <MenuOption onSelect={() => deleteFunction(element._id , index)} text='Supprimer' />
   
