@@ -18,9 +18,9 @@ import { connect } from 'react-redux';
 import { CardStyleInterpolators } from '@react-navigation/stack';
 
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from './components/GlobalStyles';
+import { PostulerBtnLight, PostulerBtn } from './components/ButtonsStyles';
 
 import { useTheme } from '@react-navigation/native';
-import { PostulerBtnLight, PostulerBtn } from './components/ButtonsStyles';
 
 
 
@@ -126,7 +126,7 @@ function AnnoncesScreen(props) {
     const recruiterArtistsList = allUsersAccount.map((element, index) => {
         return (
 
-            <TouchableOpacity     key={index + 1}
+            <TouchableOpacity key={index + 1}
                 activeOpacity={.2} style={{ borderRadius: 7, flexDirection: "row", alignItems: "center", justifyContent: "center", borderColor: 'black', borderWidth: 0.5, width: "85%", height: 140, marginTop: 30 }}
                 onPress={() => props.navigation.navigate('OtherUserProfileScreen', { userToken: element.token })}>
 
@@ -135,7 +135,7 @@ function AnnoncesScreen(props) {
                     resizeMode="contain"
                     source={{ uri: element.profile_photo[Math.floor(Math.random() * (element.profile_photo.length - 1))] }}
                     style={{ borderRadius: 10, marginRight: 10 }}
-                    // PlaceholderContent=""
+                // PlaceholderContent=""
                 />
 
                 <View style={{ flexDirection: 'column', width: 200, height: 108, justifyContent: 'space-between', alignItems: 'space-between' }}>
@@ -157,36 +157,44 @@ function AnnoncesScreen(props) {
     let castingDisplay = myTab.map((casting, i) => {
         let title = casting.title
         let description = casting.description
-        return (
-            <View key={i} style={{ backgroundColor: '#353535', flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderColor: 'gray', borderWidth: 0, width: "85%", height: 150, marginTop: 30, paddingLeft: 7, paddinRight: 5, shadowColor: 'black', shadowOffset: { width: 2, height: 4 }, shadowOpacity: 0.4, shadowRadius: 3 }}>
 
+        return (
+            <View key={i} style={{
+                backgroundColor: '#f4f4f4',
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                borderRadius: 12,
+                borderColor: 'gray',
+                borderWidth: 0,
+                width: "85%",
+                height: 170,
+                marginTop: 10,
+                marginBottom: 10,
+                padding: 6,
+                shadowColor: 'black',
+                shadowOffset: { width: 2, height: 2 },
+                shadowOpacity: 0.1, shadowRadius: 2
+            }}
+            >
                 <Image
                     containerStyle={{ width: 110, height: '85%', }}
                     resizeMode="contain"
-                    source={{uri:casting.photos[0]}}
-                    style={{ borderRadius: 10, marginRight: 10 }}
+                    source={{ uri: casting.photos[0] }}
+                    style={{ marginRight: 10 }}
                     PlaceholderContent="ff"
-                /> 
+                />
 
-                  
-                
-
-                <View style={{ width: 200, height: '85%', justifyContent: 'space-between' }}>
+                <View style={{ width: 200, height: '85%', justifyContent: 'space-between', paddingRight: 7 }}>
 
                     <Text style={styles.cardTitle}>{description.substring(0, 30) + ' ...'}</Text>
                     <Text style={styles.cardText}>{description.substring(0, 50) + ' ...'}</Text>
-
                     <PostulerBtnLight onPressHandler={() => Postuler(casting._id, casting.users_selected)} />
-                    
                     {/* <Button
                         color='#1ADBAC'
                         buttonStyle={{ backgroundcolor: '#1ADBAC' }}
                         title="postuler" onPressHandler={() => Postuler(casting._id, casting.users_selected)} /> */}
-
-
-
                 </View>
-
             </View>
         )
 
@@ -208,7 +216,6 @@ function AnnoncesScreen(props) {
                     {/* Choix de la catégorie dans laquel l'utilisateur souhaite chercher un casting */}
                     <Dropdown
                         style={[styles.dropdown, isFocus && { borderColor: '#1ADBAC' }]}
-                        containerStyle={{ backgroundColor: '#313131' }}
                         placeholderStyle={styles.placeholderStyle}
                         selectedTextStyle={styles.selectedTextStyle}
                         inputSearchStyle={styles.inputSearchStyle}
@@ -295,12 +302,11 @@ function AnnoncesScreen(props) {
 
                 <View style={styles.container}>
 
-                    <Text style={styles.title}>Casting vous correspondant</Text>
+                    <Text style={styles.title}>Recherche de casting</Text>
 
                     {/* Choix de la catégorie dans laquel l'utilisateur souhaite chercher un casting */}
                     <Dropdown
                         style={[styles.dropdown, isFocus && { borderColor: '#1ADBAC' }]}
-                        containerStyle={{ backgroundColor: '#303030' }}
                         placeholderStyle={styles.placeholderStyle}
                         selectedTextStyle={styles.selectedTextStyle}
                         inputSearchStyle={styles.inputSearchStyle}
@@ -309,7 +315,7 @@ function AnnoncesScreen(props) {
                         maxHeight={300}
                         labelField="label"
                         valueField="value"
-                        placeholder={'Choisissez un type de casting'}
+                        placeholder={'Type de casting'}
                         value={value}
                         onFocus={() => setIsFocus(true)}
                         onBlur={() => setIsFocus(false)}
@@ -321,7 +327,7 @@ function AnnoncesScreen(props) {
                         renderLeftIcon={() => (
                             <Ionicons
                                 style={styles.icon}
-                                color={isFocus ? '#1ADBAC' : 'white'}
+                                color={isFocus ? '#1ADBAC' : '#232323'}
                                 name="search"
                                 size={20}
                             />
@@ -330,7 +336,7 @@ function AnnoncesScreen(props) {
 
                     {/* BOOLEAN :  Switch pour la rémunération */}
                     <View style={styles.remunerationContainer} >
-                        <Text style={styles.textRegular}>Afficher uniquement les projets rémunérés</Text>
+                        <Text style={styles.textRegular}>Uniquement les projets rémunérés</Text>
                         <Switch
                             color='#21AC89F1'
                             marginLeft={5}
@@ -338,7 +344,7 @@ function AnnoncesScreen(props) {
                             onValueChange=
                             {(value) => {
                                 setChecked(value),
-                                setIsPaid(!isPaid)
+                                    setIsPaid(!isPaid)
                             }}
 
                         />
@@ -361,7 +367,7 @@ function AnnoncesScreen(props) {
 const styles = StyleSheet.create({
     scrollView: {
         flex: 1,
-        backgroundColor: '#282828',
+        backgroundColor: '#FFF',
     },
     container: {
         flex: 1,
@@ -390,17 +396,17 @@ const styles = StyleSheet.create({
     },
     placeholderStyle: {
         fontSize: 14,
-        color: 'white',
+        color: '#232323',
         fontWeight: 'bold',
     },
     selectedTextStyle: {
         fontSize: 16,
-        color: 'white',
+        color: '#232323',
     },
     iconStyle: {
         width: 25,
         height: 25,
-        color: 'white',
+        color: '#232323',
         fontWeight: 'bold',
     },
     inputSearchStyle: {

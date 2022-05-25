@@ -14,15 +14,15 @@ export const pageBackground = {
 }
 
 export const title = {
-    color: '#fff',
-    fontSize: 22,
+    color: '#000',
+    fontSize: 25,
     fontWeight: 'bold',
     marginTop: 25,
     marginBottom: 25,
 }
 
 export const subTitle = {
-    color: '#fff',
+    color: '#232323',
     fontSize: 16,
     fontWeight: 'bold',
     marginTop: 25,
@@ -30,19 +30,20 @@ export const subTitle = {
 }
 
 export const textRegular = {
-    color: '#fff',
+    color: '#000',
     fontSize: 15
 }
 
 export const cardTitle = {
-    color: '#fff',
-    fontSize: 14,
+    color: '#000',
+    fontSize: 15,
     fontWeight: 'bold'
 }
 
 export const cardText = {
-    color: '#fff',
+    color: '#000',
     fontSize: 13,
+    
 }
 
 

@@ -14,9 +14,6 @@ import { expoUrlRaf } from '../../ExpoUrl';
 
 import { useIsFocused } from '@react-navigation/native';
 
-
-
-
 function CreerUnProjetScreen(props) {
 
   // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
@@ -62,7 +59,7 @@ function CreerUnProjetScreen(props) {
   }
   // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
   /* MAP */
-  
+
   // ????
   // const allUserProjects = images.map((element, index) => { // Tous les prjets de l'utilisateur
   //   return (
@@ -136,7 +133,7 @@ function CreerUnProjetScreen(props) {
       <View style={styles.container}>
 
         <View style={{ marginTop: 30, width: "90%" }}   >
-          <Text style={{ fontWeight: "bold", fontSize: 20 }}>Creer un nouveau projet </Text>
+          <Text style={styles.title}>Créer un nouveau projet </Text>
 
           <Button
             raised
@@ -192,7 +189,25 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+ // -- GLOBAL STYLE ----------
+ 
+  title: {
+    ...title
+  },
+  subTitle: {
+    ...subTitle
+  },
+  textRegular: {
+    ...textRegular
+  },
+  cardTitle: {
+    ...cardTitle
+  },
+  cardText: {
+    ...cardText
   }
+
 });
 
 // * ___________________________ REDUX ___________________________

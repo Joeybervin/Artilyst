@@ -15,7 +15,7 @@ import { log } from 'react-native-reanimated';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // Styles
-import { FullBtn, PostulerBtn, RecruterBtn } from '../components/ButtonsStyles';
+import { CreeUnCompteBtn, FullBtn, PostulerBtn, RecruterBtn, SeConnecterBtn } from '../components/ButtonsStyles';
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
 
 function ConnectionScreen(props) {
@@ -45,33 +45,31 @@ function ConnectionScreen(props) {
     // * ___________________________ PAGE ___________________________
 
     return (
-        <View style={styles.pageBackground}>
+        <View style={styles.container}>
 
+            <Text style={styles.title}>Bienvenue sur Artilyst.</Text>
 
-            <Text style={styles.title}>Test de titre !</Text>
-            <Text style={styles.subTitle}>Test de sous-titre</Text>
-            <Text style={styles.textRegular}>Test de texteTest de texteTest de texteTest de texteTest de texte</Text>
+            <SeConnecterBtn onPressHandler={() => props.navigation.navigate('ConnectionFormScreen')} />
+            <CreeUnCompteBtn onPressHandler={() => props.navigation.navigate('RegisterFormScreen1')} />
 
-
-            <Text onPress={() => {
-                props.getUserInformations(userData)
-                console.log(userData)
-                props.navigation.navigate('PagesStacks')
-            }}>ConnectionScreen</Text>
-
-            <Button
+            {/* <Button
                 title="Se connecter"
                 onPress={() => props.navigation.navigate('ConnectionFormScreen')}
                 containerStyle={{ margin: 5 }}
             />
-
             <Button
                 title="Créer un compte"
                 onPress={() => props.navigation.navigate('RegisterFormScreen1')}
                 containerStyle={{ margin: 5 }}
-            />
+            /> */}
 
-            
+            <Text style={{marginTop: 70}} onPress={() => {
+                props.getUserInformations(userData)
+                console.log(userData)
+                props.navigation.navigate('PagesStacks')
+            }}>--</Text>
+
+
 
         </View>
     );
@@ -96,7 +94,7 @@ const styles = StyleSheet.create({
     },
     subTitle: {
         ...subTitle
-    }, 
+    },
     textRegular: {
         ...textRegular
     },

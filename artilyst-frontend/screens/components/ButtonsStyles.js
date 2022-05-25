@@ -10,7 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 // import { FullBtn, PostulerBtn, RecruterBtnn, RejeterBtn } from '../components/ButtonsStyles';
 
 // FULL BUTTON ------------------------
-export function FullBtn(props) {
+export function PortfolioBtn(props) {
 
     return (
         <View>
@@ -19,13 +19,139 @@ export function FullBtn(props) {
                 onPress={props.onPressHandler}
                 style={styles.btn}
             >
-                <Text style={styles.textBtn}>Text</Text>
+                <Text style={styles.textBtn}>Portfolio</Text>
             </TouchableOpacity>
         </View>
     );
 }
 
+export function ModifierProfilBtn(props) {
+
+    return (
+        <View>
+            <TouchableOpacity
+                activeOpacity={.7}
+                onPress={props.onPressHandler}
+                style={styles.btn}
+            >
+                <Text style={styles.textBtn}>Modifier mon profil</Text>
+            </TouchableOpacity>
+        </View>
+    );
+}
+
+export function ConnexionBtn(props) {
+
+    return (
+        <View>
+            <TouchableOpacity
+                activeOpacity={.7}
+                onPress={props.onPressHandler}
+                style={{
+                    padding: 16,
+                    borderRadius: 16,
+                    backgroundColor: '#1ADBAC',
+                    borderRadius: 16,
+                    shadowColor: 'black',
+                    shadowOffset: { width: 2, height: 2 },
+                    shadowOpacity: 0.2, shadowRadius: 2
+                }}
+            >
+                <Text style={styles.textBtn}>Connexion</Text>
+            </TouchableOpacity>
+        </View>
+    );
+}
+
+export function SinscrireBtn(props) {
+
+    return (
+        <View>
+            <TouchableOpacity
+                activeOpacity={.7}
+                onPress={props.onPressHandler}
+                style={styles.btn}
+            >
+                <Text style={styles.textBtn}>Modifier mon profil</Text>
+            </TouchableOpacity>
+        </View>
+    );
+}
+
+export function CreerUnCompteBtn(props) {
+
+    return (
+        <View>
+            <TouchableOpacity
+                activeOpacity={.7}
+                onPress={props.onPressHandler}
+                style={styles.btn}
+            >
+                <Text style={styles.textBtn}>CreerUnCompteBtn</Text>
+            </TouchableOpacity>
+        </View>
+    );
+}
 // BORDERED BUTTON ------------------------
+
+export function CreeUnCompteBtn(props) {
+
+    return (
+        <View>
+            <LinearGradient
+                colors={['#36e599', '#597ee7', '#b44be0']}
+                end={[1, 0.5]}
+                style={{
+                    height: 42, width: 250,
+                    textAlign: 'center',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 16,
+                    padding: 1,
+                    margin: 10
+
+                }}>
+                <TouchableOpacity
+                    activeOpacity={.7}
+                    onPress={props.onPressHandler}
+                    style={styles.EmptyButton}
+                >
+                    <Text style={styles.textBtn}>Créer un compte</Text>
+                </TouchableOpacity>
+            </LinearGradient>
+        </View >
+    );
+}
+
+export function SeConnecterBtn(props) {
+
+    return (
+        <View>
+            <LinearGradient
+                colors={['#36e599', '#597ee7', '#b44be0']}
+                end={[1, 0.5]}
+                style={{
+                    height: 42, width: 250,
+                    textAlign: 'center',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 16,
+                    padding: 1,
+                    margin: 10
+
+                }}>
+                <TouchableOpacity
+                    activeOpacity={.7}
+                    onPress={props.onPressHandler}
+                    style={styles.EmptyButton}
+                >
+                    <Text style={styles.textBtn}>Se connecter</Text>
+                </TouchableOpacity>
+            </LinearGradient>
+        </View >
+    );
+}
+
 export function PostulerBtn(props) {
 
     return (
@@ -40,7 +166,7 @@ export function PostulerBtn(props) {
                     alignItems: 'center',
                     borderRadius: 16,
                     padding: 1,
-                    margin: 3
+
                 }}>
                 <TouchableOpacity
                     activeOpacity={.7}
@@ -101,7 +227,7 @@ export function RecruterBtn(props) {
                 <TouchableOpacity
                     activeOpacity={.7}
                     onPress={props.onPressHandler}
-                    style={styles.EmptyButton} >
+                    style={styles.EmptyButtonLight} >
                     <Text style={styles.textBtn}>Recruter</Text>
                 </TouchableOpacity>
             </LinearGradient>
@@ -182,22 +308,21 @@ const styles = StyleSheet.create({
     textBtn: {
         justifyContent: 'center',
         alignItems: 'center',
-        color: '#fff',
+        color: '#000',
         fontWeight: 'bold',
         fontSize: 16,
         textAlign: 'center'
     },
-    // GRADIENT BUTTON
+    // FULL BUTTON
     btn: {
         padding: 16,
         borderRadius: 16,
         margin: 14,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#1ADBAC',
         borderRadius: 16,
-        shadowColor: '#232323',
-        shadowOffset: { width: 2, height: 4 },
-        shadowOpacity: 0.4,
-        shadowRadius: 3,
+        shadowColor: 'black',
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.2, shadowRadius: 2
     },
     // BORDERED BUTTON
     EmptyButton: {
@@ -205,7 +330,7 @@ const styles = StyleSheet.create({
         width: '100%',
         borderRadius: 16,
         margin: 0,
-        backgroundColor: '#282828',
+        backgroundColor: '#fff',
         justifyContent: 'center'
     },
     EmptyButtonLight: {
@@ -213,7 +338,7 @@ const styles = StyleSheet.create({
         width: '100%',
         borderRadius: 16,
         margin: 0,
-        backgroundColor: '#353535',
+        backgroundColor: '#f4f4f4',
         justifyContent: 'center'
     },
     // NEOMORPH BUTTON

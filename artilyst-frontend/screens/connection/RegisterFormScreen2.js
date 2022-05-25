@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // & import des urls de chacune
-import {expoUrlRaf } from '../../ExpoUrl';
+import { expoUrlRaf } from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
@@ -14,6 +14,9 @@ import { Button, Text, Divider } from '@rneui/base';
 // ^Redux
 import { connect } from 'react-redux';
 
+import { CreerUnCompteBtn } from '../components/ButtonsStyles';
+import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
+
 function RegisterFormScreen2(props) {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
@@ -22,7 +25,7 @@ function RegisterFormScreen2(props) {
     const [userInfos, setUserInfos] = useState(props.route.params)// récupération des données entrées par l'utilisateur sur la screen précédente avec les paramètres
     const [userOccupation, setUserOccupation] = useState("")
     const [login, setLogin] = useState(false)
-    const [userOccupationClicked, setUserOccupationClicked]  = useState(true) // vérifie si l'utilisateur à bien clické sur un bouton
+    const [userOccupationClicked, setUserOccupationClicked] = useState(true) // vérifie si l'utilisateur à bien clické sur un bouton
     const [messageError, setMessageError] = useState("")
 
     // * ___________________________ FUNCTIONS ___________________________
@@ -37,7 +40,7 @@ function RegisterFormScreen2(props) {
         const rawResponse = await fetch(`http://${expoUrlRaf}/sign-up`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({userInfos : userInfos}),
+            body: JSON.stringify({ userInfos: userInfos }),
         })
 
         let response = await rawResponse.json() // OBJECT : Réponse du back-end
@@ -47,12 +50,12 @@ function RegisterFormScreen2(props) {
             setLogin(true)
             props.getUserInformations(response.user) // OBJECT : J'ajoute les informations dans mon store
             props.navigation.navigate('PagesStacks') // redirection vers le Annonce
-            
+
         }
         else {
             setMessageError("Ce compte existe déjà dans notre base de données")
         }
-        
+
     }
 
     // * ___________________________ PAGE ___________________________
@@ -60,7 +63,7 @@ function RegisterFormScreen2(props) {
     return (
         <View style={styles.container}>
 
-            <Text>Sign-up</Text>
+            <Text style={{ marginBottom: 15, fontWeight: 'bold' }}>Votre domaine</Text>
 
             {/* Options des métiers à choisir */}
             <View dir="row" align="center" spacing={4}>
@@ -97,14 +100,14 @@ function RegisterFormScreen2(props) {
             </View>
 
             <Divider
-                style={{ width: "100%", margin: 20 }}
+                style={{ width: "70%", margin: 20 }}
                 color="black"
                 width={1}
             />
 
             {/* Bourrons pour les recruteur */}
             <Button
-            containerStyle={{width : 210}}
+                containerStyle={{ width: 210 }}
                 buttonStyle={{ backgroundColor: '#AD4DB9' }}
                 title="Recruteur"
 
@@ -112,22 +115,25 @@ function RegisterFormScreen2(props) {
             />
 
             {/* Message d'erreur si compte déjà existan */}
-            <Text>{ messageError }</Text>
+            <Text>{messageError}</Text>
 
             <View style={{ flexDirection: 'row', marginTop: 50 }}>
+                <Text onPress={() => props.navigation.navigate('RegisterFormScreen1', userInfos)}>Retour</Text> />
 
-                <Button
+                {/* <Button
                     buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
                     title="retour"
                     onPress={() => props.navigation.navigate('RegisterFormScreen1', userInfos)}
-                />
+                /> */}
 
-                <Button
+                <CreerUnCompteBtn onPressHandler={() => signUpUser()} />
+                
+                {/* <Button
                     buttonStyle={{ backgroundColor: '#3268DD', margin: 5 }}
                     title="Créer un compte"
                     onPress={() => signUpUser()}
                     disabled={userOccupationClicked}
-                />
+                /> */}
 
             </View>
 
@@ -146,6 +152,25 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    // -- GLOBAL STYLE ----------
+    pageBackground: {
+        ...pageBackground
+    },
+    title: {
+        ...title
+    },
+    subTitle: {
+        ...subTitle
+    },
+    textRegular: {
+        ...textRegular
+    },
+    cardTitle: {
+        ...cardTitle
+    },
+    cardText: {
+        ...cardText
     }
 });
 
@@ -156,7 +181,8 @@ function mapDispatchToProps(dispatch) {
         getUserInformations: function (user) {
             dispatch({ type: 'userConnection', user })
         }
-}}
+    }
+}
 
 export default connect(
     null,
