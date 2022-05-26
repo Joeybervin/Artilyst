@@ -515,7 +515,6 @@ router.post('/recruter', async function (req, res, next) {
   
 })
 
-router.get('/trouve', async function (req, res, next) {
 
 
 
