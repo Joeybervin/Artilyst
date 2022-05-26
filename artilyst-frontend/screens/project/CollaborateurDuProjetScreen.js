@@ -1,23 +1,26 @@
 import React, { useState, useEffect } from 'react';
 
 // ^ Wanings messages
-import { LogBox} from 'react-native';
+import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
 //^ Module de balise
-import { StyleSheet, Text, View, ScrollView  } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 /* import { Text } from '@rneui/base'; */
 
 import DatePicker from 'react-native-modern-datepicker';
 
 import { Overlay, Button } from "@rneui/base";
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
+import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
+import { PostulerBtnLight, PostulerBtn, SuivantBtn } from '../components/ButtonsStyles';
+
+
 
 export default function CollaborateurDuProjetScreen(props) {
 
-
-
-
-
+    
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
 
@@ -57,9 +60,7 @@ export default function CollaborateurDuProjetScreen(props) {
             return `${day}/${month}/${year}`
 
         }
-
     }
-
 
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* varification de la coherence des dates et affichage d'alerte */
@@ -102,37 +103,31 @@ export default function CollaborateurDuProjetScreen(props) {
         props.navigation.navigate(`${occupation}CollaborateurScreen`, { date_start: dateDebut, date_end: dateFin, occupation: userOccupation })
     }
 
-
-
-
-
-
-
-
     return (
 
         <ScrollView>
             <View style={styles.container}>
 
                 {/* Progress bar */}
-                <View style={{ marginTop: 40, borderWidth: 0.5, borderColor: '#000000', borderRadius: 50, width: "80%", height: 10 }}>
-                    <View style={{ borderWidth: 0.5, borderColor: '#000000', borderRadius: 50, width: "33%", height: 10, backgroundColor: '#000000' }}></View>
+                <View style={{ marginTop: 40, borderWidth: 0.5, borderColor: '#1ADBAC', borderRadius: 50, width: "80%", height: 10 }}>
+                    <View style={{ borderWidth: 0.5, borderColor: '#1ADBAC', borderRadius: 50, width: "33%", height: 10, backgroundColor: '#1ADBAC' }}></View>
                 </View>
-
-
 
                 {/* DATES */}
                 <View style={{ marginTop: 30 }}>
 
-                    <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Dates</Text>
+                    <Text style={{ marginBottom: 8, fontWeight: 'bold', fontSize: '20', textAlign: 'center' }}>Dates</Text>
 
                     <View style={{ marginTop: 25, marginBottom: 25 }}>
-                        <Text>Date de début</Text>
-                        <Button type="outline" title={dateDebut} onPress={() => { setOvelayDebutVisible(true) }}
+                        <Text style={{ fontWeight: 'bold', marginBottom: 15 }}>Date de début</Text>
+                        <Button
+                            type="outline"
+                            title={dateDebut}
+                            onPress={() => { setOvelayDebutVisible(true) }}
                             buttonStyle={{ borderColor: '#000000', width: '100%' }}
                             titleStyle={{ color: 'black' }}
                         />
-                        
+                        {/* Overlay calendrier */}
                         <Overlay overlayStyle={{ width: "90%", justifyContent: "center", backgroundColor: "white" }} isVisible={ovelayDebutVisible} >
                             <DatePicker
                                 mode="calendar"
@@ -145,32 +140,28 @@ export default function CollaborateurDuProjetScreen(props) {
                                     textSecondaryColor: '#44A38B',
                                     borderColor: 'rgba(122, 146, 165, 0.1)',
                                 }}
-
                                 onSelectedChange={date => {
-
                                     let dateselected = getTheDateFormat(new Date(date))
                                     setDateDebut(dateselected)
-
                                 }}
-
-
                             />
+
                             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-
-                                <Button title="supprimer" buttonStyle={{ backgroundColor: '#000000', width: 150 }} onPress={() => {
-                                    setDateDebut("JJ/MM/AAAA")
-                                    setOvelayDebutVisible(false)
-                                }} />
+                                <Button
+                                    title="supprimer"
+                                    buttonStyle={{ backgroundColor: '#000000', width: 150 }}
+                                    onPress={() => {
+                                        setDateDebut("JJ/MM/AAAA")
+                                        setOvelayDebutVisible(false)
+                                    }} />
                                 <Button title="ok" buttonStyle={{ backgroundColor: '#1ADBAC', width: 150 }} onPress={() => setOvelayDebutVisible(false)} />
-
                             </View>
-
                         </Overlay>
-                    
+
                     </View>
 
                     <View>
-                        <Text>Date de fin</Text>
+                        <Text style={{ fontWeight: 'bold', marginBottom: 15 }}>Date de fin</Text>
                         <Button type="outline" title={dateFin} onPress={() => { setOvelayFinVisible(true) }}
                             buttonStyle={{ borderColor: '#000000', width: '100%' }}
                             titleStyle={{ color: 'black' }}
@@ -187,27 +178,24 @@ export default function CollaborateurDuProjetScreen(props) {
                                     textSecondaryColor: '#44A38B',
                                     borderColor: 'rgba(122, 146, 165, 0.1)',
                                 }}
-
                                 onSelectedChange={date => {
-
                                     let dateselected = getTheDateFormat(new Date(date))
                                     setDateFin(dateselected)
-
                                 }}
-
-
                             />
 
                             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-
-                                <Button title="supprimer" buttonStyle={{ backgroundColor: '#000000', width: 150 }} onPress={() => {
-                                    setDateFin("JJ/MM/AAAA")
-                                    setOvelayFinVisible(false)
-                                }} />
-                                <Button title="ok" buttonStyle={{ backgroundColor: '#1ADBAC', width: 150 }} onPress={() => setOvelayFinVisible(false)} />
-
+                                <Button
+                                    title="supprimer"
+                                    buttonStyle={{ backgroundColor: '#000000', width: 150 }}
+                                    onPress={() => {
+                                        setDateFin("JJ/MM/AAAA")
+                                        setOvelayFinVisible(false)
+                                    }} />
+                                <Button title="ok"
+                                    buttonStyle={{ backgroundColor: '#1ADBAC', width: 150 }}
+                                    onPress={() => setOvelayFinVisible(false)} />
                             </View>
-
 
                         </Overlay>
                         {/*  <DateField
@@ -225,67 +213,100 @@ export default function CollaborateurDuProjetScreen(props) {
 
                 <Text>{alerte}</Text>
 
+                <View style={{ marginTop: 25, justifyContent: 'center' }} >
 
-
-                <View style={{ marginTop: 25 }} >
-
-                    <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Collaborateur du projet  </Text>
-
-                    <Text style={{ marginTop: 20, marginBottom: 10, marginLeft: "auto", marginRight: "auto" }}>De qui avez vous besoin ? </Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Collaborateur du projet</Text>
+                    <Text style={{ marginTop: 30, marginBottom: 15, fontWeight: 'bold', textAlign: 'center' }}>De qui avez vous besoin ?</Text>
 
 
                     <View dir="row" align="center" spacing={4}>
 
-                        <Button
+                        <TouchableOpacity
+                            style={styles.smallCards}
+                        // onPress={() => addUserOccupation("Comedien")}
+                        >
+                            <Text style={styles.cardTitle}>Comédien.ne</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={styles.smallCards}
+                        //onPress={() => addUserOccupation("Modele")}
+                        >
+                            <Text style={styles.cardTitle}>Modèle</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={styles.smallCards}
+                            onPress={() => addUserOccupation("Photographe")}
+                        >
+                            <Text style={styles.cardTitle}>Photographe</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={styles.smallCards}
+                        // onPress={() => addUserOccupation("Comedien")}
+                        >
+                            <Text style={styles.cardTitle}>Styliste</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={styles.smallCards}
+                        // onPress={() => addUserOccupation("Comedien")}
+                        >
+                            <Text style={styles.cardTitle}>Réalisateur.ice vidéos</Text>
+                        </TouchableOpacity>
+
+                        {/* <Button
                             buttonStyle={{ backgroundColor: '#1ADBAC' }}
                             title="Comedien.ne"
                         // onPress={() => addUserOccupation("Comedien")}
                         />
-
                         <Button
                             buttonStyle={{ backgroundColor: '#16B88F' }}
                             title="Modèle"
                         //onPress={() => addUserOccupation("Modele")}
                         />
-                        <Button
+
+                        {/* <Button
                             buttonStyle={{ backgroundColor: '#109171' }}
                             title="Photographe"
                             onPress={() => addUserOccupation("Photographe")}
-                        />
-
+                        /> 
+                        
                         <Button
                             buttonStyle={{ backgroundColor: '#0B664F' }}
                             title="Styliste"
                             onPress={() => addUserOccupation("Styliste")}
                         />
-
                         <Button
-
                             buttonStyle={{ backgroundColor: '#074233' }}
                             title="Réalisateur.ice vidéos"
                         //onPress={() => addUserOccupation("Realisateur")}
-                        />
-
-
-
+                        /> */}
                     </View>
                 </View>
 
 
-                <View style={{ flexDirection: 'row', marginTop: 50 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 25, marginBottom: 50 }}>
 
-                    <Button
+                    <TouchableOpacity onPressHandler={() => props.navigation.navigate('CreerUnProjetScreen')}>
+                        <Text style={{fontSize: 15, fontWeight: 'bold', color: '#232323'}}>Retour</Text>
+                    </TouchableOpacity>
+                    {/* <Button
                         buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
                         title="Retour"
                         onPress={() => props.navigation.navigate('CreerUnProjetScreen')}
-                    />
+                    /> */}
 
-                    <Button
+                    <SuivantBtn 
+                    onPressHandler={() => validFirstStep()} 
+                    disabled={userOccupationClicked} />
+                    {/* <Button
                         buttonStyle={{ backgroundColor: '#3268DD', margin: 5 }}
                         title="Suivant"
                         onPress={() => validFirstStep()}
                         disabled={userOccupationClicked}
-                    />
+                    /> */}
 
                 </View>
             </View>
@@ -316,7 +337,43 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginBottom: 20,
     },
+    smallCards: {
+        alignItems: 'center',
+        backgroundColor: '#f4f4f4',
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 12,
+        borderColor: 'gray',
+        borderWidth: 0,
+        width: "100%",
+        height: 40,
+        marginTop: 5,
+        marginBottom: 5,
+        padding: 6,
+        shadowColor: 'black',
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.1, shadowRadius: 2
+    },
 
+    // -- GLOBAL STYLE ----------
+    pageBackground: {
+        ...pageBackground
+    },
+    title: {
+        ...title
+    },
+    subTitle: {
+        ...subTitle
+    },
+    textRegular: {
+        ...textRegular
+    },
+    cardTitle: {
+        ...cardTitle
+    },
+    cardText: {
+        ...cardText
+    }
 
 
 

@@ -40,28 +40,28 @@ export function ModifierProfilBtn(props) {
     );
 }
 
-export function ConnexionBtn(props) {
+// export function ConnexionBtn(props) {
 
-    return (
-        <View>
-            <TouchableOpacity
-                activeOpacity={.7}
-                onPress={props.onPressHandler}
-                style={{
-                    padding: 16,
-                    borderRadius: 16,
-                    backgroundColor: '#1ADBAC',
-                    borderRadius: 16,
-                    shadowColor: 'black',
-                    shadowOffset: { width: 2, height: 2 },
-                    shadowOpacity: 0.2, shadowRadius: 2
-                }}
-            >
-                <Text style={styles.textBtn}>Connexion</Text>
-            </TouchableOpacity>
-        </View>
-    );
-}
+//     return (
+//         <View>
+//             <TouchableOpacity
+//                 activeOpacity={.7}
+//                 onPress={props.onPressHandler}
+//                 style={{
+//                     padding: 16,
+//                     borderRadius: 16,
+//                     backgroundColor: '#1ADBAC',
+//                     borderRadius: 16,
+//                     shadowColor: 'black',
+//                     shadowOffset: { width: 2, height: 2 },
+//                     shadowOpacity: 0.2, shadowRadius: 2
+//                 }}
+//             >
+//                 <Text style={styles.textBtn}>Connexion</Text>
+//             </TouchableOpacity>
+//         </View>
+//     );
+// }
 
 export function SinscrireBtn(props) {
 
@@ -78,7 +78,7 @@ export function SinscrireBtn(props) {
     );
 }
 
-export function CreerUnCompteBtn(props) {
+export function SuivantBtn(props) {
 
     return (
         <View>
@@ -87,11 +87,13 @@ export function CreerUnCompteBtn(props) {
                 onPress={props.onPressHandler}
                 style={styles.btn}
             >
-                <Text style={styles.textBtn}>CreerUnCompteBtn</Text>
+                <Text style={styles.textBtn}>Suivant</Text>
             </TouchableOpacity>
         </View>
     );
 }
+
+
 // BORDERED BUTTON ------------------------
 
 export function CreeUnCompteBtn(props) {
@@ -146,6 +148,35 @@ export function SeConnecterBtn(props) {
                     style={styles.EmptyButton}
                 >
                     <Text style={styles.textBtn}>Se connecter</Text>
+                </TouchableOpacity>
+            </LinearGradient>
+        </View >
+    );
+}
+
+export function ConnexionBtn(props) {
+
+    return (
+        <View>
+            <LinearGradient
+                colors={['#36e599', '#597ee7', '#b44be0']}
+                end={[1, 0.5]}
+                style={{
+                    height: 42, width: 200,
+                    textAlign: 'center',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 16,
+                    padding: 1,
+                    margin: 10
+
+                }}>
+                <TouchableOpacity
+                    activeOpacity={.7}
+                    onPress={props.onPressHandler}
+                    style={styles.EmptyButton}
+                >
+                    <Text style={styles.textBtn}>Connexion</Text>
                 </TouchableOpacity>
             </LinearGradient>
         </View >
@@ -263,6 +294,33 @@ export function RejeterBtn(props) {
     );
 }
 
+export function LancerRechercheBtn(props) {
+
+    return (
+        <View>
+            <LinearGradient
+                colors={['#36e599', '#597ee7', '#b44be0']}
+                end={[1, 0.5]}
+                style={{
+                    height: 38, width: 250,
+                    textAlign: 'center',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 16,
+                    padding: 1,
+                    marginBottom: 15
+                }}>
+                <TouchableOpacity
+                    activeOpacity={.7}
+                    onPress={props.onPressHandler}
+                    style={styles.EmptyButton}
+                >
+                    <Text style={styles.textBtn}>Lancer la recherche</Text>
+                </TouchableOpacity>
+            </LinearGradient>
+        </View >
+    );
+}
 
 // BOUTON NEOMORPH ------------------
 export function NeomorphBtn(props) {

@@ -49,6 +49,7 @@ function ConnectionScreen(props) {
 
             <Text style={styles.title}>Bienvenue sur Artilyst.</Text>
 
+
             <SeConnecterBtn onPressHandler={() => props.navigation.navigate('ConnectionFormScreen')} />
             <CreeUnCompteBtn onPressHandler={() => props.navigation.navigate('RegisterFormScreen1')} />
 

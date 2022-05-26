@@ -13,9 +13,12 @@ LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Net
 import { StyleSheet, View, TextInput, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
 /* import { Text } from '@rneui/base'; */
 import { Text } from '@rneui/base';
-import { Overlay } from "@rneui/themed";
+import { Divider } from "@rneui/themed";
 import BottomSheet from 'reanimated-bottom-sheet';
 import * as ImagePicker from "expo-image-picker";
+
+import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
+import { PostulerBtnLight, PostulerBtn, SuivantBtn, LancerRechercheBtn } from '../components/ButtonsStyles';
 
 function CreationAnnonceScreen(props) {
 
@@ -64,116 +67,101 @@ function CreationAnnonceScreen(props) {
 
 
     return (
+        <ScrollView style={{ backgroundColor: '#fff' }}>
+            <View style={styles.mainContainer}>
 
+                <View style={{ marginTop: 15, marginBottom: 25, justifyContent: 'center' }}>
+                    <Text style={{ fontWeight: 'bold', fontSize: 15, margin: 2 }}>Collaborateur : {ParamsProject3.occupation}  </Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 15, margin: 2 }}>Catégorie : {ParamsProject3.category} </Text>
+                </View>
 
-        <View style={styles.mainContainer}>
-            <View><Text>création de mon annonce de projet </Text></View>
-            <View><Text>Collaborateur : {ParamsProject3.occupation}  </Text></View>
-            <View><Text>Catégorie : {ParamsProject3.category} </Text></View>
-
-            <View><Text>Descriptif</Text></View>
-
-            <TextInput
-                style={styles.input}
-                placeholder=" Titre ex : Recherche photographe"
-                type="text"
-                onChangeText={setTitle}
-                value={title}
-
-            />
-
-            <TextInput
-                style={{
-                    borderWidth: 1,
-                    height: 150,
-                    width: 250,
+                <Text style={{
+                    marginTop: 15, marginBottom: 20,
+                    fontWeight: 'bold', fontSize: '23', textAlign: 'center'
                 }}
-                placeholder=" Décrivez votre projet 
-                ex Modele recherche photographe pour book professionnel"
-                type="text"
-                onChangeText={setDescription}
-                value={description}
-            />
-
-
-
-            <View style={{ flexDirection: 'row', justifyConten: 'space-between', alignItems: "center" }}>
-
-                <Text>Je rémunère</Text>
-
-                <Switch
-                    trackColor={{ false: "#767577", true: "#81b0ff" }}
-                    thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-                    ios_backgroundColor="#3e3e3e"
-                    onValueChange={toggleSwitch}
-                    value={isEnabled}
+                >Décrivez votre projet</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder=" Titre de votre projet, ex : Recherche..."
+                    type="text"
+                    onChangeText={setTitle}
+                    value={title}
+                />
+                <TextInput
+                    style={{
+                        borderWidth: 1,
+                        height: 170,
+                        width: 250,
+                        margin: 25,
+                        padding: 12,
+                        borderColor: 'grey'
+                    }}
+                    placeholder=" Décrivez votre projet, ex : Modele recherche photographe pour book professionnel"
+                    type="text"
+                    onChangeText={setDescription}
+                    value={description}
                 />
 
-  <Text>Je rémunère</Text>
-  
-  <Switch
-        trackColor={{ false: "#767577", true: "#81b0ff" }}
-        thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-        ios_backgroundColor="#3e3e3e"
-        onValueChange={toggleSwitch}
-        value={isEnabled}
-      />
 
-  </View >
+                {/* Switch rémunération */}
+                <View style={{ flexDirection: 'row', justifyContet: 'space-between', alignItems: 'center', marginBottom: 15 }}>
+                    <Text style={{ fontWeight: 'bold', fontSize: 15, marginRight: 10 }}>Je rémunère</Text>
+                    <Switch
+                        trackColor={{ false: "#767577", true: "#81b0ff" }}
+                        thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                        ios_backgroundColor="#3e3e3e"
+                        onValueChange={toggleSwitch}
+                        value={isEnabled}
+                    />
+                </View >
 
-     <View style={{ flex: 1, flexDirection: 'row', justifyConten:'space-between', alignItems: "center" }}>
-         <Text> Ajouter photo </Text>
-        <Button title="+" onPress={() => props.navigation.navigate('')} />
-     
+                {/* Bouton Ajout Photo */}
 
-    
+                <TouchableOpacity
+                    style={styles.smallCards}
+                    onPress={() => props.navigation.navigate('')}
+                >
+                    <Text style={styles.cardTitle}>Ajouter une photo +</Text>
+                </TouchableOpacity>
 
-     <View style={{ flexDirection: 'row', marginTop: 50 }}>
+                {/* <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: "center" }}>
+                    <Text style={{margin: 20}}>Ajouter photo +</Text>
+                    <Button title="" onPress={() => props.navigation.navigate('')} />
+                </View > */}
 
-<Button
-    buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
-    title="retour"
-    onPress={() => props.navigation.navigate('CategorieDuProjetScreen')}
-/>
-<Button
-    buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
-    title="Lancer la recherche "
-    onPress={() => projectSave()}
+                {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: "center", marginTop: 10 }}>
+                    <Button title=" + Ajouter une photo" onPress={() => sheetRef.current.snapTo(0)} />
+                </View> */}
 
-/>
-
-{/* <Button
-    buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
-    title="Lancer"
-    onPress={() => props.navigation.navigate('ArtisteCorrespondantScreen')}
-/> */}
-
-
-
-     
-            
-
-        </View>
-            </View >
-            <View style={{ flexDirection: 'row', justifyConten: 'space-between', alignItems: "center", marginTop: 10 }}>
-                <Button title="add picture" onPress={() => sheetRef.current.snapTo(0)} />
-
-            </View>
-
-            <View style={{ flexDirection: 'row', marginTop: 10 }}>
-
-                <Button
-                    buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
-                    title="retour"
-                    onPress={() => props.navigation.navigate('CategorieDuProjetScreen')}
+                <Divider
+                    style={{ width: "60%", margin: 20 }}
+                    color="#d3d3d3"
+                    insetType="middle"
+                    width={1}
+                    orientation="horizontal"
                 />
-                <Button
+
+                {/* RETOUR / SUIVANT */}
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20, marginBottom: 40 }}>
+
+                    <LancerRechercheBtn onPressHandler={() => projectSave()} />
+                    {/* <Button
                     buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
                     title="Lancer la recherche "
                     onPress={() => projectSave()}
-                />
+                /> */}
+
+                    <TouchableOpacity onPress={() => props.navigation.navigate('CategorieDuProjetScreen')}>
+                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#232323' }}>Retour</Text>
+                    </TouchableOpacity>
+                    {/* <Button
+                    buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
+                    title="retour"
+                    onPress={() => props.navigation.navigate('CategorieDuProjetScreen')}
+                /> */}
+                </View>
             </View>
-        </View>
+        </ScrollView>
 
     );
 }
@@ -183,12 +171,11 @@ function CreationAnnonceScreen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1
-
     },
     mainContainer: {
         marginTop: 10,
         justifyContent: 'center',
-        alignItems: "center",
+        alignItems: 'center',
     },
 
     swipperContainer: {
@@ -196,6 +183,43 @@ const styles = StyleSheet.create({
         height: 350,
         marginBottom: 15
     },
+    smallCards: {
+        alignItems: 'center',
+        backgroundColor: '#f4f4f4',
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 12,
+        borderColor: 'gray',
+        borderWidth: 0,
+        width: "60%",
+        height: 40,
+        marginTop: 15,
+        marginBottom: 20,
+        padding: 6,
+        shadowColor: 'black',
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.1, shadowRadius: 2
+    },
+
+    // -- GLOBAL STYLE ----------
+    pageBackground: {
+        ...pageBackground
+    },
+    title: {
+        ...title
+    },
+    subTitle: {
+        ...subTitle
+    },
+    textRegular: {
+        ...textRegular
+    },
+    cardTitle: {
+        ...cardTitle
+    },
+    cardText: {
+        ...cardText
+    }
 
 });
 
