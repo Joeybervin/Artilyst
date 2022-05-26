@@ -1,6 +1,6 @@
 
 import Animated from 'react-native-reanimated';
-import { expoUrlMustafa } from '../../../ExpoUrl';
+import { expoUrlRaf } from '../../../ExpoUrl';
 
 import React, { useRef, useState, useEffect } from 'react';
 
@@ -108,7 +108,7 @@ function GalleryScreen(props) {
         
             
 
-            let data_uploaded = await fetch(`http://${expoUrlMustafa}/${indexRoute}`,
+            let data_uploaded = await fetch(`http://${expoUrlRaf}/${indexRoute}`,
             {
                 method: 'PUT',
                 body: data , 
@@ -162,7 +162,7 @@ function GalleryScreen(props) {
                 name: 'image_uploaded.jpeg',
             });
 
-            let data_uploaded = await fetch(`http://${expoUrlMustafa}/${indexRoute}`,
+            let data_uploaded = await fetch(`http://${expoUrlRaf}/${indexRoute}`,
              {
                 method: 'PUT',
                 body: data , 
@@ -338,7 +338,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: "center",
     },
-    containerJoey: {
+    containerRaf: {
         marginHorizontal: 10
     },
     swipperContainer: {

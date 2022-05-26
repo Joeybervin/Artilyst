@@ -1,7 +1,7 @@
 Mongoose infos :
-nom de la database : Atilyst
-username : joey
-mdp : mdpjoey
+nom de la database : Artilyst
+username : Raf
+mdp : mdpRaf
 
 Tous les npm install
 
@@ -24,3 +24,8 @@ https://github.com/callstack/react-native-pager-view
 
 https://github.com/InTeach/react-native-scroll-indicator
 
+back-end 25/05/2022 :
+npm i express-fileupload
+
+font-end 25/05/2022
+npm install @react-native-async-storage/async-storage --save

@@ -2,16 +2,32 @@
 export default function( userInfos = {}, action) {
     if(action.type === "userConnection") {
 
-        console.log("COPY DANS REDUCER : ",{...action.user})
         return {...action.user}
         
     }
     else if (action.type === "updateUserInformation") {
         
-        let user_new_informations = action.user_new_informations // Object : Les données de l'utilisateur avec les modifications apportées
-
+        let user_new_informations = action.user_new_informations // OBJECT : Les données de l'utilisateur avec les modifications apportées
         let newUserInfos = {...userInfos} 
-       
+
+        newUserInfos['description'] = user_new_informations.description
+        newUserInfos['name'] = user_new_informations.name
+        newUserInfos['cv'] = user_new_informations.cv
+        newUserInfos['location'] = user_new_informations.location
+        newUserInfos['siren'] = user_new_informations.siren
+        newUserInfos['characteristics'].gender = user_new_informations.gender
+        newUserInfos['characteristics'].ethnicGroup = user_new_informations.ethnicGroup
+        newUserInfos['characteristics'].hair = user_new_informations.hair
+        newUserInfos['characteristics'].eyes = user_new_informations.eyes
+        newUserInfos['characteristics'].height = user_new_informations.height
+        newUserInfos['characteristics'].weight = user_new_informations.weight
+        newUserInfos['characteristics'].corpulence = user_new_informations.corpulence
+        newUserInfos['characteristics'].measurements.waist = user_new_informations.measurements.waist
+        newUserInfos['characteristics'].measurements.bust = user_new_informations.measurements.bust
+        newUserInfos['characteristics'].measurements.hips = user_new_informations.measurements.hips
+
+        console.log("REDUCER :",newUserInfos)
+
         
         return newUserInfos
     }

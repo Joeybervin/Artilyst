@@ -18,8 +18,7 @@ var userSchema = mongoose.Schema({
     projects_created : [ {type: mongoose.Schema.Types.ObjectId, ref: 'projects' }],
     insert_date: Date,
     date_of_birth :  Date,
-    characteristics : Object,
-    /*  {
+    characteristics : {
         gender: String, 
         ethnicGroup: String,
         hair: String, 
@@ -28,13 +27,11 @@ var userSchema = mongoose.Schema({
         weight: Number, 
         corpulence: String,
         measurements: { 
-            waistSize: Number, 
-            bustSize: Number, 
-            hipMeasurement: Number }
-    }, */
+            waist: Number, 
+            bust: Number, 
+            hips: Number },
+      },
     location : String,
-
-
     token : String,
     siren : Number, // 14 chiffre
 })

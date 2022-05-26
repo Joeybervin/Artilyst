@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
 // & import des urls de chacune
-import { expoUrlMustafa } from '../../ExpoUrl';
+import { expoUrlRaf } from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
-LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
 // ^ Module de balise
-import { StyleSheet, View, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { StyleSheet, View, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { Text, Button } from '@rneui/base';
-import { Input, CheckBox, Slider, Divider } from "@rneui/themed";
+import { Input, CheckBox, Slider, Divider, Overlay } from "@rneui/themed";
 
 //^ module bonus (icons)
 import { Ionicons } from '@expo/vector-icons';
@@ -26,7 +26,6 @@ function ProfileEditScreen(props) {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
-
 
     const user = props.user
     const [name, setName] = useState(user.name === "" ? "" : user.name);// Ville
@@ -45,9 +44,10 @@ function ProfileEditScreen(props) {
     const [hips, setHips] = useState(user.hips === "" ? 0 : user.hips); // hips
     const [corpulence, setCorpulence] = useState(user.corpulence === "" ? "" : user.corpulence);// Corpulence 
 
-    /* Pour la géolocalisation */
+    /* Pour la géolocation */
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
+    const [overlayVisibility, setOverlayVisibility] = useState(false);
 
     /* VARIABLES */
 
@@ -57,7 +57,7 @@ function ProfileEditScreen(props) {
         let enabled = await Location.hasServicesEnabledAsync();
         if (!enabled) {
             Alert.alert(
-                'Le système de géolocalisation est désactivez',
+                'Le système de géolocation est désactivez',
                 'Veuillez le réactivez, afin de continuer',
                 [{ text: 'OK' }],
                 { cancelable: false }
@@ -71,20 +71,36 @@ function ProfileEditScreen(props) {
     async function updateUserProfile() {
 
         let user_new_informations = {token: user.token, city: city, description: description, cv: cv, name : name,
-                gender: gender, ethnicGroup: ethnicGroup, hair: hair, eyes: eyes, height: height, weight: weight, corpulence: corpulence, waist: waist, bust: bust, hips: hips }
+                gender: gender, ethnicGroup: ethnicGroup, hair: hair, eyes: eyes, height: height, weight: weight, corpulence: corpulence, measurements : {}, waist: waist, bust: bust, hips: hips }
 
-        const rawResponse = await fetch(`http://${expoUrlMustafa}/update_user_profile`, {
+        for(const infos in user_new_informations ) {
+            if (user_new_informations[infos] === undefined || user_new_informations[infos] === "") {
+                user_new_informations[infos] = null
+            }
+        }
+        user_new_informations.measurements = {
+            waist: waist, bust: bust, hips: hips
+        }
+
+        for (const measurementsInfos in user_new_informations.measurements) {
+            if (user_new_informations.measurements[measurementsInfos] === undefined || user_new_informations.measurements[measurementsInfos] === "") {
+                user_new_informations.measurements[measurementsInfos] = null
+            }
+        }
+
+        console.log("APRES MODIF :",user_new_informations)
+
+        const rawResponse = await fetch(`http://${expoUrlRaf}/update_user_profile`, {
             method: 'PUT',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({user_new_informations})
         })
 
         let response = await rawResponse.json()
+        console.log("ENVPOIE AU REDUCER : ",user_new_informations)
 
-        if (response.changement === "terminé") {
-            props.updateUserInformation(user_new_informations)
-        }
-      
+        props.updateUserInformation(user_new_informations)
+        
     }
 
     const geolocation = async () => {
@@ -94,10 +110,9 @@ function ProfileEditScreen(props) {
             return;
         }
 
+        setOverlayVisibility(true)
         let location = await Location.getCurrentPositionAsync();
-
-      
-
+        
         if (location) {
             const latitude = location.coords.latitude
             const longitude = location.coords.longitude
@@ -106,22 +121,28 @@ function ProfileEditScreen(props) {
                 longitude
             });
 
-            console.log(response)
-            setCity(response[0].city)
-        
+            if (response) {
+                setOverlayVisibility(false)
+                setCity(response[0].city)
+            }
+
+            
     }
-}
+    }
 
 // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
 
 
 // * ___________________________ PAGE ___________________________
 return (
-    <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.container}
-    >
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container} >
         <ScrollView>
+
+        <Overlay isVisible={overlayVisibility} >
+            <ActivityIndicator size="large" color="#000000" />
+            <Text>Nous cherchons votre localisasion ...</Text>
+        </Overlay>
+
             <View style={{width : "100%", justifyContent: 'center', alignItems : 'center', alignItem : 'center'}}>
 
                 <Text style={{marginBottom : 35, marginTop : 50, fontSize : 25, fontWeight : "bold"}}>Modifier son profil : </Text>

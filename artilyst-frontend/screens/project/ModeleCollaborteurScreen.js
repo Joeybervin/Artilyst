@@ -3,7 +3,7 @@ import Slider from '@react-native-community/slider';
 
 // ^ Wanings messages
 import { LogBox, Button, TextInput, ScrollView } from 'react-native';
-LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
 //^ Module de balise
 import { StyleSheet, Text, View } from 'react-native';
