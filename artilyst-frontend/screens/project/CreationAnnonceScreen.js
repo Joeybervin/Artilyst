@@ -18,7 +18,7 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import * as ImagePicker from "expo-image-picker";
 
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
-import { PostulerBtnLight, PostulerBtn, SuivantBtn, LancerRechercheBtn } from '../components/ButtonsStyles';
+import { LancerRechercheBtn } from '../components/ButtonsStyles';
 
 function CreationAnnonceScreen(props) {
 
