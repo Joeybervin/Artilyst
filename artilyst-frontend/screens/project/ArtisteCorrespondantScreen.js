@@ -29,7 +29,6 @@ function ArtisteCorrespondantScreen(props) {
 
     // Import des artistes correspondants depuis le backend
     useEffect(() => {
-
         async function loadArtists() {
             //console.log('TEST FETCH :', projectId)
             var rawResponse = await fetch(`http://${expoUrlJoey}/search_artist`, {

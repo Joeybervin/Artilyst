@@ -18,7 +18,7 @@ import { connect } from 'react-redux';
 import { CardStyleInterpolators } from '@react-navigation/stack';
 
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from './components/GlobalStyles';
-import { PostulerBtnLight, PostulerBtn } from './components/ButtonsStyles';
+import { PostulerBtnLight, PostulerBtn, ContinuerLaRechercheBtn, EnvoyerUnMessageBtn } from './components/ButtonsStyles';
 
 import { useTheme } from '@react-navigation/native';
 
@@ -98,7 +98,8 @@ function AnnoncesScreen(props) {
 
     /* envoyer les infos necessaires au match au backend  */
     const Postuler = async (id, users) => {
-        var rawResponse = await fetch(`http://${expoUrlJoey}/postuler`, {
+        setOverlayVisibility(true)
+       /*  var rawResponse = await fetch(`http://${expoUrlJoey}/postuler`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ token: props.user.token, projectId: id, userSelected: users }),
@@ -109,7 +110,7 @@ function AnnoncesScreen(props) {
         if (response.already) {
             setProjectImages(response.photoProjet) // récupération de la données du back-end
             setOverlayVisibility(true) // BOOLEAN : Si match un overlay apparaît
-        }
+        } */
 
     }
 
@@ -177,23 +178,21 @@ function AnnoncesScreen(props) {
                 shadowOpacity: 0.1, shadowRadius: 2
             }}
             >
-                <Image
-                    containerStyle={{ width: 110, height: '85%', }}
-                    resizeMode="contain"
-                    source={{ uri: casting.photos[0] }}
-                    style={{ marginRight: 10 }}
-                    PlaceholderContent="ff"
-                />
-
+                {/*! a revoir le border radius sur ios + IMAGE PAYSAGE A SUOPPRIME */}
+                <View style={{ width: 110, height: '100%'}}> 
+                    <Image
+                        containerStyle={{ width: "100%", height: '100%'}}
+                        resizeMode="contain"
+                        source={{ uri: casting.photos[0] }}
+                        style={{ borderRadius : 10}}
+                        PlaceholderContent="ff"
+                    />
+                </View>
                 <View style={{ width: 200, height: '85%', justifyContent: 'space-between', paddingRight: 7 }}>
 
                     <Text style={styles.cardTitle}>{description.substring(0, 30) + ' ...'}</Text>
                     <Text style={styles.cardText}>{description.substring(0, 50) + ' ...'}</Text>
                     <PostulerBtnLight onPressHandler={() => Postuler(casting._id, casting.users_selected)} />
-                    {/* <Button
-                        color='#1ADBAC'
-                        buttonStyle={{ backgroundcolor: '#1ADBAC' }}
-                        title="postuler" onPressHandler={() => Postuler(casting._id, casting.users_selected)} /> */}
                 </View>
             </View>
         )
@@ -278,23 +277,13 @@ function AnnoncesScreen(props) {
 
                         {/* -------- BOUTONS --------  */}
                         <View style={{ justifyContent: "space-between", alignItems: "center", height: 125, marginTop: screenWidth / 3 }} >
-                            <Button
-                                title="Envoyer un message"
-                                titleStyle={{ paddingHorizontal: 49, paddingVertical: 7 }}
-                                buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
-                                onPress={() => {
-                                    setOverlayVisibility(false)
-                                    props.navigation.navigate('MessagesScreen')
-                                }}
-                            />
-                            <Button
-                                title="Continuer la recherche"
-                                titleStyle={{ paddingHorizontal: 40, paddingVertical: 7 }}
-                                buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
-                                onPress={() => {
-                                    setOverlayVisibility(false)
-                                }}
-                            />
+
+                            
+                            <EnvoyerUnMessageBtn onPressHandler={ () =>
+                                   { setOverlayVisibility(false)
+                                    props.navigation.navigate('MessagesScreen')}}/>
+                            <ContinuerLaRechercheBtn onPressHandler={ () => setOverlayVisibility(false)} />
+                           
                         </View>
                     </View>
                 </Overlay>
@@ -373,6 +362,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        marginBottom : 100
     },
     dropdown: {
         height: 50,

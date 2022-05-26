@@ -1,8 +1,8 @@
 // ^ Wanings messages
-import { LogBox, StatusBar } from 'react-native';
-LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs(true)
 
-import { StyleSheet} from 'react-native';
+import { StyleSheet, StatusBar} from 'react-native';
 
 //^ Navigation
 

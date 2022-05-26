@@ -120,20 +120,9 @@ function RegisterFormScreen2(props) {
             <View style={{ flexDirection: 'row', marginTop: 50 }}>
                 <Text onPress={() => props.navigation.navigate('RegisterFormScreen1', userInfos)}>Retour</Text>
 
-                {/* <Button
-                    buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
-                    title="retour"
-                    onPress={() => props.navigation.navigate('RegisterFormScreen1', userInfos)}
-                /> */}
 
                 <CreerUnCompteBtn onPressHandler={() => signUpUser()} />
                 
-                {/* <Button
-                    buttonStyle={{ backgroundColor: '#3268DD', margin: 5 }}
-                    title="Créer un compte"
-                    onPress={() => signUpUser()}
-                    disabled={userOccupationClicked}
-                /> */}
 
             </View>
 

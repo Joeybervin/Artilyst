@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs(true)
 LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
 //^ Module de balise
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
-/* import { Text } from '@rneui/base'; */
 
 import DatePicker from 'react-native-modern-datepicker';
 
@@ -14,9 +14,7 @@ import { Overlay, Button } from "@rneui/base";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
-import { PostulerBtnLight, PostulerBtn, SuivantBtn } from '../components/ButtonsStyles';
-
-
+import { SuivantBtn } from '../components/ButtonsStyles';
 
 export default function CollaborateurDuProjetScreen(props) {
 
@@ -29,13 +27,12 @@ export default function CollaborateurDuProjetScreen(props) {
 
     const [userOccupation, setUserOccupation] = useState("")
     const [userOccupationClicked, setUserOccupationClicked] = useState(true) // vérifie si l'utilisateur à bien clické sur un bouton
-    const [alerte, setAlerte] = useState("")
+    const [messageDateError, setMessageDateError] = useState("")
 
     const [ovelayDebutVisible, setOvelayDebutVisible] = useState(false);
     const [ovelayFinVisible, setOvelayFinVisible] = useState(false);
 
     /* VARIABLES */
-
     var datevalide = true
 
     // * ___________________________ FUNCTIONS ___________________________
@@ -63,26 +60,26 @@ export default function CollaborateurDuProjetScreen(props) {
     }
 
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
-    /* varification de la coherence des dates et affichage d'alerte */
+    /* varification de la coherence des dates et affichage d'erreur */
     useEffect(() => {
         async function VerifData() {
 
             if (dateDebut > dateFin) {
-                setAlerte("La date du début doit être anterieure à la date de fin")
+                setMessageDateError("La date du début doit être anterieure à la date de fin")
                 datevalide = false
             }
             else if (dateDebut == "JJ/MM/AAAA" && dateFin == "JJ/MM/AAAA") {
-                setAlerte("")
+                setMessageDateError("")
                 datevalide = true
             } else if (dateDebut <= dateFin) {
-                setAlerte("")
+                setMessageDateError("")
                 datevalide = true
             }
             if (datevalide == false || userOccupation == "") {
                 setUserOccupationClicked(true)
             } else if (datevalide = true && userOccupation != "") {
                 setUserOccupationClicked(false)
-                setAlerte("")
+                setMessageDateError("")
             }
 
         } 12
@@ -92,13 +89,11 @@ export default function CollaborateurDuProjetScreen(props) {
     /* Pour ajouter le métier de l'utilisateur au données qui seront envoyées à la base de données  */
     const addUserOccupation = (userOccupation) => {
         setUserOccupation(userOccupation)
-        // userInfos['occupation'] = userOccupation // Ajour=t du choix à l'objet qui sera transmis à la base de données
         //setUserOccupationClicked(false) // Rend le button "créer un compte" cliquable
     }
 
     // fonction qui renvoie vers le bon formulaire + envoie la data dans les params
     const validFirstStep = () => {
-
         var occupation = userOccupation;
         props.navigation.navigate(`${occupation}CollaborateurScreen`, { date_start: dateDebut, date_end: dateFin, occupation: userOccupation })
     }
@@ -116,8 +111,9 @@ export default function CollaborateurDuProjetScreen(props) {
                 {/* DATES */}
                 <View style={{ marginTop: 30 }}>
 
-                    <Text style={{ marginBottom: 8, fontWeight: 'bold', fontSize: '20', textAlign: 'center' }}>Dates</Text>
+                    <Text style={{ marginBottom: 8, fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}>Dates</Text>
 
+                    {/* Input : date de début */}
                     <View style={{ marginTop: 25, marginBottom: 25 }}>
                         <Text style={{ fontWeight: 'bold', marginBottom: 15 }}>Date de début</Text>
                         <Button
@@ -160,6 +156,7 @@ export default function CollaborateurDuProjetScreen(props) {
 
                     </View>
 
+                    {/* Input : date de fin */}
                     <View>
                         <Text style={{ fontWeight: 'bold', marginBottom: 15 }}>Date de fin</Text>
                         <Button type="outline" title={dateFin} onPress={() => { setOvelayFinVisible(true) }}
@@ -198,20 +195,12 @@ export default function CollaborateurDuProjetScreen(props) {
                             </View>
 
                         </Overlay>
-                        {/*  <DateField
-                    labelDate="JJ"
-                    labelMonth="MM"
-                    labelYear="AAAA"
-                    styleInput={styles.inputDate}
-
-                    onSubmit={(value) => setDateFin(value)}
-                />
-                */}
+                       
                     </View>
 
                 </View>
 
-                <Text>{alerte}</Text>
+                <Text>{messageDateError}</Text>
 
                 <View style={{ marginTop: 25, justifyContent: 'center' }} >
 
@@ -221,6 +210,7 @@ export default function CollaborateurDuProjetScreen(props) {
 
                     <View dir="row" align="center" spacing={4}>
 
+                        {/* Comédien */}
                         <TouchableOpacity
                             style={styles.smallCards}
                         // onPress={() => addUserOccupation("Comedien")}
@@ -228,6 +218,7 @@ export default function CollaborateurDuProjetScreen(props) {
                             <Text style={styles.cardTitle}>Comédien.ne</Text>
                         </TouchableOpacity>
 
+                        {/* Modele */}
                         <TouchableOpacity
                             style={styles.smallCards}
                         //onPress={() => addUserOccupation("Modele")}
@@ -235,6 +226,7 @@ export default function CollaborateurDuProjetScreen(props) {
                             <Text style={styles.cardTitle}>Modèle</Text>
                         </TouchableOpacity>
 
+                        {/* ----- PHOTOGRAPHE ----- */}
                         <TouchableOpacity
                             style={styles.smallCards}
                             onPress={() => addUserOccupation("Photographe")}
@@ -242,6 +234,7 @@ export default function CollaborateurDuProjetScreen(props) {
                             <Text style={styles.cardTitle}>Photographe</Text>
                         </TouchableOpacity>
 
+                        {/* Styliste */}
                         <TouchableOpacity
                             style={styles.smallCards}
                         // onPress={() => addUserOccupation("Comedien")}
@@ -249,6 +242,7 @@ export default function CollaborateurDuProjetScreen(props) {
                             <Text style={styles.cardTitle}>Styliste</Text>
                         </TouchableOpacity>
 
+                        {/* Réalisateur */}
                         <TouchableOpacity
                             style={styles.smallCards}
                         // onPress={() => addUserOccupation("Comedien")}
@@ -256,57 +250,21 @@ export default function CollaborateurDuProjetScreen(props) {
                             <Text style={styles.cardTitle}>Réalisateur.ice vidéos</Text>
                         </TouchableOpacity>
 
-                        {/* <Button
-                            buttonStyle={{ backgroundColor: '#1ADBAC' }}
-                            title="Comedien.ne"
-                        // onPress={() => addUserOccupation("Comedien")}
-                        />
-                        <Button
-                            buttonStyle={{ backgroundColor: '#16B88F' }}
-                            title="Modèle"
-                        //onPress={() => addUserOccupation("Modele")}
-                        />
-
-                        {/* <Button
-                            buttonStyle={{ backgroundColor: '#109171' }}
-                            title="Photographe"
-                            onPress={() => addUserOccupation("Photographe")}
-                        /> 
-                        
-                        <Button
-                            buttonStyle={{ backgroundColor: '#0B664F' }}
-                            title="Styliste"
-                            onPress={() => addUserOccupation("Styliste")}
-                        />
-                        <Button
-                            buttonStyle={{ backgroundColor: '#074233' }}
-                            title="Réalisateur.ice vidéos"
-                        //onPress={() => addUserOccupation("Realisateur")}
-                        /> */}
                     </View>
                 </View>
 
 
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 25, marginBottom: 50 }}>
-
+                    
+                    {/* Boutton de retour */}
                     <TouchableOpacity onPressHandler={() => props.navigation.navigate('CreerUnProjetScreen')}>
                         <Text style={{fontSize: 15, fontWeight: 'bold', color: '#232323'}}>Retour</Text>
                     </TouchableOpacity>
-                    {/* <Button
-                        buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
-                        title="Retour"
-                        onPress={() => props.navigation.navigate('CreerUnProjetScreen')}
-                    /> */}
 
+                    {/* Boutton page suivante */}
                     <SuivantBtn 
                     onPressHandler={() => validFirstStep()} 
                     disabled={userOccupationClicked} />
-                    {/* <Button
-                        buttonStyle={{ backgroundColor: '#3268DD', margin: 5 }}
-                        title="Suivant"
-                        onPress={() => validFirstStep()}
-                        disabled={userOccupationClicked}
-                    /> */}
 
                 </View>
             </View>
@@ -322,6 +280,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+        marginBottom : 100
     },
 
     input: {

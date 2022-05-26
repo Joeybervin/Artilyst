@@ -177,9 +177,8 @@ export default function PictureBottomSheet(props) {
 
         <BottomSheet
                 ref={sheetRef}
-                snapPoints={[500, 0]}
+                snapPoints={[750, 0]}
                 renderContent={renderInner}
-                renderHeader={renderHeader}
                 initialSnap={1}
                 callBackNode={fall}
                 enabledContentGestureInteraction={true}
@@ -243,7 +242,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     panel: {
-        height: 500,
+        height: 750,
         padding: 20,
         backgroundColor: '#FFFFFF',
         paddingTop: 20,

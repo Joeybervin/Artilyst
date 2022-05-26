@@ -22,33 +22,26 @@ import { LancerRechercheBtn } from '../components/ButtonsStyles';
 
 function CreationAnnonceScreen(props) {
 
-    //*********** Varibales d'etat **********/
+    // * ___________________________ VARIABLES & VARIBLES D'ÉTAT ___________________________
+    /* variables d'état */
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-    /* VARIABLES D'ÉTAT  */
 
-    const [user, setUser] = useState(props.user)
-
-
-
-    /* VARIABLES */
-
-    //********** Récuperation params */
+    /* variables */
     var ParamsProject3 = props.route.params;
     ParamsProject3['title'] = title;
     ParamsProject3['description'] = description;
     ParamsProject3['remuneration'] = isEnabled;
     ParamsProject3['token'] = props.userDisplay.token;
-    var projectInfos = ParamsProject3;
+        var projectInfos = ParamsProject3;
 
-    console.log('params3', projectInfos)
-    //console.log('props.userDisplay',props.userDisplay)
+
+    // * ___________________________ FUNCTIONS ___________________________
 
     /* fonction pour sauvegarder un utilisateur dans la base de données */
     const projectSave = async () => {
-
 
         const rawResponse = await fetch(`http://${expoUrlJoey}/project`, {
             method: 'POST',
@@ -57,13 +50,16 @@ function CreationAnnonceScreen(props) {
         })
 
         let response = await rawResponse.json()
-        props.OnaddList(projectInfos, response)
+        
+        props.addProject(projectInfos, response)
 
-        // console.log("response",response)
-        props.navigation.navigate('ArtisteCorrespondantScreen')
+        if (response) {
+            props.navigation.navigate('ArtisteCorrespondantScreen', response)
+        }
+        
 
 
-    }// Object : Réponse du back-end
+    }// OBJECT : Réponse du back-end
 
 
     return (
@@ -77,7 +73,7 @@ function CreationAnnonceScreen(props) {
 
                 <Text style={{
                     marginTop: 15, marginBottom: 20,
-                    fontWeight: 'bold', fontSize: '23', textAlign: 'center'
+                    fontWeight: 'bold', fontSize: 23, textAlign: 'center'
                 }}
                 >Décrivez votre projet</Text>
                 <TextInput
@@ -88,10 +84,12 @@ function CreationAnnonceScreen(props) {
                     value={title}
                 />
                 <TextInput
+                     multiline = {true}
+                     numberOfLines = {25}
                     style={{
                         borderWidth: 1,
                         height: 170,
-                        width: 250,
+                        width: "85%",
                         margin: 25,
                         padding: 12,
                         borderColor: 'grey'
@@ -107,8 +105,8 @@ function CreationAnnonceScreen(props) {
                 <View style={{ flexDirection: 'row', justifyContet: 'space-between', alignItems: 'center', marginBottom: 15 }}>
                     <Text style={{ fontWeight: 'bold', fontSize: 15, marginRight: 10 }}>Je rémunère</Text>
                     <Switch
-                        trackColor={{ false: "#767577", true: "#81b0ff" }}
-                        thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                        trackColor={{ false: "#767577", true: '#29997D' }}
+                        thumbColor={isEnabled ? '#1ADBAC' : "#f4f3f4"}
                         ios_backgroundColor="#3e3e3e"
                         onValueChange={toggleSwitch}
                         value={isEnabled}
@@ -116,7 +114,6 @@ function CreationAnnonceScreen(props) {
                 </View >
 
                 {/* Bouton Ajout Photo */}
-
                 <TouchableOpacity
                     style={styles.smallCards}
                     onPress={() => props.navigation.navigate('')}
@@ -124,14 +121,7 @@ function CreationAnnonceScreen(props) {
                     <Text style={styles.cardTitle}>Ajouter une photo +</Text>
                 </TouchableOpacity>
 
-                {/* <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: "center" }}>
-                    <Text style={{margin: 20}}>Ajouter photo +</Text>
-                    <Button title="" onPress={() => props.navigation.navigate('')} />
-                </View > */}
-
-                {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: "center", marginTop: 10 }}>
-                    <Button title=" + Ajouter une photo" onPress={() => sheetRef.current.snapTo(0)} />
-                </View> */}
+               
 
                 <Divider
                     style={{ width: "60%", margin: 20 }}
@@ -145,20 +135,12 @@ function CreationAnnonceScreen(props) {
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20, marginBottom: 40 }}>
 
                     <LancerRechercheBtn onPressHandler={() => projectSave()} />
-                    {/* <Button
-                    buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
-                    title="Lancer la recherche "
-                    onPress={() => projectSave()}
-                /> */}
+                    
 
                     <TouchableOpacity onPress={() => props.navigation.navigate('CategorieDuProjetScreen')}>
                         <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#232323' }}>Retour</Text>
                     </TouchableOpacity>
-                    {/* <Button
-                    buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
-                    title="retour"
-                    onPress={() => props.navigation.navigate('CategorieDuProjetScreen')}
-                /> */}
+                   
                 </View>
             </View>
         </ScrollView>
@@ -176,6 +158,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         justifyContent: 'center',
         alignItems: 'center',
+        marginBottom : 100
     },
 
     swipperContainer: {
@@ -227,7 +210,7 @@ const styles = StyleSheet.create({
 
 function mapDispatchToProps(dispatch) {
     return {
-        OnaddList: function (Projet, id) {
+        addProject: function (Projet, id) {
             dispatch({ type: 'addProject', Projet, id })
         }
     }

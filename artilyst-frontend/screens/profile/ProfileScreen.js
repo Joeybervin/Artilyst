@@ -11,6 +11,8 @@ import { Text, Button } from '@rneui/base';
 import { Overlay } from "@rneui/themed";
 //^ module bonus (icons)
 import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { FontAwesome5 } from '@expo/vector-icons'; 
 
 // ^ Carousel
 import Swiper from 'react-native-swiper'
@@ -162,31 +164,23 @@ function ProfileScreen(props) {
     const renderInner = () => (
         <View style={styles.panel}>
             <View style={{ alignItems: 'center' }}>
-                <Text style={styles.panelTitle}>Modifier vos photos</Text>
-                <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
+                <Text style={styles.panelTitle}>Ajouter une photo</Text>
+                <Text style={styles.panelSubtitle}>Choisissez votre photo de profil</Text>
             </View>
             <TouchableOpacity style={styles.panelButton} onPress={goToGallery}>
-                <Text style={styles.panelButtonTitle}>Gallery photos</Text>
+                <Text style={styles.panelButtonTitle}>Galerie photos</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.panelButton} onPress={openCamera}>
-                <Text style={styles.panelButtonTitle}>Take Photo</Text>
+                <Text style={styles.panelButtonTitle}>Prendre une photo</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.panelButton} onPress={showImagePicker}>
-                <Text style={styles.panelButtonTitle}>Choose From Library</Text>
+                <Text style={styles.panelButtonTitle}>Ouvrir la bibliothèque</Text>
             </TouchableOpacity>
             <TouchableOpacity
-                style={styles.panelButton}
+                style={styles.panelButtonCancel}
                 onPress={() => sheetRef.current.snapTo(1)}>
-                <Text style={styles.panelButtonTitle}>Cancel</Text>
+                <Text style={styles.panelButtonTitleCancel}>Annuler</Text>
             </TouchableOpacity>
-        </View>
-    );
-
-    const renderHeader = () => (
-        <View style={styles.header}>
-            <View style={styles.panelHeader}>
-                <View style={styles.panelHandle} />
-            </View>
         </View>
     );
 
@@ -246,9 +240,8 @@ function ProfileScreen(props) {
 
                 <BottomSheet
                     ref={sheetRef}
-                    snapPoints={[500, 0]}
+                    snapPoints={[750, 0]}
                     renderContent={renderInner}
-                    renderHeader={renderHeader}
                     initialSnap={1}
                     callBackNode={fall}
                     enabledContentGestureInteraction={true}
@@ -333,9 +326,8 @@ function ProfileScreen(props) {
 
                 <BottomSheet
                     ref={sheetRef}
-                    snapPoints={[500, 0]}
+                    snapPoints={[750, 0]}
                     renderContent={renderInner}
-                    renderHeader={renderHeader}
                     initialSnap={1}
                     callBackNode={fall}
                     enabledContentGestureInteraction={true}
@@ -392,16 +384,36 @@ function ProfileScreen(props) {
                         </View>
 
                         {/* -------- USER CARACTERISTICS --------  */}
-                        <View>
-                            <Text style={{ fontSize: 17, fontWeight: "bold", marginBottom: 10 }}>Informations</Text>
-                            <Text>Groupe ethnique : {user.characteristics.ethnicGroup === null ? "non renseigné" : user.characteristics.ethnicGroup}</Text>
-                            <Text>Couleur des yeux : {user.characteristics.eyes === null ? "non renseigné" : user.characteristics.eyes}</Text>
-                            <Text>Couleur des cheveux : {user.characteristics.hair === null ? "non renseigné" : user.characteristics.hair}</Text>
-                            <Text>Corpulence : {user.characteristics.corpulence !== null ? user.characteristics.corpulence : "non renseigné"}</Text>
-                            <Text>Taille : {user.characteristics.height !== null ? user.characteristics.height : "--"} cm  Poids : {user.characteristics.weight !== null ? user.characteristics.weight : "--"} kg</Text>
-                            {/* Mensurations */}
-                            <Text>Mensurations :</Text>
-                            <Text>Taille : {user.characteristics.measurements.waist !== null ? user.characteristics.measurements.waist : "--"} cm  -  Poitrine : {user.characteristics.measurements.bust !== null ? user.characteristics.measurements.bust : "--"} cm -  Hanches : {user.characteristics.measurements.hips !== null ? user.characteristics.measurements.hips : "--"} cm</Text>
+                        <View style={{width : "90%"}} >
+                         <Text style={{ fontSize: 17, fontWeight: "bold", marginBottom: 10 }}>Informations</Text>
+                            <View style={{flexDirection : 'row', flexWrap : 'wrap'}}>
+                                
+                                <Text style={styles.badge}> {user.characteristics.ethnicGroup === null ? "non renseigné" : user.characteristics.ethnicGroup}</Text>
+
+                                {/* Eyes */}
+                                <Text style={styles.badge}><MaterialCommunityIcons name="eye" size={20} color="#fff" />  {user.characteristics.eyes === null ? "non renseigné" : user.characteristics.eyes}</Text>
+
+                                {/* hair */}
+                                <Text style={styles.badge}><MaterialCommunityIcons name="face-woman" size={20} color="#fff" />  {user.characteristics.hair === null ? "non renseigné" : user.characteristics.hair}</Text>
+
+                                {/* corpulence */}
+                                <Text style={styles.badge}><Ionicons name="body" size={20} color="#fff" /> {user.characteristics.corpulence !== null ? user.characteristics.corpulence : "non renseigné"}</Text>
+
+                                {/* Taille */}
+                                <Text style={styles.badge}>
+                                    <MaterialCommunityIcons name="human-male-height" size={20} color="#fff" />
+                                    {user.characteristics.height !== null ? user.characteristics.height : "--"}
+                                </Text>
+
+                                {/* Poids */}
+                                <Text style={styles.badge}> <FontAwesome5 name="weight" size={20} color="white" /> {user.characteristics.weight !== null ? user.characteristics.weight : "--"} kg</Text>
+
+                                {/* Mensurations */}
+                                <Text style={styles.badge}>Taille : <FontAwesome5 name="tape" size={20} color="#fff" />{user.characteristics.measurements.waist !== null ? user.characteristics.measurements.waist : "--"} cm</Text>
+
+                                 <Text style={styles.badge}> Poitrine : {user.characteristics.measurements.bust !== null ? user.characteristics.measurements.bust : "--"} cm</Text>
+                                  <Text style={styles.badge}>Hanches : {user.characteristics.measurements.hips !== null ? user.characteristics.measurements.hips : "--"} cm</Text>
+                            </View>
                         </View>
                     </View>
 
@@ -422,7 +434,7 @@ const styles = StyleSheet.create({
     },
     mainContainer: {
         marginTop: 10,
-        marginBottom: 50,
+        marginBottom: 115,
         justifyContent: 'center',
         alignItems: "center",
     },
@@ -468,6 +480,16 @@ const styles = StyleSheet.create({
         lineHeight: 10,
         textAlign: 'center'
     },
+    badge : {
+        margin: 8, 
+        padding: 8, 
+        borderRadius: 12, 
+        color: 'white', 
+        backgroundColor: 'grey', 
+        fontWeight: 'bold',
+        justifyContent : 'center',
+        alignItems: 'center',
+    },
     container: {
         flex: 1,
     },
@@ -479,7 +501,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     panel: {
-        height: 500,
+        height: 750,
         padding: 20,
         backgroundColor: '#FFFFFF',
         paddingTop: 20,
@@ -489,27 +511,6 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 0 },
         shadowRadius: 5,
         shadowOpacity: 0.4,
-    },
-    header: {
-        backgroundColor: '#FFFFFF',
-        shadowColor: '#333333',
-        shadowOffset: { width: -1, height: -3 },
-        shadowRadius: 2,
-        shadowOpacity: 0.4,
-        // elevation: 5,
-        paddingTop: 20,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-    },
-    panelHeader: {
-        alignItems: 'center',
-    },
-    panelHandle: {
-        width: 40,
-        height: 8,
-        borderRadius: 4,
-        backgroundColor: '#00000040',
-        marginBottom: 10,
     },
     panelTitle: {
         fontSize: 27,
@@ -528,10 +529,21 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginVertical: 7,
     },
+    panelButtonCancel :  {
+        padding: 13,
+        borderRadius: 10,
+        backgroundColor: '#F4F4F4',
+        alignItems: 'center',
+        marginVertical: 7,
+    },
+
     panelButtonTitle: {
         fontSize: 17,
         fontWeight: 'bold',
         color: 'white',
+    },panelButtonTitleCancel : {
+        fontSize: 17,
+        fontWeight: 'bold',
     },
     action: {
         flexDirection: 'row',

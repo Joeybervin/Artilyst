@@ -12,7 +12,8 @@ import { Text } from '@rneui/base';
 import { connect } from 'react-redux';
 
 
-import Svg
+import Svg, { Path } from "react-native-svg"
+
 
 // Styles
 import { CreeUnCompteBtn,SeConnecterBtn } from '../components/ButtonsStyles';
@@ -45,22 +46,25 @@ function ConnectionScreen(props) {
     // * ___________________________ FUNCTIONS ___________________________
 
     const SvgComponent = (props) => (
-        <svg
+        <Svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 323.4 533.2"
+          width={70}
+          height={70}
           style={{
             enableBackground: "new 0 0 323.4 533.2",
+            
           }}
           xmlSpace="preserve"
           {...props}
         >
-          <path
+          <Path
             d="m216 417.2-135.2 116H0L102.3 0h113.3l107.8 533.2h-84.8l-22.6-116zM201.9 341l-43.7-238.7L115.6 341h86.3z"
             style={{
               fill: "#000",
             }}
           />
-        </svg>
+        </Svg>
       )
 
     // * ___________________________ PAGE ___________________________
@@ -70,6 +74,7 @@ function ConnectionScreen(props) {
 
 
 
+            <SvgComponent />
             <Text style={styles.title}>Bienvenue sur Artilyst.</Text>
 
 
