@@ -186,29 +186,25 @@ export default function App() {
               <StackNavigator.Screen name="PagesStacks" component={PagesStacks}
                 options={({ navigation }) => ({
                   title: "ARTILYST",
-                
-                  headerTitle : (props) => (
-                    <Image
-                    resizeMode="center"
-                    style={{width : 180, height : 60, resizeMode : 'contain'}}
-                    source={require('./assets/artilyst-logo1.svg')} />
-                  ),
+                  
+                  headerTitleAlign: 'center',
                   headerStyle: {
                     backgroundColor: '#333333',
                     height: 70,
-                    borderBottomWidth : 0, 
-                    borderBottomLeftRadius: 15,
-                    borderBottomRightRadius: 15,
-                    elevation : 1,
-                    shadowOpacity : 1                   
+                    borderBottomWidth : 2.5, 
+                    borderColor : '#9E9E9E61',
+                    elevation : 0,
+                    shadowOpacity : 0           
                   },
-                  headerShadowVisible : true,
-                  
+                  headerTitleStyle: {
+                    fontWeight: 'bold',
+                    color: '#FFFFFF',
+                  },
                   headerLeft: () => ( // PROFIL
                     <Button
-                      icon={<Ionicons name={"person"} size={23} color="white" />}
-                      buttonStyle={{ marginHorizontal: 25, borderRadius: 100 }}
-                      color="#706F6F"
+                      icon={<Ionicons name={"person"} size={25} color="white" />}
+                      buttonStyle={{ marginHorizontal: 25, borderRadius: 100 , ...styles.shadow , width : 40}}
+                      color ="#706F6F"
                       onPress={() => navigation.navigate('ProfileScreen')}
                       
                     />
@@ -224,7 +220,7 @@ export default function App() {
                       <Badge
                         badgeStyle={{ backgroundColor: "#1ADBAC" }}
                         value={0}
-                        containerStyle={{ position: 'absolute', top: 0, left: 30}}
+                        containerStyle={{ position: 'absolute', top: 0, left: 30, ...styles.shadow }}
                       />
                     </Button>
                   ),
