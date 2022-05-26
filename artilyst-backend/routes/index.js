@@ -301,8 +301,6 @@ router.put('/upload_portfolio', async function (req, res, next) {
     res.json({ upload: false })
   }
 
-
-
 });
 
 
@@ -321,6 +319,7 @@ router.delete('/delete_profile_Image', async function (req, res, next) {
   res.json({ status: "supprimé" })
 
 })
+
 router.delete('/delete_portfolio_image', async function (req, res, next) {
 
   let portfolioImageUrl = req.body.portfolioImageUrl
@@ -515,7 +514,7 @@ router.post('/recruter', async function (req, res, next) {
   
 })
 
-router.get('/trouve', async function (req, res, next) {
+
 
 
 
@@ -542,7 +541,7 @@ router.post('/displayProjects', async function (req, res, next) {
 
 
   // } )
-  //console.log("resultat", resultat)
+  
   res.json(resultat)
 
 })
