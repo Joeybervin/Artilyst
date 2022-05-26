@@ -72,6 +72,7 @@ export default function CreationProjetScreen(props) {
           />
 
         </View>
+
         {/* Menu optionel */}
         <Menu style={{ position: 'absolute', top: 5, right: 25, padding: 15, backgroundColor: "black", borderRadius: 50 }}>
           <MenuTrigger  >
@@ -91,6 +92,8 @@ export default function CreationProjetScreen(props) {
 
         <Text style={{ fontSize: 25, fontWeight: "bold", position: "absolute", color: "white", padding: 15 }} >Puma : Shooting pout la nouvelle collection
         </Text>
+
+        
       </TouchableOpacity>
     )
   })

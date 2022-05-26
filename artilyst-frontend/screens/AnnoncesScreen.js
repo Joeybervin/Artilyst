@@ -4,7 +4,7 @@ LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Net
 
 import React, { useEffect, useState } from 'react';
 
-import { expoUrlRaf } from '../ExpoUrl';
+import { expoUrlJoey } from '../ExpoUrl';
 
 //^ Module de balise
 import { StyleSheet, View, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
@@ -15,14 +15,8 @@ import { Ionicons } from '@expo/vector-icons';
 
 // ^ Redux
 import { connect } from 'react-redux';
-import { CardStyleInterpolators } from '@react-navigation/stack';
 
-import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from './components/GlobalStyles';
-
-import { useTheme } from '@react-navigation/native';
-import { PostulerBtnLight, PostulerBtn } from './components/ButtonsStyles';
-
-
+import { PostulerBtnLight } from './components/ButtonsStyles';
 
 let { width: screenWidth, height: screenHeight } = Dimensions.get('screen')
 
@@ -62,7 +56,7 @@ function AnnoncesScreen(props) {
     useEffect(() => {
         async function allUsers() {
             // ! TEMPORAIRE LE TEMPS QUE RAF FINISSE LA ROUTE =======> Joey :)
-            var rawResponse = await fetch(`http://${expoUrlRaf}/all_users_profile`, {
+            var rawResponse = await fetch(`http://${expoUrlJoey}/all_users_profile`, {
             })
             let response = await rawResponse.json();
             setAllUsersAccount(response)
@@ -70,7 +64,7 @@ function AnnoncesScreen(props) {
 
         // * Si un recruteur se connecte => DropDown de tous ses projets en cours
         async function loadProjects() {
-            var rawResponse = await fetch(`http://${expoUrlRaf}/recruiter_projects`, {
+            var rawResponse = await fetch(`http://${expoUrlJoey}/recruiter_projects`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.user.token}`,
@@ -81,7 +75,7 @@ function AnnoncesScreen(props) {
 
         // * Si un artiste se connecte => Visualisation de tous les projets le correspondant
         async function loadCasting() {
-            var rawResponse = await fetch(`http://${expoUrlRaf}/search_casting`, {
+            var rawResponse = await fetch(`http://${expoUrlJoey}/search_casting`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.user.token}`,
@@ -98,7 +92,7 @@ function AnnoncesScreen(props) {
 
     /* envoyer les infos necessaires au match au backend  */
     const Postuler = async (id, users) => {
-        var rawResponse = await fetch(`http://${expoUrlRaf}/postuler`, {
+        var rawResponse = await fetch(`http://${expoUrlJoey}/postuler`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ token: props.user.token, projectId: id, userSelected: users }),
@@ -158,7 +152,7 @@ function AnnoncesScreen(props) {
         let title = casting.title
         let description = casting.description
         return (
-            <View key={i} style={{ backgroundColor: '#353535', flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderColor: 'gray', borderWidth: 0, width: "85%", height: 150, marginTop: 30, paddingLeft: 7, paddinRight: 5, shadowColor: 'black', shadowOffset: { width: 2, height: 4 }, shadowOpacity: 0.4, shadowRadius: 3 }}>
+            <View key={i} style={{ backgroundColor: '#E2E2E2', flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderColor: 'gray', borderWidth: 0, width: "85%", height: 150, marginTop: 30, paddingLeft: 7, paddinRight: 5, shadowColor: 'black', shadowOffset: { width: 2, height: 4 }, shadowOpacity: 0.4, shadowRadius: 3 }}>
 
                 <Image
                     containerStyle={{ width: 110, height: '85%', }}
@@ -167,9 +161,6 @@ function AnnoncesScreen(props) {
                     style={{ borderRadius: 10, marginRight: 10 }}
                     PlaceholderContent="ff"
                 /> 
-
-                  
-                
 
                 <View style={{ width: 200, height: '85%', justifyContent: 'space-between' }}>
 
@@ -274,7 +265,7 @@ function AnnoncesScreen(props) {
                             <Button
                                 title="Envoyer un message"
                                 titleStyle={{ paddingHorizontal: 49, paddingVertical: 7 }}
-                                buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
+                                buttonStyle={{ borderRadius: 8,  color: "black" }}
                                 onPress={() => {
                                     setOverlayVisibility(false)
                                     props.navigation.navigate('MessagesScreen')
@@ -283,7 +274,7 @@ function AnnoncesScreen(props) {
                             <Button
                                 title="Continuer la recherche"
                                 titleStyle={{ paddingHorizontal: 40, paddingVertical: 7 }}
-                                buttonStyle={{ borderRadius: 8, backgroundColor: "#333333", color: "black" }}
+                                buttonStyle={{ borderRadius: 8,  color: "black" }}
                                 onPress={() => {
                                     setOverlayVisibility(false)
                                 }}
@@ -300,7 +291,7 @@ function AnnoncesScreen(props) {
                     {/* Choix de la catégorie dans laquel l'utilisateur souhaite chercher un casting */}
                     <Dropdown
                         style={[styles.dropdown, isFocus && { borderColor: '#1ADBAC' }]}
-                        containerStyle={{ backgroundColor: '#303030' }}
+                        
                         placeholderStyle={styles.placeholderStyle}
                         selectedTextStyle={styles.selectedTextStyle}
                         inputSearchStyle={styles.inputSearchStyle}
@@ -361,7 +352,6 @@ function AnnoncesScreen(props) {
 const styles = StyleSheet.create({
     scrollView: {
         flex: 1,
-        backgroundColor: '#282828',
     },
     container: {
         flex: 1,
@@ -370,7 +360,6 @@ const styles = StyleSheet.create({
     },
     dropdown: {
         height: 50,
-        borderColor: 'gray',
         borderWidth: 0.5,
         borderRadius: 8,
         paddingHorizontal: 8,
@@ -381,7 +370,6 @@ const styles = StyleSheet.create({
     },
     label: {
         position: 'absolute',
-        backgroundColor: 'grey',
         left: 22,
         top: 8,
         zIndex: 999,
@@ -390,23 +378,19 @@ const styles = StyleSheet.create({
     },
     placeholderStyle: {
         fontSize: 14,
-        color: 'white',
         fontWeight: 'bold',
     },
     selectedTextStyle: {
         fontSize: 16,
-        color: 'white',
     },
     iconStyle: {
         width: 25,
         height: 25,
-        color: 'white',
         fontWeight: 'bold',
     },
     inputSearchStyle: {
         height: 40,
         fontSize: 16,
-        color: 'white'
     },
     remunerationContainer: {
         flexDirection: "row",
@@ -416,24 +400,7 @@ const styles = StyleSheet.create({
     },
 
     // -- GLOBAL STYLE ----------
-    pageBackground: {
-        ...pageBackground
-    },
-    title: {
-        ...title
-    },
-    subTitle: {
-        ...subTitle
-    },
-    textRegular: {
-        ...textRegular
-    },
-    cardTitle: {
-        ...cardTitle
-    },
-    cardText: {
-        ...cardText
-    }
+
 
 });
 

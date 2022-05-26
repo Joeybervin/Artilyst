@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     textBtn: {
         justifyContent: 'center',
         alignItems: 'center',
-        color: '#fff',
+        color: '#000000',
         fontWeight: 'bold',
         fontSize: 16,
         textAlign: 'center'
@@ -209,11 +209,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     EmptyButtonLight: {
-        height: '100%',
-        width: '100%',
+        height: '99%',
+        width: '99%',
         borderRadius: 16,
         margin: 0,
-        backgroundColor: '#353535',
+        backgroundColor: '#ffff',
         justifyContent: 'center'
     },
     // NEOMORPH BUTTON

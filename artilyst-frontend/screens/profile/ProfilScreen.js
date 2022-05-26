@@ -1,7 +1,7 @@
 import Animated from 'react-native-reanimated';
 
 import React, { useRef, useState, useEffect } from 'react';
-import { expoUrlRaf } from '../../ExpoUrl';
+import { expoUrlJoey } from '../../ExpoUrl';
 
 //^ Module de balise
 import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity } from 'react-native';
@@ -45,7 +45,7 @@ function ProfilScreen(props) {
     // Récupérer infos du profil utilisateur
     useEffect(() => {
         async function loadData() {
-            const rawResponse = await fetch(`http:${expoUrlRaf}/user_profile`, {
+            const rawResponse = await fetch(`http:${expoUrlJoey}/user_profile`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `token=${informations.user_token}`
@@ -116,7 +116,7 @@ function ProfilScreen(props) {
             });
             console.log( "DATA : ", data)
 
-            let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_photo_profil`,
+            let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_photo_profil`,
              {
                 method: 'post',
                 headers: {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { expoUrlRaf } from '../../ExpoUrl';
+import { expoUrlJoey } from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
@@ -28,10 +28,10 @@ function ConnectionScreen(props) {
     /* PREMIÈRE */
     useEffect(() => {
         async function loadData() {
-            const rawResponse = await fetch(`http://${expoUrlRaf}/user_profile`, {
+            const rawResponse = await fetch(`http://${expoUrlJoey}/user_profile`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `token=KWXlcU4sPT_mj9eDlkaawYfPyX1-okID` // i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT
+                body: `token=i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT` // KWXlcU4sPT_mj9eDlkaawYfPyX1-okID
             })
             let response = await rawResponse.json();
             let responseCopy = { ...response }
@@ -41,6 +41,8 @@ function ConnectionScreen(props) {
         }
         loadData();
     }, []);
+
+    console.log("ffukufulyglgiugu")
 
     // * ___________________________ PAGE ___________________________
 
@@ -88,24 +90,8 @@ const styles = StyleSheet.create({
     },
 
     // -- GLOBAL STYLE ----------
-    pageBackground: {
-        ...pageBackground
-    },
-    title: {
-        ...title
-    },
-    subTitle: {
-        ...subTitle
-    }, 
-    textRegular: {
-        ...textRegular
-    },
-    cardTitle: {
-        ...cardTitle
-    },
-    cardText: {
-        ...cardText
-    }
+   
+
 
 
 });

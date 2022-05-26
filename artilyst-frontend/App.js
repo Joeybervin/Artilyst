@@ -2,6 +2,8 @@
 import { LogBox, StatusBar } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
+import { StyleSheet} from 'react-native';
+
 //^ Navigation
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -64,7 +66,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Button, Badge } from '@rneui/base';
 
 import { MenuProvider } from 'react-native-popup-menu';
-
+import {  Image } from 'react-native';
 // Import néomorphisme 
 
 
@@ -92,14 +94,25 @@ function PagesStacks(props) {
             iconName = 'ios-heart'
           }
 
-          return <Ionicons name={iconName} size={25} color={color} />;
+          return <Ionicons name={iconName} size={30} color={color} />;
         },
       })}
       tabBarOptions={{
+        showLabel : false,
         activeTintColor: '#1ADBAC',
         inactiveTintColor: '#FFFFFF',
         style: {
-          backgroundColor: '#333333'
+          position : 'absolute',
+          bottom : 25,
+          left : 20,
+          right : 20,
+          elevation : 0, 
+          backgroundColor: '#333333',
+          borderTopWidth: 0,
+          borderRadius : 100,
+          height : 70,
+          blurRadius : 2,
+          ...styles.shadow
         }
       }}>
 
@@ -173,10 +186,20 @@ export default function App() {
               <StackNavigator.Screen name="PagesStacks" component={PagesStacks}
                 options={({ navigation }) => ({
                   title: "ARTILYST",
+                  headerTitle : (props) => (
+                    <Image
+                    resizeMode="center"
+                    style={{width : 180, height : 60, resizeMode : 'contain'}}
+                    source={require('./assets/artilyst-logo1.svg')} />
+                  ),
                   headerTitleAlign: 'center',
                   headerStyle: {
                     backgroundColor: '#333333',
                     height: 70,
+                    borderBottomWidth : 0, 
+                    borderBottomLeftRadius: 10,
+                    borderBottomRightRadius: 10,
+                    ...styles.shadow
                   },
                   headerTitleStyle: {
                     fontWeight: 'bold',
@@ -184,24 +207,25 @@ export default function App() {
                   },
                   headerLeft: () => ( // PROFIL
                     <Button
-                      icon={<Ionicons name={"person"} size={20} color="white" />}
-                      buttonStyle={{ marginHorizontal: 25, borderRadius: 100 }}
-                      color="#BBBBBB"
+                      icon={<Ionicons name={"person"} size={23} color="white" />}
+                      buttonStyle={{ marginHorizontal: 25, borderRadius: 100 , ...styles.shadow}}
+                      color="#706F6F"
                       onPress={() => navigation.navigate('ProfileScreen')}
+                      
                     />
                   ),
                   headerRight: () => ( // MESSAGERIE
                     <Button
                       icon={<Ionicons name={"mail"} size={20} color="white" />}
                       buttonStyle={{ marginHorizontal: 25, borderRadius: 100 }}
-                      color="#BBBBBB"
+                      color="#706F6F"
                       onPress={() => navigation.navigate('MessagesScreen')}
                     >
                       {/* Badge de notification */}
                       <Badge
                         badgeStyle={{ backgroundColor: "#1ADBAC" }}
                         value={0}
-                        containerStyle={{ position: 'absolute', top: 0, left: 30 }}
+                        containerStyle={{ position: 'absolute', top: 0, left: 30, ...styles.shadow }}
                       />
                     </Button>
                   ),
@@ -215,3 +239,19 @@ export default function App() {
   );
 }
 
+const styles = StyleSheet.create({
+  shadow: {
+     shadoColor : '#D8D8D8',
+     shaddowOffset : {
+      width : 0, 
+      height : 10,
+     },
+     shadowOpacity : 0.25,
+     shadowRadius : 3.5,
+     elevation : 5
+  },
+
+
+
+
+});

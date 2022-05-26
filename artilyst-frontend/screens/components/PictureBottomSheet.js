@@ -2,7 +2,7 @@ import Animated from 'react-native-reanimated';
 
 import React, { useRef, useState, useEffect } from 'react';
 
-import { expoUrlRaf } from '../../ExpoUrl';
+import { expoUrlJoey } from '../../ExpoUrl';
 
 
 //^ Module de balise
@@ -62,7 +62,7 @@ export default function PictureBottomSheet(props) {
             
                 
     
-                let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
+                let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
                 {
                     method: 'post',
                     body: data , 
@@ -117,7 +117,7 @@ export default function PictureBottomSheet(props) {
      
                 
                 
-                let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
+                let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
                  {
                     method: 'post',
                     body: data , 
