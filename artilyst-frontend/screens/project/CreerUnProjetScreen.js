@@ -10,7 +10,7 @@ import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
 import { Text, Divider, Button, Tile, Image } from '@rneui/base';
 import { Menu, MenuOptions, MenuOption, MenuTrigger, } from 'react-native-popup-menu';
 import { Ionicons } from '@expo/vector-icons';
-import { expoUrlRaf } from '../../ExpoUrl';
+import { expoUrlJoey } from '../../ExpoUrl';
 
 import { useIsFocused } from '@react-navigation/native';
 
@@ -30,7 +30,7 @@ function CreerUnProjetScreen(props) {
   // chargement des données pour afficher la liste des projets créés + envoie vers le store
   useEffect(() => {
     async function loadCasting() {
-      var rawResponse = await fetch(`http://${expoUrlRaf}/displayProjects`, {
+      var rawResponse = await fetch(`http://${expoUrlJoey}/displayProjects`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: `token=${props.user.token}`,
@@ -52,7 +52,7 @@ function CreerUnProjetScreen(props) {
 
   // fonction pour supprimer le projet séléctionné
   const deleteFunction = async (id, index) => {
-    await fetch(`http://${expoUrlRaf}/deleteProject?id=${id}`, {
+    await fetch(`http://${expoUrlJoey}/deleteProject?id=${id}`, {
       method: 'DELETE'
     })
     props.onDelete(index)

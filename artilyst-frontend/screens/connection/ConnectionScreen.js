@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { expoUrlRaf } from '../../ExpoUrl';
+import { expoUrlJoey } from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
@@ -7,15 +7,15 @@ LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Net
 
 //^ Module de balise
 import { StyleSheet, View } from 'react-native';
-import { Text, Button } from '@rneui/base';
-
+import { Text } from '@rneui/base';
 // ^Redux
 import { connect } from 'react-redux';
-import { log } from 'react-native-reanimated';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+
+
+import Svg
 
 // Styles
-import { CreeUnCompteBtn, FullBtn, PostulerBtn, RecruterBtn, SeConnecterBtn } from '../components/ButtonsStyles';
+import { CreeUnCompteBtn,SeConnecterBtn } from '../components/ButtonsStyles';
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
 
 function ConnectionScreen(props) {
@@ -28,7 +28,7 @@ function ConnectionScreen(props) {
     /* PREMIÈRE */
     useEffect(() => {
         async function loadData() {
-            const rawResponse = await fetch(`http://${expoUrlRaf}/user_profile`, {
+            const rawResponse = await fetch(`http://${expoUrlJoey}/user_profile`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `token=KWXlcU4sPT_mj9eDlkaawYfPyX1-okID` // i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT
@@ -42,35 +42,44 @@ function ConnectionScreen(props) {
         loadData();
     }, []);
 
+    // * ___________________________ FUNCTIONS ___________________________
+
+    const SvgComponent = (props) => (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 323.4 533.2"
+          style={{
+            enableBackground: "new 0 0 323.4 533.2",
+          }}
+          xmlSpace="preserve"
+          {...props}
+        >
+          <path
+            d="m216 417.2-135.2 116H0L102.3 0h113.3l107.8 533.2h-84.8l-22.6-116zM201.9 341l-43.7-238.7L115.6 341h86.3z"
+            style={{
+              fill: "#000",
+            }}
+          />
+        </svg>
+      )
+
     // * ___________________________ PAGE ___________________________
 
     return (
         <View style={styles.container}>
 
+
+
             <Text style={styles.title}>Bienvenue sur Artilyst.</Text>
 
 
-            <SeConnecterBtn onPressHandler={() => props.navigation.navigate('ConnectionFormScreen')} />
-            <CreeUnCompteBtn onPressHandler={() => props.navigation.navigate('RegisterFormScreen1')} />
-
-            {/* <Button
-                title="Se connecter"
-                onPress={() => props.navigation.navigate('ConnectionFormScreen')}
-                containerStyle={{ margin: 5 }}
-            />
-            <Button
-                title="Créer un compte"
-                onPress={() => props.navigation.navigate('RegisterFormScreen1')}
-                containerStyle={{ margin: 5 }}
-            /> */}
-
-            <Text style={{marginTop: 70}} onPress={() => {
+            <SeConnecterBtn onPressHandler={() => {
                 props.getUserInformations(userData)
                 console.log(userData)
                 props.navigation.navigate('PagesStacks')
-            }}>--</Text>
-
-
+                //props.navigation.navigate('ConnectionFormScreen'
+            }} />
+            <CreeUnCompteBtn onPressHandler={() => props.navigation.navigate('RegisterFormScreen1')} />
 
         </View>
     );

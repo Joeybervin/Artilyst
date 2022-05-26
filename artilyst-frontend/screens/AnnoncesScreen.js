@@ -4,7 +4,7 @@ LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Net
 
 import React, { useEffect, useState } from 'react';
 
-import { expoUrlRaf } from '../ExpoUrl';
+import { expoUrlJoey } from '../ExpoUrl';
 
 //^ Module de balise
 import { StyleSheet, View, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
@@ -62,7 +62,7 @@ function AnnoncesScreen(props) {
     useEffect(() => {
         async function allUsers() {
             // ! TEMPORAIRE LE TEMPS QUE RAF FINISSE LA ROUTE =======> Joey :)
-            var rawResponse = await fetch(`http://${expoUrlRaf}/all_users_profile`, {
+            var rawResponse = await fetch(`http://${expoUrlJoey}/all_users_profile`, {
             })
             let response = await rawResponse.json();
             setAllUsersAccount(response)
@@ -70,7 +70,7 @@ function AnnoncesScreen(props) {
 
         // * Si un recruteur se connecte => DropDown de tous ses projets en cours
         async function loadProjects() {
-            var rawResponse = await fetch(`http://${expoUrlRaf}/recruiter_projects`, {
+            var rawResponse = await fetch(`http://${expoUrlJoey}/recruiter_projects`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.user.token}`,
@@ -81,7 +81,7 @@ function AnnoncesScreen(props) {
 
         // * Si un artiste se connecte => Visualisation de tous les projets le correspondant
         async function loadCasting() {
-            var rawResponse = await fetch(`http://${expoUrlRaf}/search_casting`, {
+            var rawResponse = await fetch(`http://${expoUrlJoey}/search_casting`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.user.token}`,
@@ -98,7 +98,7 @@ function AnnoncesScreen(props) {
 
     /* envoyer les infos necessaires au match au backend  */
     const Postuler = async (id, users) => {
-        var rawResponse = await fetch(`http://${expoUrlRaf}/postuler`, {
+        var rawResponse = await fetch(`http://${expoUrlJoey}/postuler`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ token: props.user.token, projectId: id, userSelected: users }),
