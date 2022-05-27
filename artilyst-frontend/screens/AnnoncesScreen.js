@@ -55,7 +55,7 @@ function AnnoncesScreen(props) {
     // Réception des casting filtrés pour l'utilisateur
     useEffect(() => {
         // * Si un recruteur se connecte => DropDown de tous ses projets en cours
-        async function loadProjects() {
+        /* async function loadProjects() {
             var rawResponse = await fetch(`http://${expoUrlJoey}/recruiter_projects`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -63,7 +63,7 @@ function AnnoncesScreen(props) {
             })
             let response = await rawResponse.json();
             setRecruiterListProjects(response)
-        }
+        } */
 
         // * Si un artiste se connecte => Visualisation de tous les projets le correspondant
         async function loadCasting() {
@@ -74,7 +74,7 @@ function AnnoncesScreen(props) {
             })
             let response = await rawResponse.json();
             setMatchingCasting(response.matchingProjects)
-            
+
         }
 
         if (props.user.occupation === "recruteur") loadProjects() //! TEMPORAIRE ==> Joey
@@ -112,7 +112,7 @@ function AnnoncesScreen(props) {
     }
 
     // Affichage d'une card
-        let castingDisplay = matchingCastingListCopy.map((casting, i) => {
+    let castingDisplay = matchingCastingListCopy.map((casting, i) => {
         let title = casting.title
         let description = casting.description
 
@@ -130,19 +130,25 @@ function AnnoncesScreen(props) {
                 marginTop: 10,
                 marginBottom: 10,
                 padding: 6,
-                shadowColor: 'black',
-                shadowOffset: { width: 2, height: 2 },
-                shadowOpacity: 0.1, shadowRadius: 2
+                shadowColor: "#000",
+                shadowOffset: {
+                    width: 0,
+                    height: 3,
+                },
+                shadowOpacity: 0.27,
+                shadowRadius: 4.65,
+
+                elevation: 6,
             }}
             >
-                {/*! a revoir le border radius sur ios + IMAGE PAYSAGE A SUOPPRIME */}
-                <View style={{ width: 110, height: '100%'}}> 
+                {/*! a revoir le border radius sur ios */}
+                <View style={{ width: 110, height: '100%' }}>
                     <Image
-                        containerStyle={{ width: "100%", height: '100%'}}
+                        containerStyle={{ width: "100%", height: '100%' }}
                         resizeMode="contain"
-                        source={{ uri: casting.photos[0] }}
-                        style={{ borderRadius : 10}}
-                        PlaceholderContent="ff"
+                        source={matchingCastingListCopy.length === 0 ? { uri: "https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg" } : { uri: casting.photos[0] }}
+                        style={{ borderRadius: 10 }}
+                        PlaceholderContent="image"
                     />
                 </View>
                 <View style={{ width: 200, height: '85%', justifyContent: 'space-between', paddingRight: 7 }}>
@@ -158,9 +164,9 @@ function AnnoncesScreen(props) {
 
     /* S'affiche si aucun castings correspondant aux characteristics de l'utilisateur n'est retournée */
     const NoCastingMatchMessage = () => (
-        <View style={{width : "90%", alignItems: "center", marginTop : 50}}>
-            <Image style={{width : 55, height : 55, marginBottom : 25}} source={require('../assets/empty.png')}/>
-            <Text style={{width : "85%", textAlign : "center",}}>Désolée, malheureusement la recherche n'a rien donnée. Si ce n'est pas encore fait, essayez de compléter <Link style={{fontWeight: 'bold'}} to={'/ProfileScreen'}>votre profile</Link> et retenter votre chance</Text>
+        <View style={{ width: "90%", alignItems: "center", marginTop: 50 }}>
+            <Image style={{ width: 55, height: 55, marginBottom: 25 }} source={require('../assets/empty.png')} />
+            <Text style={{ width: "85%", textAlign: "center", }}>Désolée, malheureusement la recherche n'a rien donnée. Si ce n'est pas encore fait, essayez de compléter <Link style={{ fontWeight: 'bold' }} to={'/ProfileScreen'}>votre profile</Link> et retenter votre chance</Text>
         </View>
     )
 
@@ -229,32 +235,28 @@ function AnnoncesScreen(props) {
                                 size={'xlarge'}
                                 rounded
                                 source={props.user.profile_photo.length === 0 ? { uri: "https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg" } : { uri: props.user.profile_photo[0] }}
-                                containerStyle={{}}
-                            />
 
-                            {/*  A CHANGER source={projectImages.length > 0 ? {uri : "https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg" }: {uri : projectImages[0]}} */}
+                            />
                             <Avatar
                                 size={'xlarge'}
                                 rounded
                                 source={{ uri: "https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg" }}
-                                
-                                containerStyle={{}}
                             />
                         </View>
 
                         {/* -------- BOUTONS --------  */}
                         <View style={{ justifyContent: "space-between", alignItems: "center", height: 125, marginTop: screenWidth / 3 }} >
 
-                            
-                            <EnvoyerUnMessageBtn onPressHandler={ () =>
-                                   { setOverlayVisibility(false)
-                                    props.navigation.navigate('MessagesScreen')}}/>
-                            <ContinuerLaRechercheBtn onPressHandler={ () => setOverlayVisibility(false)} />
-                           
+
+                            <EnvoyerUnMessageBtn onPressHandler={() => {
+                                setOverlayVisibility(false)
+                                props.navigation.navigate('MessagesScreen')
+                            }} />
+                            <ContinuerLaRechercheBtn onPressHandler={() => setOverlayVisibility(false)} />
+
                         </View>
                     </View>
                 </Overlay>
-
 
                 <View style={styles.container}>
 
@@ -269,9 +271,9 @@ function AnnoncesScreen(props) {
                         iconStyle={styles.iconStyle}
                         data={dropdownData}
                         maxHeight={300}
-                        labelField="label"
-                        valueField="value"
-                        placeholder={'Type de casting'}
+                        labelField="title"
+                        valueField="title"
+                        placeholder={'Choisissez un type de casting'}
                         value={value}
                         onFocus={() => setIsFocus(true)}
                         onBlur={() => setIsFocus(false)}
@@ -281,13 +283,7 @@ function AnnoncesScreen(props) {
                             setCastingCategory(item.value);
                         }}
                         renderLeftIcon={() => (
-                            <Ionicons
-                                style={styles.icon}
-                                color={isFocus ? '#1ADBAC' : '#232323'}
-                                name="search"
-                                size={20}
-                            />
-                        )}
+                            <Ionicons style={styles.icon} color={isFocus ? '#1ADBAC' : 'black'} name="search" size={20} />)}
                     />
 
                     {/* BOOLEAN :  Switch pour la rémunération */}
@@ -300,14 +296,14 @@ function AnnoncesScreen(props) {
                             onValueChange=
                             {(value) => {
                                 setChecked(value),
-                                setIsPaid(!isPaid)
+                                    setIsPaid(!isPaid)
                             }}
 
                         />
                     </View>
 
                     {/* AFFICHAGE DES CASTING */}
-                    {matchingCasting.length === 0 ? <NoCastingMatchMessage/> : castingDisplay}
+                    {castingDisplay.length === 0 ? <NoCastingMatchMessage /> : castingDisplay}
 
                 </View>
 
@@ -329,7 +325,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom : 100
+        marginBottom: 100
     },
     dropdown: {
         height: 50,
@@ -363,8 +359,6 @@ const styles = StyleSheet.create({
     iconStyle: {
         width: 25,
         height: 25,
-        color: '#232323',
-        fontWeight: 'bold',
     },
     inputSearchStyle: {
         height: 40,

@@ -17,6 +17,7 @@ export default function CategorieDuProjetScreen(props) {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     const [category, setCategory] = useState('')
+    var [ isPress, setIsPress ] = useState(false); // BOLEAN : changement de couleur du boutton au clique
 
 
     /* Params */
@@ -104,10 +105,12 @@ export default function CategorieDuProjetScreen(props) {
 
                     {/* shooting */}
                     <TouchableOpacity
-                        style={styles.smallCards}
-                        onPress={() => addCategory("Shooting")}
+                        style={isPress ? styles.smallCardsPressed : styles.smallCards}
+                        onPress={() => {
+                            addCategory("Shooting")
+                            setIsPress(true)}}
                     >
-                        <Text style={styles.cardTitle}>Shooting</Text>
+                        <Text style={isPress ? styles.cardTitlePressed : styles.cardTitle}>Shooting</Text>
                     </TouchableOpacity>
 
                   
@@ -145,6 +148,29 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginBottom : 100
     },
+    smallCardsPressed: {
+        alignItems: 'center',
+        backgroundColor: '#668FFF',
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 12,
+        borderColor: 'gray',
+        borderWidth: 0,
+        width: "100%",
+        height: 40,
+        marginTop: 5,
+        marginBottom: 5,
+        padding: 6,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
+
+        elevation: 2,
+    },
     smallCards: {
         alignItems: 'center',
         backgroundColor: '#f4f4f4',
@@ -158,9 +184,20 @@ const styles = StyleSheet.create({
         marginTop: 5,
         marginBottom: 5,
         padding: 6,
-        shadowColor: 'black',
-        shadowOffset: { width: 2, height: 2 },
-        shadowOpacity: 0.1, shadowRadius: 2
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+
+        elevation: 3,
+    },
+    cardTitlePressed : {
+       
+        ...cardTitle,
+         color : "#fff",
     },
 
     // -- GLOBAL STYLE ----------

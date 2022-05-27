@@ -251,7 +251,7 @@ export function PostulerBtn(props) {
                 colors={['#36e599', '#597ee7', '#b44be0']}
                 end={[1, 0.5]}
                 style={{
-                    height: 38, width: 135,
+                    height: 38, width: 139,
                     textAlign: 'center',
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -279,7 +279,7 @@ export function PostulerBtnLight(props) {
                 colors={['#36e599', '#597ee7', '#b44be0']}
                 end={[1, 0.5]}
                 style={{
-                    height: 38, width: 135,
+                    height: 38, width: 137,
                     textAlign: 'center',
                     justifyContent: 'center',
                     alignItems: 'center',
