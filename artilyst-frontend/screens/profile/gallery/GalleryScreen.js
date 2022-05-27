@@ -1,6 +1,6 @@
 
 import Animated from 'react-native-reanimated';
-import { expoUrlRaf } from '../../../ExpoUrl';
+import { expoUrlJoey } from '../../../ExpoUrl';
 
 import React, { useRef, useState, useEffect } from 'react';
 
@@ -42,19 +42,19 @@ function GalleryScreen(props) {
     const renderInner = () => (
         <View style={styles.panel}>
             <View style={{ alignItems: 'center' }}>
-                <Text style={styles.panelTitle}>Modifier vos photos</Text>
-                <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
+                <Text style={styles.panelTitle}>Ajouter une photo</Text>
+                <Text style={styles.panelSubtitle}>Choisissez votre photo de profil</Text>
             </View>
             <TouchableOpacity style={styles.panelButton} onPress={openCamera}>
-                <Text style={styles.panelButtonTitle}>Take Photo</Text>
+                <Text style={styles.panelButtonTitle}>Prendre une photo</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.panelButton} onPress={showImagePicker}>
-                <Text style={styles.panelButtonTitle}>Choose From Library</Text>
+                <Text style={styles.panelButtonTitle}>Ouvrir la bibliothèque</Text>
             </TouchableOpacity>
             <TouchableOpacity
-                style={styles.panelButton}
+                style={styles.panelButtonCancel}
                 onPress={() => sheetRef.current.snapTo(1)}>
-                <Text style={styles.panelButtonTitle}>Cancel</Text>
+                <Text style={styles.panelButtonTitleCancel}>Annuler</Text>
             </TouchableOpacity>
         </View>
     );
@@ -108,7 +108,7 @@ function GalleryScreen(props) {
         
             
 
-            let data_uploaded = await fetch(`http://${expoUrlRaf}/${indexRoute}`,
+            let data_uploaded = await fetch(`http://${expoUrlJoey}/${indexRoute}`,
             {
                 method: 'PUT',
                 body: data , 
@@ -162,7 +162,7 @@ function GalleryScreen(props) {
                 name: 'image_uploaded.jpeg',
             });
 
-            let data_uploaded = await fetch(`http://${expoUrlRaf}/${indexRoute}`,
+            let data_uploaded = await fetch(`http://${expoUrlJoey}/${indexRoute}`,
              {
                 method: 'PUT',
                 body: data , 
@@ -271,9 +271,8 @@ function GalleryScreen(props) {
 
               <BottomSheet // ! A REVOIR
                 ref={sheetRef}
-                snapPoints={[500, 0]}
+                snapPoints={[750, 0]}
                 renderContent={renderInner}
-                renderHeader={renderHeader}
                 initialSnap={1}
                 callBackNode={fall}
                 enabledContentGestureInteraction={true}
@@ -379,7 +378,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     panel: {
-        height: 500,
+        height: 750,
         padding: 20,
         backgroundColor: '#FFFFFF',
         paddingTop: 20,
@@ -428,10 +427,21 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginVertical: 7,
     },
+    panelButtonCancel :  {
+        padding: 13,
+        borderRadius: 10,
+        backgroundColor: '#F4F4F4',
+        alignItems: 'center',
+        marginVertical: 7,
+    },
+
     panelButtonTitle: {
         fontSize: 17,
         fontWeight: 'bold',
         color: 'white',
+    },panelButtonTitleCancel : {
+        fontSize: 17,
+        fontWeight: 'bold',
     },
     action: {
         flexDirection: 'row',

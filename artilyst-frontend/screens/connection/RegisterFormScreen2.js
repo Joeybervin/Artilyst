@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // & import des urls de chacune
-import { expoUrlRaf } from '../../ExpoUrl';
+import { expoUrlJoey } from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
@@ -37,7 +37,7 @@ function RegisterFormScreen2(props) {
     }
 
     const signUpUser = async () => { // sauvegarder un utilisateur dans la base de données
-        const rawResponse = await fetch(`http://${expoUrlRaf}/sign-up`, {
+        const rawResponse = await fetch(`http://${expoUrlJoey}/sign-up`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ userInfos: userInfos }),
@@ -120,20 +120,9 @@ function RegisterFormScreen2(props) {
             <View style={{ flexDirection: 'row', marginTop: 50 }}>
                 <Text onPress={() => props.navigation.navigate('RegisterFormScreen1', userInfos)}>Retour</Text>
 
-                {/* <Button
-                    buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
-                    title="retour"
-                    onPress={() => props.navigation.navigate('RegisterFormScreen1', userInfos)}
-                /> */}
 
                 <CreerUnCompteBtn onPressHandler={() => signUpUser()} />
                 
-                {/* <Button
-                    buttonStyle={{ backgroundColor: '#3268DD', margin: 5 }}
-                    title="Créer un compte"
-                    onPress={() => signUpUser()}
-                    disabled={userOccupationClicked}
-                /> */}
 
             </View>
 

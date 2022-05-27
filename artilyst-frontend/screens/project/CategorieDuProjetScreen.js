@@ -1,38 +1,36 @@
 import React, { useState } from 'react';
 
-
-
 // ^ Wanings messages
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
 //^ Module de balise
 import { StyleSheet, View, ScrollView } from 'react-native';
-import { Button, Text, Divider } from '@rneui/base';
+import {  Text } from '@rneui/base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
-import { PostulerBtnLight, PostulerBtn, SuivantBtn } from '../components/ButtonsStyles';
+import { SuivantBtn } from '../components/ButtonsStyles';
 
 
 export default function CategorieDuProjetScreen(props) {
 
-    //****************variable d'etat **************/
+    // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     const [category, setCategory] = useState('')
 
-    //*********** Récuperation des params de l'ecran précédent ************/
-    var ParamsProject2 = props.route.params;
-    console.log('params2', ParamsProject2)
 
-    //*****************Functions**********************/
+    /* Params */
+    var ParamsProject2 = props.route.params;
     ParamsProject2['category'] = category;
+
+    // * ___________________________ FUNCTIONS ___________________________
+    
     const addCategory = (catego) => {
         setCategory(catego)
-        props.navigation.navigate('CreationAnnonceScreen', ParamsProject2)
     }
 
 
-
+// * ___________________________ PAGE ___________________________
     return (
         <ScrollView style={{ backgroundColor: "#fff" }}>
 
@@ -43,11 +41,12 @@ export default function CategorieDuProjetScreen(props) {
                     <View style={{ borderWidth: 0.5, borderColor: '#1ADBAC', borderRadius: 50, width: "85%", height: 10, backgroundColor: '#1ADBAC' }}></View>
                 </View>
 
-                <Text style={{ marginTop: 3, marginBottom: 25, fontWeight: 'bold', fontSize: '20', textAlign: 'center' }}> Catégorie du projet </Text>
+                <Text style={{ marginTop: 3, marginBottom: 25, fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}> Catégorie du projet </Text>
 
 
                 <View dir="row" align="center" spacing={4}>
 
+                    {/* création textile */}
                     <TouchableOpacity
                         style={styles.smallCards}
                         onPress={() => addCategory("Création Textile")}
@@ -55,6 +54,7 @@ export default function CategorieDuProjetScreen(props) {
                         <Text style={styles.cardTitle}>Création textile</Text>
                     </TouchableOpacity>
 
+                     {/* défilé */}
                     <TouchableOpacity
                         style={styles.smallCards}
                         onPress={() => addCategory("Défilé")}
@@ -62,6 +62,7 @@ export default function CategorieDuProjetScreen(props) {
                         <Text style={styles.cardTitle}>Défilé</Text>
                     </TouchableOpacity>
 
+                    {/* evenement / vernissage */}
                     <TouchableOpacity
                         style={styles.smallCards}
                         onPress={() => addCategory("Evènement/Vernissage")}
@@ -69,6 +70,7 @@ export default function CategorieDuProjetScreen(props) {
                         <Text style={styles.cardTitle}>Evènement/vernissage</Text>
                     </TouchableOpacity>
 
+                    {/* court métrage */}
                     <TouchableOpacity
                         style={styles.smallCards}
                         onPress={() => addCategory("Court Métrage")}
@@ -76,6 +78,7 @@ export default function CategorieDuProjetScreen(props) {
                         <Text style={styles.cardTitle}>Court métrage</Text>
                     </TouchableOpacity>
 
+                    {/* long métrage */}
                     <TouchableOpacity
                         style={styles.smallCards}
                         onPress={() => addCategory("Long Métrage")}
@@ -83,6 +86,7 @@ export default function CategorieDuProjetScreen(props) {
                         <Text style={styles.cardTitle}>Long métrage</Text>
                     </TouchableOpacity>
 
+                    {/* série */}
                     <TouchableOpacity
                         style={styles.smallCards}
                         onPress={() => addCategory("Série")}
@@ -90,6 +94,7 @@ export default function CategorieDuProjetScreen(props) {
                         <Text style={styles.cardTitle}>Série</Text>
                     </TouchableOpacity>
 
+                    {/* spot publicitaire */}
                     <TouchableOpacity
                         style={styles.smallCards}
                         onPress={() => addCategory("Spot Publicitaire ")}
@@ -97,6 +102,7 @@ export default function CategorieDuProjetScreen(props) {
                         <Text style={styles.cardTitle}>Spot publicitaire</Text>
                     </TouchableOpacity>
 
+                    {/* shooting */}
                     <TouchableOpacity
                         style={styles.smallCards}
                         onPress={() => addCategory("Shooting")}
@@ -104,60 +110,7 @@ export default function CategorieDuProjetScreen(props) {
                         <Text style={styles.cardTitle}>Shooting</Text>
                     </TouchableOpacity>
 
-                    {/* Old buttons
-                    <View>
-                        <Button
-                            buttonStyle={{ backgroundColor: '#1ADBAC' }}
-                            title="Création Textile"
-                            onPress={() => addCategory("Création Textile")}
-
-                        />
-
-                        <Button
-                            buttonStyle={{ backgroundColor: '#16B88F' }}
-                            title="Défilé"
-                            onPress={() => addCategory("Défilé")}
-                        />
-                        <Button
-                            buttonStyle={{ backgroundColor: '#109171' }}
-                            title="Evènement/Vernissage"
-                            onPress={() => addCategory("Evènement/Vernissage")}
-                        />
-
-                        <Button
-                            buttonStyle={{ backgroundColor: '#0B664F' }}
-                            title="Court Métrage"
-                            onPress={() => addCategory("Court Métrage")}
-                        />
-
-                        <Button
-
-                            buttonStyle={{ backgroundColor: '#074233' }}
-                            title="Long Métrage"
-                            onPress={() => addCategory("Long Métrage")}
-                        />
-
-                        <Button
-
-                            buttonStyle={{ backgroundColor: '#074233' }}
-                            title="Série"
-                            onPress={() => addCategory("Série")}
-                        />
-
-                        <Button
-
-                            buttonStyle={{ backgroundColor: '#074233' }}
-                            title="Spot Publicitaire "
-                            onPress={() => addCategory("Spot Publicitaire ")}
-                        />
-
-                        <Button
-
-                            buttonStyle={{ backgroundColor: '#074233' }}
-                            title="Shooting"
-                            onPress={() => addCategory("Shooting")}
-                        />
-                    </View> */}
+                  
 
                 </View>
 
@@ -168,18 +121,9 @@ export default function CategorieDuProjetScreen(props) {
                     <TouchableOpacity onPress={() => props.navigation.navigate('PhotographeCollaborateurScreen')}>
                         <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#232323' }}>Retour</Text>
                     </TouchableOpacity>
-                    {/* <Button
-                        buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
-                        title="retour"
-                        onPress={() => props.navigation.navigate('PhotographeCollaborateurScreen')}
-                    /> */}
-
-                    <SuivantBtn onPressHandler={() => console.log("projet créé")} />
-                    {/* <Button
-                        buttonStyle={{ backgroundColor: '#3268DD', margin: 5 }}
-                        title="Créer mon projet"
-                        onPress={() => console.log("projet créer")}
-                    /> */}
+                  
+                    <SuivantBtn onPressHandler={() => props.navigation.navigate('CreationAnnonceScreen', ParamsProject2)} />
+                   
 
                 </View>
 
@@ -199,6 +143,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
+        marginBottom : 100
     },
     smallCards: {
         alignItems: 'center',

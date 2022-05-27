@@ -12,6 +12,8 @@ import { useNavigation } from '@react-navigation/native';
 // FULL BUTTON ------------------------
 export function PortfolioBtn(props) {
 
+    const [isPressed, setIsPressed] = useState(false)
+
     return (
         <View>
             <TouchableOpacity
@@ -110,7 +112,7 @@ export function CreeUnCompteBtn(props) {
                     alignItems: 'center',
                     borderRadius: 16,
                     padding: 1,
-                    margin: 10
+                    margin: 7
 
                 }}>
                 <TouchableOpacity
@@ -139,7 +141,7 @@ export function SeConnecterBtn(props) {
                     alignItems: 'center',
                     borderRadius: 16,
                     padding: 1,
-                    margin: 10
+                    margin: 7
 
                 }}>
                 <TouchableOpacity
@@ -148,6 +150,64 @@ export function SeConnecterBtn(props) {
                     style={styles.EmptyButton}
                 >
                     <Text style={styles.textBtn}>Se connecter</Text>
+                </TouchableOpacity>
+            </LinearGradient>
+        </View >
+    );
+}
+
+export function EnvoyerUnMessageBtn(props) {
+
+    return (
+        <View>
+            <LinearGradient
+                colors={['#36e599', '#597ee7', '#b44be0']}
+                end={[1, 0.5]}
+                style={{
+                    height: 42, width: 250,
+                    textAlign: 'center',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 16,
+                    padding: 1,
+                    margin: 7
+
+                }}>
+                <TouchableOpacity
+                    activeOpacity={.7}
+                    onPress={props.onPressHandler}
+                    style={styles.EmptyButton}
+                >
+                    <Text style={styles.textBtn}>Envoyer un message</Text>
+                </TouchableOpacity>
+            </LinearGradient>
+        </View >
+    );
+}
+
+export function ContinuerLaRechercheBtn(props) {
+
+    return (
+        <View>
+            <LinearGradient
+                colors={['#36e599', '#597ee7', '#b44be0']}
+                end={[1, 0.5]}
+                style={{
+                    height: 42, width: 250,
+                    textAlign: 'center',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 16,
+                    padding: 1,
+                    margin: 7
+
+                }}>
+                <TouchableOpacity
+                    activeOpacity={.7}
+                    onPress={props.onPressHandler}
+                    style={styles.EmptyButton}
+                >
+                    <Text style={styles.textBtn}>Continuer la recherche</Text>
                 </TouchableOpacity>
             </LinearGradient>
         </View >
@@ -369,7 +429,8 @@ const styles = StyleSheet.create({
         color: '#000',
         fontWeight: 'bold',
         fontSize: 16,
-        textAlign: 'center'
+        textAlign: 'center',
+        paddingHorizontal : 8
     },
     // FULL BUTTON
     btn: {
@@ -379,9 +440,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#1ADBAC',
         borderRadius: 16,
         shadowColor: 'black',
-        shadowOffset: { width: 2, height: 2 },
-        shadowOpacity: 0.2, shadowRadius: 2
-    },
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        
+        elevation: 5,
+            },
     // BORDERED BUTTON
     EmptyButton: {
         height: '100%',

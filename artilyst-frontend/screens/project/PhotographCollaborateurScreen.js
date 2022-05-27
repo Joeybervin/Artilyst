@@ -26,27 +26,20 @@ export default function PhotographCollaborateurScreen(props) {
 
 
     /* VARIABLES */
-    var Gender = gender;
-    var ParamsProject1 = props.route.params;
-    console.log('params1', ParamsProject1)
 
-    // * ___________________________ INITIALISATION DE LA PAGE ___________________________
-    /* PREMIÈRE */
-    /* SECONDE */
-    // * ___________________________ FUNCTIONS ___________________________
+    /* Les params */
+    var ParamsProject1 = props.route.params;
     ParamsProject1['gender'] = Gender;
     ParamsProject1['location'] = ville;
     ParamsProject1['ageMin'] = ageMin;
     ParamsProject1['ageMax'] = ageMax;
+    var Gender = gender;
+
+    // * ___________________________ FUNCTIONS ___________________________
+   
     const validSecondStep = () => {
         props.navigation.navigate('CategorieDuProjetScreen', ParamsProject1)
-
     }
-
-
-    // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
-    /* MAP */
-
 
     // * ___________________________ PAGE ___________________________
 
@@ -60,6 +53,8 @@ export default function PhotographCollaborateurScreen(props) {
                     marginTop: 40, width: "80%", height: 10,
                     borderWidth: 0.5, borderColor: '#1ADBAC', borderRadius: 50,
                 }}>
+
+
                     <View style={{
                         borderWidth: 0.5, borderColor: '#1ADBAC', borderRadius: 50,
                         width: "66%", height: 10,
@@ -77,7 +72,7 @@ export default function PhotographCollaborateurScreen(props) {
                 {/* Choix du genre */}
                 <View style={{ marginTop: 20, marginBottom: 10 }}>
 
-                    <Text style={{ marginTop: 10, marginBottom: 8, fontWeight: 'bold', fontSize: '20', textAlign: 'center' }}>Genre</Text>
+                    <Text style={{ marginTop: 10, marginBottom: 8, fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}>Genre</Text>
 
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '90%' }}>
 
@@ -105,18 +100,18 @@ export default function PhotographCollaborateurScreen(props) {
                 {/* Localisation */}
                 <View style={{ width: '80%', marginTop: 20 }}>
 
-                    <Text style={{ marginBottom: 8, fontWeight: 'bold', fontSize: '20', textAlign: 'center' }}>Localisation</Text>
+                    <Text style={{ marginBottom: 8, fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}>Localisation</Text>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text>Ville</Text>
                         <Input
                             onChangeText={setVille} value={ville}
-                        //errorMessage={emailError}
                         />
                     </View>
 
                     {/* Choix de la tranche d'âge */}
-                    <Text style={{ marginTop: 25, marginBottom: 8, fontWeight: 'bold', fontSize: '20', textAlign: 'center' }}>Age</Text>
+                    <Text style={{ marginTop: 25, marginBottom: 8, fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}>Age</Text>
+                    {/* Age minimum */}
                     <View style={{ alignItems: 'center' }} >
                         <Slider
                             animateTransitions
@@ -155,6 +150,7 @@ export default function PhotographCollaborateurScreen(props) {
 
                     </View>
 
+                    {/* Age maximum */}
                     <View style={{ alignItems: 'center' }} >
                         <Slider
                             animateTransitions
@@ -197,18 +193,8 @@ export default function PhotographCollaborateurScreen(props) {
                     <TouchableOpacity onPress={() => props.navigation.navigate('CollaborateurDuProjetScreen')}>
                         <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#232323' }}>Retour</Text>
                     </TouchableOpacity>
-                    {/* <Button
-                        buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
-                        title="retour"
-                        onPress={() => props.navigation.navigate('CollaborateurDuProjetScreen')}
-                    /> */}
 
                     <SuivantBtn onPressHandler={() => validSecondStep()} />
-                    {/* <Button
-                        buttonStyle={{ backgroundColor: '#3268DD', margin: 5 }}
-                        title="suivant"
-                        onPress={() => validSecondStep()}
-                    /> */}
 
                 </View>
 
@@ -231,6 +217,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+        marginBottom : 100
     },
 
     inputContainerStyle: {

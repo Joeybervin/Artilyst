@@ -131,8 +131,7 @@ router.post('/user_profile', async function (req, res, next) {
   let user_account = await userModel.findOne({
     token: token,
   });
-  // console.log(user_account)
-  // console.log(user_account)
+  
   res.json(user_account) // Object :  Je renvoie les informations au front-end
 })
 
@@ -140,8 +139,6 @@ router.post('/user_profile', async function (req, res, next) {
 router.put('/update_user_profile', async function (req, res, next) {
 
   let user_new_informations = req.body.user_new_informations // Je récupère les infos entrées
-
-  console.log(user_new_informations)
 
 console.log(user_new_informations.characteristics)
   await userModel.updateOne( 
@@ -191,7 +188,7 @@ router.post('/project', async function (req, res, next) {
     project_dates: { start: projectInfos.date_start, end: projectInfos.date_end },// début => fin
     category: projectInfos.category,
     remuneration: projectInfos.remuneration,
-    photos: '',
+    photos: [],
     users_selected: projectInfos.userstable, // table de tokens des users selectionnées
     age_min: projectInfos.ageMin,
     age_max: projectInfos.ageMax,
@@ -202,7 +199,6 @@ router.post('/project', async function (req, res, next) {
 
   await newProject.save() // enregistrement dans la base de données
 
-  //console.log(newProject._id)
 
   await userModel.updateOne(
     { token: projectInfos.token },
@@ -350,10 +346,10 @@ router.delete('/delete_portfolio_image', async function (req, res, next) {
       }
     }
   );
-  // console.log(deleteresult)
+
 })
 
-// Pour que l'utilisateur puisse supprimer une image de son portofolio
+
 router.delete('/delete_portfolio', async function (req, res, next) {
 
 
@@ -381,7 +377,6 @@ router.post('/search_casting', async function (req, res, next) {
 
   let user = await userModel.findOne({ token: req.body.token });
 
-  //console.log('USERS :', user);
 
   function getAge(dateString) {
     let ageInMilliseconds = new Date() - new Date(dateString);
@@ -395,7 +390,6 @@ router.post('/search_casting', async function (req, res, next) {
   )
 
   // RAPPEL : RAJOUTER COLLABORATORS : USER.OCCUPATION DANS LES FILTRES
-  // console.log('MATCHING USERS :', matchingProjects);
 
   res.json({ matchingProjects })
 
@@ -428,23 +422,14 @@ router.post('/postuler', async function (req, res, next) {
 
   const idProjectExist = user.projects_selected.find(id => id.idProject === id_Projet_Selected) // vérifier si le projet a déja été séléctionné ou pas 
 
-  //console.log("id_Projet_Selected",id_Projet_Selected)
-  //console.log("token", token)
-  //console.log("userSelected",userSelected)
-  //console.log("user", user)
-  //console.log("user.projects_selected",user.projects_selected)
-  //console.log("idProjectExist",idProjectExist)
-
   if(!idProjectExist){
 
     const matchVerify = userSelected.find(id => id === user._id);
 
-  //console.log(matchVerify)
-
   if(matchVerify){
   match = true
   }
-  //console.log("matchVerify",matchVerify)
+
 
   await userModel.updateOne(
     { token: token },
@@ -480,18 +465,17 @@ router.post('/recruter', async function (req, res, next) {
 
   if (!idUserSelectedExist) {
     const matchVerify = userHired.projects_selected.find(e => e.idProject == id_Projet); // vérifier si le project concerné par le rectutement existe déja dans la table projectselected (pour le match)
-    //console.log(matchVerify)
+ 
     if (matchVerify) {
       match = true
     }
-    //console.log("matchVerify",matchVerify)
+
 
     await projectModel.updateOne(
       { _id: id_Projet },
       { $push: { users_selected: userSelectedId } }
     )
 
-    console.log(userHired.projects_selected.length)
 
     for (let i = 0; i < userHired.projects_selected.length; i++) {
       if (userHired.projects_selected[i].idProject == id_Projet) {
@@ -502,7 +486,7 @@ router.post('/recruter', async function (req, res, next) {
 
     let status = await userHired.save()
 
-    //console.log(status)
+
 
 
     res.json({ userHired })
@@ -516,23 +500,16 @@ router.post('/recruter', async function (req, res, next) {
 })
 
 
-
-
-
 router.post('/displayProjects', async function (req, res, next) {
   var token = req.body.token
-  //console.log(token)
+
 
   var user = await userModel.findOne({ token: token })
-  //console.log(user)
 
   let resultat = []
 
   for (let i = 0; i < user.projects_created.length; i++) {
     var project = await projectModel.findOne({ _id: user.projects_created[i] })
-    //console.log("project", project)
-    //var projectObject = {idProject :project._id , title : project.title , image : project.photos[0] }
-    //console.log(projectObject)
 
     resultat.push(project)
 

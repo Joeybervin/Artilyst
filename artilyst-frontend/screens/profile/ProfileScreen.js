@@ -2,7 +2,7 @@ import Animated from 'react-native-reanimated';
 
 import React, { useRef, useState, useEffect } from 'react';
 
-import { expoUrlRaf } from '../../ExpoUrl';
+import { expoUrlJoey } from '../../ExpoUrl';
 
 
 //^ Module de balise
@@ -21,7 +21,7 @@ import { connect } from 'react-redux';
 import BottomSheet from 'reanimated-bottom-sheet';
 import * as ImagePicker from "expo-image-picker";
 
-import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
+import {  subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
 import { PortfolioBtn, ModifierProfilBtn } from '../components/ButtonsStyles';
 
 
@@ -34,6 +34,7 @@ function ProfileScreen(props) {
     const [user, setUser] = useState(props.user)
     const [overlayVisibility, setOverlayVisibility] = useState(false); // Pour le chargement de l'image
 
+    
 
     /* VARIABLES */
     let sheetRef = React.useRef(null);
@@ -81,7 +82,7 @@ function ProfileScreen(props) {
                 });
 
 
-                let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
+                let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
                     {
                         method: 'PUT',
                         body: data,
@@ -134,7 +135,7 @@ function ProfileScreen(props) {
 
 
 
-                let data_uploaded = await fetch(`http://${expoUrlRaf}/upload_image_profil`,
+                let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
                     {
                         method: 'PUT',
                         body: data,
@@ -162,31 +163,23 @@ function ProfileScreen(props) {
     const renderInner = () => (
         <View style={styles.panel}>
             <View style={{ alignItems: 'center' }}>
-                <Text style={styles.panelTitle}>Modifier vos photos</Text>
-                <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
+                <Text style={styles.panelTitle}>Ajouter une photo</Text>
+                <Text style={styles.panelSubtitle}>Choisissez votre photo de profil</Text>
             </View>
             <TouchableOpacity style={styles.panelButton} onPress={goToGallery}>
-                <Text style={styles.panelButtonTitle}>Gallery photos</Text>
+                <Text style={styles.panelButtonTitle}>Galerie photos</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.panelButton} onPress={openCamera}>
-                <Text style={styles.panelButtonTitle}>Take Photo</Text>
+                <Text style={styles.panelButtonTitle}>Prendre une photo</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.panelButton} onPress={showImagePicker}>
-                <Text style={styles.panelButtonTitle}>Choose From Library</Text>
+                <Text style={styles.panelButtonTitle}>Ouvrir la bibliothèque</Text>
             </TouchableOpacity>
             <TouchableOpacity
-                style={styles.panelButton}
+                style={styles.panelButtonCancel}
                 onPress={() => sheetRef.current.snapTo(1)}>
-                <Text style={styles.panelButtonTitle}>Cancel</Text>
+                <Text style={styles.panelButtonTitleCancel}>Annuler</Text>
             </TouchableOpacity>
-        </View>
-    );
-
-    const renderHeader = () => (
-        <View style={styles.header}>
-            <View style={styles.panelHeader}>
-                <View style={styles.panelHandle} />
-            </View>
         </View>
     );
 
@@ -195,7 +188,7 @@ function ProfileScreen(props) {
         if (gender === 'femme') {
             return "female-outline"
         }
-        else if (gender === 'male') {
+        else if (gender === 'homme') {
             return "male-outline"
         } else {
             return "male-female-outline"
@@ -215,17 +208,18 @@ function ProfileScreen(props) {
 
 
     const userPhotos = userProfileImages.map((element, index) => {
-        console.log(element)
         return (
             <View key={index} style={{ width: "100%", height: "100%", borderRadius: 10, alignItems: "center" }}>
                 <Image
-                    style={{ width: Dimensions.get('screen').width - 20, resizeMode: 'cover', height: 350, borderRadius: 25, }}
+                    style={{ width: Dimensions.get('screen').width - 60, resizeMode: 'cover', height: 300, borderRadius: 20, }}
                     key={index}
                     source={{ uri: element }}
                 />
             </View>
         )
     })
+
+    console.log(user)
 
 
     // * ___________________________ PAGE ___________________________
@@ -246,9 +240,8 @@ function ProfileScreen(props) {
 
                 <BottomSheet
                     ref={sheetRef}
-                    snapPoints={[500, 0]}
+                    snapPoints={[1050, 0]}
                     renderContent={renderInner}
-                    renderHeader={renderHeader}
                     initialSnap={1}
                     callBackNode={fall}
                     enabledContentGestureInteraction={true}
@@ -333,9 +326,8 @@ function ProfileScreen(props) {
 
                 <BottomSheet
                     ref={sheetRef}
-                    snapPoints={[500, 0]}
+                    snapPoints={[1050, 0]}
                     renderContent={renderInner}
-                    renderHeader={renderHeader}
                     initialSnap={1}
                     callBackNode={fall}
                     enabledContentGestureInteraction={true}
@@ -347,13 +339,13 @@ function ProfileScreen(props) {
 
                     {/* -------- CARROUSEL D'IMAGES --------  */}
                     <View style={styles.swipperContainer}>
-                        <Swiper style={styles.wrapper} showsButtons={false} activeDotColor="#1ADBAC" dotColor='white' showsHorizontalScrollIndicator={true}>
+                        <Swiper style={styles.wrapper} showsButtons={false} activeDotColor="#1ADBAC" dotColor='white' showsHorizontalScrollIndicator={false}>
 
                             {userPhotos}
 
                         </Swiper>
-                        <Ionicons style={{ position: 'absolute', bottom: 5, right: 25, padding: 15, borderRadius: 50 }}
-                            name={user.profile_photo.length === 0 ? 'images' : "camera-outline"} color="#ffffff" size={45}
+                        <Ionicons style={{ position: 'absolute', bottom: 0, right: 35, padding: 15, borderRadius: 50 }}
+                            name={user.profile_photo.length === 0 ? 'images' : "camera-outline"} color="#ffffff" size={40}
                             onPress={() => sheetRef.current.snapTo(0)} />
 
                     </View>
@@ -361,11 +353,11 @@ function ProfileScreen(props) {
 
                     {/* -------- INFORMATIONS --------  */}
                     <View style={styles.firstInformations} >
-                        <Text style={{ fontSize: 30, fontWeight: 'bold', marginBottom: 5 }}>{user.name}</Text>
-                        {/* <Ionicons name={genderIcon(user.characteristics.gender ? user.characteristics.gender : "male-female-outline")} size={19} color='black' /> */}
+                        <Text style={{ fontSize: 30, fontWeight: 'bold', marginBottom: 5 , marginRight : 8}}>{user.name}</Text>
+                        <Ionicons name={genderIcon(user.characteristics.gender ? user.characteristics.gender : "male-female-outline")} size={25} color='black' /> 
                     </View>
                     <View style={styles.location}>
-                        <Ionicons name={'location-sharp'} size={18} color='black' />
+                        <Ionicons style={{marginRight : 8}} name={'location-sharp'} size={18} color='black' />
                         <Text style={styles.textRegular}>{user.location ? user.location : "Non renseigné"}</Text>
                     </View>
 
@@ -378,30 +370,73 @@ function ProfileScreen(props) {
                     {/* -------- BOUTONS --------  */}
                     <View style={{ flexDirection: 'row', justifyContent: "center", alignItems: "center", marginBottom: 10, width: "100%" }} >
 
-                        <PortfolioBtn onPressHandler={() => props.navigation.navigate('PortfoliosScreen')} />
+                        <PortfolioBtn style={{borderWidth : 2, borderColor : 'black'}} onPressHandler={() => props.navigation.navigate('PortfoliosScreen')} />
                         <ModifierProfilBtn onPressHandler={() => props.navigation.navigate('ProfileEditScreen')} />
 
                     </View>
 
 
-                    <View style={{ justifyContent: 'center', textAlign: 'center' }}>
+                    <View style={{ width : "90%", justifyContent: 'center', textAlign: 'center', marginVertical : 25 }}>
                         {/* -------- ABOUT --------  */}
                         <View style={{ marginBottom: 25 }}>
                             <Text style={{ fontSize: 17, fontWeight: "bold", marginBottom: 10 }}>À propos</Text>
                             <Text>{user.description !== undefined ? user.description : "non renseigné"}</Text>
                         </View>
 
+                         {/* -------- CV --------  */}
+                         <View style={{ marginBottom: 25 }}>
+                            <Text style={{ fontSize: 17, fontWeight: "bold", marginBottom: 10 }}>Expériences pro</Text>
+                            <Text>{user.cv !== undefined ? user.cv : "non renseigné"}</Text>
+                        </View>
+
                         {/* -------- USER CARACTERISTICS --------  */}
-                        <View>
-                            <Text style={{ fontSize: 17, fontWeight: "bold", marginBottom: 10 }}>Informations</Text>
-                            <Text>Groupe ethnique : {user.characteristics.ethnicGroup === null ? "non renseigné" : user.characteristics.ethnicGroup}</Text>
-                            <Text>Couleur des yeux : {user.characteristics.eyes === null ? "non renseigné" : user.characteristics.eyes}</Text>
-                            <Text>Couleur des cheveux : {user.characteristics.hair === null ? "non renseigné" : user.characteristics.hair}</Text>
-                            <Text>Corpulence : {user.characteristics.corpulence !== null ? user.characteristics.corpulence : "non renseigné"}</Text>
-                            <Text>Taille : {user.characteristics.height !== null ? user.characteristics.height : "--"} cm  Poids : {user.characteristics.weight !== null ? user.characteristics.weight : "--"} kg</Text>
-                            {/* Mensurations */}
-                            <Text>Mensurations :</Text>
-                            <Text>Taille : {user.characteristics.measurements.waist !== null ? user.characteristics.measurements.waist : "--"} cm  -  Poitrine : {user.characteristics.measurements.bust !== null ? user.characteristics.measurements.bust : "--"} cm -  Hanches : {user.characteristics.measurements.hips !== null ? user.characteristics.measurements.hips : "--"} cm</Text>
+                        <View >
+                         <Text style={{ fontSize: 17, fontWeight: "bold", marginBottom: 10 }}>Informations</Text>
+                            <View style={{flexDirection : 'row', flexWrap : 'wrap'}}>
+                                
+                                <Text style={styles.badge}> 
+                                    <Image source={require('../../assets/diversity.png')} style={{width : 25, height : 25,paddingRight : 10}}/>  {user.characteristics.ethnicGroup === null ? "non renseigné" : user.characteristics.ethnicGroup}
+                                </Text>
+
+                                {/* Eyes */}
+                                <Text style={styles.badge}>
+                                    <Image source={require('../../assets/eye.png')} style={{width : 25, height : 25,paddingRight : 10}}/>  {user.characteristics.eyes === null ? "non renseigné" : user.characteristics.eyes}
+                                </Text>
+
+                                {/* hair */}
+                                <Text style={styles.badge}>
+                                    <Image source={require('../../assets/hair.png')} style={{width : 25, height : 25,paddingRight : 10}}/>  {user.characteristics.hair === null ? "non renseigné" : user.characteristics.hair}
+                                </Text>
+
+                                {/* corpulence */}
+                                <Text style={styles.badge}>
+                                    <Image source={require('../../assets/body.png')} style={{width : 25, height : 25,paddingRight : 10}}/>  {user.characteristics.corpulence !== null ? user.characteristics.corpulence : "non renseigné"}
+                                </Text>
+
+                                {/* Taille */}
+                                <Text style={styles.badge}>
+                                    <Image source={require('../../assets/height.png')} style={{width : 25, height : 25,paddingRight : 10}}/>  {user.characteristics.height !== null ? user.characteristics.height : "--"} cm
+                                </Text>
+
+                                {/* Poids */}
+                                <Text style={styles.badge}>
+                                    <Image source={require('../../assets/weight.png')} style={{width : 25, height : 25,paddingRight : 10}}/>  {user.characteristics.weight !== null ? user.characteristics.weight : "--"} kg
+                                </Text>
+
+                                {/* Mensurations */}
+                                <Text style={styles.badge}>
+                                <Image source={require('../../assets/waist.png')} style={{width : 20, height : 20,paddingRight : 10}}/> {user.characteristics.measurements.waist !== null ? user.characteristics.measurements.waist : "--"} cm
+                                </Text>
+
+                                <Text style={styles.badge}>
+                                    <Image source={require('../../assets/bust.png')} style={{width : 20, height : 20,paddingRight : 10}}/> {user.characteristics.measurements.bust !== null ? user.characteristics.measurements.bust : "--"} cm
+                                </Text>
+
+
+                                <Text style={styles.badge}>
+                                    <Image source={require('../../assets/hips.png')} style={{width : 20, height : 20,paddingRight : 10}}/>  {user.characteristics.measurements.hips !== null ? user.characteristics.measurements.hips : "--"} cm
+                                </Text>
+                            </View>
                         </View>
                     </View>
 
@@ -422,7 +457,7 @@ const styles = StyleSheet.create({
     },
     mainContainer: {
         marginTop: 10,
-        marginBottom: 50,
+        marginBottom: 115,
         justifyContent: 'center',
         alignItems: "center",
     },
@@ -431,14 +466,14 @@ const styles = StyleSheet.create({
     },
     swipperContainer: {
         width: '100%',
-        height: 350,
+        height: 300,
         marginBottom: 15
     },
     wrapper: {},
 
     firstInformations: {
         flexDirection: 'row',
-        alignItems: 'flex-end',
+        alignItems: 'center',
         margin: 10
     },
     location: {
@@ -468,6 +503,26 @@ const styles = StyleSheet.create({
         lineHeight: 10,
         textAlign: 'center'
     },
+    badge : {
+        margin: 8, 
+        padding: 8,
+        paddingHorizontal : 15, 
+        borderRadius: 12, 
+        color: 'white', 
+        backgroundColor: '#C0C0C0F4', 
+        fontWeight: 'bold',
+        justifyContent : 'center',
+        alignItems: 'center',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+
+        elevation: 3,
+    },
     container: {
         flex: 1,
     },
@@ -479,7 +534,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     panel: {
-        height: 500,
+        height: 1050,
         padding: 20,
         backgroundColor: '#FFFFFF',
         paddingTop: 20,
@@ -489,27 +544,6 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 0 },
         shadowRadius: 5,
         shadowOpacity: 0.4,
-    },
-    header: {
-        backgroundColor: '#FFFFFF',
-        shadowColor: '#333333',
-        shadowOffset: { width: -1, height: -3 },
-        shadowRadius: 2,
-        shadowOpacity: 0.4,
-        // elevation: 5,
-        paddingTop: 20,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-    },
-    panelHeader: {
-        alignItems: 'center',
-    },
-    panelHandle: {
-        width: 40,
-        height: 8,
-        borderRadius: 4,
-        backgroundColor: '#00000040',
-        marginBottom: 10,
     },
     panelTitle: {
         fontSize: 27,
@@ -528,10 +562,21 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginVertical: 7,
     },
+    panelButtonCancel :  {
+        padding: 13,
+        borderRadius: 10,
+        backgroundColor: '#F4F4F4',
+        alignItems: 'center',
+        marginVertical: 7,
+    },
+
     panelButtonTitle: {
         fontSize: 17,
         fontWeight: 'bold',
         color: 'white',
+    },panelButtonTitleCancel : {
+        fontSize: 17,
+        fontWeight: 'bold',
     },
     action: {
         flexDirection: 'row',

@@ -10,7 +10,7 @@ import { StyleSheet, Text, View } from 'react-native';
 /* import { Text } from '@rneui/base'; */
 // const [DisplayArtist, setDisplayArtist]= useState()
 
-import { expoUrlRaf } from '../../ExpoUrl';
+import { expoUrlJoey } from '../../ExpoUrl';
 
 function ArtisteCorrespondantScreen(props) {
 
@@ -20,7 +20,8 @@ function ArtisteCorrespondantScreen(props) {
 
     /* VARIABLES */
 
-    let projectId = props.route.params;
+    const params = props.route.params;
+    console.log(params)
 
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
@@ -29,13 +30,12 @@ function ArtisteCorrespondantScreen(props) {
 
     // Import des artistes correspondants depuis le backend
     useEffect(() => {
-
         async function loadArtists() {
-            //console.log('TEST FETCH :', projectId)
-            var rawResponse = await fetch(`http://${expoUrlRaf}/search_artist`, {
+            //console.log('TEST FETCH :', params)
+            var rawResponse = await fetch(`http://${expoUrlJoey}/search_artist`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `id=${projectId.id}`,
+                body: `id=${params.id}`,
             })
             let response = await rawResponse.json();
             //console.log('REPONSE DU BACKEND',response.matchingUsers)
@@ -68,7 +68,7 @@ function ArtisteCorrespondantScreen(props) {
             }}>
                 {/* image profil */}
                 <View style={{ height: 140, backgroundcolor: '#1ADBAC', marginLeft: 10, marginRight: 10, marginTop: 5, alignItems: "center" }}>
-                    <Image style={{ width: '100%', height: '100%' }} source={{ uri: artist.profile_photo[0] }} />
+                   {/*  <Image style={{ width: '100%', height: '100%' }} source={{ uri: artist.profile_photo[0] }} /> */}
                 </View>
 
                 {/* Nom et domaine */}
@@ -103,7 +103,7 @@ function ArtisteCorrespondantScreen(props) {
                     justifyContent: 'center'
                 }} >
 
-                    {artistsDisplay}
+                    {artistsDisplay.length === 0 ? <Text>Aucun n'artiste ne correspondant</Text> : artistsDisplay}
 
                 </View>
             </View>

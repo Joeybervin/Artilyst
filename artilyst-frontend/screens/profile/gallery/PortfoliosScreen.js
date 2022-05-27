@@ -3,7 +3,7 @@ import Animated from 'react-native-reanimated';
 
 import React, { useRef, useState, useEffect } from 'react';
 
-import { expoUrlRaf } from '../../../ExpoUrl';
+import { expoUrlJoey } from '../../../ExpoUrl';
 
 //^ Module de balise
 import { Dimensions, StyleSheet, View, ScrollView, TouchableOpacity, ImageBackground, ActivityIndicator } from 'react-native';
@@ -38,7 +38,7 @@ function PortfoliosScreen(props) {
             setTitleMessageError("Champs invalide !")
         }
         else {
-            const rawResponse = await fetch(`http://${expoUrlRaf}/upload_portfolio`, {
+            const rawResponse = await fetch(`http://${expoUrlJoey}/upload_portfolio`, {
                 method: 'PUT',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `portfolioName=${title}&token=${user.token}`,
@@ -59,7 +59,7 @@ function PortfoliosScreen(props) {
 
     const deletePortfolio = async (portfolioName, portfolioIndex) => {
 
-        const rawResponse = await fetch(`http://${expoUrlRaf}/delete_portfolio`, {
+        const rawResponse = await fetch(`http://${expoUrlJoey}/delete_portfolio`, {
             method: 'DELETE',
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: `portfolioName=${portfolioName}&token=${user.token}`,
@@ -189,7 +189,7 @@ function PortfoliosScreen(props) {
 
                 {/* _______________________________________________________________________________________________________________________________________ */}
 
-                <View style={{ width: "100%" }}>
+                <View style={{ width: "100%", marginBottom : 100 }}>
 
                     <Text style={{ fontWeight: "bold", fontSize: 20, marginBottom: 25, width: "90%", marginLeft: 20 }}>Mes portfolios </Text>
                     <View style={{ width: "100%", dipslay: "flex", flexDirection: 'row', flexWrap: "wrap", marginBottom: 30 }}>
