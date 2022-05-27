@@ -173,33 +173,25 @@ function ProfileScreen(props) {
 
     const renderInner = () => (
         <View style={styles.panel}>
-            <View style={{ alignItems: 'center' }}>
-                <Text style={styles.panelTitle}>Modifier vos photos</Text>
-                <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
-            </View>
-            <TouchableOpacity style={styles.panelButton} onPress={goToGallery}>
-                <Text style={styles.panelButtonTitle}>Gallery photos</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.panelButton} onPress={openCamera}>
-                <Text style={styles.panelButtonTitle}>Take Photo</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.panelButton} onPress={showImagePicker}>
-                <Text style={styles.panelButtonTitle}>Choose From Library</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.panelButton}
-                onPress={() => sheetRef.current.snapTo(1)}>
-                <Text style={styles.panelButtonTitle}>Cancel</Text>
-            </TouchableOpacity>
+        <View style={{ alignItems: 'center' }}>
+            <Text style={styles.panelTitle}>Ajouter une photo</Text>
+            <Text style={styles.panelSubtitle}>Choisissez votre photo de profil</Text>
         </View>
-    );
-
-    const renderHeader = () => (
-        <View style={styles.header}>
-            <View style={styles.panelHeader}>
-                <View style={styles.panelHandle} />
-            </View>
-        </View>
+        <TouchableOpacity style={styles.panelButton} onPress={goToGallery}>
+            <Text style={styles.panelButtonTitle}>Galerie photos</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.panelButton} onPress={openCamera}>
+            <Text style={styles.panelButtonTitle}>Prendre une photo</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.panelButton} onPress={showImagePicker}>
+            <Text style={styles.panelButtonTitle}>Ouvrir la bibliothèque</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+            style={styles.panelButtonCancel}
+            onPress={() => sheetRef.current.snapTo(1)}>
+            <Text style={styles.panelButtonTitleCancel}>Annuler</Text>
+        </TouchableOpacity>
+    </View>
     );
 
     /* Pour afficher l'icon de "genre" des utilisateurs */
@@ -270,7 +262,6 @@ function ProfileScreen(props) {
                     ref={sheetRef}
                     snapPoints={[500, 0]}
                     renderContent={renderInner}
-                    renderHeader={renderHeader}
                     initialSnap={1}
                     callBackNode={fall}
                     enabledContentGestureInteraction={true}
@@ -408,7 +399,6 @@ function ProfileScreen(props) {
                     ref={sheetRef}
                     snapPoints={[500, 0]}
                     renderContent={renderInner}
-                    renderHeader={renderHeader}
                     initialSnap={1}
                     callBackNode={fall}
                     enabledContentGestureInteraction={true}
@@ -597,10 +587,21 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginVertical: 7,
     },
+    panelButtonCancel :  {
+        padding: 13,
+        borderRadius: 10,
+        backgroundColor: '#F4F4F4',
+        alignItems: 'center',
+        marginVertical: 7,
+    },
+
     panelButtonTitle: {
         fontSize: 17,
         fontWeight: 'bold',
         color: 'white',
+    },panelButtonTitleCancel : {
+        fontSize: 17,
+        fontWeight: 'bold',
     },
     action: {
         flexDirection: 'row',

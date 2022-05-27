@@ -1,6 +1,10 @@
 export default function(ListProjet =[], action) {
+
     if(action.type == 'saveListProject') {
+
+      
       return action.ListProjet;
+
     } else if (action.type == 'addProject') {
         var newProject ={
             _id: action.id,

@@ -28,53 +28,39 @@ function ProfileEditScreen(props) {
     /* VARIABLES D'ÉTAT  */
 
     const user = props.user
-    const [name, setName] = useState(user.name === "" ? "" : user.name);// Ville
-    const [city, setCity] = useState(user.city === "" ? "" : user.city);// Ville
-    const [description, setDescription] = useState(user.description === "" ? "" : user.description);// Description perso
-    const [cv, setCv] = useState(user.cv === "" ? "" : user.cv);// Expérience professionnelles
-    const [gender, setGender] = useState(user.gender === "" ? "" : user.gender);// Gender
-    const [ethnicGroup, setEthnicGroup] = useState(user.ethnicGroup === "" ? "" : user.ethnicGroup);// Ethnic group
-    const [hair, setHair] = useState(user.hair === "" ? "" : user.hair);// Hair
-    const [eyes, setEyes] = useState(user.eyes === "" ? "" : user.eyes);// Eyes
-    const [height, setHeight] = useState(user.height === "" ? 0 : user.height);// Slider taille
-    const [weight, setWeight] = useState(user.weight === "" ? 0 : user.weight);// Slider poids
+    const [name, setName] = useState(user.name === null ? "" : user.name);// Ville
+    const [location, setLocation] = useState(user.location === null ? "" : user.location);// Ville
+    const [description, setDescription] = useState(user.description === null ? "" : user.description);// Description perso
+    const [cv, setCv] = useState(user.cv === null ? "" : user.cv);// Expérience professionnelles
+    const [gender, setGender] = useState(user.characteristics.gender === null ? "" : user.characteristics.gender);// Gender
+    const [ethnicGroup, setEthnicGroup] = useState(user.characteristics.ethnicGroup === null ? "" : user.characteristics.ethnicGroup);// Ethnic group
+    const [hair, setHair] = useState(user.characteristics.hair === null ? "" : user.characteristics.hair);// Hair
+    const [eyes, setEyes] = useState(user.characteristics.eyes === null ? "" : user.characteristics.eyes);// Eyes
+    const [height, setHeight] = useState(user.characteristics.height === null ? 0 : user.characteristics.height);// Slider taille
+    const [weight, setWeight] = useState(user.characteristics.weight === null ? 0 : user.characteristics.weight);// Slider poids
     // Mensurations
-    const [waist, setWaist] = useState(user.waist === "" ? 0 : user.waist); // waist
-    const [bust, setBust] = useState(user.bust === "" ? 0 : user.bust); // bust
-    const [hips, setHips] = useState(user.hips === "" ? 0 : user.hips); // hips
-    const [corpulence, setCorpulence] = useState(user.corpulence === "" ? "" : user.corpulence);// Corpulence 
+    const [waist, setWaist] = useState(user.characteristics.measurements.waist === null ? 0 : user.characteristics.measurements.waist); // waist
+    const [bust, setBust] = useState(user.characteristics.measurements.bust === null ? 0 : user.characteristics.measurements.bust); // bust
+    const [hips, setHips] = useState(user.characteristics.measurements.hips === null ? 0 : user.characteristics.measurements.hips); // hips
+    const [corpulence, setCorpulence] = useState(user.characteristics.corpulence === null ? "" : user.characteristics.corpulence);// Corpulence 
 
     /* Pour la géolocation */
-    const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
     const [overlayVisibility, setOverlayVisibility] = useState(false);
 
     /* VARIABLES */
+    console.log(user.characteristics.gender)
 
-    // * ___________________________ INITIALISATION DE LA PAGE ___________________________
-    /* PREMIÈRE */
-    /* useEffect(() => {
-        let enabled = await Location.hasServicesEnabledAsync();
-        if (!enabled) {
-            Alert.alert(
-                'Le système de géolocation est désactivez',
-                'Veuillez le réactivez, afin de continuer',
-                [{ text: 'OK' }],
-                { cancelable: false }
-            );
-        }
-    }, []); */
-    /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
 
     // Update du profil dans la bdd
     async function updateUserProfile() {
 
-        let user_new_informations = {token: user.token, city: city, description: description, cv: cv, name : name,
+        let user_new_informations = {token: user.token, location: location, description: description, cv: cv, name : name,
                 gender: gender, ethnicGroup: ethnicGroup, hair: hair, eyes: eyes, height: height, weight: weight, corpulence: corpulence, measurements : {}, waist: waist, bust: bust, hips: hips }
 
         for(const infos in user_new_informations ) {
-            if (user_new_informations[infos] === undefined || user_new_informations[infos] === "") {
+            if (user_new_informations[infos] === null || user_new_informations[infos] === "") {
                 user_new_informations[infos] = null
             }
         }
@@ -83,7 +69,7 @@ function ProfileEditScreen(props) {
         }
 
         for (const measurementsInfos in user_new_informations.measurements) {
-            if (user_new_informations.measurements[measurementsInfos] === undefined || user_new_informations.measurements[measurementsInfos] === "") {
+            if (user_new_informations.measurements[measurementsInfos] === null || user_new_informations.measurements[measurementsInfos] === "") {
                 user_new_informations.measurements[measurementsInfos] = null
             }
         }
@@ -123,7 +109,7 @@ function ProfileEditScreen(props) {
 
             if (response) {
                 setOverlayVisibility(false)
-                setCity(response[0].city)
+                setLocation(response[0].location)
             }
 
             
@@ -136,21 +122,21 @@ function ProfileEditScreen(props) {
 // * ___________________________ PAGE ___________________________
 return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container} >
-        <ScrollView>
+        <ScrollView style={styles.container}>
 
         <Overlay isVisible={overlayVisibility} >
             <ActivityIndicator size="large" color="#000000" />
             <Text>Nous cherchons votre localisasion ...</Text>
         </Overlay>
 
-            <View style={{width : "100%", justifyContent: 'center', alignItems : 'center', alignItem : 'center'}}>
+            <View style={{width : "100%", justifyContent: 'center', alignItems : 'center', alignItem : 'center', backgroundColor : "#fff"}}>
 
                 <Text style={{marginBottom : 35, marginTop : 50, fontSize : 25, fontWeight : "bold"}}>Modifier son profil : </Text>
 
-                <View style={{ flex: 1, justifyContent: 'center', marginTop : 30}}>
+                <View style={{ width : '90%', flex: 1, justifyContent: 'center', marginTop : 30}}>
                 
                 {/* NAME */}
-                <View style={{ flexDirection: 'row', alignItems: 'center', width: '80%' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', width: '90%' }}>
                     <Text>Nom : </Text>
                     <Input
                     style={{width : "100%"}}
@@ -160,12 +146,12 @@ return (
                     />
                 </View>
                 {/* VILLE */}
-                <View style={{ flexDirection: 'row', alignItems: 'center', width: '80%' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', width: '90%' }}>
                     <Text>Ville : </Text>
                     <Input
                         placeholder='Ma ville'
-                        onChangeText={setCity}
-                        value={city}
+                        onChangeText={setLocation}
+                        value={location}
                         rightIcon={
                             <Ionicons onPress={() => geolocation()} name={"locate"} size={28} color="black" />
                         }
@@ -173,11 +159,11 @@ return (
                 </View>
 
                 {/* DESCRIPTION */}
-                <Text style={{marginBottom : 10, marginTop : 15, fontSize : 16,}}>À propos de moi : </Text>
+                <Text style={{marginBottom : 10, marginTop : 15, fontSize : 16}}>À propos de moi : </Text>
                 <TextInput
                     style={styles.input}
                     multiline = {true}
-                    numberOfLines = {10}
+                    numberOfLines = {25}
                     placeholder="Ma description"
                     onChangeText={setDescription}
                     value={description}
@@ -187,7 +173,7 @@ return (
                 <TextInput
                     style={styles.input}
                     multiline = {true}
-                    numberOfLines = {10}
+                    numberOfLines = {25}
                     placeholder="Ma formation, mes expériences..."
                     onChangeText={setCv}
                     value={cv}
@@ -195,7 +181,7 @@ return (
 
                 {/* SELECTION DU GENRE */}
                 <Text style={{marginBottom : 10, marginTop : 25, fontSize : 16,}}>Genre</Text>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '90%' }}>
+                <View style={{ flexDirection: 'row', flewWrap : 'wrap', justifyContent: 'space-around'}}>
                     <CheckBox
                         center
                         title="Femme"
@@ -233,7 +219,7 @@ return (
 
                 {/* ETHNIE */}
                 <Text style={{marginBottom : 10, marginTop : 25, fontSize : 16,}}>Ethnie</Text>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '90%' }}>
+                <View style={{ flexDirection: 'row',flexWrap : 'wrap', justifyContent: 'space-around' }}>
                     <CheckBox
                         center
                         title="Afro"
@@ -258,9 +244,7 @@ return (
                         }}
                         checked={ethnicGroup === "caucasien/ne" ? true : false}
                     />
-                </View>
-
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '90%' }}>
+                
                     <CheckBox
                         center
                         title="Hispanique"
@@ -301,7 +285,7 @@ return (
 
                 {/* CHEVEUX */}
                 <Text style={{marginBottom : 10, marginTop : 25, fontSize : 16,}}>Cheveux</Text>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '90%' }}>
+                <View style={{ flexDirection: 'row', flexWrap : "wrap", justifyContent: 'space-evenly'}}>
                     <CheckBox
                         center
                         title="Blond"
@@ -326,8 +310,7 @@ return (
                         }}
                         checked={hair === "noir" ? true : false}
                     />
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '90%' }}>
+                
                     <CheckBox
                         center
                         title="Gris"
@@ -352,8 +335,7 @@ return (
                         }}
                         checked={hair === "chatain" ? true : false}
                     />
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '90%' }}>
+                
                     <CheckBox
                         center
                         title="Roux"
@@ -386,7 +368,7 @@ return (
 
                 {/* -------- YEUX -------- */}
                 <Text style={{marginBottom : 10, marginTop : 25, fontSize : 16,}}>Yeux</Text>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '90%' }}>
+                <View style={{ flexDirection: 'row',flexWrap : 'wrap', justifyContent: 'space-around' }}>
                     <CheckBox
                         center
                         title="Bleu"
@@ -411,8 +393,7 @@ return (
                         }}
                         checked={eyes === "marron" ? true : false}
                     />
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '90%' }}>
+               
                     <CheckBox
                         center
                         title="Noir"
@@ -588,7 +569,7 @@ return (
 
                 {/* -------- CORPULENCE -------- */}
                 <Text style={{marginBottom : 10, marginTop : 25, fontSize : 16,}}>Corpulence</Text>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '90%' }}>
+                <View style={{ flexDirection: 'row',flexWrap : 'wrap', justifyContent: 'space-around', width: '90%' }}>
                     <CheckBox
                         center
                         title="Athlétique"
@@ -613,8 +594,7 @@ return (
                         }}
                         checked={corpulence === "curvy" ? true : false}
                     />
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '90%' }}>
+                
                     <CheckBox
                         center
                         title="Enrobé/e"
@@ -639,8 +619,7 @@ return (
                         }}
                         checked={corpulence === "maigre" ? true : false}
                     />
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '90%' }}>
+               
                     <CheckBox
                         center
                         title="Musclé/e"
@@ -659,7 +638,7 @@ return (
                     />
                 </View>
 
-                <View style={{ flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginVertical: 100, backgroundColor: '#33333341'}} >
+                <View style={{ flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginVertical: 120}} >
                     <Button
                         title="annuler"
                         titleStyle={{ paddingHorizontal: 30 }}
@@ -679,7 +658,7 @@ return (
                     />
                 </View>
 
-            </View>
+                </View>
             </View>
         </ScrollView >
     </KeyboardAvoidingView >
@@ -692,18 +671,16 @@ return (
 
 const styles = StyleSheet.create({
     container: {
-       
+       backgroudColor : '#fff'
     },
     input: {
-        maxWidth: '90%',
-        height: 100,
+        height: 200,
         margin: 12,
         borderWidth: 1,
         borderColor: '#d3d3d3',
         padding: 10,
     },
     inputSmall: {
-        width: '85%',
         height: 45,
         margin: 12,
         borderWidth: 1,

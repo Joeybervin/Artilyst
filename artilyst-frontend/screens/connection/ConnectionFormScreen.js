@@ -126,11 +126,6 @@ function ConnectionFormScreen(props) {
             {/* Bouton => envoyé */}
             <ConnexionBtn onPressHandler={() => signInUser()} />
 
-            {/* <Button
-                buttonStyle={{ backgroundColor: '#3BA58B', margin: 5 }}
-                title="Connexion"
-                onPress={() => signInUser()}
-            /> */}
             <Link style={{ marginTop: 25 }} to={'/RegisterFormScreen1'}>Pas encore membre ? Créer un compte</Link>
 
         </View>
