@@ -500,8 +500,6 @@ router.post('/recruter', async function (req, res, next) {
 })
 
 
-
-
 router.post('/displayProjects', async function (req, res, next) {
   var token = req.body.token
 
