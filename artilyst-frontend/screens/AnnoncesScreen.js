@@ -74,6 +74,7 @@ function AnnoncesScreen(props) {
             })
             let response = await rawResponse.json();
             setMatchingCasting(response.matchingProjects)
+            console.log(response)
 
         }
 
@@ -155,7 +156,9 @@ function AnnoncesScreen(props) {
 
                     <Text style={styles.cardTitle}>{title.substring(0, 30) + ' ...'}</Text>
                     <Text style={styles.cardText}>{description.substring(0, 50) + ' ...'}</Text>
+
                     <PostulerBtnLight onPressHandler={() => Postuler(casting._id, casting.users_selected)} />
+
                 </View>
             </View>
         )
@@ -271,8 +274,8 @@ function AnnoncesScreen(props) {
                         iconStyle={styles.iconStyle}
                         data={dropdownData}
                         maxHeight={300}
-                        labelField="title"
-                        valueField="title"
+                        labelField="label"
+                        valueField="value"
                         placeholder={'Choisissez un type de casting'}
                         value={value}
                         onFocus={() => setIsFocus(true)}
