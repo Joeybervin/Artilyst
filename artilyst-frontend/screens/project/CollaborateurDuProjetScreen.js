@@ -32,6 +32,8 @@ export default function CollaborateurDuProjetScreen(props) {
     const [ovelayDebutVisible, setOvelayDebutVisible] = useState(false);
     const [ovelayFinVisible, setOvelayFinVisible] = useState(false);
 
+    var [ isPress, setIsPress ] = useState(false); // BOLEAN : changement de couleur du boutton au clique
+
     /* VARIABLES */
     var datevalide = true
 
@@ -213,7 +215,10 @@ export default function CollaborateurDuProjetScreen(props) {
                         {/* Comédien */}
                         <TouchableOpacity
                             style={styles.smallCards}
-                        // onPress={() => addUserOccupation("Comedien")}
+                        onPress={() => {
+                            //addUserOccupation("Comedien")
+                            setIsPress(true)
+                        }}
                         >
                             <Text style={styles.cardTitle}>Comédien.ne</Text>
                         </TouchableOpacity>
@@ -221,23 +226,32 @@ export default function CollaborateurDuProjetScreen(props) {
                         {/* Modele */}
                         <TouchableOpacity
                             style={styles.smallCards}
-                        //onPress={() => addUserOccupation("Modele")}
+                            onPress={() => {
+                                //addUserOccupation("Modele")
+                                setIsPress(true)
+                            }}
                         >
                             <Text style={styles.cardTitle}>Modèle</Text>
                         </TouchableOpacity>
 
                         {/* ----- PHOTOGRAPHE ----- */}
                         <TouchableOpacity
-                            style={styles.smallCards}
-                            onPress={() => addUserOccupation("Photographe")}
+                            style={isPress ? styles.smallCardsPressed : styles.smallCards}
+                            onPress={() => {
+                                addUserOccupation("Photographe")
+                                setIsPress(true)
+                            }}
                         >
-                            <Text style={styles.cardTitle}>Photographe</Text>
+                            <Text style={isPress ? styles.cardTitlePressed : styles.cardTitle }>Photographe</Text>
                         </TouchableOpacity>
 
                         {/* Styliste */}
                         <TouchableOpacity
                             style={styles.smallCards}
-                        // onPress={() => addUserOccupation("Comedien")}
+                            onPress={() => {
+                                //addUserOccupation("Styliste")
+                                setIsPress(true)
+                            }}
                         >
                             <Text style={styles.cardTitle}>Styliste</Text>
                         </TouchableOpacity>
@@ -245,7 +259,10 @@ export default function CollaborateurDuProjetScreen(props) {
                         {/* Réalisateur */}
                         <TouchableOpacity
                             style={styles.smallCards}
-                        // onPress={() => addUserOccupation("Comedien")}
+                            onPress={() => {
+                                //addUserOccupation("Réalisateur.ice vidéos")
+                                setIsPress(true)
+                            }}
                         >
                             <Text style={styles.cardTitle}>Réalisateur.ice vidéos</Text>
                         </TouchableOpacity>
@@ -254,11 +271,11 @@ export default function CollaborateurDuProjetScreen(props) {
                 </View>
 
 
-                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 25, marginBottom: 50 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop: 50, marginBottom: 65, width : "90%"}}>
                     
                     {/* Boutton de retour */}
                     <TouchableOpacity onPressHandler={() => props.navigation.navigate('CreerUnProjetScreen')}>
-                        <Text style={{fontSize: 15, fontWeight: 'bold', color: '#232323'}}>Retour</Text>
+                        <Text style={{fontSize: 15, fontWeight: 'bold', color: '#232323', marginLeft : 35}}>Retour</Text>
                     </TouchableOpacity>
 
                     {/* Boutton page suivante */}
@@ -296,6 +313,29 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginBottom: 20,
     },
+    smallCardsPressed: {
+        alignItems: 'center',
+        backgroundColor: '#668FFF',
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 12,
+        borderColor: 'gray',
+        borderWidth: 0,
+        width: "100%",
+        height: 40,
+        marginTop: 5,
+        marginBottom: 5,
+        padding: 6,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
+
+        elevation: 2,
+    },
     smallCards: {
         alignItems: 'center',
         backgroundColor: '#f4f4f4',
@@ -309,9 +349,20 @@ const styles = StyleSheet.create({
         marginTop: 5,
         marginBottom: 5,
         padding: 6,
-        shadowColor: 'black',
-        shadowOffset: { width: 2, height: 2 },
-        shadowOpacity: 0.1, shadowRadius: 2
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+
+        elevation: 3,
+    },
+    cardTitlePressed : {
+       
+        ...cardTitle,
+         color : "#fff",
     },
 
     // -- GLOBAL STYLE ----------

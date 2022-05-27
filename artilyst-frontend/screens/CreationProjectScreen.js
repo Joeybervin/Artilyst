@@ -1,6 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 
+import { expoUrlJoey } from '../ExpoUrl';
+
 // ^ Wanings messages
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
@@ -25,7 +27,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
   /* VARIABLES D'ÉTAT  */
   const [checkBoxStatus, setCheckBoxStatus] = useState(false)
   const [overlayVisibility, setOverlayVisibility] = useState(false)
-  const [listProjet, setListProjet] = useState([])
+  const [listProject, setListProject] = useState([])
   let close = false
   /* VARIABLES */
   let userChoiceUncheck = { userChoice: "uncheck" }
@@ -44,11 +46,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: `token=${props.user.token}`,
       })
-      let ListProjet = await rawResponse.json();
+      let response = await rawResponse.json();
 
-      props.OnChangeList(ListProjet)
-      //console.log("retour",ListProjet)
-      setListProjet(ListProjet)
+      props.OnChangeList(response)
+      setListProject(response)
     }
     
     AsyncStorage.getItem("userMessage", function (error, choice) {
@@ -86,16 +87,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
   // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
   /* MAP */
 
-  const allUserProjects = props.listproject.map((element, index) => { // Tous les prjets de l'utilisateur
+  const allUserProjects = listProject.map((element, index) => { // Tous les prjets de l'utilisateur
+
     return (
       <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center" }} onPress={() => console.log("PROJET !!")} key={index}>
-
         <View style={{ opacity: 0.7, width: "90%", backgroundColor: "black", height: 200, marginBottom: 20, borderRadius: 10 }}  >
-
-          <Image
-            style={{ width: "100%", height: "100%", borderRadius: 10 }}
-            source={{ uri: element }}
-          />
+            <Image
+              style={{ width: "100%", height: "100%", borderRadius: 10 }}
+              source={element === null ? {uri : "https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg" } : { uri: "https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg"  }}
+          /> 
 
         </View>
         {/* Menu optionel */}
@@ -115,11 +115,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
         </Menu>
 
 
-        <Text style={{ fontSize: 25, fontWeight: "bold", position: "absolute", color: "white", padding: 15 }} >Puma : Shooting pout la nouvelle collection
+        <Text style={{ fontSize: 25, fontWeight: "bold", position: "absolute", color: "white", padding: 15 }} >{element === null ? "Projet terminé" : element.title}
         </Text>
       </TouchableOpacity>
     )
   })
+
 
   // * ___________________________ PAGE ___________________________
 

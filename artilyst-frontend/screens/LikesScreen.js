@@ -166,7 +166,8 @@ export default function LikesScreen(props) {
                                 <PostulerBtnLight />
                                 <Button
                                     color='black'
-                                    buttonStyle={{ fontSize: 12 }}
+                                    buttonStyle={{ fontSize: 12, paddingLeft : 15 }}
+                                    titleStyle ={{paddingHorizontal : 15}}
                                     title="Rejeter"
                                 />
                             </View>
@@ -235,6 +236,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        marginBottom : 140
     },
 
     profilCards: {

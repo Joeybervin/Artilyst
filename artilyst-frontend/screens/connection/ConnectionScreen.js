@@ -37,7 +37,7 @@ function ConnectionScreen(props) {
             let response = await rawResponse.json();
             let responseCopy = { ...response }
             setUserData(responseCopy)
-            console.log('logloglog', response)
+            
 
         }
         loadData();
@@ -81,7 +81,6 @@ function ConnectionScreen(props) {
 
             <SeConnecterBtn onPressHandler={() => {
                 props.getUserInformations(userData)
-                console.log(userData)
                 props.navigation.navigate('PagesStacks')
                 //props.navigation.navigate('ConnectionFormScreen'
             }} />

@@ -45,7 +45,7 @@ function CreerUnProjetScreen(props) {
     }
     loadCasting();
   }, []);
-
+console.log("coco")
   //console.log( "response2",listProjet)
   console.log("props.listproject", props.listproject)
   //console.log("user",props.user)
