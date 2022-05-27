@@ -116,7 +116,7 @@ export default function CollaborateurDuProjetScreen(props) {
                 {/* DATES */}
                 <View style={{ marginTop: 30 }}>
 
-                    <Text style={{ marginBottom: 8, fontWeight: 'bold', fontSize: '20', textAlign: 'center' }}>Dates</Text>
+                    <Text style={{ marginBottom: 8, fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}>Dates</Text>
 
                     <View style={{ marginTop: 25, marginBottom: 25 }}>
                         <Text style={{ fontWeight: 'bold', marginBottom: 15 }}>Date de début</Text>

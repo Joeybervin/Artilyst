@@ -18,7 +18,7 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import * as ImagePicker from "expo-image-picker";
 
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
-import { PostulerBtnLight, PostulerBtn, SuivantBtn, LancerRechercheBtn } from '../components/ButtonsStyles';
+import { LancerRechercheBtn } from '../components/ButtonsStyles';
 
 function CreationAnnonceScreen(props) {
 
@@ -61,8 +61,6 @@ function CreationAnnonceScreen(props) {
 
         // console.log("response",response)
         props.navigation.navigate('ArtisteCorrespondantScreen')
-
-
     }// Object : Réponse du back-end
 
 

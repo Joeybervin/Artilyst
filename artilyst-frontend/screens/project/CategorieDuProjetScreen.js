@@ -43,7 +43,7 @@ export default function CategorieDuProjetScreen(props) {
                     <View style={{ borderWidth: 0.5, borderColor: '#1ADBAC', borderRadius: 50, width: "85%", height: 10, backgroundColor: '#1ADBAC' }}></View>
                 </View>
 
-                <Text style={{ marginTop: 3, marginBottom: 25, fontWeight: 'bold', fontSize: '20', textAlign: 'center' }}> Catégorie du projet </Text>
+                <Text style={{ marginTop: 3, marginBottom: 25, fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}> Catégorie du projet </Text>
 
 
                 <View dir="row" align="center" spacing={4}>

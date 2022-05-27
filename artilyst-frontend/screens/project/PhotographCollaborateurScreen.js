@@ -105,7 +105,7 @@ export default function PhotographCollaborateurScreen(props) {
                 {/* Localisation */}
                 <View style={{ width: '80%', marginTop: 20 }}>
 
-                    <Text style={{ marginBottom: 8, fontWeight: 'bold', fontSize: '20', textAlign: 'center' }}>Localisation</Text>
+                    <Text style={{ marginBottom: 8, fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}>Localisation</Text>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text>Ville</Text>
