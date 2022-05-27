@@ -165,7 +165,7 @@ export default function LikesScreen(props) {
                             <View style={{ flex: 1, flexDirection: 'row', width: 340, justifyContent: "space-around", }}>
                                 <PostulerBtnLight />
                                 <Button
-                                    color='violet'
+                                    color='black'
                                     buttonStyle={{ fontSize: 12, paddingLeft : 15 }}
                                     titleStyle ={{paddingHorizontal : 15}}
                                     title="Rejeter"
