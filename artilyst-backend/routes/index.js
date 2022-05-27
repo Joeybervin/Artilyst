@@ -17,12 +17,6 @@ const { populate } = require('../models/user');
 const cost = 10;
 
 // ^ Paramètres et configurations
-/* config du cloudinary avec le compte cloudinary de mustapha 
-cloudinary.config({
- cloud_name: 'dxmpjeafy',
- api_key: '854443517271688',
- api_secret: '2ir7uEavjtm5ntcCK8wk6n1oKuM' 
-});*/
 cloudinary.config({
   cloud_name: 'Rafbervin',
   api_key: '557384916495445',
@@ -30,7 +24,6 @@ cloudinary.config({
 });
 
 // var request = require('sync-request');
-
 router.get('/', async function (req, res, next) {
   res.render('index', {title : "Express"})
 });
@@ -211,6 +204,44 @@ router.post('/project', async function (req, res, next) {
 
 });
 
+router.post('/displayProjects', async function (req, res, next) {
+  var token = req.body.token
+
+
+  var user = await userModel.findOne({ token: token })
+
+  let resultat = []
+
+  for (let i = 0; i < user.projects_created.length; i++) {
+    var project = await projectModel.findOne({ _id: user.projects_created[i] })
+
+    resultat.push(project)
+
+  }
+
+  //await user.projects_created.forEach( async (e) => {
+
+
+  // } )
+  //console.log("resultat", resultat)
+  res.json(resultat)
+
+})
+
+router.delete('/deleteProject', async function (req, res, next) {
+
+
+  let idProject = req.query.id
+  //console.log("idProject", idProject)
+  await projectModel.deleteOne({ _id: idProject });
+
+  //! A revoir
+  // ! Ajouter le fait que cela le supprime chez l'utilisateur aussi
+
+  res.json({ deleteStatus: true })
+
+})
+
 //* ____________________________________ PHOTOS / GALLERY ________________________________
 
 //? AJOUT
@@ -317,6 +348,8 @@ router.delete('/delete_profile_Image', async function (req, res, next) {
   res.json({ status: "supprimé" })
 
 })
+
+/* Supprimer une photo dans le portfolio */
 router.delete('/delete_portfolio_image', async function (req, res, next) {
 
   let portfolioImageUrl = req.body.portfolioImageUrl
@@ -349,7 +382,7 @@ router.delete('/delete_portfolio_image', async function (req, res, next) {
 
 })
 
-
+/* Pour supprimer un portfolio */
 router.delete('/delete_portfolio', async function (req, res, next) {
 
 
@@ -395,7 +428,6 @@ router.post('/search_casting', async function (req, res, next) {
 
 })
 
-
 // Affichage des artistes correspondants aux critères du projet
 router.post('/search_artist', async function (req, res, next) {
 
@@ -408,9 +440,9 @@ router.post('/search_artist', async function (req, res, next) {
   res.json({ matchingUsers })
 })
 
+//* ____________________________________ ANNONCES => ACTION : POSTULER / RECRUTER ________________________________
 
-
-// Pour qu'un artiste puisse postuler à des offres
+// Pour qu'un ARTISTE puisse postuler à des offres
 router.post('/postuler', async function (req, res, next) {
 
   var id_Projet_Selected = req.body.projectId
@@ -446,8 +478,8 @@ router.post('/postuler', async function (req, res, next) {
 
 })
 
-/************************************************************************************ */
-// Pour qu'un artiste puisse postuler à des offres
+/
+// Pour qu'un RECRUTEUR puisse engager
 router.post('/recruter', async function (req, res, next) {
 
   var id_Projet = req.body.projectId  // l'id du projet concerné
@@ -497,42 +529,6 @@ router.post('/recruter', async function (req, res, next) {
 
   // ?? res.json(user.projects_created)
   
-})
-
-
-router.post('/displayProjects', async function (req, res, next) {
-  var token = req.body.token
-
-
-  var user = await userModel.findOne({ token: token })
-
-  let resultat = []
-
-  for (let i = 0; i < user.projects_created.length; i++) {
-    var project = await projectModel.findOne({ _id: user.projects_created[i] })
-
-    resultat.push(project)
-
-  }
-
-  //await user.projects_created.forEach( async (e) => {
-
-
-  // } )
-  //console.log("resultat", resultat)
-  res.json(resultat)
-
-})
-
-router.delete('/deleteProject', async function (req, res, next) {
-
-
-  let idProject = req.query.id
-  //console.log("idProject", idProject)
-  await projectModel.deleteOne({ _id: idProject });
-
-  res.json({ deleteStatus: true })
-
 })
 
 
