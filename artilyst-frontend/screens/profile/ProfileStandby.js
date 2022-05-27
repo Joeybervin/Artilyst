@@ -268,7 +268,7 @@ function ProfileScreen(props) {
                     borderRadius={10}
                 />
     
-    
+
                 <View style={styles.mainContainer}>
     
                     {/* -------- CARROUSEL D'IMAGES --------  */}

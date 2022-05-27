@@ -302,8 +302,139 @@ function AnnoncesScreen(props) {
                         />
                     </View>
 
-                    {/* AFFICHAGE DES CASTING */}
-                    {castingDisplay.length === 0 ? <NoCastingMatchMessage /> : castingDisplay}
+                    {/* AFFICHAGE DYNAMIQUE DES CASTING */}
+                    {/* {castingDisplay.length === 0 ? <NoCastingMatchMessage /> : castingDisplay} */}
+
+
+                    {/* AFFICHAGE EN DUR DES CASTING */}
+                    {/* CASTING 1 */}
+                    <View style={{
+                        backgroundColor: '#f4f4f4',
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        borderRadius: 12,
+                        borderColor: 'gray',
+                        borderWidth: 0,
+                        width: "85%",
+                        height: 170,
+                        marginTop: 10,
+                        marginBottom: 10,
+                        padding: 6,
+                        shadowColor: "#000",
+                        shadowOffset: {
+                            width: 0,
+                            height: 3,
+                        },
+                        shadowOpacity: 0.27,
+                        shadowRadius: 4.65,
+
+                        elevation: 6,
+                    }}
+                    >
+                        {/*! a revoir le border radius sur ios */}
+                        <View style={{ width: 110, height: '100%' }}>
+                            <Image
+                                containerStyle={{ width: "100%", height: '100%' }}
+                                resizeMode="contain"
+                                source={{ uri: "https://images.unsplash.com/photo-1614778265188-dff1832ae5a2?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464" }}
+                                style={{ borderRadius: 10 }}
+                                PlaceholderContent="image"
+                            />
+                        </View>
+                        <View style={{ width: 200, height: '85%', justifyContent: 'space-between', paddingRight: 7 }}>
+
+                            <Text style={styles.cardTitle}>Modèle pour shooting</Text>
+                            <Text style={styles.cardText}>Je cherche un modèle pour un shooting studio</Text>
+                            <PostulerBtnLight onPressHandler={() => Postuler(casting._id, casting.users_selected)} />
+                        </View>
+                    </View>
+
+                    {/* CASTING 2 */}
+                    <View style={{
+                        backgroundColor: '#f4f4f4',
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        borderRadius: 12,
+                        borderColor: 'gray',
+                        borderWidth: 0,
+                        width: "85%",
+                        height: 170,
+                        marginTop: 10,
+                        marginBottom: 10,
+                        padding: 6,
+                        shadowColor: "#000",
+                        shadowOffset: {
+                            width: 0,
+                            height: 3,
+                        },
+                        shadowOpacity: 0.27,
+                        shadowRadius: 4.65,
+
+                        elevation: 6,
+                    }}
+                    >
+                        {/*! a revoir le border radius sur ios */}
+                        <View style={{ width: 110, height: '100%' }}>
+                            <Image
+                                containerStyle={{ width: "100%", height: '100%' }}
+                                resizeMode="contain"
+                                source={{ uri: "https://images.unsplash.com/photo-1550155864-3033f844da36?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387" }}
+                                style={{ borderRadius: 10 }}
+                                PlaceholderContent="image"
+                            />
+                        </View>
+                        <View style={{ width: 200, height: '85%', justifyContent: 'space-between', paddingRight: 7 }}>
+
+                            <Text style={styles.cardTitle}>Marque OSIRIS cherche modèle</Text>
+                            <Text style={styles.cardText}>La marque Osiris cherche un modèle masculin pour un shooting</Text>
+                            <PostulerBtnLight onPressHandler={() => Postuler(casting._id, casting.users_selected)} />
+                        </View>
+                    </View>
+
+                    {/* CASTING 3 */}
+                    <View style={{
+                        backgroundColor: '#f4f4f4',
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        borderRadius: 12,
+                        borderColor: 'gray',
+                        borderWidth: 0,
+                        width: "85%",
+                        height: 170,
+                        marginTop: 10,
+                        marginBottom: 10,
+                        padding: 6,
+                        shadowColor: "#000",
+                        shadowOffset: {
+                            width: 0,
+                            height: 3,
+                        },
+                        shadowOpacity: 0.27,
+                        shadowRadius: 4.65,
+
+                        elevation: 6,
+                    }}
+                    >
+                        {/*! a revoir le border radius sur ios */}
+                        <View style={{ width: 110, height: '100%' }}>
+                            <Image
+                                containerStyle={{ width: "100%", height: '100%' }}
+                                resizeMode="contain"
+                                source={{ uri: "https://images.unsplash.com/photo-1484876065684-b683cf17d276?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387" }}
+                                style={{ borderRadius: 10 }}
+                                PlaceholderContent="image"
+                            />
+                        </View>
+                        <View style={{ width: 200, height: '85%', justifyContent: 'space-between', paddingRight: 7 }}>
+
+                            <Text style={styles.cardTitle}>Recherche modèle pour publicité</Text>
+                            <Text style={styles.cardText}>Studio de musique recherche modèle pour une publicité</Text>
+                            <PostulerBtnLight onPressHandler={() => Postuler(casting._id, casting.users_selected)} />
+                        </View>
+                    </View>
 
                 </View>
 

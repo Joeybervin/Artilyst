@@ -56,8 +56,7 @@ function CreationAnnonceScreen(props) {
         if (response) {
             props.navigation.navigate('ArtisteCorrespondantScreen', {id : response})
         }
-        
-
+    
 
     }// OBJECT : Réponse du back-end
 
