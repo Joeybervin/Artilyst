@@ -11,8 +11,6 @@ import { Text, Button } from '@rneui/base';
 import { Overlay } from "@rneui/themed";
 //^ module bonus (icons)
 import { Ionicons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-import { FontAwesome5 } from '@expo/vector-icons'; 
 
 // ^ Carousel
 import Swiper from 'react-native-swiper'
@@ -23,7 +21,7 @@ import { connect } from 'react-redux';
 import BottomSheet from 'reanimated-bottom-sheet';
 import * as ImagePicker from "expo-image-picker";
 
-import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
+import {  subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
 import { PortfolioBtn, ModifierProfilBtn } from '../components/ButtonsStyles';
 
 
@@ -36,6 +34,7 @@ function ProfileScreen(props) {
     const [user, setUser] = useState(props.user)
     const [overlayVisibility, setOverlayVisibility] = useState(false); // Pour le chargement de l'image
 
+    
 
     /* VARIABLES */
     let sheetRef = React.useRef(null);
@@ -189,7 +188,7 @@ function ProfileScreen(props) {
         if (gender === 'femme') {
             return "female-outline"
         }
-        else if (gender === 'male') {
+        else if (gender === 'homme') {
             return "male-outline"
         } else {
             return "male-female-outline"
@@ -209,17 +208,18 @@ function ProfileScreen(props) {
 
 
     const userPhotos = userProfileImages.map((element, index) => {
-        console.log(element)
         return (
             <View key={index} style={{ width: "100%", height: "100%", borderRadius: 10, alignItems: "center" }}>
                 <Image
-                    style={{ width: Dimensions.get('screen').width - 20, resizeMode: 'cover', height: 350, borderRadius: 25, }}
+                    style={{ width: Dimensions.get('screen').width - 60, resizeMode: 'cover', height: 300, borderRadius: 20, }}
                     key={index}
                     source={{ uri: element }}
                 />
             </View>
         )
     })
+
+    console.log(user)
 
 
     // * ___________________________ PAGE ___________________________
@@ -240,7 +240,7 @@ function ProfileScreen(props) {
 
                 <BottomSheet
                     ref={sheetRef}
-                    snapPoints={[750, 0]}
+                    snapPoints={[1050, 0]}
                     renderContent={renderInner}
                     initialSnap={1}
                     callBackNode={fall}
@@ -326,7 +326,7 @@ function ProfileScreen(props) {
 
                 <BottomSheet
                     ref={sheetRef}
-                    snapPoints={[750, 0]}
+                    snapPoints={[1050, 0]}
                     renderContent={renderInner}
                     initialSnap={1}
                     callBackNode={fall}
@@ -339,13 +339,13 @@ function ProfileScreen(props) {
 
                     {/* -------- CARROUSEL D'IMAGES --------  */}
                     <View style={styles.swipperContainer}>
-                        <Swiper style={styles.wrapper} showsButtons={false} activeDotColor="#1ADBAC" dotColor='white' showsHorizontalScrollIndicator={true}>
+                        <Swiper style={styles.wrapper} showsButtons={false} activeDotColor="#1ADBAC" dotColor='white' showsHorizontalScrollIndicator={false}>
 
                             {userPhotos}
 
                         </Swiper>
-                        <Ionicons style={{ position: 'absolute', bottom: 5, right: 25, padding: 15, borderRadius: 50 }}
-                            name={user.profile_photo.length === 0 ? 'images' : "camera-outline"} color="#ffffff" size={45}
+                        <Ionicons style={{ position: 'absolute', bottom: 0, right: 35, padding: 15, borderRadius: 50 }}
+                            name={user.profile_photo.length === 0 ? 'images' : "camera-outline"} color="#ffffff" size={40}
                             onPress={() => sheetRef.current.snapTo(0)} />
 
                     </View>
@@ -353,11 +353,11 @@ function ProfileScreen(props) {
 
                     {/* -------- INFORMATIONS --------  */}
                     <View style={styles.firstInformations} >
-                        <Text style={{ fontSize: 30, fontWeight: 'bold', marginBottom: 5 }}>{user.name}</Text>
-                        {/* <Ionicons name={genderIcon(user.characteristics.gender ? user.characteristics.gender : "male-female-outline")} size={19} color='black' /> */}
+                        <Text style={{ fontSize: 30, fontWeight: 'bold', marginBottom: 5 , marginRight : 8}}>{user.name}</Text>
+                        <Ionicons name={genderIcon(user.characteristics.gender ? user.characteristics.gender : "male-female-outline")} size={25} color='black' /> 
                     </View>
                     <View style={styles.location}>
-                        <Ionicons name={'location-sharp'} size={18} color='black' />
+                        <Ionicons style={{marginRight : 8}} name={'location-sharp'} size={18} color='black' />
                         <Text style={styles.textRegular}>{user.location ? user.location : "Non renseigné"}</Text>
                     </View>
 
@@ -370,49 +370,72 @@ function ProfileScreen(props) {
                     {/* -------- BOUTONS --------  */}
                     <View style={{ flexDirection: 'row', justifyContent: "center", alignItems: "center", marginBottom: 10, width: "100%" }} >
 
-                        <PortfolioBtn onPressHandler={() => props.navigation.navigate('PortfoliosScreen')} />
+                        <PortfolioBtn style={{borderWidth : 2, borderColor : 'black'}} onPressHandler={() => props.navigation.navigate('PortfoliosScreen')} />
                         <ModifierProfilBtn onPressHandler={() => props.navigation.navigate('ProfileEditScreen')} />
 
                     </View>
 
 
-                    <View style={{ justifyContent: 'center', textAlign: 'center' }}>
+                    <View style={{ width : "90%", justifyContent: 'center', textAlign: 'center', marginVertical : 25 }}>
                         {/* -------- ABOUT --------  */}
                         <View style={{ marginBottom: 25 }}>
                             <Text style={{ fontSize: 17, fontWeight: "bold", marginBottom: 10 }}>À propos</Text>
                             <Text>{user.description !== undefined ? user.description : "non renseigné"}</Text>
                         </View>
 
+                         {/* -------- CV --------  */}
+                         <View style={{ marginBottom: 25 }}>
+                            <Text style={{ fontSize: 17, fontWeight: "bold", marginBottom: 10 }}>Expériences pro</Text>
+                            <Text>{user.cv !== undefined ? user.cv : "non renseigné"}</Text>
+                        </View>
+
                         {/* -------- USER CARACTERISTICS --------  */}
-                        <View style={{width : "90%"}} >
+                        <View >
                          <Text style={{ fontSize: 17, fontWeight: "bold", marginBottom: 10 }}>Informations</Text>
                             <View style={{flexDirection : 'row', flexWrap : 'wrap'}}>
                                 
-                                <Text style={styles.badge}> {user.characteristics.ethnicGroup === null ? "non renseigné" : user.characteristics.ethnicGroup}</Text>
+                                <Text style={styles.badge}> 
+                                    <Image source={require('../../assets/diversity.png')} style={{width : 25, height : 25,paddingRight : 10}}/>  {user.characteristics.ethnicGroup === null ? "non renseigné" : user.characteristics.ethnicGroup}
+                                </Text>
 
                                 {/* Eyes */}
-                                <Text style={styles.badge}><MaterialCommunityIcons name="eye" size={20} color="#fff" />  {user.characteristics.eyes === null ? "non renseigné" : user.characteristics.eyes}</Text>
+                                <Text style={styles.badge}>
+                                    <Image source={require('../../assets/eye.png')} style={{width : 25, height : 25,paddingRight : 10}}/>  {user.characteristics.eyes === null ? "non renseigné" : user.characteristics.eyes}
+                                </Text>
 
                                 {/* hair */}
-                                <Text style={styles.badge}><MaterialCommunityIcons name="face-woman" size={20} color="#fff" />  {user.characteristics.hair === null ? "non renseigné" : user.characteristics.hair}</Text>
+                                <Text style={styles.badge}>
+                                    <Image source={require('../../assets/hair.png')} style={{width : 25, height : 25,paddingRight : 10}}/>  {user.characteristics.hair === null ? "non renseigné" : user.characteristics.hair}
+                                </Text>
 
                                 {/* corpulence */}
-                                <Text style={styles.badge}><Ionicons name="body" size={20} color="#fff" /> {user.characteristics.corpulence !== null ? user.characteristics.corpulence : "non renseigné"}</Text>
+                                <Text style={styles.badge}>
+                                    <Image source={require('../../assets/body.png')} style={{width : 25, height : 25,paddingRight : 10}}/>  {user.characteristics.corpulence !== null ? user.characteristics.corpulence : "non renseigné"}
+                                </Text>
 
                                 {/* Taille */}
                                 <Text style={styles.badge}>
-                                    <MaterialCommunityIcons name="human-male-height" size={20} color="#fff" />
-                                    {user.characteristics.height !== null ? user.characteristics.height : "--"}
+                                    <Image source={require('../../assets/height.png')} style={{width : 25, height : 25,paddingRight : 10}}/>  {user.characteristics.height !== null ? user.characteristics.height : "--"} cm
                                 </Text>
 
                                 {/* Poids */}
-                                <Text style={styles.badge}> <FontAwesome5 name="weight" size={20} color="white" /> {user.characteristics.weight !== null ? user.characteristics.weight : "--"} kg</Text>
+                                <Text style={styles.badge}>
+                                    <Image source={require('../../assets/weight.png')} style={{width : 25, height : 25,paddingRight : 10}}/>  {user.characteristics.weight !== null ? user.characteristics.weight : "--"} kg
+                                </Text>
 
                                 {/* Mensurations */}
-                                <Text style={styles.badge}>Taille : <FontAwesome5 name="tape" size={20} color="#fff" />{user.characteristics.measurements.waist !== null ? user.characteristics.measurements.waist : "--"} cm</Text>
+                                <Text style={styles.badge}>
+                                <Image source={require('../../assets/waist.png')} style={{width : 20, height : 20,paddingRight : 10}}/> {user.characteristics.measurements.waist !== null ? user.characteristics.measurements.waist : "--"} cm
+                                </Text>
 
-                                 <Text style={styles.badge}> Poitrine : {user.characteristics.measurements.bust !== null ? user.characteristics.measurements.bust : "--"} cm</Text>
-                                  <Text style={styles.badge}>Hanches : {user.characteristics.measurements.hips !== null ? user.characteristics.measurements.hips : "--"} cm</Text>
+                                <Text style={styles.badge}>
+                                    <Image source={require('../../assets/bust.png')} style={{width : 20, height : 20,paddingRight : 10}}/> {user.characteristics.measurements.bust !== null ? user.characteristics.measurements.bust : "--"} cm
+                                </Text>
+
+
+                                <Text style={styles.badge}>
+                                    <Image source={require('../../assets/hips.png')} style={{width : 20, height : 20,paddingRight : 10}}/>  {user.characteristics.measurements.hips !== null ? user.characteristics.measurements.hips : "--"} cm
+                                </Text>
                             </View>
                         </View>
                     </View>
@@ -443,14 +466,14 @@ const styles = StyleSheet.create({
     },
     swipperContainer: {
         width: '100%',
-        height: 350,
+        height: 300,
         marginBottom: 15
     },
     wrapper: {},
 
     firstInformations: {
         flexDirection: 'row',
-        alignItems: 'flex-end',
+        alignItems: 'center',
         margin: 10
     },
     location: {
@@ -482,13 +505,23 @@ const styles = StyleSheet.create({
     },
     badge : {
         margin: 8, 
-        padding: 8, 
+        padding: 8,
+        paddingHorizontal : 15, 
         borderRadius: 12, 
         color: 'white', 
-        backgroundColor: 'grey', 
+        backgroundColor: '#C0C0C0F4', 
         fontWeight: 'bold',
         justifyContent : 'center',
         alignItems: 'center',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+
+        elevation: 3,
     },
     container: {
         flex: 1,
@@ -501,7 +534,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     panel: {
-        height: 750,
+        height: 1050,
         padding: 20,
         backgroundColor: '#FFFFFF',
         paddingTop: 20,

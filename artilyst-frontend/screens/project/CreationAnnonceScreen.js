@@ -54,7 +54,7 @@ function CreationAnnonceScreen(props) {
         props.addProject(projectInfos, response)
 
         if (response) {
-            props.navigation.navigate('ArtisteCorrespondantScreen', response)
+            props.navigation.navigate('ArtisteCorrespondantScreen', {id : response})
         }
         
 

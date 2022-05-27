@@ -66,7 +66,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { Button, Badge } from '@rneui/base';
 
 import { MenuProvider } from 'react-native-popup-menu';
-import {  Image } from 'react-native';
+
+import Svg, { Path } from "react-native-svg"
 // Import néomorphisme 
 
 
@@ -75,7 +76,6 @@ import {  Image } from 'react-native';
 const TabNavigator = createBottomTabNavigator();
 
 function PagesStacks(props) {
-
 
   return (
 
@@ -157,7 +157,29 @@ function PagesStacks(props) {
   );
 }
 
+const SvgComponent = (props) => (
+  <Svg
+    id="Calque_1"
+    xmlns="http://www.w3.org/2000/svg"
+    x={0}
+    y={0}
+    viewBox="0 0 277.2 62.3"
+    style={{
+      enableBackground: "new 0 0 277.2 62.3",
+    }}
+    xmlSpace="preserve"
+    {...props}
+  >
 
+    <Path
+      className="st0"
+      d="M24.5 48.2H11.6L9.2 61.4H0L11.6.9h12.9l12.2 60.5h-9.6l-2.6-13.2zm-1.6-8.6-5-27.1-4.8 27.1h9.8zM52.5 36.6v24.8h-9.4V.9h14.7c5.2 0 9.2 1.2 12 3.6 3.6 3.1 5.4 7.7 5.4 13.7 0 7.7-2.7 12.9-8.2 15.7l8.9 27.4h-9.8l-8-24.8h-5.6zm0-8.7h3.4c2.6 0 4.4-.2 5.5-.7 2.7-1.2 4.1-4 4.1-8.5 0-3.3-.8-5.7-2.3-7.2-.9-.9-2-1.5-3.2-1.7-1.1-.2-2.5-.3-4.1-.3h-3.4v18.4zM100.1 9.5v51.9h-9.4V9.5H78.9V.9h32.8v8.6h-11.6zM126.7.9v60.5h-9.4V.9h9.4zM145.3.9v51.9h18.6v8.6h-28V.9h9.4zM189.5 37.8v23.6h-9.4V37.8L166.6.9h10.3l8.1 25.6L193.4.9h10.2l-14.1 36.9zM241.4 15.1l-9 2.7c-1.4-6-4.1-9-8.1-9-1.7 0-3.1.6-4.3 1.7-1.2 1.2-1.8 2.7-1.8 4.5 0 2.2.8 4.2 2.5 6.1 1.1 1.2 3.8 3.4 8 6.6 4.3 3.4 7.4 6.1 9 8.1 2.6 3.2 3.9 6.9 3.9 11.1 0 4.5-1.5 8.1-4.5 11-3 2.9-7.1 4.4-12.1 4.4-10.3 0-16.5-5.7-18.4-17l9-2.6c1.2 7.2 4.4 10.9 9.4 10.9 2.1 0 3.8-.6 5.1-2 1.2-1.3 1.9-2.9 1.9-5s-.8-4.1-2.3-5.9c-1.3-1.5-3.5-3.5-6.6-5.9-4.6-3.5-7.3-5.8-8.2-6.6-4.2-4-6.3-8.5-6.3-13.3 0-4.8 1.7-8.5 5.1-11.3 2.9-2.4 6.4-3.6 10.7-3.6 8.8 0 14.4 5 17 15.1zM265.5 9.5v51.9h-9.4V9.5h-11.7V.9h32.8v8.6h-11.7z"
+      style={{
+        fill: "#fff",
+      }}
+    />
+  </Svg>
+)
 
 
 // * _______________________________________________________ STACK NAVIGATION _______________________________________________________

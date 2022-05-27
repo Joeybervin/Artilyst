@@ -7,21 +7,18 @@ import React, { useEffect, useState } from 'react';
 import { expoUrlJoey } from '../ExpoUrl';
 
 //^ Module de balise
-import { StyleSheet, View, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, View, ScrollView, Dimensions, Image } from 'react-native';
 import { Button } from '@rneui/base';
-import { Switch, Image, Text, Overlay, Avatar } from '@rneui/themed';
+import { Switch, Text, Overlay, Avatar } from '@rneui/themed';
 import { Dropdown } from 'react-native-element-dropdown';
 import { Ionicons } from '@expo/vector-icons';
+import { Link } from '@react-navigation/native';
 
 // ^ Redux
 import { connect } from 'react-redux';
-import { CardStyleInterpolators } from '@react-navigation/stack';
 
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from './components/GlobalStyles';
-import { PostulerBtnLight, PostulerBtn, ContinuerLaRechercheBtn, EnvoyerUnMessageBtn } from './components/ButtonsStyles';
-
-import { useTheme } from '@react-navigation/native';
-
+import { PostulerBtnLight, ContinuerLaRechercheBtn, EnvoyerUnMessageBtn } from './components/ButtonsStyles';
 
 
 let { width: screenWidth, height: screenHeight } = Dimensions.get('screen')
@@ -36,13 +33,10 @@ function AnnoncesScreen(props) {
     const [castingCategory, setCastingCategory] = useState(''); // STRING : Valeur choisie dans le menu déroulant
     const [isPaid, setIsPaid] = useState(false); // BOOLEAN :  Valeur du switch "projets rémunérés"
     const [recruiterListProjects, setRecruiterListProjects] = useState([]); // ARRAY
-    const [allUsersAccount, setAllUsersAccount] = useState([]); // ARRAY
     const [overlayVisibility, setOverlayVisibility] = useState(false); // ARRAY
-    const [projectImages, setProjectImages] = useState([]); // ARRAY
-
 
     /* VARIABLES */
-    let myTab = matchingCasting;
+    let matchingCastingListCopy = matchingCasting;
 
     const dropdownData = [ // Collecte tous les catégories de projet disponnible
         { label: 'Création textile', value: 'Création textile' },
@@ -60,14 +54,6 @@ function AnnoncesScreen(props) {
     /* PREMIÈRE */
     // Réception des casting filtrés pour l'utilisateur
     useEffect(() => {
-        async function allUsers() {
-            // ! TEMPORAIRE LE TEMPS QUE RAF FINISSE LA ROUTE =======> Joey :)
-            var rawResponse = await fetch(`http://${expoUrlJoey}/all_users_profile`, {
-            })
-            let response = await rawResponse.json();
-            setAllUsersAccount(response)
-        }
-
         // * Si un recruteur se connecte => DropDown de tous ses projets en cours
         async function loadProjects() {
             var rawResponse = await fetch(`http://${expoUrlJoey}/recruiter_projects`, {
@@ -88,9 +74,10 @@ function AnnoncesScreen(props) {
             })
             let response = await rawResponse.json();
             setMatchingCasting(response.matchingProjects)
+            
         }
 
-        if (props.user.occupation === "recruteur") { loadProjects(); allUsers() }//! TEMPORAIRE ==> Joey
+        if (props.user.occupation === "recruteur") loadProjects() //! TEMPORAIRE ==> Joey
         if (props.user.occupation !== "recruteur") loadCasting();
     }, []);
 
@@ -99,7 +86,7 @@ function AnnoncesScreen(props) {
     /* envoyer les infos necessaires au match au backend  */
     const Postuler = async (id, users) => {
         setOverlayVisibility(true)
-       /*  var rawResponse = await fetch(`http://${expoUrlJoey}/postuler`, {
+        var rawResponse = await fetch(`http://${expoUrlJoey}/postuler`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ token: props.user.token, projectId: id, userSelected: users }),
@@ -110,7 +97,7 @@ function AnnoncesScreen(props) {
         if (response.already) {
             setProjectImages(response.photoProjet) // récupération de la données du back-end
             setOverlayVisibility(true) // BOOLEAN : Si match un overlay apparaît
-        } */
+        }
 
     }
 
@@ -118,44 +105,14 @@ function AnnoncesScreen(props) {
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
     /* MAP */
     if (castingCategory != '') {
-        myTab = myTab.filter(e => e.category == castingCategory)
+        matchingCastingListCopy = matchingCastingListCopy.filter(e => e.category == castingCategory)
     }
     if (isPaid) {
-        myTab = myTab.filter(e => e.remuneration == true)
+        matchingCastingListCopy = matchingCastingListCopy.filter(e => e.remuneration == true)
     }
 
-    const recruiterArtistsList = allUsersAccount.map((element, index) => {
-        return (
-
-            <TouchableOpacity key={index + 1}
-                activeOpacity={.2} style={{ borderRadius: 7, flexDirection: "row", alignItems: "center", justifyContent: "center", borderColor: 'black', borderWidth: 0.5, width: "85%", height: 140, marginTop: 30 }}
-                onPress={() => props.navigation.navigate('OtherUserProfileScreen', { userToken: element.token })}>
-
-                <Image
-                    containerStyle={{ width: 110, height: 108 }}
-                    resizeMode="contain"
-                    source={{ uri: element.profile_photo[Math.floor(Math.random() * (element.profile_photo.length - 1))] }}
-                    style={{ borderRadius: 10, marginRight: 10 }}
-                // PlaceholderContent=""
-                />
-
-                <View style={{ flexDirection: 'column', width: 200, height: 108, justifyContent: 'space-between', alignItems: 'space-between' }}>
-                    <Text style={{ fontWeight: "bold", marginBottom: 2 }}>{element.name}</Text>
-                    <Text style={{ fontWeight: "bold", marginBottom: 4 }}>{element.occupation}</Text>
-                    <Text style={{ marginBottom: 5 }}>{element.description}</Text>
-                    <Button
-                        color='#1ADBAC'
-                        buttonStyle={{ backgroundcolor: '#1ADBAC' }}
-                        title="recruter" onPress={() => console.log('recruter')} />
-                </View>
-
-            </TouchableOpacity>
-
-        )
-    })
-
     // Affichage d'une card
-    let castingDisplay = myTab.map((casting, i) => {
+        let castingDisplay = matchingCastingListCopy.map((casting, i) => {
         let title = casting.title
         let description = casting.description
 
@@ -190,7 +147,7 @@ function AnnoncesScreen(props) {
                 </View>
                 <View style={{ width: 200, height: '85%', justifyContent: 'space-between', paddingRight: 7 }}>
 
-                    <Text style={styles.cardTitle}>{description.substring(0, 30) + ' ...'}</Text>
+                    <Text style={styles.cardTitle}>{title.substring(0, 30) + ' ...'}</Text>
                     <Text style={styles.cardText}>{description.substring(0, 50) + ' ...'}</Text>
                     <PostulerBtnLight onPressHandler={() => Postuler(casting._id, casting.users_selected)} />
                 </View>
@@ -198,6 +155,14 @@ function AnnoncesScreen(props) {
         )
 
     })
+
+    /* S'affiche si aucun castings correspondant aux characteristics de l'utilisateur n'est retournée */
+    const NoCastingMatchMessage = () => (
+        <View style={{width : "90%", alignItems: "center", marginTop : 50}}>
+            <Image style={{width : 55, height : 55, marginBottom : 25}} source={require('../assets/empty.png')}/>
+            <Text style={{width : "85%", textAlign : "center",}}>Désolée, malheureusement la recherche n'a rien donnée. Si ce n'est pas encore fait, essayez de compléter <Link style={{fontWeight: 'bold'}} to={'/ProfileScreen'}>votre profile</Link> et retenter votre chance</Text>
+        </View>
+    )
 
 
     // * ___________________________ PAGE ___________________________
@@ -266,11 +231,13 @@ function AnnoncesScreen(props) {
                                 source={props.user.profile_photo.length === 0 ? { uri: "https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg" } : { uri: props.user.profile_photo[0] }}
                                 containerStyle={{}}
                             />
+
+                            {/*  A CHANGER source={projectImages.length > 0 ? {uri : "https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg" }: {uri : projectImages[0]}} */}
                             <Avatar
                                 size={'xlarge'}
                                 rounded
                                 source={{ uri: "https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg" }}
-                                // ! A CHANGER source={projectImages.length > 0 ? {uri : "https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg" }: {uri : projectImages[0]}}
+                                
                                 containerStyle={{}}
                             />
                         </View>
@@ -333,14 +300,14 @@ function AnnoncesScreen(props) {
                             onValueChange=
                             {(value) => {
                                 setChecked(value),
-                                    setIsPaid(!isPaid)
+                                setIsPaid(!isPaid)
                             }}
 
                         />
                     </View>
 
                     {/* AFFICHAGE DES CASTING */}
-                    {myTab.lenght === 0 ? <Text> Compléter votre profile, pour voir des castings vous correspondant</Text> : castingDisplay}
+                    {matchingCasting.length === 0 ? <NoCastingMatchMessage/> : castingDisplay}
 
                 </View>
 

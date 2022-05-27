@@ -12,6 +12,8 @@ import { useNavigation } from '@react-navigation/native';
 // FULL BUTTON ------------------------
 export function PortfolioBtn(props) {
 
+    const [isPressed, setIsPressed] = useState(false)
+
     return (
         <View>
             <TouchableOpacity
@@ -427,7 +429,8 @@ const styles = StyleSheet.create({
         color: '#000',
         fontWeight: 'bold',
         fontSize: 16,
-        textAlign: 'center'
+        textAlign: 'center',
+        paddingHorizontal : 8
     },
     // FULL BUTTON
     btn: {
@@ -437,9 +440,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#1ADBAC',
         borderRadius: 16,
         shadowColor: 'black',
-        shadowOffset: { width: 2, height: 2 },
-        shadowOpacity: 0.2, shadowRadius: 2
-    },
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        
+        elevation: 5,
+            },
     // BORDERED BUTTON
     EmptyButton: {
         height: '100%',

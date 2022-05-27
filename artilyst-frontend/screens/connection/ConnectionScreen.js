@@ -16,7 +16,7 @@ import Svg, { Path } from "react-native-svg"
 
 
 // Styles
-import { CreeUnCompteBtn,SeConnecterBtn } from '../components/ButtonsStyles';
+import { CreeUnCompteBtn, SeConnecterBtn } from '../components/ButtonsStyles';
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
 
 function ConnectionScreen(props) {
@@ -32,7 +32,7 @@ function ConnectionScreen(props) {
             const rawResponse = await fetch(`http://${expoUrlJoey}/user_profile`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `token=KWXlcU4sPT_mj9eDlkaawYfPyX1-okID` // i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT
+                body: `token=i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT` // i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT
             })
             let response = await rawResponse.json();
             let responseCopy = { ...response }
@@ -45,27 +45,28 @@ function ConnectionScreen(props) {
 
     // * ___________________________ FUNCTIONS ___________________________
 
+    /* Component pour afficher le logo */
     const SvgComponent = (props) => (
         <Svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 323.4 533.2"
-          width={70}
-          height={70}
-          style={{
-            enableBackground: "new 0 0 323.4 533.2",
-            
-          }}
-          xmlSpace="preserve"
-          {...props}
-        >
-          <Path
-            d="m216 417.2-135.2 116H0L102.3 0h113.3l107.8 533.2h-84.8l-22.6-116zM201.9 341l-43.7-238.7L115.6 341h86.3z"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 323.4 533.2"
+            width={70}
+            height={70}
             style={{
-              fill: "#000",
+                enableBackground: "new 0 0 323.4 533.2",
+
             }}
-          />
+            xmlSpace="preserve"
+            {...props}
+        >
+            <Path
+                d="m216 417.2-135.2 116H0L102.3 0h113.3l107.8 533.2h-84.8l-22.6-116zM201.9 341l-43.7-238.7L115.6 341h86.3z"
+                style={{
+                    fill: "#000",
+                }}
+            />
         </Svg>
-      )
+    )
 
     // * ___________________________ PAGE ___________________________
 

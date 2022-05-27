@@ -189,7 +189,7 @@ function PortfoliosScreen(props) {
 
                 {/* _______________________________________________________________________________________________________________________________________ */}
 
-                <View style={{ width: "100%" }}>
+                <View style={{ width: "100%", marginBottom : 100 }}>
 
                     <Text style={{ fontWeight: "bold", fontSize: 20, marginBottom: 25, width: "90%", marginLeft: 20 }}>Mes portfolios </Text>
                     <View style={{ width: "100%", dipslay: "flex", flexDirection: 'row', flexWrap: "wrap", marginBottom: 30 }}>

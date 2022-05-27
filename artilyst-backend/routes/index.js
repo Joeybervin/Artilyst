@@ -188,7 +188,7 @@ router.post('/project', async function (req, res, next) {
     project_dates: { start: projectInfos.date_start, end: projectInfos.date_end },// début => fin
     category: projectInfos.category,
     remuneration: projectInfos.remuneration,
-    photos: '',
+    photos: [],
     users_selected: projectInfos.userstable, // table de tokens des users selectionnées
     age_min: projectInfos.ageMin,
     age_max: projectInfos.ageMax,
