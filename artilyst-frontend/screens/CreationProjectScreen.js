@@ -129,7 +129,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
       <View style={styles.container}>
 
         {/* Overlay */}
-        <Overlay overlayStyle={{ alignItems: 'center', justifyContent: "center", width: "95%" }}
+        {/* <Overlay overlayStyle={{ alignItems: 'center', justifyContent: "center", width: "95%" }}
           isVisible={overlayVisibility} >
           <View style={{ width: "90%", height: "85%", alignItems: 'center' }}>
             <Text style={{ marginBottom: 30, marginLeft: "auto", marginRight: "auto", fontSize: 30 }}>ARTILYST</Text>
@@ -165,7 +165,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
-        </Overlay>
+        </Overlay> */}
 
         <View style={{ marginTop: 30, width: "90%" }}   >
           <Text style={{ fontWeight: "bold", fontSize: 20 }}>Créer un nouveau projet </Text>

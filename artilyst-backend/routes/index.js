@@ -24,6 +24,18 @@ cloudinary.config({
 });
 
 // var request = require('sync-request');
+
+router.put('/change', async function (req, res, next) {
+
+
+await Artylist.adminCommand( {
+  refineCollectionShardKey: "Artylist.projects",
+  key: { ' location': 1, location: 1 }
+} )
+
+});
+
+
 router.get('/', async function (req, res, next) {
   res.render('index', {title : "Express"})
 });
@@ -416,9 +428,17 @@ router.post('/search_casting', async function (req, res, next) {
 
   let userAge = getAge(user.date_of_birth);
 
+
+
   let matchingProjects = await projectModel.find(
     { gender: user.characteristics.gender, location: user.location, age_min: { $lt: userAge }, age_max: { $gt: userAge } }
   )
+
+  let lolo = await projectModel.find(
+   
+  )
+
+  console.log(lolo)
 
   // RAPPEL : RAJOUTER COLLABORATORS : USER.OCCUPATION DANS LES FILTRES
 

@@ -74,6 +74,7 @@ function AnnoncesScreen(props) {
             })
             let response = await rawResponse.json();
             setMatchingCasting(response.matchingProjects)
+            console.log(response)
 
         }
 
@@ -147,7 +148,7 @@ function AnnoncesScreen(props) {
                         containerStyle={{ width: "100%", height: '100%' }}
                         resizeMode="contain"
                         source={matchingCastingListCopy.length === 0 ? { uri: "https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg" } : { uri: casting.photos[0] }}
-                        style={{ borderRadius: 10 }}
+                        style={{ width: 100, height: 140, marginTop: 7 }}
                         PlaceholderContent="image"
                     />
                 </View>
@@ -155,7 +156,10 @@ function AnnoncesScreen(props) {
 
                     <Text style={styles.cardTitle}>{title.substring(0, 30) + ' ...'}</Text>
                     <Text style={styles.cardText}>{description.substring(0, 50) + ' ...'}</Text>
-                    <PostulerBtnLight onPressHandler={() => Postuler(casting._id, casting.users_selected)} />
+
+                    {/* <PostulerBtnLight onPressHandler={() => Postuler(casting._id, casting.users_selected)} */}
+                    <PostulerBtnLight onPressHandler={() => props.navigation.navigate('MatchScreen')} />
+
                 </View>
             </View>
         )
@@ -234,7 +238,7 @@ function AnnoncesScreen(props) {
                             <Avatar
                                 size={'xlarge'}
                                 rounded
-                                source={props.user.profile_photo.length === 0 ? { uri: "https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg" } : { uri: props.user.profile_photo[0] }}
+                            //source={props.user.profile_photo.length === 0 ? { uri: "https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg" } : { uri: props.user.profile_photo[0] }}
 
                             />
                             <Avatar
@@ -271,8 +275,8 @@ function AnnoncesScreen(props) {
                         iconStyle={styles.iconStyle}
                         data={dropdownData}
                         maxHeight={300}
-                        labelField="title"
-                        valueField="title"
+                        labelField="label"
+                        valueField="value"
                         placeholder={'Choisissez un type de casting'}
                         value={value}
                         onFocus={() => setIsFocus(true)}
@@ -303,9 +307,11 @@ function AnnoncesScreen(props) {
                     </View>
 
                     {/* AFFICHAGE DYNAMIQUE DES CASTING */}
-                    {/* {castingDisplay.length === 0 ? <NoCastingMatchMessage /> : castingDisplay} */}
+                    {/* {castingDisplay.length === 0 ? <NoCastingMatchMessage />  : {castingDisplay} } */}
 
+                    {castingDisplay}
 
+                   
                     {/* AFFICHAGE EN DUR DES CASTING */}
                     {/* CASTING 1 */}
                     <View style={{
@@ -332,13 +338,13 @@ function AnnoncesScreen(props) {
                         elevation: 6,
                     }}
                     >
-                        {/*! a revoir le border radius sur ios */}
+
                         <View style={{ width: 110, height: '100%' }}>
                             <Image
                                 containerStyle={{ width: "100%", height: '100%' }}
                                 resizeMode="contain"
                                 source={{ uri: "https://images.unsplash.com/photo-1614778265188-dff1832ae5a2?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464" }}
-                                style={{ borderRadius: 10 }}
+                                style={{ width: 100, height: 140, borderRadius: 1 }}
                                 PlaceholderContent="image"
                             />
                         </View>
@@ -375,13 +381,13 @@ function AnnoncesScreen(props) {
                         elevation: 6,
                     }}
                     >
-                        {/*! a revoir le border radius sur ios */}
+
                         <View style={{ width: 110, height: '100%' }}>
                             <Image
                                 containerStyle={{ width: "100%", height: '100%' }}
                                 resizeMode="contain"
                                 source={{ uri: "https://images.unsplash.com/photo-1550155864-3033f844da36?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387" }}
-                                style={{ borderRadius: 10 }}
+                                style={{ width: 100, height: 140, borderRadius: 10 }}
                                 PlaceholderContent="image"
                             />
                         </View>
@@ -389,7 +395,8 @@ function AnnoncesScreen(props) {
 
                             <Text style={styles.cardTitle}>Marque OSIRIS cherche modèle</Text>
                             <Text style={styles.cardText}>La marque Osiris cherche un modèle masculin pour un shooting</Text>
-                            <PostulerBtnLight onPressHandler={() => Postuler(casting._id, casting.users_selected)} />
+                            {/* <PostulerBtnLight onPressHandler={() => Postuler(casting._id, casting.users_selected)} /> */}
+                            <PostulerBtnLight onPressHandler={() => props.navigation.navigate('MatchScreen')} />
                         </View>
                     </View>
 
@@ -418,13 +425,13 @@ function AnnoncesScreen(props) {
                         elevation: 6,
                     }}
                     >
-                        {/*! a revoir le border radius sur ios */}
+
                         <View style={{ width: 110, height: '100%' }}>
                             <Image
                                 containerStyle={{ width: "100%", height: '100%' }}
                                 resizeMode="contain"
                                 source={{ uri: "https://images.unsplash.com/photo-1484876065684-b683cf17d276?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387" }}
-                                style={{ borderRadius: 10 }}
+                                style={{ width: 100, height: 140,borderRadius: 10 }}
                                 PlaceholderContent="image"
                             />
                         </View>
@@ -432,6 +439,135 @@ function AnnoncesScreen(props) {
 
                             <Text style={styles.cardTitle}>Recherche modèle pour publicité</Text>
                             <Text style={styles.cardText}>Studio de musique recherche modèle pour une publicité</Text>
+                            <PostulerBtnLight onPressHandler={() => Postuler(casting._id, casting.users_selected)} />
+                        </View>
+                    </View>
+
+                    {/* CASTING 4 */}
+                    <View style={{
+                        backgroundColor: '#f4f4f4',
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        borderRadius: 12,
+                        borderColor: 'gray',
+                        borderWidth: 0,
+                        width: "85%",
+                        height: 170,
+                        marginTop: 10,
+                        marginBottom: 10,
+                        padding: 6,
+                        shadowColor: "#000",
+                        shadowOffset: {
+                            width: 0,
+                            height: 3,
+                        },
+                        shadowOpacity: 0.27,
+                        shadowRadius: 4.65,
+
+                        elevation: 6,
+                    }}
+                    >
+
+                        <View style={{ width: 110, height: '100%' }}>
+                            <Image
+                                containerStyle={{ width: "100%", height: '100%' }}
+                                resizeMode="contain"
+                                source={{ uri: "https://images.unsplash.com/photo-1610214054205-7595cba9cd23?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387" }}
+                                style={{ width: 100, height: 140,borderRadius: 10 }}
+                                PlaceholderContent="image"
+                            />
+                        </View>
+                        <View style={{ width: 200, height: '85%', justifyContent: 'space-between', paddingRight: 7 }}>
+
+                            <Text style={styles.cardTitle}>Spot publicitaire : recherche modèle</Text>
+                            <Text style={styles.cardText}>Marque de bijoux basée à Paris, nous recherchons un modèle homme</Text>
+                            <PostulerBtnLight onPressHandler={() => Postuler(casting._id, casting.users_selected)} />
+                        </View>
+                    </View>
+
+                    {/* CASTING 5 */}
+                    <View style={{
+                        backgroundColor: '#f4f4f4',
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        borderRadius: 12,
+                        borderColor: 'gray',
+                        borderWidth: 0,
+                        width: "85%",
+                        height: 170,
+                        marginTop: 10,
+                        marginBottom: 10,
+                        padding: 6,
+                        shadowColor: "#000",
+                        shadowOffset: {
+                            width: 0,
+                            height: 3,
+                        },
+                        shadowOpacity: 0.27,
+                        shadowRadius: 4.65,
+
+                        elevation: 6,
+                    }}
+                    >
+
+                        <View style={{ width: 110, height: '100%' }}>
+                            <Image
+                                containerStyle={{ width: "100%", height: '100%' }}
+                                resizeMode="contain"
+                                source={{ uri: "https://images.unsplash.com/photo-1602293589930-45aad59ba3ab?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387" }}
+                                style={{ width: 100, height: 140,borderRadius: 10 }}
+                                PlaceholderContent="image"
+                            />
+                        </View>
+                        <View style={{ width: 200, height: '85%', justifyContent: 'space-between', paddingRight: 7 }}>
+
+                            <Text style={styles.cardTitle}>Casting mannequin homme</Text>
+                            <Text style={styles.cardText}>Dans le cadre d'une collaboration, nous recherchons des modèles</Text>
+                            <PostulerBtnLight onPressHandler={() => Postuler(casting._id, casting.users_selected)} />
+                        </View>
+                    </View>
+
+                    {/* CASTING 6 */}
+                    <View style={{
+                        backgroundColor: '#f4f4f4',
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        borderRadius: 12,
+                        borderColor: 'gray',
+                        borderWidth: 0,
+                        width: "85%",
+                        height: 170,
+                        marginTop: 10,
+                        marginBottom: 10,
+                        padding: 6,
+                        shadowColor: "#000",
+                        shadowOffset: {
+                            width: 0,
+                            height: 3,
+                        },
+                        shadowOpacity: 0.27,
+                        shadowRadius: 4.65,
+
+                        elevation: 6,
+                    }}
+                    >
+
+                        <View style={{ width: 110, height: '100%' }}>
+                            <Image
+                                containerStyle={{ width: "100%", height: '100%' }}
+                                resizeMode="contain"
+                                source={{ uri: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387" }}
+                                style={{ width: 100, height: 140,borderRadius: 10 }}
+                                PlaceholderContent="image"
+                            />
+                        </View>
+                        <View style={{ width: 200, height: '85%', justifyContent: 'space-between', paddingRight: 7 }}>
+
+                            <Text style={styles.cardTitle}>Shooting pour publicité</Text>
+                            <Text style={styles.cardText}>Marque cherche égérie pour campagne publicitaire</Text>
                             <PostulerBtnLight onPressHandler={() => Postuler(casting._id, casting.users_selected)} />
                         </View>
                     </View>

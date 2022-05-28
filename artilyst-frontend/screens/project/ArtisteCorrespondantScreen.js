@@ -13,6 +13,7 @@ import { PostulerBtnLight, RecruterBtn } from '../components/ButtonsStyles';
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
 
 import { expoUrlRaf } from '../../ExpoUrl';
+import { NavigationContainer } from '@react-navigation/native';
 
 function ArtisteCorrespondantScreen(props) {
 
@@ -162,7 +163,7 @@ function ArtisteCorrespondantScreen(props) {
                                         <Text style={styles.cardText}>Photographe</Text>
                                     </View>
                                     <View style={{ justifyContent: "space-between", paddingBottom: 5, paddingLeft: 5, paddingRight: 5 }} >
-                                        <RecruterBtn />
+                                        <RecruterBtn onPressHandler={() => props.navigation.navigate('MatchScreen')} />
                                         <Button
                                             color='black'
                                             buttonStyle={{ fontSize: 12 }}

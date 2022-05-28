@@ -52,6 +52,8 @@ import PictureZoomScreen from './screens/profile/gallery/PictureZoomScreen'
 // messagerie
 import MessagesScreen from './screens/MessagesScreen';
 
+import MatchScreen from './screens/project/MatchScreen';
+
 //^ Redux
 /* reducers */
 import user from './reducers/userReducer';
@@ -149,6 +151,8 @@ function PagesStacks(props) {
          {/* ------------------------ SEARCH ------------------------ */}
         <TabNavigator.Screen name="CreationAnnonceScreen" component={CreationAnnonceScreen}  options={{  tabBarButton: () => null }}/>
         <TabNavigator.Screen name="ArtisteCorrespondantScreen" component={ArtisteCorrespondantScreen}  options={{ tabBarButton: () => null }}/>
+
+        <TabNavigator.Screen name="MatchScreen" component={MatchScreen} options={{ tabBarButton: () => null }} />
 
         
 
