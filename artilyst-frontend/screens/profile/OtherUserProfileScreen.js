@@ -1,12 +1,12 @@
 import Animated from 'react-native-reanimated';
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { expoUrlJoey } from '../../ExpoUrl';
 
 
 //^ Module de balise
-import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import {StyleSheet, View, ScrollView } from 'react-native';
 import { Text, Button } from '@rneui/base';
 //^ module bonus (icons)
 import { Ionicons } from '@expo/vector-icons';

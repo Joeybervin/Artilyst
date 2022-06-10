@@ -6,19 +6,17 @@ import { connect } from 'react-redux';
 import { expoUrlJoey } from '../../ExpoUrl';
 
 // ^ Wanings messages
-import { LogBox, Button, Switch } from 'react-native';
+import { LogBox, Switch } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
 //^ Module de balise
-import { StyleSheet, View, TextInput, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 /* import { Text } from '@rneui/base'; */
 import { Text } from '@rneui/base';
 import { Divider } from "@rneui/themed";
-import BottomSheet from 'reanimated-bottom-sheet';
-import * as ImagePicker from "expo-image-picker";
 
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
-import { LancerRechercheBtn } from '../components/ButtonsStyles';
+import { LancerRechercheBtn } from '../components/ButtonsComponent';
 
 function CreationAnnonceScreen(props) {
 

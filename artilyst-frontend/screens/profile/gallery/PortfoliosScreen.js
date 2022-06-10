@@ -6,7 +6,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { expoUrlJoey } from '../../../ExpoUrl';
 
 //^ Module de balise
-import { Dimensions, StyleSheet, View, ScrollView, TouchableOpacity, ImageBackground, ActivityIndicator } from 'react-native';
+import { Dimensions, StyleSheet, View, ScrollView, TouchableOpacity, ImageBackground } from 'react-native';
 import { Input, Text, Button, Divider } from '@rneui/base';
 import { Overlay } from "@rneui/themed";
 import { Menu, MenuOptions, MenuOption, MenuTrigger, } from 'react-native-popup-menu';

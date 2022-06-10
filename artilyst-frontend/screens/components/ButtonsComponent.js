@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 
 
 // A COPIER :
-// import { FullBtn, PostulerBtn, RecruterBtnn, RejeterBtn } from '../components/ButtonsStyles';
+// import { FullBtn, PostulerBtn, RecruterBtnn, RejeterBtn } from '../components/ButtonsComponent';
 
 // FULL BUTTON ------------------------
 export function PortfolioBtn(props) {
@@ -42,29 +42,6 @@ export function ModifierProfilBtn(props) {
     );
 }
 
-// export function ConnexionBtn(props) {
-
-//     return (
-//         <View>
-//             <TouchableOpacity
-//                 activeOpacity={.7}
-//                 onPress={props.onPressHandler}
-//                 style={{
-//                     padding: 16,
-//                     borderRadius: 16,
-//                     backgroundColor: '#1ADBAC',
-//                     borderRadius: 16,
-//                     shadowColor: 'black',
-//                     shadowOffset: { width: 2, height: 2 },
-//                     shadowOpacity: 0.2, shadowRadius: 2
-//                 }}
-//             >
-//                 <Text style={styles.textBtn}>Connexion</Text>
-//             </TouchableOpacity>
-//         </View>
-//     );
-// }
-
 export function SinscrireBtn(props) {
 
     return (
@@ -96,6 +73,7 @@ export function SuivantBtn(props) {
 }
 
 
+
 // BORDERED BUTTON ------------------------
 
 export function CreeUnCompteBtn(props) {
@@ -121,6 +99,67 @@ export function CreeUnCompteBtn(props) {
                     style={styles.EmptyButton}
                 >
                     <Text style={styles.textBtn}>Créer un compte</Text>
+                </TouchableOpacity>
+            </LinearGradient>
+        </View >
+    );
+}
+
+
+export function GreenFullButton(props) {
+
+    return (
+        <View>
+            <TouchableOpacity
+                activeOpacity={.7}
+                onPress={props.onPressHandler}
+                style={[styles.btn,  styles.btnGreen ]}
+            >
+                <Text style={[styles.textBtn, styles.textBlack]}>{props.title}</Text>
+            </TouchableOpacity>
+        </View>
+    );
+}
+export function BlackFullButton(props) {
+
+    return (
+        <View>
+            <TouchableOpacity
+                activeOpacity={.7}
+                onPress={props.onPressHandler}
+                style={[styles.btn,  styles.btnBlack ]}
+            >
+                <Text style={[styles.textBtn, styles.textWhite]}>{props.title}</Text>
+            </TouchableOpacity>
+        </View>
+    );
+}
+
+
+
+export function BtnLinearGradientOutline(props) {
+
+    return (
+        <View>
+            <LinearGradient
+                colors={['#36e599', '#597ee7', '#b44be0']}
+                end={[1, 0.5]}
+                style={{
+                    height: 42, width: 250,
+                    textAlign: 'center',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 16,
+                    padding: 1,
+                    margin: 7
+
+                }}>
+                <TouchableOpacity
+                    activeOpacity={.7}
+                    onPress={props.onPressHandler}
+                    style={styles.EmptyButton}
+                >
+                    <Text style={styles.textBtn}>{props.title}</Text>
                 </TouchableOpacity>
             </LinearGradient>
         </View >
@@ -426,18 +465,22 @@ const styles = StyleSheet.create({
     textBtn: {
         justifyContent: 'center',
         alignItems: 'center',
-        color: '#000',
         fontWeight: 'bold',
         fontSize: 16,
         textAlign: 'center',
         paddingHorizontal : 8
+    },
+    textBlack : {
+        color: '#000000',
+    },
+    textWhite : {
+        color: '#ffffff',
     },
     // FULL BUTTON
     btn: {
         padding: 16,
         borderRadius: 16,
         margin: 14,
-        backgroundColor: '#1ADBAC',
         borderRadius: 16,
         shadowColor: 'black',
         shadowColor: "#000",
@@ -450,6 +493,12 @@ const styles = StyleSheet.create({
         
         elevation: 5,
             },
+    btnGreen : {
+        backgroundColor: '#1ADBAC',
+    },
+    btnBlack : {
+        backgroundColor: '#000000',
+    },
     // BORDERED BUTTON
     EmptyButton: {
         height: '100%',
@@ -466,15 +515,6 @@ const styles = StyleSheet.create({
         margin: 0,
         backgroundColor: '#f4f4f4',
         justifyContent: 'center'
-    },
-    // NEOMORPH BUTTON
-    btnOut: {
-        margin: 14,
-        borderRadius: 16,
-        shadowColor: '#333333',
-        shadowOffset: { width: 7, height: 7 },
-        shadowOpacity: 1,
-        shadowRadius: 8,
     },
     btnIn: {
         margin: 14,

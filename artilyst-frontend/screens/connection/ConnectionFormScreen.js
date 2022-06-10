@@ -18,25 +18,25 @@ import { Link } from '@react-navigation/native';
 
 // ^Redux
 import { connect } from 'react-redux';
-import { ConnexionBtn } from '../components/ButtonsStyles';
+import { ConnexionBtn } from '../components/ButtonsComponent';
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
 
 function ConnectionFormScreen(props) {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
-    const [email, setEmail] = useState(""); // champs de l'email
-    const [emailError, setEmailError] = useState(""); // message d'erreur de l'email
+    const [email, setEmail] = useState(""); // STRING : champs de l'email
+    const [emailError, setEmailError] = useState(""); // STRING : message d'erreur de l'email
 
-    const [password, setPassword] = useState("");// champs du mot de passe
-    const [passwordError, setPasswordError] = useState(""); // message d'erreur du mot de passe
-    const [passwordVisibility, setPasswordVisibility] = useState(true); // Changement de la visibilité du mot de passe
+    const [password, setPassword] = useState("");// STRING : champs du mot de passe
+    const [passwordError, setPasswordError] = useState(""); // STRING : message d'erreur du mot de passe
+    const [passwordVisibility, setPasswordVisibility] = useState(true); // STRING : Changement de la visibilité du mot de passe
 
     const [newMemberMessage, setNewMemberMessage] = useState("") // renvoie d'un message si la base de données n'a pas trouvé l'utilisateur
 
     /* VARIABLES */
-    var emailValid = false;
-    var passwordValid = false;
+    var emailValid = false; // condition pour valider l'email
+    var passwordValid = false; // condition pour valider le mot de passe
     let login = false; // condition pour envoyer la donné au back-end
 
     // * ___________________________ FUNCTIONS ___________________________
@@ -82,7 +82,7 @@ function ConnectionFormScreen(props) {
 
             let response = await rawResponse.json() // OBJECT : Réponse du back-end
 
-            if (response.already_member === true) { // récupération de la données envoyé par le back-end
+            if (response.already_member === true) { // condition pour récupérer les données envoyé par le back-end
 
                 props.getUserInformations(response.user) // J'ajoute les informations dans mon store
                 props.navigation.navigate('PagesStacks') // redirection vers toutes les annonces
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
     // -- GLOBAL STYLE ----------
     pageBackground: {

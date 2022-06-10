@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+//import { Schema, model } from 'mongoose';
 
 var projects_selected = mongoose.Schema({
     idProject:{type: mongoose.Schema.Types.ObjectId, ref: 'projects' },
@@ -14,7 +15,7 @@ var userSchema = mongoose.Schema({
     cv : String,
     profile_photo : Array,
     portfolio :  Array, // portofolios : Array => Object
-    projects_selected :  [projects_selected] , // On=bjeect => id du projet + match en booleen
+    projects_selected :  [projects_selected] , // Object => id du projet + match en booleen
     projects_created : [ {type: mongoose.Schema.Types.ObjectId, ref: 'projects' }],
     insert_date: Date,
     date_of_birth :  Date,

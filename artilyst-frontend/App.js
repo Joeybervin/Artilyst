@@ -19,7 +19,7 @@ import RegisterFormScreen1 from './screens/connection/RegisterFormScreen1';
 import RegisterFormScreen2 from './screens/connection/RegisterFormScreen2';
 
 /* project screens */
-import CreationProjectScreen from './screens/CreationProjectScreen';
+import MyProjetcs from './screens/MyProjetcs';
 /* Formulaire de création de projet */
 import CollaborateurDuProjetScreen from './screens/project/CollaborateurDuProjetScreen'; // Étape 2/4
 
@@ -117,7 +117,7 @@ function PagesStacks(props) {
       }}>
 
          {/* ------------------------ BOTTOM TAB BAR ------------------------ */}
-        <TabNavigator.Screen name="Mes projets" component={CreationProjectScreen}  />
+        <TabNavigator.Screen name="Mes projets" component={MyProjetcs}  />
         <TabNavigator.Screen name="Annonces" component={AnnoncesScreen}  options={{ initialRouteName: true }}  />
         <TabNavigator.Screen name="Likes" component={LikesScreen}  options={{tabBarBadge: 0 , tabBarBadgeStyle:{backgroundColor:"#1ADBAC", color:"#fff"}}}  />
 

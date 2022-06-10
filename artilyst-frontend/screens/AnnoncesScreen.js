@@ -8,7 +8,6 @@ import { expoUrlJoey } from '../ExpoUrl';
 
 //^ Module de balise
 import { StyleSheet, View, ScrollView, Dimensions, Image } from 'react-native';
-import { Button } from '@rneui/base';
 import { Switch, Text, Overlay, Avatar } from '@rneui/themed';
 import { Dropdown } from 'react-native-element-dropdown';
 import { Ionicons } from '@expo/vector-icons';
@@ -18,7 +17,7 @@ import { Link } from '@react-navigation/native';
 import { connect } from 'react-redux';
 
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from './components/GlobalStyles';
-import { PostulerBtnLight, ContinuerLaRechercheBtn, EnvoyerUnMessageBtn } from './components/ButtonsStyles';
+import { PostulerBtnLight, ContinuerLaRechercheBtn, EnvoyerUnMessageBtn } from './components/ButtonsComponent';
 
 
 let { width: screenWidth, height: screenHeight } = Dimensions.get('screen')

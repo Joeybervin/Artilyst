@@ -22,7 +22,7 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import * as ImagePicker from "expo-image-picker";
 
 import {  subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
-import { PortfolioBtn, ModifierProfilBtn } from '../components/ButtonsStyles';
+import { PortfolioBtn, ModifierProfilBtn } from '../components/ButtonsComponent';
 
 
 function ProfileScreen(props) {

@@ -10,7 +10,7 @@ import {  Text } from '@rneui/base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
-import { SuivantBtn } from '../components/ButtonsStyles';
+import { SuivantBtn } from '../components/ButtonsComponent';
 
 
 export default function CategorieDuProjetScreen(props) {

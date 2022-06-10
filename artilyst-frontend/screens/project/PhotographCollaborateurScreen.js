@@ -11,7 +11,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Input, CheckBox, Button } from "@rneui/base";
 import Slider from '@react-native-community/slider';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { SuivantBtn } from '../components/ButtonsStyles';
+import { SuivantBtn } from '../components/ButtonsComponent';
 
 
 export default function PhotographCollaborateurScreen(props) {

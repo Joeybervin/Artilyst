@@ -16,7 +16,8 @@ import Svg, { Path } from "react-native-svg"
 
 
 // Styles
-import { CreeUnCompteBtn, SeConnecterBtn } from '../components/ButtonsStyles';
+import { BtnLinearGradientOutline } from '../components/ButtonsComponent';
+import * as Badges from '../components/BadgesComponent'
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
 
 function ConnectionScreen(props) {
@@ -24,6 +25,8 @@ function ConnectionScreen(props) {
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
     const [userData, setUserData] = useState({})
+    let isSelected = ['violet', 'orange', 'black', 'white', 'green', 'option']
+    const [domaineSelection, setDomaineSelection] = useState('');
     /* VARIABLES */
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
@@ -32,7 +35,7 @@ function ConnectionScreen(props) {
             const rawResponse = await fetch(`http://${expoUrlJoey}/user_profile`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `token=i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT` // i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT
+                body: `token=i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT`
             })
             let response = await rawResponse.json();
             let responseCopy = { ...response }
@@ -67,25 +70,26 @@ function ConnectionScreen(props) {
             />
         </Svg>
     )
+    console.log(domaineSelection)
 
     // * ___________________________ PAGE ___________________________
-
     return (
         <View style={styles.container}>
 
-
-
             <SvgComponent />
             <Text style={styles.title}>Bienvenue sur Artilyst.</Text>
+            
+            <BtnLinearGradientOutline title={"Se connecter"} 
+                onPressHandler={() => {
+                    props.getUserInformations(userData)
+                    props.navigation.navigate('PagesStacks')
+                    //props.navigation.navigate('ConnectionFormScreen'
+                }} />
 
-
-            <SeConnecterBtn onPressHandler={() => {
-                props.getUserInformations(userData)
-                props.navigation.navigate('PagesStacks')
-                //props.navigation.navigate('ConnectionFormScreen'
-            }} />
-            <CreeUnCompteBtn onPressHandler={() => props.navigation.navigate('RegisterFormScreen1')} />
-
+            <BtnLinearGradientOutline title={"Créer un compte"}
+                onPressHandler={() => props.navigation.navigate('RegisterFormScreen1')}
+            />
+        
         </View>
     );
 }

@@ -436,11 +436,9 @@ router.post('/search_casting', async function (req, res, next) {
     { gender: user.characteristics.gender, location: user.location, age_min: { $lt: userAge }, age_max: { $gt: userAge } }
   )
 
-  let lolo = await projectModel.find(
-   
-  )
+  // let lolo = await projectModel.find()
 
-  console.log(lolo)
+  // console.log(lolo)
 
   // RAPPEL : RAJOUTER COLLABORATORS : USER.OCCUPATION DANS LES FILTRES
 

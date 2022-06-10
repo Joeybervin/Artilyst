@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+
+import { expoUrlJoey } from '../../ExpoUrl';
 
 // ^ Wanings messages
 import { LogBox } from 'react-native';
@@ -7,12 +8,13 @@ LogBox.ignoreLogs(['Warning: ...']);
 
 //^ Module de balise
 import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
-import { Text, Divider, Button, Tile, Image } from '@rneui/base';
+import { Text, Divider, Button, Image } from '@rneui/base';
 import { Menu, MenuOptions, MenuOption, MenuTrigger, } from 'react-native-popup-menu';
 import { Ionicons } from '@expo/vector-icons';
-import { expoUrlJoey } from '../../ExpoUrl';
 
 import { useIsFocused } from '@react-navigation/native';
+
+import { connect } from 'react-redux';
 
 function CreerUnProjetScreen(props) {
 

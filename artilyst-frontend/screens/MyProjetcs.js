@@ -9,7 +9,7 @@ LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Net
 
 //^ Module de balise
 import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
-import { Text, Divider, Button, Tile, Image } from '@rneui/base';
+import { Text, Divider, Button, Image } from '@rneui/base';
 import { Overlay, CheckBox } from '@rneui/themed';
 import { Menu, MenuOptions, MenuOption, MenuTrigger, } from 'react-native-popup-menu';
 import { Ionicons } from '@expo/vector-icons';
@@ -21,7 +21,7 @@ import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
- function CreationProjetScreen(props) {
+ function MyProjetcs(props) {
 
   // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
   /* VARIABLES D'ÉTAT  */
@@ -263,4 +263,4 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(CreationProjetScreen);
+)(MyProjetcs);

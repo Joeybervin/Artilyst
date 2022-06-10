@@ -7,7 +7,7 @@ import { Divider } from '@rneui/base';
 
 //^ Module de balise
 import { StyleSheet, Text, View } from 'react-native';
-import { PostulerBtnLight, RecruterBtn } from './components/ButtonsStyles';
+import { PostulerBtnLight, RecruterBtn } from './components/ButtonsComponent';
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from './components/GlobalStyles';
 
 /* import { Text } from '@rneui/base'; */

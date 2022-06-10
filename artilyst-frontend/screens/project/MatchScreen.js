@@ -1,14 +1,14 @@
 import React from 'react';
 
 // ^ Wanings messages
-import { LogBox, Button, TextInput } from 'react-native';
+import { LogBox, Button } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
 //^ Module de balise
-import { StyleSheet, Text, View, Slider } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 /* import { Text } from '@rneui/base'; */
 
-import { Input, CheckBox, Icon } from "@rneui/themed";
+
 
 
 

@@ -8,7 +8,7 @@ LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Net
 import { StyleSheet, Text, View, Slider } from 'react-native';
 /* import { Text } from '@rneui/base'; */
 
-import { Input, CheckBox, Icon } from "@rneui/themed";
+import { CheckBox } from "@rneui/themed";
 
 
 
