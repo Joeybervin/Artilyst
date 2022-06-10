@@ -76,35 +76,6 @@ export function SuivantBtn(props) {
 
 // BORDERED BUTTON ------------------------
 
-export function CreeUnCompteBtn(props) {
-
-    return (
-        <View>
-            <LinearGradient
-                colors={['#36e599', '#597ee7', '#b44be0']}
-                end={[1, 0.5]}
-                style={{
-                    height: 42, width: 250,
-                    textAlign: 'center',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 16,
-                    padding: 1,
-                    margin: 7
-
-                }}>
-                <TouchableOpacity
-                    activeOpacity={.7}
-                    onPress={props.onPressHandler}
-                    style={styles.EmptyButton}
-                >
-                    <Text style={styles.textBtn}>Créer un compte</Text>
-                </TouchableOpacity>
-            </LinearGradient>
-        </View >
-    );
-}
-
 export function FullButton(props) {
 
     return (
