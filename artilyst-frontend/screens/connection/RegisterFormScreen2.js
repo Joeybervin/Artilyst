@@ -10,7 +10,6 @@ LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Net
 //^ Module de balise
 import { StyleSheet, View } from 'react-native';
 import { Text, Divider } from '@rneui/base';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import * as Badges from '../components/BadgesComponent'
 //import * as Buttons from '../components/ButtonsComponent'
@@ -18,8 +17,8 @@ import * as Badges from '../components/BadgesComponent'
 // ^Redux
 import { connect } from 'react-redux';
 
-import { GreenFullButton, BlackFullButton} from '../components/ButtonsComponent';
-import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
+import { FullButton} from '../components/ButtonsComponent';
+import { title } from '../components/GlobalStyles';
 
 function RegisterFormScreen2(props) {
 
@@ -28,68 +27,74 @@ function RegisterFormScreen2(props) {
     /* VARIABLES D'ÉTAT  */
     const userInfos = props.route.params // récupération des données entrées par l'utilisateur sur la screen précédente avec les paramètres
     const [userOccupation, setUserOccupation] = useState("")
-    const [login, setLogin] = useState(false)
-    let userOccupationSelected = false // vérifie si l'utilisateur à bien clické sur un bouton
+    const [userOccupationSelected, setUserOccupationSelected] = useState(false) // vérifie si l'utilisateur à bien clické sur un bouton
     const [messageError, setMessageError] = useState("")
 
     /* VARAIBLES */
-    let domaines = ["comédien/ne","Modèle", "Photographe","Styliste","Réalisateur/ice vidéaste","option"]
+    let domaines = ["comédien/ne","Modèle", "photographe","styliste","réalisateur/ice vidéaste","option"]
 
     // * ___________________________ FUNCTIONS ___________________________
 
     const addUserOccupation = (userOccupation) => { // ajoute le métier aux données envoyées en BDD 
         setUserOccupation(userOccupation)
         userInfos['occupation'] = userOccupation // Ajout du choix à l'objet qui sera transmis à la base de données
-        userOccupationSelected = true // Rend le button "créer un compte" cliquable
+        setMessageError(null)
+        setUserOccupationSelected(true) // Rend le button "créer un compte" cliquable
+        
     }
 
     const signUpUser = async () => { // sauvegarder un utilisateur dans la base de données
-        const rawResponse = await fetch(`http://${expoUrlJoey}/sign-up`, {
-            method: 'POST',
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ userInfos: userInfos }),
-        })
 
-        let response = await rawResponse.json() // OBJECT : Réponse du back-end
-
-        /* Si l'utilisateur n'existe pas */
-        if (response.new_user === true) {
-            setLogin(true)
-            props.getUserInformations(response.user) // OBJECT : J'ajoute les informations dans mon store
-            props.navigation.navigate('PagesStacks') // redirection vers le Annonce
+        if (userOccupationSelected) { // l'utilisateur ne peut se connecter que s'il selectionne un domaine
+            const rawResponse = await fetch(`http://${expoUrlJoey}/sign-up`, {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userInfos: userInfos }),
+            })
+    
+            let response = await rawResponse.json() // OBJECT : Réponse du back-end
+    
+            /* Si l'utilisateur n'existe pas */
+            if (response.new_user === true) {
+                props.getUserInformations(response.user) // OBJECT : J'ajoute les informations dans mon store
+                props.navigation.navigate('PagesStacks') // redirection vers les Annonces
+    
+            }
+            else {
+                setMessageError("Ce compte existe déjà dans notre base de données")
+            }
 
         }
         else {
-            setMessageError("Ce compte existe déjà dans notre base de données")
+            setMessageError("Vous devez selectionner un domaine")
         }
+       
 
     }
-
-    // * ___________________________ AFFICHAGE PAGE ___________________________
-
-
 
     // * ___________________________ PAGE ___________________________
 
     return (
         <View style={styles.container}>
 
-            <Text style={{ marginBottom: 15, fontWeight: 'bold', fontSize : 25 }}>Choisissez votre domaine</Text>
+            <Text style={{ marginBottom: 40, fontWeight: 'bold', fontSize : 25 }}>Choisissez votre domaine</Text>
 
-            {/* Options des métiers à choisir */}
+            {/* domaines */}
 
-                <View dir="row" align="center" spacing={4}>
-                <Badges.SmallBadgesPlus
-                    data={domaines}
-                    option={'recruteur'}
-                    badgeColorOption={'#333333'}
-                    badgeTextColorOption={'#ffffff'}
-                    onPressHandler={(value) => {
-                        addUserOccupation(value)
-                    }}
-                />
-                </View>
+            {userOccupation !== "" ? <Text style={{ marginBottom: 40 }}>domaine : {userOccupation}</Text> : null}
 
+            <View style={{flexDirection : "column", width : "80%", alignText : "center"}}>
+
+            <Badges.SmallBadgesPlus
+                data={domaines}
+                option={'recruteur'}
+                badgeColorOption={'#333333'}
+                badgeTextColorOption={'#ffffff'}
+                onPressHandler={(value) => {
+                    addUserOccupation(value)
+                }}
+            />
+            </View>
 
             <Divider
                 style={{ width: "70%", margin: 20 }}
@@ -98,25 +103,21 @@ function RegisterFormScreen2(props) {
             />
 
             
-
-
-            
             {/* Message d'erreur si compte déjà existan */}
             <Text>{messageError}</Text>
 
-            <View style={{ flexDirection: 'row', marginTop: 50 }}>
-              
+            <View style={{ flexDirection: 'row', marginTop: 15 }}>
 
-                <BlackFullButton title='retour' onPress={() => props.navigation.navigate('RegisterFormScreen1', userInfos)}/>
+            <FullButton title='retour' 
+            buttonTextColor={'#ffffff'} buttonColor={'#000000'} 
+            onPressHandler={() => props.navigation.navigate('RegisterFormScreen1', userInfos)}
+            />
 
-              {/*   <Button onPressHandler={() => signUpUser()}></Button> */}
-              <GreenFullButton onPressHandler={() => signUpUser()} title='créeer un compte'/>
+            <FullButton title='créer un compte'
+            onPressHandler={() => signUpUser()}
+            />
                 
-
             </View>
-
-
-
 
         </View>
     );
@@ -131,54 +132,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    smallCards: {
-        alignItems: 'center',
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 12,
-        borderColor: 'gray',
-        borderWidth: 0,
-        width: "100%",
-        height: 40,
-        marginTop: 5,
-        marginBottom: 5,
-        padding: 6,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
-
-        elevation: 3,
-    },
-    smallCardGrey : {
-        backgroundColor: '#f4f4f4'
-    },
-    smallCardColor : {
-       width : 200,
-        backgroundColor: '#333333'
-    },
     // -- GLOBAL STYLE ----------
-    pageBackground: {
-        ...pageBackground
-    },
     title: {
         ...title
     },
-    subTitle: {
-        ...subTitle
-    },
-    textRegular: {
-        ...textRegular
-    },
-    cardTitle: {
-        ...cardTitle
-    },
-    cardText: {
-        ...cardText
-    }
 });
 
 // * ___________________________ REDUX ___________________________

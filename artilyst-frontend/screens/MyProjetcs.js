@@ -1,23 +1,21 @@
 
 import React, { useState, useEffect } from 'react';
-
 import { expoUrlJoey } from '../ExpoUrl';
 
-// ^ Wanings messages
+// Wanings messages
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
-//^ Module de balise
+// balise
 import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
 import { Text, Divider, Button, Image } from '@rneui/base';
 import { Overlay, CheckBox } from '@rneui/themed';
 import { Menu, MenuOptions, MenuOption, MenuTrigger, } from 'react-native-popup-menu';
 import { Ionicons } from '@expo/vector-icons';
-
-import { subTitle, textRegular, title, cardTitle, cardText } from './components/GlobalStyles';
-
+ //style
+import { title } from './components/GlobalStyles';
+// stockage
 import { connect } from 'react-redux';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -228,19 +226,6 @@ const styles = StyleSheet.create({
   title: {
     ...title
   },
-  subTitle: {
-    ...subTitle
-  },
-  textRegular: {
-    ...textRegular
-  },
-  cardTitle: {
-    ...cardTitle
-  },
-  cardText: {
-    ...cardText
-  }
-
 });
 
 // * ___________________________ REDUX ___________________________

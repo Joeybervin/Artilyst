@@ -105,39 +105,24 @@ export function CreeUnCompteBtn(props) {
     );
 }
 
-
-export function GreenFullButton(props) {
-
-    return (
-        <View>
-            <TouchableOpacity
-                activeOpacity={.7}
-                onPress={props.onPressHandler}
-                style={[styles.btn,  styles.btnGreen ]}
-            >
-                <Text style={[styles.textBtn, styles.textBlack]}>{props.title}</Text>
-            </TouchableOpacity>
-        </View>
-    );
-}
-export function BlackFullButton(props) {
+export function FullButton(props) {
 
     return (
         <View>
             <TouchableOpacity
+                // disabled={props.disabled === true ? true : props.disabled}
                 activeOpacity={.7}
                 onPress={props.onPressHandler}
-                style={[styles.btn,  styles.btnBlack ]}
+                style={{...styles.btn,  backgroundColor : props.buttonColor ? props.buttonColor : styles.btnDefaultColor }}
             >
-                <Text style={[styles.textBtn, styles.textWhite]}>{props.title}</Text>
+                <Text style={{...styles.textBtn, color : props.buttonTextColor ? props.buttonTextColor : styles.btnTextDefaultColor}}>{props.title}</Text>
             </TouchableOpacity>
         </View>
     );
 }
 
 
-
-export function BtnLinearGradientOutline(props) {
+export function OutlineButtonLieanerGradient(props) {
 
     return (
         <View>
@@ -493,12 +478,8 @@ const styles = StyleSheet.create({
         
         elevation: 5,
             },
-    btnGreen : {
-        backgroundColor: '#1ADBAC',
-    },
-    btnBlack : {
-        backgroundColor: '#000000',
-    },
+    btnDefaultColor : '#1ADBAC',
+    btnTextDefaultColor : '#000000',
     // BORDERED BUTTON
     EmptyButton: {
         height: '100%',

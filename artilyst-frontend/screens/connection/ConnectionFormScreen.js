@@ -99,7 +99,9 @@ function ConnectionFormScreen(props) {
     // * ___________________________ PAGE ___________________________
 
     return (
-        <View style={styles.container}>
+        <View style={styles.maincontainer}>
+
+            <View style={styles.container}>
 
             <Text style={styles.title}>Connexion à votre compte</Text>
             {/* Email */}
@@ -128,17 +130,24 @@ function ConnectionFormScreen(props) {
 
             <Link style={{ marginTop: 25 }} to={'/RegisterFormScreen1'}>Pas encore membre ? Créer un compte</Link>
 
+            </View>
+
         </View>
     );
 }
 
 // * ___________________________ STYLES ___________________________
 const styles = StyleSheet.create({
-    container: {
+    maincontainer: {
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center'
+    },
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width : '90%'
     },
     // -- GLOBAL STYLE ----------
     pageBackground: {
