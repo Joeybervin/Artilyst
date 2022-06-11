@@ -14,9 +14,9 @@ import { StyleSheet, View, TextInput, ScrollView, TouchableOpacity } from 'react
 /* import { Text } from '@rneui/base'; */
 import { Text } from '@rneui/base';
 import { Divider } from "@rneui/themed";
-
+import { FullButton} from '../components/ButtonsComponent';
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
-import { LancerRechercheBtn } from '../components/ButtonsComponent';
+
 
 function CreationAnnonceScreen(props) {
 
@@ -129,8 +129,10 @@ function CreationAnnonceScreen(props) {
                     orientation="horizontal"
                 />
 
-                {/* RETOUR / SUIVANT */}
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20, marginBottom: 40 }}>
+                {/* BUTTONS */}
+                {/* <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20, marginBottom: 40 }}>
+
+                    
 
                     <LancerRechercheBtn onPressHandler={() => projectSave()} />
                     
@@ -139,6 +141,17 @@ function CreationAnnonceScreen(props) {
                         <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#232323' }}>Retour</Text>
                     </TouchableOpacity>
                    
+                </View> */}
+
+                <View style={{ flexDirection: 'row', marginTop: 50 ,  marginBottom: 40 }}>
+                    <FullButton title='retour' 
+                    buttonTextColor={'#ffffff'} buttonColor={'#000000'} 
+                    onPress={() => props.navigation.goBack()}
+                    />
+
+                    <FullButton title='créer'
+                    onPressHandler={() => projectSave()}
+                    />
                 </View>
             </View>
         </ScrollView>

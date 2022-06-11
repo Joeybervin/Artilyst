@@ -143,7 +143,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <CheckBox
                 center
-                checkedColor='black'
+                checkedColor='#000000'
                 onPress={() => { setCheckBoxStatus(checkBoxStatus === true ? false : true) }}
                 checked={checkBoxStatus === false ? false : true}
               />

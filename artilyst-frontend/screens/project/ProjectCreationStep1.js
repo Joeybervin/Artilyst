@@ -94,9 +94,6 @@ export default function ProjectCreationStep1(props) {
         props.navigation.navigate(`ProjectCreationStep2`, { date_start: startDate, date_end: endDate, occupation: collaborator })
     }
 
-    const coco = () => {
-        props.navigation.goBack()
-    }
     return (
 
         <ScrollView>
@@ -223,7 +220,7 @@ export default function ProjectCreationStep1(props) {
 
                     <Buttons.FullButton title='retour' 
                         buttonTextColor={'#ffffff'} buttonColor={'#000000'} 
-                        onPressHandler={ () => coco()}
+                        onPressHandler={ () => props.navigation.goBack()}
                     />
 
                     <Buttons.FullButton title='suivant'
