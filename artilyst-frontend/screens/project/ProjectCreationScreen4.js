@@ -1,4 +1,3 @@
-import Animated from 'react-native-reanimated';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
@@ -18,7 +17,7 @@ import { FullButton} from '../components/ButtonsComponent';
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
 
 
-function CreationAnnonceScreen(props) {
+function ProjectCreationScreen4(props) {
 
     // * ___________________________ VARIABLES & VARIBLES D'ÉTAT ___________________________
     /* variables d'état */
@@ -130,18 +129,6 @@ function CreationAnnonceScreen(props) {
                 />
 
                 {/* BUTTONS */}
-                {/* <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20, marginBottom: 40 }}>
-
-                    
-
-                    <LancerRechercheBtn onPressHandler={() => projectSave()} />
-                    
-
-                    <TouchableOpacity onPress={() => props.navigation.navigate('CategorieDuProjetScreen')}>
-                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#232323' }}>Retour</Text>
-                    </TouchableOpacity>
-                   
-                </View> */}
 
                 <View style={{ flexDirection: 'row', marginTop: 50 ,  marginBottom: 40 }}>
                     <FullButton title='retour' 
@@ -231,4 +218,4 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
     return { userDisplay: state.user }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(CreationAnnonceScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectCreationScreen4);

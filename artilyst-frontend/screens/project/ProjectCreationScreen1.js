@@ -18,7 +18,7 @@ import * as Buttons from '../components/ButtonsComponent';
 // style
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
 
-export default function ProjectCreationStep1(props) {
+export default function ProjectCreationScreen1(props) {
 
     
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
@@ -91,7 +91,7 @@ export default function ProjectCreationStep1(props) {
 
     // fonction qui renvoie vers le bon formulaire + envoie la data dans les params
     const validFirstStep = () => {
-        props.navigation.navigate(`ProjectCreationStep2`, { date_start: startDate, date_end: endDate, occupation: collaborator })
+        props.navigation.navigate(`ProjectCreationScreen2`, { date_start: startDate, date_end: endDate, occupation: collaborator })
     }
 
     return (

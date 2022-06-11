@@ -17,7 +17,7 @@ import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } fro
 
 
 
-export default function CategorieDuProjetScreen(props) {
+export default function ProjectCreationScreen3(props) {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     const [category, setCategory] = useState('')
@@ -67,7 +67,7 @@ export default function CategorieDuProjetScreen(props) {
                         <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#232323' }}>Retour</Text>
                     </TouchableOpacity>
                   
-                    <SuivantBtn onPressHandler={() => props.navigation.navigate('CreationAnnonceScreen', ParamsProject2)} />
+                    <SuivantBtn onPressHandler={() => props.navigation.navigate('ProjectCreationScreen4', ParamsProject2)} />
                    
 
                 </View> */}
@@ -80,7 +80,7 @@ export default function CategorieDuProjetScreen(props) {
                     />
 
                     <FullButton title='créer un compte'
-                    onPressHandler={() => props.navigation.navigate('CreationAnnonceScreen', ParamsProject2)}
+                    onPressHandler={() => props.navigation.navigate('ProjectCreationScreen4', ParamsProject2)}
                     />
                 
                 </View>

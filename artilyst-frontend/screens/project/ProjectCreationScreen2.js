@@ -16,7 +16,7 @@ import { FullButton} from '../components/ButtonsComponent';
 import * as Location from 'expo-location';
 
 
-export default function ProjectCreationStep2(props) {
+export default function ProjectCreationScreen2(props) {
 
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
@@ -516,7 +516,7 @@ export default function ProjectCreationStep2(props) {
                         />
 
                         <FullButton title='suivant'
-                        onPressHandler={() => props.navigation.navigate('CategorieDuProjetScreen', params)}
+                        onPressHandler={() => props.navigation.navigate('ProjectCreationScreen3', params)}
                         />
                     </View>
 

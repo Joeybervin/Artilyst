@@ -19,7 +19,7 @@ import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
- function UserProjectsScreen(props) {
+ function ProjectsScreen(props) {
 
   // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
   /* VARIABLES D'ÉTAT  */
@@ -35,7 +35,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
   /* PREMIÈRE */
 
   useEffect(() => {
-    async function loadCasting() {
+    async function loadProjects() {
       var rawResponse = await fetch(`http://${expoUrlJoey}/displayProjects`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -58,7 +58,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
         AsyncStorage.setItem("userMessage", JSON.stringify(userChoiceUncheck))
       }
     });
-    loadCasting();
+    loadProjects();
   }, [])
   /* SECONDE */
 
@@ -72,7 +72,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
     setOverlayVisibility(false)
   }
 
-  const deleteFunction = async (id, index) => {
+  const deleteProject = async (id, index) => {
     await fetch(`http://${expoUrlJoey}/deleteProject?id=${id}`, {
       method: 'DELETE'
     })
@@ -104,7 +104,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
             <MenuOption onSelect={() => alert(`Not called`)} text='Voir les artistes correspondants' />
 
-            <MenuOption onSelect={() => deleteFunction(element._id, index)} text='Supprimer' />
+            <MenuOption onSelect={() => deleteProject(element._id, index)} text='Supprimer' />
 
           </MenuOptions>
         </Menu>
@@ -170,14 +170,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
             type="solid"
             containerStyle={{ borderWidth: 2, borderRadius: 10, borderColor: 'transparent', width: "30%", marginTop: 20, }}
             buttonStyle={{ borderRadius: 8, height: 100, backgroundColor: '#1ADBAC' }}
-            onPress={() => { props.navigation.navigate('ProjectCreationStep1') }}
+            onPress={() => { props.navigation.navigate('ProjectCreationScreen1') }}
           >
             <Ionicons
               style={styles.icon}
               color='white'
               name="add"
               size={50}
-              onPress={() => { props.navigation.navigate('ProjectCreationStep1') }}
+              onPress={() => { props.navigation.navigate('ProjectCreationScreen1') }}
             />
           </Button>
         </View>
@@ -245,4 +245,4 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(UserProjectsScreen);
+)(ProjectsScreen);
