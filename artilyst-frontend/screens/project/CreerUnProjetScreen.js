@@ -142,14 +142,14 @@ console.log("coco")
             type="solid"
             containerStyle={{ borderWidth: 2, borderRadius: 10, borderColor: 'transparent', width: "40%", marginTop: 30, }}
             buttonStyle={{ borderRadius: 8, height: 140, backgroundColor: '#1ADBAC' }}
-            onPress={() => { props.navigation.navigate('CollaborateurDuProjetScreen') }}
+            onPress={() => { props.navigation.navigate('ProjectCreationStep1') }}
           >
             <Ionicons
               style={styles.icon}
               color='white'
               name="add"
               size={50}
-              onPress={() => { props.navigation.navigate('CollaborateurDuProjetScreen') }}
+              onPress={() => { props.navigation.navigate('ProjectCreationStep1') }}
             />
           </Button>
         </View>

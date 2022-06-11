@@ -3,22 +3,23 @@ import React, { useState } from 'react';
 // & import des urls de chacune
 import { expoUrlJoey } from '../../ExpoUrl';
 
-// ^ Wanings messages
+// wanings messages
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
-//^ Module de balise
+// framwework
 import { StyleSheet, View } from 'react-native';
+// librairies
 import { Text, Divider } from '@rneui/base';
-
 import * as Badges from '../components/BadgesComponent'
-//import * as Buttons from '../components/ButtonsComponent'
-
-// ^Redux
+import { FullButton} from '../components/ButtonsComponent';
+// style
+import { title } from '../components/GlobalStyles';
+// stockage
 import { connect } from 'react-redux';
 
-import { FullButton} from '../components/ButtonsComponent';
-import { title } from '../components/GlobalStyles';
+
+
 
 function RegisterFormScreen2(props) {
 
@@ -31,7 +32,7 @@ function RegisterFormScreen2(props) {
     const [messageError, setMessageError] = useState("")
 
     /* VARAIBLES */
-    let domaines = ["comédien/ne","Modèle", "photographe","styliste","réalisateur/ice vidéaste","option"]
+    let domaines = ["comédien/ne","modèle", "photographe","styliste","réalisateur/ice vidéaste","option"]
 
     // * ___________________________ FUNCTIONS ___________________________
 

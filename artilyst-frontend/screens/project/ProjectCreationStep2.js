@@ -14,7 +14,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SuivantBtn } from '../components/ButtonsComponent';
 
 
-export default function PhotographCollaborateurScreen(props) {
+export default function ProjectCreationStep2(props) {
 
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________

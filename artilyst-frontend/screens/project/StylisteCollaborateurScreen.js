@@ -172,7 +172,7 @@ export default function StylisteCollaborateurScreen(props) {
                 <Button
                     buttonStyle={{ backgroundColor: '#000000', margin: 5 }}
                     title="retour"
-                    onPress={() => props.navigation.navigate('CollaborateurDuProjetScreen')}
+                    onPress={() => props.navigation.navigate('ProjectCreationStep1')}
                 />
 
                 <Button
