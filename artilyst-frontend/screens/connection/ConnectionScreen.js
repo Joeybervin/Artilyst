@@ -9,7 +9,7 @@ import { StyleSheet, View } from 'react-native';
 import { Text } from '@rneui/base';
 import Svg, { Path } from "react-native-svg"
 // componsants
-import { OutlineButtonLieanerGradient } from '../components/ButtonsComponent';
+import { BigOutlineButtonLieanerGradient } from '../components/ButtonsComponent';
 // style
 import {title} from '../components/GlobalStyles';
 
@@ -90,14 +90,14 @@ function ConnectionScreen(props) {
             <SvgComponent />
             <Text style={styles.title}>Bienvenue sur Artilyst.</Text>
             
-            <OutlineButtonLieanerGradient title={"Se connecter"} 
+            <BigOutlineButtonLieanerGradient title={"Se connecter"} 
                 onPressHandler={() => {
                     props.getUserInformations(userData)
                     props.navigation.navigate('PagesStacks')
                     //props.navigation.navigate('ConnectionFormScreen')
                 }} />
 
-            <OutlineButtonLieanerGradient title={"Créer un compte"}
+            <BigOutlineButtonLieanerGradient title={"Créer un compte"}
                 onPressHandler={() => props.navigation.navigate('RegisterFormScreen1')}
             />
         

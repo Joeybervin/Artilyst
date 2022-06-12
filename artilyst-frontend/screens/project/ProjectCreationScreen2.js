@@ -8,7 +8,7 @@ LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Net
 import { StyleSheet,TextInput, Text, View, ActivityIndicator, KeyboardAvoidingView } from 'react-native';
 // librairies
 import { Ionicons } from '@expo/vector-icons';
-import {  Overlay, Divider } from "@rneui/themed";
+import {  Overlay } from "@rneui/themed";
 import { Input, CheckBox } from "@rneui/base";
 import Slider from '@react-native-community/slider';
 import { FullButton} from '../components/ButtonsComponent';

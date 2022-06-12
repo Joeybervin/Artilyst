@@ -10,71 +10,6 @@ import { useNavigation } from '@react-navigation/native';
 // import { FullBtn, PostulerBtn, RecruterBtnn, RejeterBtn } from '../components/ButtonsComponent';
 
 // FULL BUTTON ------------------------
-export function PortfolioBtn(props) {
-
-    const [isPressed, setIsPressed] = useState(false)
-
-    return (
-        <View>
-            <TouchableOpacity
-                activeOpacity={.7}
-                onPress={props.onPressHandler}
-                style={styles.btn}
-            >
-                <Text style={styles.textBtn}>Portfolio</Text>
-            </TouchableOpacity>
-        </View>
-    );
-}
-
-export function ModifierProfilBtn(props) {
-
-    return (
-        <View>
-            <TouchableOpacity
-                activeOpacity={.7}
-                onPress={props.onPressHandler}
-                style={styles.btn}
-            >
-                <Text style={styles.textBtn}>Modifier mon profil</Text>
-            </TouchableOpacity>
-        </View>
-    );
-}
-
-export function SinscrireBtn(props) {
-
-    return (
-        <View>
-            <TouchableOpacity
-                activeOpacity={.7}
-                onPress={props.onPressHandler}
-                style={styles.btn}
-            >
-                <Text style={styles.textBtn}>Modifier mon profil</Text>
-            </TouchableOpacity>
-        </View>
-    );
-}
-
-export function SuivantBtn(props) {
-
-    return (
-        <View>
-            <TouchableOpacity
-                activeOpacity={.7}
-                onPress={props.onPressHandler}
-                style={styles.btn}
-            >
-                <Text style={styles.textBtn}>Suivant</Text>
-            </TouchableOpacity>
-        </View>
-    );
-}
-
-
-
-// BORDERED BUTTON ------------------------
 
 export function FullButton(props) {
 
@@ -93,7 +28,12 @@ export function FullButton(props) {
 }
 
 
-export function OutlineButtonLieanerGradient(props) {
+
+
+// BORDERED BUTTON ------------------------
+
+
+export function BigOutlineButtonLieanerGradient(props) {
 
     return (
         <View>
@@ -122,7 +62,7 @@ export function OutlineButtonLieanerGradient(props) {
     );
 }
 
-export function SeConnecterBtn(props) {
+export function SmallOutlineButtonLieanerGradient(props) {
 
     return (
         <View>
@@ -130,13 +70,12 @@ export function SeConnecterBtn(props) {
                 colors={['#36e599', '#597ee7', '#b44be0']}
                 end={[1, 0.5]}
                 style={{
-                    height: 42, width: 250,
+                    height: 38, width: 139,
                     textAlign: 'center',
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderRadius: 16,
                     padding: 1,
-                    margin: 7
 
                 }}>
                 <TouchableOpacity
@@ -144,99 +83,13 @@ export function SeConnecterBtn(props) {
                     onPress={props.onPressHandler}
                     style={styles.EmptyButton}
                 >
-                    <Text style={styles.textBtn}>Se connecter</Text>
+                    <Text style={styles.textBtn}>{props.title}</Text>
                 </TouchableOpacity>
             </LinearGradient>
         </View >
     );
 }
 
-export function EnvoyerUnMessageBtn(props) {
-
-    return (
-        <View>
-            <LinearGradient
-                colors={['#36e599', '#597ee7', '#b44be0']}
-                end={[1, 0.5]}
-                style={{
-                    height: 42, width: 250,
-                    textAlign: 'center',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 16,
-                    padding: 1,
-                    margin: 7
-
-                }}>
-                <TouchableOpacity
-                    activeOpacity={.7}
-                    onPress={props.onPressHandler}
-                    style={styles.EmptyButton}
-                >
-                    <Text style={styles.textBtn}>Envoyer un message</Text>
-                </TouchableOpacity>
-            </LinearGradient>
-        </View >
-    );
-}
-
-export function ContinuerLaRechercheBtn(props) {
-
-    return (
-        <View>
-            <LinearGradient
-                colors={['#36e599', '#597ee7', '#b44be0']}
-                end={[1, 0.5]}
-                style={{
-                    height: 42, width: 250,
-                    textAlign: 'center',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 16,
-                    padding: 1,
-                    margin: 7
-
-                }}>
-                <TouchableOpacity
-                    activeOpacity={.7}
-                    onPress={props.onPressHandler}
-                    style={styles.EmptyButton}
-                >
-                    <Text style={styles.textBtn}>Continuer la recherche</Text>
-                </TouchableOpacity>
-            </LinearGradient>
-        </View >
-    );
-}
-
-export function ConnexionBtn(props) {
-
-    return (
-        <View>
-            <LinearGradient
-                colors={['#36e599', '#597ee7', '#b44be0']}
-                end={[1, 0.5]}
-                style={{
-                    height: 42, width: 200,
-                    textAlign: 'center',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 16,
-                    padding: 1,
-                    margin: 10
-
-                }}>
-                <TouchableOpacity
-                    activeOpacity={.7}
-                    onPress={props.onPressHandler}
-                    style={styles.EmptyButton}
-                >
-                    <Text style={styles.textBtn}>Connexion</Text>
-                </TouchableOpacity>
-            </LinearGradient>
-        </View >
-    );
-}
 
 export function PostulerBtn(props) {
 
@@ -259,7 +112,7 @@ export function PostulerBtn(props) {
                     onPress={props.onPressHandler}
                     style={styles.EmptyButton}
                 >
-                    <Text style={styles.textBtn}>Postuler</Text>
+                    <Text style={styles.textBtn}>{props.title}</Text>
                 </TouchableOpacity>
             </LinearGradient>
         </View >
