@@ -1,23 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+// & import des urls de chacune
 import { expoUrlJoey } from '../../ExpoUrl';
 
-// anings messages
+// ^ Wanings messages
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
-// framework
+// ^ Module de balise
 import { StyleSheet, View, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
-// librairies
 import { Text, Button } from '@rneui/base';
 import { Input, CheckBox, Slider, Divider, Overlay } from "@rneui/themed";
-import { ScrollView } from 'react-native-gesture-handler';
+
+//^ module bonus (icons)
 import { Ionicons } from '@expo/vector-icons';
 
-import * as Location from 'expo-location';
-
-// stockage
+// ^ Redux
 import { connect } from 'react-redux';
+import { ScrollView } from 'react-native-gesture-handler';
 
+import * as Location from 'expo-location';
 
 
 function ProfileEditScreen(props) {
@@ -47,6 +49,7 @@ function ProfileEditScreen(props) {
     const [overlayVisibility, setOverlayVisibility] = useState(false);
 
     /* VARIABLES */
+    console.log(user.characteristics.gender)
 
     // * ___________________________ FUNCTIONS ___________________________
 
@@ -105,14 +108,8 @@ function ProfileEditScreen(props) {
             });
 
             if (response) {
-                if (response[0].location === undefined){ 
-                    setOverlayVisibility(false)
-                    setLocation("??")
-                }
-                else {
-                    setOverlayVisibility(false)
-                    setLocation(response[0].location)
-                }
+                setOverlayVisibility(false)
+                setLocation(response[0].location)
             }
 
             
@@ -148,7 +145,6 @@ return (
                         value={name}
                     />
                 </View>
-
                 {/* VILLE */}
                 <View style={{ flexDirection: 'row', alignItems: 'center', width: '90%' }}>
                     <Text>Ville : </Text>

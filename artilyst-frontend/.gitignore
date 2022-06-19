@@ -9,7 +9,6 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-ExpoUrl.js
 
 # macOS
 .DS_Store

@@ -1,42 +1,41 @@
 import React, { useState, useEffect } from 'react';
 
-//  Wanings messages
+// ^ Wanings messages
 import { LogBox } from 'react-native';
 LogBox.ignoreAllLogs(true)
 LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
-// framework
+//^ Module de balise
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
-// librairies
+
 import DatePicker from 'react-native-modern-datepicker';
+
 import { Overlay, Button } from "@rneui/base";
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-// components
-import * as Badges from '../components/BadgesComponent'
-import * as Buttons from '../components/ButtonsComponent';
-
-// style
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
+import { SuivantBtn } from '../components/ButtonsStyles';
 
-export default function ProjectCreationScreen1(props) {
+export default function CollaborateurDuProjetScreen(props) {
 
     
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
 
-    const [startDate, setDateDebut] = useState("JJ/MM/AAAA");
-    const [endDate, setDateFin] = useState("JJ/MM/AAAA");
+    const [dateDebut, setDateDebut] = useState("JJ/MM/AAAA");
+    const [dateFin, setDateFin] = useState("JJ/MM/AAAA");
 
-    const [collaborator, setCollaborator] = useState("")
-    const [collaboratorSelected, setCollaboratorSelected] = useState(false) // vérifie si l'utilisateur à bien clické sur un bouton
+    const [userOccupation, setUserOccupation] = useState("")
+    const [userOccupationClicked, setUserOccupationClicked] = useState(true) // vérifie si l'utilisateur à bien clické sur un bouton
     const [messageDateError, setMessageDateError] = useState("")
 
     const [ovelayDebutVisible, setOvelayDebutVisible] = useState(false);
     const [ovelayFinVisible, setOvelayFinVisible] = useState(false);
 
+    var [ isPress, setIsPress ] = useState(false); // BOLEAN : changement de couleur du boutton au clique
+
     /* VARIABLES */
-    var validDate = true
-    let domaines = ["comédien/ne","modèle", "photographe","styliste","réalisateur/ice vidéaste"]
+    var datevalide = true
 
     // * ___________________________ FUNCTIONS ___________________________
 
@@ -65,41 +64,48 @@ export default function ProjectCreationScreen1(props) {
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* varification de la coherence des dates et affichage d'erreur */
     useEffect(() => {
-        async function formVerifications() {
+        async function VerifData() {
 
-            if (startDate > endDate) {
+            if (dateDebut > dateFin) {
                 setMessageDateError("La date du début doit être anterieure à la date de fin")
-                validDate = false
+                datevalide = false
             }
-            else if (startDate === "JJ/MM/AAAA" && endDate === "JJ/MM/AAAA") {
+            else if (dateDebut == "JJ/MM/AAAA" && dateFin == "JJ/MM/AAAA") {
                 setMessageDateError("")
-                validDate = true
-            } else if (startDate <= endDate) {
+                datevalide = true
+            } else if (dateDebut <= dateFin) {
                 setMessageDateError("")
-                validDate = true
+                datevalide = true
             }
-            if (validDate === false || collaborator === "") {
-                setCollaboratorSelected(false)
-            } else if (validDate === true && collaborator !== "") {
-                setCollaboratorSelected(true)
+            if (datevalide == false || userOccupation == "") {
+                setUserOccupationClicked(true)
+            } else if (datevalide = true && userOccupation != "") {
+                setUserOccupationClicked(false)
                 setMessageDateError("")
             }
 
-        } 
-        formVerifications()
-    }, [startDate, endDate, collaborator]);
+        } 12
+        VerifData()
+    }, [dateDebut, dateFin, userOccupation]);
+
+    /* Pour ajouter le métier de l'utilisateur au données qui seront envoyées à la base de données  */
+    const addUserOccupation = (userOccupation) => {
+        setUserOccupation(userOccupation)
+        //setUserOccupationClicked(false) // Rend le button "créer un compte" cliquable
+    }
 
     // fonction qui renvoie vers le bon formulaire + envoie la data dans les params
     const validFirstStep = () => {
-        props.navigation.navigate(`ProjectCreationScreen2`, { date_start: startDate, date_end: endDate, occupation: collaborator })
+        var occupation = userOccupation;
+        props.navigation.navigate(`${occupation}CollaborateurScreen`, { date_start: dateDebut, date_end: dateFin, occupation: userOccupation })
     }
 
     return (
 
         <ScrollView>
-            <View style={styles.mainContainer}>
+            <View style={styles.container}>
 
-                {/* BARRE DE PROGRESSION */}
+                {/* Progress bar */}
                 <View style={{ marginTop: 40, borderWidth: 0.5, borderColor: '#1ADBAC', borderRadius: 50, width: "80%", height: 10 }}>
                     <View style={{ borderWidth: 0.5, borderColor: '#1ADBAC', borderRadius: 50, width: "33%", height: 10, backgroundColor: '#1ADBAC' }}></View>
                 </View>
@@ -114,7 +120,7 @@ export default function ProjectCreationScreen1(props) {
                         <Text style={{ fontWeight: 'bold', marginBottom: 15 }}>Date de début</Text>
                         <Button
                             type="outline"
-                            title={startDate}
+                            title={dateDebut}
                             onPress={() => { setOvelayDebutVisible(true) }}
                             buttonStyle={{ borderColor: '#000000', width: '100%' }}
                             titleStyle={{ color: 'black' }}
@@ -155,7 +161,7 @@ export default function ProjectCreationScreen1(props) {
                     {/* Input : date de fin */}
                     <View>
                         <Text style={{ fontWeight: 'bold', marginBottom: 15 }}>Date de fin</Text>
-                        <Button type="outline" title={endDate} onPress={() => { setOvelayFinVisible(true) }}
+                        <Button type="outline" title={dateFin} onPress={() => { setOvelayFinVisible(true) }}
                             buttonStyle={{ borderColor: '#000000', width: '100%' }}
                             titleStyle={{ color: 'black' }}
                         />
@@ -195,41 +201,89 @@ export default function ProjectCreationScreen1(props) {
                     </View>
 
                 </View>
-                {/* message d'erreur pour les dates */}
+
                 <Text>{messageDateError}</Text>
 
-                {/* CHOIX COLLABORATEUR */}
                 <View style={{ marginTop: 25, justifyContent: 'center' }} >
+
                     <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Collaborateur du projet</Text>
-                    <Text style={{ marginTop: 30, marginBottom: 5, fontWeight: 'bold', textAlign: 'center' }}>De qui avez vous besoin ?</Text>
-                    <Text style={{ marginTop: 10, marginBottom: 15, textAlign: 'center' }}>{collaborator}</Text>
+                    <Text style={{ marginTop: 30, marginBottom: 15, fontWeight: 'bold', textAlign: 'center' }}>De qui avez vous besoin ?</Text>
 
-                    <View style={{flexDirection : "column", alignText : "center"}}>
 
-                    <Badges.SmallBadgesPlus
-                        data={domaines}
-                        onPressHandler={(value) => {
-                            setCollaborator(value)
+                    <View dir="row" align="center" spacing={4}>
+
+                        {/* Comédien */}
+                        <TouchableOpacity
+                            style={styles.smallCards}
+                        onPress={() => {
+                            //addUserOccupation("Comedien")
+                            setIsPress(true)
                         }}
-                    />
+                        >
+                            <Text style={styles.cardTitle}>Comédien.ne</Text>
+                        </TouchableOpacity>
+
+                        {/* Modele */}
+                        <TouchableOpacity
+                            style={styles.smallCards}
+                            onPress={() => {
+                                //addUserOccupation("Modele")
+                                setIsPress(true)
+                            }}
+                        >
+                            <Text style={styles.cardTitle}>Modèle</Text>
+                        </TouchableOpacity>
+
+                        {/* ----- PHOTOGRAPHE ----- */}
+                        <TouchableOpacity
+                            style={isPress ? styles.smallCardsPressed : styles.smallCards}
+                            onPress={() => {
+                                addUserOccupation("Photographe")
+                                setIsPress(true)
+                            }}
+                        >
+                            <Text style={isPress ? styles.cardTitlePressed : styles.cardTitle }>Photographe</Text>
+                        </TouchableOpacity>
+
+                        {/* Styliste */}
+                        <TouchableOpacity
+                            style={styles.smallCards}
+                            onPress={() => {
+                                //addUserOccupation("Styliste")
+                                setIsPress(true)
+                            }}
+                        >
+                            <Text style={styles.cardTitle}>Styliste</Text>
+                        </TouchableOpacity>
+
+                        {/* Réalisateur */}
+                        <TouchableOpacity
+                            style={styles.smallCards}
+                            onPress={() => {
+                                //addUserOccupation("Réalisateur.ice vidéos")
+                                setIsPress(true)
+                            }}
+                        >
+                            <Text style={styles.cardTitle}>Réalisateur.ice vidéos</Text>
+                        </TouchableOpacity>
+
                     </View>
                 </View>
 
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop: 50, marginBottom: 65, width : "90%"}}>
+                    
+                    {/* Boutton de retour */}
+                    <TouchableOpacity onPressHandler={() => props.navigation.navigate('CreerUnProjetScreen')}>
+                        <Text style={{fontSize: 15, fontWeight: 'bold', color: '#232323', marginLeft : 35}}>Retour</Text>
+                    </TouchableOpacity>
 
-                    <Buttons.FullButton title='retour' 
-                        buttonTextColor={'#ffffff'} buttonColor={'#000000'} 
-                        onPressHandler={ () => props.navigation.goBack()}
-                    />
-
-                    <Buttons.FullButton title='suivant'
-                        onPressHandler={() => validFirstStep()}
-                        
-                    />
+                    {/* Boutton page suivante */}
+                    <SuivantBtn 
+                    onPressHandler={() => validFirstStep()} 
+                    disabled={userOccupationClicked} />
 
                 </View>
-
             </View>
         </ScrollView>
     );
@@ -238,7 +292,7 @@ export default function ProjectCreationScreen1(props) {
 // * ___________________________ STYLES ___________________________
 
 const styles = StyleSheet.create({
-    mainContainer: {
+    container: {
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
@@ -334,3 +388,7 @@ const styles = StyleSheet.create({
 
 
 });
+
+
+
+// * ___________________________ REDUX ___________________________

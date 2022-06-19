@@ -8,6 +8,7 @@ import { expoUrlJoey } from '../ExpoUrl';
 
 //^ Module de balise
 import { StyleSheet, View, ScrollView, Dimensions, Image } from 'react-native';
+import { Button } from '@rneui/base';
 import { Switch, Text, Overlay, Avatar } from '@rneui/themed';
 import { Dropdown } from 'react-native-element-dropdown';
 import { Ionicons } from '@expo/vector-icons';
@@ -17,7 +18,7 @@ import { Link } from '@react-navigation/native';
 import { connect } from 'react-redux';
 
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from './components/GlobalStyles';
-import * as Buttons from './components/ButtonsComponent';
+import { PostulerBtnLight, ContinuerLaRechercheBtn, EnvoyerUnMessageBtn } from './components/ButtonsStyles';
 
 
 let { width: screenWidth, height: screenHeight } = Dimensions.get('screen')
@@ -156,8 +157,7 @@ function AnnoncesScreen(props) {
                     <Text style={styles.cardTitle}>{title.substring(0, 30) + ' ...'}</Text>
                     <Text style={styles.cardText}>{description.substring(0, 50) + ' ...'}</Text>
 
-                    <Buttons.SmallOutlineButtonLieanerGradient title="postuler"
-                    onPressHandler={() => Postuler(casting._id, casting.users_selected)} />
+                    <PostulerBtnLight onPressHandler={() => Postuler(casting._id, casting.users_selected)} />
 
                 </View>
             </View>
@@ -251,13 +251,11 @@ function AnnoncesScreen(props) {
                         <View style={{ justifyContent: "space-between", alignItems: "center", height: 125, marginTop: screenWidth / 3 }} >
 
 
-                            <Buttons.BigOutlineButtonLieanerGradient title="Envoyer un message"
-                                onPressHandler={() => {
+                            <EnvoyerUnMessageBtn onPressHandler={() => {
                                 setOverlayVisibility(false)
                                 props.navigation.navigate('MessagesScreen')
                             }} />
-                            <Buttons.BigOutlineButtonLieanerGradient title="Poursuivre la recherche"
-                             onPressHandler={() => setOverlayVisibility(false)} />
+                            <ContinuerLaRechercheBtn onPressHandler={() => setOverlayVisibility(false)} />
 
                         </View>
                     </View>
