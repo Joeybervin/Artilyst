@@ -1,6 +1,3 @@
-
-import Animated from 'react-native-reanimated';
-
 import React, { useRef, useState, useEffect } from 'react';
 
 // & import des urls de chacune
@@ -8,10 +5,8 @@ import {expoUrlJoey} from '../../../ExpoUrl';
 
 
 //^ Module de balise
-import { Dimensions, StyleSheet, View,  ScrollView, TouchableOpacity, ImageBackground } from 'react-native';
-import { Image,Text, Button } from '@rneui/base';
-//^ module bonus (icons)
-import { Ionicons } from '@expo/vector-icons';
+import { Dimensions, StyleSheet, View, ImageBackground } from 'react-native';
+import { Button } from '@rneui/base';
 
 // ^ Redux
 import { connect } from 'react-redux';

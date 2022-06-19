@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { expoUrlJoey } from '../../ExpoUrl';
 
-// ^ Wanings messages
+// Wanings messages
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
-
-//^ Module de balise
+// balise
 import { StyleSheet, View } from 'react-native';
 import { Text } from '@rneui/base';
-// ^Redux
-import { connect } from 'react-redux';
-
-
 import Svg, { Path } from "react-native-svg"
+// componsants
+import { BigOutlineButtonLieanerGradient } from '../components/ButtonsComponent';
+// style
+import {title} from '../components/GlobalStyles';
 
-
-// Styles
-import { CreeUnCompteBtn, SeConnecterBtn } from '../components/ButtonsStyles';
-import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
+// modules de stockage
+import { connect } from 'react-redux';
+//import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function ConnectionScreen(props) {
 
@@ -28,11 +26,28 @@ function ConnectionScreen(props) {
     // * ___________________________ INITIALISATION DE LA PAGE ___________________________
     /* PREMIÈRE */
     useEffect(() => {
+        /* AsyncStorage.getItem("user", function (error, token) {
+            if (token) {
+                const rawResponse = fetch(`http://${expoUrlJoey}/user_profile`, {
+                method: 'POST',
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `token=${token}`
+            })
+            let response = rawResponse.json();
+            let responseCopy = { ...response }
+            props.getUserInformations(responseCopy)
+            props.navigation.navigate('PagesStacks')
+            
+            }
+            else {
+              console.log('Pas encore dans le local storage')
+            }
+          }); */
         async function loadData() {
             const rawResponse = await fetch(`http://${expoUrlJoey}/user_profile`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `token=i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT` // i0-7QTBGTbbi81PmAZq_sh-e8C_qvPKT
+                body: `token=WTBNc1Uk9qyA6QGRhlhyIqXbJygw3bdZ`
             })
             let response = await rawResponse.json();
             let responseCopy = { ...response }
@@ -69,23 +84,23 @@ function ConnectionScreen(props) {
     )
 
     // * ___________________________ PAGE ___________________________
-
     return (
         <View style={styles.container}>
 
-
-
             <SvgComponent />
             <Text style={styles.title}>Bienvenue sur Artilyst.</Text>
+            
+            <BigOutlineButtonLieanerGradient title={"Se connecter"} 
+                onPressHandler={() => {
+                    props.getUserInformations(userData)
+                    props.navigation.navigate('PagesStacks')
+                    //props.navigation.navigate('ConnectionFormScreen')
+                }} />
 
-
-            <SeConnecterBtn onPressHandler={() => {
-                props.getUserInformations(userData)
-                props.navigation.navigate('PagesStacks')
-                //props.navigation.navigate('ConnectionFormScreen'
-            }} />
-            <CreeUnCompteBtn onPressHandler={() => props.navigation.navigate('RegisterFormScreen1')} />
-
+            <BigOutlineButtonLieanerGradient title={"Créer un compte"}
+                onPressHandler={() => props.navigation.navigate('RegisterFormScreen1')}
+            />
+        
         </View>
     );
 }
@@ -101,23 +116,8 @@ const styles = StyleSheet.create({
     },
 
     // -- GLOBAL STYLE ----------
-    pageBackground: {
-        ...pageBackground
-    },
     title: {
         ...title
-    },
-    subTitle: {
-        ...subTitle
-    },
-    textRegular: {
-        ...textRegular
-    },
-    cardTitle: {
-        ...cardTitle
-    },
-    cardText: {
-        ...cardText
     }
 
 

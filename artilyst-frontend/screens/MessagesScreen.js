@@ -3,16 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { expoUrlJoey } from '../ExpoUrl';
 
 //^ Module de balise
-import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity } from 'react-native';
-import { Text, Button } from '@rneui/base';
+import { Dimensions, StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Text } from '@rneui/base';
 import { Divider, Avatar } from "@rneui/themed";
 
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from './components/GlobalStyles';
-import { PostulerBtnLight, PostulerBtn } from './components/ButtonsStyles';
 
 
 let { width: screenWidth, height: screenHeight } = Dimensions.get('screen')
-
 export default function MessagesScreen() {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________

@@ -1,4 +1,3 @@
-import Animated from 'react-native-reanimated';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
@@ -6,21 +5,19 @@ import { connect } from 'react-redux';
 import { expoUrlJoey } from '../../ExpoUrl';
 
 // ^ Wanings messages
-import { LogBox, Button, Switch } from 'react-native';
+import { LogBox, Switch } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
 //^ Module de balise
-import { StyleSheet, View, TextInput, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 /* import { Text } from '@rneui/base'; */
 import { Text } from '@rneui/base';
 import { Divider } from "@rneui/themed";
-import BottomSheet from 'reanimated-bottom-sheet';
-import * as ImagePicker from "expo-image-picker";
-
+import { FullButton} from '../components/ButtonsComponent';
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
-import { LancerRechercheBtn } from '../components/ButtonsStyles';
 
-function CreationAnnonceScreen(props) {
+
+function ProjectCreationScreen4(props) {
 
     // * ___________________________ VARIABLES & VARIBLES D'ÉTAT ___________________________
     /* variables d'état */
@@ -131,16 +128,17 @@ function CreationAnnonceScreen(props) {
                     orientation="horizontal"
                 />
 
-                {/* RETOUR / SUIVANT */}
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20, marginBottom: 40 }}>
+                {/* BUTTONS */}
 
-                    <LancerRechercheBtn onPressHandler={() => projectSave()} />
-                    
+                <View style={{ flexDirection: 'row', marginTop: 50 ,  marginBottom: 40 }}>
+                    <FullButton title='retour' 
+                    buttonTextColor={'#ffffff'} buttonColor={'#000000'} 
+                    onPress={() => props.navigation.goBack()}
+                    />
 
-                    <TouchableOpacity onPress={() => props.navigation.navigate('CategorieDuProjetScreen')}>
-                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#232323' }}>Retour</Text>
-                    </TouchableOpacity>
-                   
+                    <FullButton title='créer'
+                    onPressHandler={() => projectSave()}
+                    />
                 </View>
             </View>
         </ScrollView>
@@ -220,4 +218,4 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
     return { userDisplay: state.user }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(CreationAnnonceScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectCreationScreen4);

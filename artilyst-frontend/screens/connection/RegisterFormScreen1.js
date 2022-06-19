@@ -11,8 +11,9 @@ import { Text, Input, Button, Overlay } from '@rneui/base';
 import { Ionicons } from '@expo/vector-icons';
 import DatePicker from 'react-native-modern-datepicker';
 
-import { ConnexionBtn } from '../components/ButtonsStyles';
 import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
+
+
 
 
 export default function RegisterFormScreen1(props) {
@@ -162,96 +163,98 @@ export default function RegisterFormScreen1(props) {
     /* Étape 1/2 de l'inscription : email + mot de passe + date de naissance (18ans +) */
 
     return (
-        <View style={styles.container}>
+        <View style={styles.maincontainer}>
 
-            <Text style={styles.title}>Création de votre compte</Text>
+            <View style={styles.container}>
+                <Text style={styles.title}>Création de votre compte</Text>
 
-            {/* Email */}
-            <Input
-                placeholder='Email'
-                onChangeText={setEmail} value={email}
-                errorMessage={emailError}
-                style={{ marginTop: 25 }}
-            />
-
-            {/* Mot de passe */}
-            <Input
-                placeholder="Password"
-                onChangeText={setPassword} value={password}
-                rightIcon={<Ionicons name={passwordVisibility ? 'eye-outline' : 'eye-off-outline'} size={24} color='black' onPress={() => setPasswordVisibility(passwordVisibility ? false : true)} />}
-                secureTextEntry={passwordVisibility} // Pour cacher ou ontrer le mot de passe
-                errorMessage={passwordError}
-            />
-
-            {/* Nom : affiché sur le profil */}
-            <Input
-                placeholder="name"
-                onChangeText={setName} value={name}
-                errorMessage={nameError}
-            />
-
-            {/* Date de naissance */}
-            <View style={{ marginTop: 25, marginBottom: 25, alignItems:'center' }}>
-                <Text style={{ marginBottom: 15, fontWeight: 'bold' }}>Date de naissance</Text>
-                <Button type="outline" title={birthdayDateView} onPress={() => { setOvelayVisibility(true) }}
-                    buttonStyle={{ borderColor: '#000000', width: '100%' }}
-                    titleStyle={{ color: 'black' }}
+                {/* Email */}
+                <Input
+                    placeholder='Email'
+                    onChangeText={setEmail} value={email}
+                    errorMessage={emailError}
+                    style={{ marginTop: 25 }}
                 />
 
-                <Overlay overlayStyle={{ width: "90%", justifyContent: "center", backgroundColor: "white" }} isVisible={ovelayVisibility} >
-                    <DatePicker
-                        mode="calendar"
-                        style={{ width: "100%", borderRadius: 10 }}
-                        options={{
-                            textHeaderColor: '#333333',
-                            textDefaultColor: '#000000',
-                            selectedTextColor: '#fff',
-                            mainColor: '#1ADBAC',
-                            textSecondaryColor: '#44A38B',
-                            borderColor: 'rgba(122, 146, 165, 0.1)',
-                        }}
+                {/* Mot de passe */}
+                <Input
+                    placeholder="Mot de passe"
+                    onChangeText={setPassword} value={password}
+                    rightIcon={<Ionicons name={passwordVisibility ? 'eye-outline' : 'eye-off-outline'} size={24} color='black' onPress={() => setPasswordVisibility(passwordVisibility ? false : true)} />}
+                    secureTextEntry={passwordVisibility} // Pour cacher ou ontrer le mot de passe
+                    errorMessage={passwordError}
+                />
 
-                        onSelectedChange={date => {
-                            setBirthdayDate(date)
-                            let dateselected = getTheDateFormat(new Date(date))
+                {/* Nom : affiché sur le profil */}
+                <Input
+                    placeholder="Name "
+                    onChangeText={setName} value={name}
+                    errorMessage={nameError}
+                />
 
-                            setBirthdayDateView(dateselected)
+                {/* Date de naissance */}
+                <View style={{ marginTop: 25, marginBottom: 25, alignItems:'center', width : '100%' }}>
+                    <Text style={{ marginBottom: 15, fontWeight: 'bold' }}>Date de naissance</Text>
 
-                        }}
-
-
+                    <Button type="outline" title={birthdayDateView} onPress={() => { setOvelayVisibility(true) }}
+                        buttonStyle={{ borderColor: '#000000', width: '70%', justifyContent:'center' }}
+                        titleStyle={{ color: 'black', width : '100%' }}
                     />
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
 
-                        <Button title="supprimer" buttonStyle={{ backgroundColor: '#000000', width: 150 }} onPress={() => {
-                            setBirthdayDateView("JJ/MM/AAAA")
-                            setOvelayVisibility(false)
-                        }} />
-                        <Button title="ok" buttonStyle={{ backgroundColor: '#1ADBAC', width: 150 }} onPress={() => setOvelayVisibility(false)} />
+                    <Overlay overlayStyle={{ width: "90%", justifyContent: "center", backgroundColor: "white" }} isVisible={ovelayVisibility} >
+                        <DatePicker
+                            mode="calendar"
+                            style={{ width: "100%", borderRadius: 10 }}
+                            options={{
+                                textHeaderColor: '#333333',
+                                textDefaultColor: '#000000',
+                                selectedTextColor: '#fff',
+                                mainColor: '#1ADBAC',
+                                textSecondaryColor: '#44A38B',
+                                borderColor: 'rgba(122, 146, 165, 0.1)',
+                            }}
 
-                    </View>
+                            onSelectedChange={date => {
+                                setBirthdayDate(date)
+                                let dateselected = getTheDateFormat(new Date(date))
 
-                </Overlay>
+                                setBirthdayDateView(dateselected)
+
+                            }}
+
+
+                        />
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+
+                            <Button title="supprimer" buttonStyle={{ backgroundColor: '#000000', width: 150 }} onPress={() => {
+                                setBirthdayDateView("JJ/MM/AAAA")
+                                setOvelayVisibility(false)
+                            }} />
+                            <Button title="ok" buttonStyle={{ backgroundColor: '#1ADBAC', width: 150 }} onPress={() => setOvelayVisibility(false)} />
+
+                        </View>
+
+                    </Overlay>
+
+                </View>
+
+
+                <Text>{birthdayDateError}</Text>
+
+                <View style={{ flexDirection: 'row', marginTop: 50, alignItems: 'center' }}>
+
+                    {/* Navigation pour retourner en arrière*/}
+                    <Ionicons name="chevron-back-outline" size={45} color="black" onPress={() => props.navigation.navigate('ConnectionScreen')} />
+
+                    <Text style={{ marginHorizontal: 50 }}>1 / 2</Text>
+
+                    {/* Navigation sur la page suivante + envoie des données remplie sur la partie 1/2 */}
+                    <Ionicons name="chevron-forward-outline" size={45} color="black" onPress={() => validFirstStep()}
+                    />
+
+                </View>
 
             </View>
-
-
-            <Text>{birthdayDateError}</Text>
-
-            <View style={{ flexDirection: 'row', marginTop: 50, alignItems: 'center' }}>
-
-                {/* Navigation pour retourner en arrière*/}
-                <Ionicons name="chevron-back-outline" size={45} color="black" onPress={() => props.navigation.navigate('ConnectionScreen')} />
-
-                <Text style={{ marginHorizontal: 50 }}>1 / 2</Text>
-
-                {/* Navigation sur la page suivante + envoie des données remplie sur la partie 1/2 */}
-                <Ionicons name="chevron-forward-outline" size={45} color="black" onPress={() => validFirstStep()}
-                />
-
-            </View>
-
-
         </View>
     );
 }
@@ -259,11 +262,16 @@ export default function RegisterFormScreen1(props) {
 // * ___________________________ STYLES ___________________________
 
 const styles = StyleSheet.create({
-    container: {
+    maincontainer: {
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
+    },
+    container: {
+        flex: 1,
+        alignItems: 'center',
         justifyContent: 'center',
+        width : '90%'
     },
     inputDate: {
         width: '35%',
