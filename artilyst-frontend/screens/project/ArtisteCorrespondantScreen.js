@@ -93,7 +93,7 @@ function ArtisteCorrespondantScreen(props) {
         <ScrollView style={styles.scrollView}>
             <View style={styles.container}>
 
-                <Text>Artiste(s) correspondant à votre recherche </Text>
+                <Text>Artistes correspondant à votre recherche </Text>
 
                 <View style={{
                     flexWrap: 'wrap',
@@ -103,7 +103,7 @@ function ArtisteCorrespondantScreen(props) {
                     justifyContent: 'center'
                 }} >
 
-                    {artistsDisplay.length === 0 ? <Text>Aucun artiste ne correspond à votre projet</Text> : artistsDisplay}
+                    {artistsDisplay.length === 0 ? <Text>Aucun n'artiste ne correspondant</Text> : artistsDisplay}
 
                 </View>
             </View>

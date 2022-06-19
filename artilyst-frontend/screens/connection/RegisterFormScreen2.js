@@ -3,73 +3,58 @@ import React, { useState } from 'react';
 // & import des urls de chacune
 import { expoUrlJoey } from '../../ExpoUrl';
 
-// wanings messages
+// ^ Wanings messages
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
-// framwework
+//^ Module de balise
 import { StyleSheet, View } from 'react-native';
-// librairies
-import { Text, Divider } from '@rneui/base';
-import * as Badges from '../components/BadgesComponent'
-import { FullButton} from '../components/ButtonsComponent';
-// style
-import { title } from '../components/GlobalStyles';
-// stockage
+import { Button, Text, Divider } from '@rneui/base';
+
+// ^Redux
 import { connect } from 'react-redux';
 
-
-
+import { CreerUnCompteBtn } from '../components/ButtonsStyles';
+import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
 
 function RegisterFormScreen2(props) {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
 
     /* VARIABLES D'ÉTAT  */
-    const userInfos = props.route.params // récupération des données entrées par l'utilisateur sur la screen précédente avec les paramètres
+    const [userInfos, setUserInfos] = useState(props.route.params)// récupération des données entrées par l'utilisateur sur la screen précédente avec les paramètres
     const [userOccupation, setUserOccupation] = useState("")
-    const [userOccupationSelected, setUserOccupationSelected] = useState(false) // vérifie si l'utilisateur à bien clické sur un bouton
+    const [login, setLogin] = useState(false)
+    const [userOccupationClicked, setUserOccupationClicked] = useState(true) // vérifie si l'utilisateur à bien clické sur un bouton
     const [messageError, setMessageError] = useState("")
-
-    /* VARAIBLES */
-    let domaines = ["comédien/ne","modèle", "photographe","styliste","réalisateur/ice vidéaste","option"]
 
     // * ___________________________ FUNCTIONS ___________________________
 
-    const addUserOccupation = (userOccupation) => { // ajoute le métier aux données envoyées en BDD 
+    const addUserOccupation = (userOccupation) => { // Pour ajouter le métier de l'utilisateur au données qui seront envoyées à la base de données  
         setUserOccupation(userOccupation)
-        userInfos['occupation'] = userOccupation // Ajout du choix à l'objet qui sera transmis à la base de données
-        setMessageError(null)
-        setUserOccupationSelected(true) // Rend le button "créer un compte" cliquable
-        
+        userInfos['occupation'] = userOccupation // Ajour=t du choix à l'objet qui sera transmis à la base de données
+        setUserOccupationClicked(false) // Rend le button "créer un compte" cliquable
     }
 
     const signUpUser = async () => { // sauvegarder un utilisateur dans la base de données
+        const rawResponse = await fetch(`http://${expoUrlJoey}/sign-up`, {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userInfos: userInfos }),
+        })
 
-        if (userOccupationSelected) { // l'utilisateur ne peut se connecter que s'il selectionne un domaine
-            const rawResponse = await fetch(`http://${expoUrlJoey}/sign-up`, {
-                method: 'POST',
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ userInfos: userInfos }),
-            })
-    
-            let response = await rawResponse.json() // OBJECT : Réponse du back-end
-    
-            /* Si l'utilisateur n'existe pas */
-            if (response.new_user === true) {
-                props.getUserInformations(response.user) // OBJECT : J'ajoute les informations dans mon store
-                props.navigation.navigate('PagesStacks') // redirection vers les Annonces
-    
-            }
-            else {
-                setMessageError("Ce compte existe déjà dans notre base de données")
-            }
+        let response = await rawResponse.json() // OBJECT : Réponse du back-end
+
+        /* Si l'utilisateur n'existe pas */
+        if (response.new_user === true) {
+            setLogin(true)
+            props.getUserInformations(response.user) // OBJECT : J'ajoute les informations dans mon store
+            props.navigation.navigate('PagesStacks') // redirection vers le Annonce
 
         }
         else {
-            setMessageError("Vous devez selectionner un domaine")
+            setMessageError("Ce compte existe déjà dans notre base de données")
         }
-       
 
     }
 
@@ -78,23 +63,40 @@ function RegisterFormScreen2(props) {
     return (
         <View style={styles.container}>
 
-            <Text style={{ marginBottom: 40, fontWeight: 'bold', fontSize : 25 }}>Choisissez votre domaine</Text>
+            <Text style={{ marginBottom: 15, fontWeight: 'bold' }}>Votre domaine</Text>
 
-            {/* domaines */}
+            {/* Options des métiers à choisir */}
+            <View dir="row" align="center" spacing={4}>
 
-            {userOccupation !== "" ? <Text style={{ marginBottom: 40 }}>domaine : {userOccupation}</Text> : null}
+                <Button
+                    buttonStyle={{ backgroundColor: '#1ADBAC' }}
+                    title="Comédien/ne"
+                    onPress={() => addUserOccupation("comédien/ne")}
+                />
 
-            <View style={{flexDirection : "column", width : "80%", alignText : "center"}}>
+                <Button
+                    buttonStyle={{ backgroundColor: '#16B88F' }}
+                    title="Modèle"
+                    onPress={() => addUserOccupation("modèle")}
+                />
+                <Button
+                    buttonStyle={{ backgroundColor: '#109171' }}
+                    title="Photographe"
+                    onPress={() => addUserOccupation("photographe")}
+                />
 
-            <Badges.SmallBadgesPlus
-                data={domaines}
-                option={'recruteur'}
-                badgeColorOption={'#333333'}
-                badgeTextColorOption={'#ffffff'}
-                onPressHandler={(value) => {
-                    addUserOccupation(value)
-                }}
-            />
+                <Button
+                    buttonStyle={{ backgroundColor: '#0B664F' }}
+                    title="Styliste"
+                    onPress={() => addUserOccupation("styliste")}
+                />
+
+                <Button
+                    buttonStyle={{ backgroundColor: '#074233' }}
+                    title="Réalisateur/ice vidéaste"
+                    onPress={() => addUserOccupation("réalisateur/ice vidéaste")}
+                />
+
             </View>
 
             <Divider
@@ -103,22 +105,29 @@ function RegisterFormScreen2(props) {
                 width={1}
             />
 
-            
+            {/* Bourrons pour les recruteur */}
+            <Button
+                containerStyle={{ width: 210 }}
+                buttonStyle={{ backgroundColor: '#AD4DB9' }}
+                title="Recruteur"
+
+                onPress={() => addUserOccupation("recruteur")}
+            />
+
             {/* Message d'erreur si compte déjà existan */}
             <Text>{messageError}</Text>
 
-            <View style={{ flexDirection: 'row', marginTop: 15 }}>
+            <View style={{ flexDirection: 'row', marginTop: 50 }}>
+                <Text onPress={() => props.navigation.navigate('RegisterFormScreen1', userInfos)}>Retour</Text>
 
-            <FullButton title='retour' 
-            buttonTextColor={'#ffffff'} buttonColor={'#000000'} 
-            onPressHandler={() => props.navigation.navigate('RegisterFormScreen1', userInfos)}
-            />
 
-            <FullButton title='créer un compte'
-            onPressHandler={() => signUpUser()}
-            />
+                <CreerUnCompteBtn onPressHandler={() => signUpUser()} />
                 
+
             </View>
+
+
+
 
         </View>
     );
@@ -134,9 +143,24 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     // -- GLOBAL STYLE ----------
+    pageBackground: {
+        ...pageBackground
+    },
     title: {
         ...title
     },
+    subTitle: {
+        ...subTitle
+    },
+    textRegular: {
+        ...textRegular
+    },
+    cardTitle: {
+        ...cardTitle
+    },
+    cardText: {
+        ...cardText
+    }
 });
 
 // * ___________________________ REDUX ___________________________

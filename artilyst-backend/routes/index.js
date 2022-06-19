@@ -18,7 +18,7 @@ const cost = 10;
 
 // ^ Paramètres et configurations
 cloudinary.config({
-  cloud_name: 'joeybervin',
+  cloud_name: 'Rafbervin',
   api_key: '557384916495445',
   api_secret: '4ODzJdCJtyRDjFNwkIL15nXYf9A'
 });
@@ -259,6 +259,7 @@ router.delete('/deleteProject', async function (req, res, next) {
 //? AJOUT
 // Uploader Photo dans Cloundinary et récuperer l'URL de la photo dans cloudinary */
 router.put('/upload_image_profil', async function (req, res, next) {
+
   let image = './tmp/' + uniqid() + '.jpg' // récupérer la photo du tmp en lui donnant un nom aleatoire avec uniqid
 
   var user_token = req.body.token
@@ -435,9 +436,11 @@ router.post('/search_casting', async function (req, res, next) {
     { gender: user.characteristics.gender, location: user.location, age_min: { $lt: userAge }, age_max: { $gt: userAge } }
   )
 
-  // let lolo = await projectModel.find()
+  let lolo = await projectModel.find(
+   
+  )
 
-  // console.log(lolo)
+  console.log(lolo)
 
   // RAPPEL : RAJOUTER COLLABORATORS : USER.OCCUPATION DANS LES FILTRES
 

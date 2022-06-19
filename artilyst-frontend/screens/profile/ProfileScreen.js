@@ -1,41 +1,53 @@
+import Animated from 'react-native-reanimated';
 
-import React, { useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 import { expoUrlJoey } from '../../ExpoUrl';
 
-// framework
+
+//^ Module de balise
 import { Dimensions, StyleSheet, View, Image, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
-// librairies
-import Animated from 'react-native-reanimated';
 import { Text, Button } from '@rneui/base';
 import { Overlay } from "@rneui/themed";
+//^ module bonus (icons)
 import { Ionicons } from '@expo/vector-icons';
+
+// ^ Carousel
 import Swiper from 'react-native-swiper'
+
+// ^Redux
+import { connect } from 'react-redux';
+
 import BottomSheet from 'reanimated-bottom-sheet';
 import * as ImagePicker from "expo-image-picker";
-// components
-import { FullButton} from '../components/ButtonsComponent';
-//style
-import { textRegular } from '../components/GlobalStyles';
-// stockage
-import { connect } from 'react-redux';
+
+import {  subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
+import { PortfolioBtn, ModifierProfilBtn } from '../components/ButtonsStyles';
+
 
 function ProfileScreen(props) {
 
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
     /* VARIABLES D'ÉTAT  */
+
     const [user, setUser] = useState(props.user)
     const [overlayVisibility, setOverlayVisibility] = useState(false); // Pour le chargement de l'image
+
+    
 
     /* VARIABLES */
     let sheetRef = React.useRef(null);
     let fall = new Animated.Value(1);
     let data = new FormData();
 
+    // * ___________________________ INITIALISATION DE LA PAGE ___________________________
+    /* PREMIÈRE */
+    /* SECONDE */
     // * ___________________________ FUNCTIONS ___________________________
 
-    const showImagePicker = async () => { // Ouvre les fichiers du téléphone
+    /* Pour ouvrir le dossier image/video de l'utilisateur et la rajouter (database + reducer  => profil) */
+    const showImagePicker = async () => {
         // Ask the user for the permission to access the media library 
         const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -91,8 +103,9 @@ function ProfileScreen(props) {
         }
     }
 
-    const openCamera = async () => { // Ouvre l'application caméra du téléphone
-        // demande de permission, pour l'accès à la caméra
+    /* Pour ouvrir la camera de l'utilisateur prendre une photo et la rajouter (database + reducer  => profil) */
+    const openCamera = async () => {
+        // Ask the user for the permission to access the camera
         const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
         if (permissionResult.granted === false) {
@@ -120,11 +133,14 @@ function ProfileScreen(props) {
 
                 });
 
+
+
                 let data_uploaded = await fetch(`http://${expoUrlJoey}/upload_image_profil`,
                     {
                         method: 'PUT',
                         body: data,
                     })
+
 
                 let result = await data_uploaded.json()
                 props.addPictures(result.url, user)
@@ -139,11 +155,12 @@ function ProfileScreen(props) {
         }
     }
 
-    const goToGallery = () => { // Pour rediriger vers la galerie
+    /* Pour rediriger vers la gallery */
+    const goToGallery = () => {
         props.navigation.navigate("GalleryScreen", { profileImage: "profileImage" })
     }
 
-    const renderInner = () => ( // menu d'options d'ajout de photos
+    const renderInner = () => (
         <View style={styles.panel}>
             <View style={{ alignItems: 'center' }}>
                 <Text style={styles.panelTitle}>Ajouter une photo</Text>
@@ -166,7 +183,8 @@ function ProfileScreen(props) {
         </View>
     );
 
-    const genderIcon = (gender) => { // Affichage d'un logo en fonction du genre
+    /* Pour afficher l'icon de "genre" des utilisateurs */
+    const genderIcon = (gender) => { //pour montrer le logo correspondant au sexe de l'utilisateur
         if (gender === 'femme') {
             return "female-outline"
         }
@@ -178,10 +196,9 @@ function ProfileScreen(props) {
     }
 
     // * ___________________________ AFFICHAGES SUR LA PAGE ___________________________
-    
+    /* MAP */
 
-    /* Si l'utilisateur n'à pas encore d'image de profil */
-    let userProfileImages ;
+    let userProfileImages
     if (user.profile_photo.length > 0) {
         userProfileImages = props.user.profile_photo
     }
@@ -189,8 +206,8 @@ function ProfileScreen(props) {
         userProfileImages = ["https://nopanic.fr/wp-content/themes/soledad/images/no-image.jpg"]
     }
 
-    /* MAP */
-    const userPhotos = userProfileImages.map((element, index) => { // affichage du carousel d'images
+
+    const userPhotos = userProfileImages.map((element, index) => {
         return (
             <View key={index} style={{ width: "100%", height: "100%", borderRadius: 10, alignItems: "center" }}>
                 <Image
@@ -202,7 +219,12 @@ function ProfileScreen(props) {
         )
     })
 
+    console.log(user)
+
+
     // * ___________________________ PAGE ___________________________
+
+
 
     if (user.occupation === "recruteur") {
         return (
@@ -227,11 +249,11 @@ function ProfileScreen(props) {
                 />
 
 
-                <View style={styles.container}>
+                <View style={styles.mainContainer}>
 
                     {/* -------- CARROUSEL D'IMAGES --------  */}
                     <View style={styles.swipperContainer}>
-                        <Swiper  showsButtons={false} activeDotColor="white" dotColor='rgba(0,0,0,.6)' showsHorizontalScrollIndicator={true}>
+                        <Swiper style={styles.wrapper} showsButtons={false} activeDotColor="white" dotColor='rgba(0,0,0,.6)' showsHorizontalScrollIndicator={true}>
 
                             {userPhotos}
 
@@ -265,7 +287,7 @@ function ProfileScreen(props) {
 
 
                     {/* -------- INFORMATIONS --------  */}
-                    <View style={styles.informationsContainer} >
+                    <View style={styles.firstInformations} >
                         <Text h5 style={{ fontWeight: "bold", marginRight: 35, fontSize: 20 }}>{user.name}
                         </Text>
                         <View style={styles.location}>
@@ -276,7 +298,7 @@ function ProfileScreen(props) {
 
 
                     {/* -------- CATEGORIE --------  */}
-                    <View style={styles.badge_occupation}>
+                    <View style={styles.occupationContainer}>
                         <Text style={styles.occupationText}>{user.occupation ? user.occupation : "non renseigné"}</Text>
                     </View>
 
@@ -292,15 +314,16 @@ function ProfileScreen(props) {
     }
     else {
         return (
-            <ScrollView style={styles.mainContainer}>
+            <ScrollView style={styles.container}>
 
-                {/* chargement d'image */}
-                <Overlay isVisible={overlayVisibility} >
+                <Overlay
+                    isVisible={overlayVisibility}
+                >
                     <ActivityIndicator size="large" color="#000000" />
                     <Text>Chargement de l'image</Text>
+
                 </Overlay>
 
-                {/* menu d'options d'ajout de photos */}
                 <BottomSheet
                     ref={sheetRef}
                     snapPoints={[1050, 0]}
@@ -311,64 +334,64 @@ function ProfileScreen(props) {
                     borderRadius={10}
                 />
 
-                <View style={styles.container}>
+
+                <View style={styles.mainContainer}>
 
                     {/* -------- CARROUSEL D'IMAGES --------  */}
                     <View style={styles.swipperContainer}>
-                        <Swiper showsButtons={false} activeDotColor="#1ADBAC" dotColor='#FFFFFF6E' showsHorizontalScrollIndicator={false}>
+                        <Swiper style={styles.wrapper} showsButtons={false} activeDotColor="#1ADBAC" dotColor='white' showsHorizontalScrollIndicator={false}>
 
                             {userPhotos}
 
                         </Swiper>
                         <Ionicons style={{ position: 'absolute', bottom: 0, right: 35, padding: 15, borderRadius: 50 }}
                             name={user.profile_photo.length === 0 ? 'images' : "camera-outline"} color="#ffffff" size={40}
-                            onPress={() => sheetRef.current.snapTo(0)}
-                        />
+                            onPress={() => sheetRef.current.snapTo(0)} />
+
                     </View>
 
-                    {/* -------- INFORMATIONS (name, gender) --------  */}
-                    <View style={styles.informationsContainer} >
+
+                    {/* -------- INFORMATIONS --------  */}
+                    <View style={styles.firstInformations} >
                         <Text style={{ fontSize: 30, fontWeight: 'bold', marginBottom: 5 , marginRight : 8}}>{user.name}</Text>
                         <Ionicons name={genderIcon(user.characteristics.gender ? user.characteristics.gender : "male-female-outline")} size={25} color='black' /> 
                     </View>
-                    {/* -------- INFORMATIONS (localisation) --------  */}
-                    <View style={styles.locationContainer}>
+                    <View style={styles.location}>
                         <Ionicons style={{marginRight : 8}} name={'location-sharp'} size={18} color='black' />
                         <Text style={styles.textRegular}>{user.location ? user.location : "Non renseigné"}</Text>
                     </View>
 
-                    {/* -------- DOMAINE --------  */}
+                    {/* -------- CATEGORIE --------  */}
                     <View style={styles.occupationContainer}>
                         <Text style={styles.occupationText}>{user.occupation ? user.occupation : "Non renseigné"}</Text>
                     </View>
 
+
                     {/* -------- BOUTONS --------  */}
                     <View style={{ flexDirection: 'row', justifyContent: "center", alignItems: "center", marginBottom: 10, width: "100%" }} >
-                    <FullButton title='Portfolio'
-                        onPressHandler={() => props.navigation.navigate('PortfoliosScreen')}
-                        />
-                    <FullButton title='Modifier mon compte'
-                        onPressHandler={() => props.navigation.navigate('ProfileEditScreen')}
-                        />
+
+                        <PortfolioBtn style={{borderWidth : 2, borderColor : 'black'}} onPressHandler={() => props.navigation.navigate('PortfoliosScreen')} />
+                        <ModifierProfilBtn onPressHandler={() => props.navigation.navigate('ProfileEditScreen')} />
+
                     </View>
 
-                    <View style={{ width : "90%", justifyContent: 'center', textAlign: 'center', marginVertical : 25 }}>
 
+                    <View style={{ width : "90%", justifyContent: 'center', textAlign: 'center', marginVertical : 25 }}>
                         {/* -------- ABOUT --------  */}
                         <View style={{ marginBottom: 25 }}>
                             <Text style={{ fontSize: 17, fontWeight: "bold", marginBottom: 10 }}>À propos</Text>
-                            <Text>{user.description !== null ? user.description : "non renseigné"}</Text>
+                            <Text>{user.description !== undefined ? user.description : "non renseigné"}</Text>
                         </View>
 
-                        {/* -------- CV --------  */}
-                        <View style={{ marginBottom: 25 }}>
+                         {/* -------- CV --------  */}
+                         <View style={{ marginBottom: 25 }}>
                             <Text style={{ fontSize: 17, fontWeight: "bold", marginBottom: 10 }}>Expériences pro</Text>
-                            <Text>{user.cv !== null ? user.cv : "non renseigné"}</Text>
+                            <Text>{user.cv !== undefined ? user.cv : "non renseigné"}</Text>
                         </View>
 
                         {/* -------- USER CARACTERISTICS --------  */}
                         <View >
-                            <Text style={{ fontSize: 17, fontWeight: "bold", marginBottom: 10 }}>Informations</Text>
+                         <Text style={{ fontSize: 17, fontWeight: "bold", marginBottom: 10 }}>Informations</Text>
                             <View style={{flexDirection : 'row', flexWrap : 'wrap'}}>
                                 
                                 <Text style={styles.badge}> 
@@ -428,15 +451,68 @@ function ProfileScreen(props) {
 // * ___________________________ STYLES ___________________________
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff'
+    },
+    mainContainer: {
+        marginTop: 10,
+        marginBottom: 115,
+        justifyContent: 'center',
+        alignItems: "center",
+    },
+    containerRaf: {
+        marginHorizontal: 10
+    },
+    swipperContainer: {
+        width: '100%',
+        height: 300,
+        marginBottom: 15
+    },
+    wrapper: {},
+
+    firstInformations: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        margin: 10
+    },
+    location: {
+        flexDirection: 'row',
+
+
+    },
+    occupationContainer: {
+        borderRadius: 7,
+        width: "30%",
+        height: 30,
+        backgroundColor: 'black',
+        shadowColor: 'black',
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 20,
+        marginBottom: 15
+    },
+    occupationText: {
+        color: '#fff',
+        fontSize: 16
+    },
+    caracteristicsContainer: {
+        lineHeight: 10,
+        textAlign: 'center'
+    },
     badge : {
         margin: 8, 
-        padding: 10,
-        paddingHorizontal : 18, 
-        paddingBottom : 12,
-        borderRadius: 15, 
+        padding: 8,
+        paddingHorizontal : 15, 
+        borderRadius: 12, 
         color: 'white', 
         backgroundColor: '#C0C0C0F4', 
         fontWeight: 'bold',
+        justifyContent : 'center',
+        alignItems: 'center',
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -448,48 +524,14 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     container: {
-        marginTop: 10,
-        marginBottom: 115,
-        justifyContent: 'center',
-        alignItems: "center",
-    },
-    informationsContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        margin: 10
-    },
-    locationContainer: {
-        flexDirection: 'row',
-    },
-    mainContainer: {
         flex: 1,
-        backgroundColor: '#fff'
     },
-    occupationContainer: {
-        borderRadius: 7,
-        width: "50%",
-        height: 30,
-        backgroundColor: '#000000',
-        shadowColor: 'black',
-        shadowColor: "#000000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
-
-        elevation: 3,
-        shadowOpacity: 0.1,
-        shadowRadius: 2,
+    commandButton: {
+        padding: 15,
+        borderRadius: 10,
+        backgroundColor: '#1ADBAC',
         alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 20,
-        marginBottom: 15
-    },
-    occupationText: {
-        color: '#fff',
-        fontSize: 16
+        marginTop: 10,
     },
     panel: {
         height: 1050,
@@ -527,25 +569,54 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginVertical: 7,
     },
+
     panelButtonTitle: {
         fontSize: 17,
         fontWeight: 'bold',
         color: 'white',
-    },
-    panelButtonTitleCancel : {
+    },panelButtonTitleCancel : {
         fontSize: 17,
         fontWeight: 'bold',
     },
-    swipperContainer: {
-        width: '100%',
-        height: 300,
-        marginBottom: 15
+    action: {
+        flexDirection: 'row',
+        marginTop: 10,
+        marginBottom: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#f2f2f2',
+        paddingBottom: 5,
+    },
+    actionError: {
+        flexDirection: 'row',
+        marginTop: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#FF0000',
+        paddingBottom: 5,
+    },
+    textInput: {
+        flex: 1,
+        marginTop: Platform.OS === 'ios' ? 0 : -12,
+        paddingLeft: 10,
+        color: '#05375a',
     },
 
     // -- GLOBAL STYLE ----------
+
+    title: {
+        ...title
+    },
+    subTitle: {
+        ...subTitle
+    },
     textRegular: {
         ...textRegular
     },
+    cardTitle: {
+        ...cardTitle
+    },
+    cardText: {
+        ...cardText
+    }
 
 
 });
@@ -567,3 +638,5 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(ProfileScreen);
+
+

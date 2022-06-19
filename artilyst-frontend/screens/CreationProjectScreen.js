@@ -1,25 +1,27 @@
 
 import React, { useState, useEffect } from 'react';
+
 import { expoUrlJoey } from '../ExpoUrl';
 
-// Wanings messages
+// ^ Wanings messages
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
-// balise
+//^ Module de balise
 import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
-import { Text, Divider, Button, Image } from '@rneui/base';
+import { Text, Divider, Button, Tile, Image } from '@rneui/base';
 import { Overlay, CheckBox } from '@rneui/themed';
 import { Menu, MenuOptions, MenuOption, MenuTrigger, } from 'react-native-popup-menu';
 import { Ionicons } from '@expo/vector-icons';
- //style
-import { title } from './components/GlobalStyles';
-// stockage
+
+import { subTitle, textRegular, title, cardTitle, cardText } from './components/GlobalStyles';
+
 import { connect } from 'react-redux';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
- function ProjectsScreen(props) {
+ function CreationProjetScreen(props) {
 
   // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
   /* VARIABLES D'ÉTAT  */
@@ -31,11 +33,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
   let userChoiceUncheck = { userChoice: "uncheck" }
   let userChoiceCheck = { userChoice: "check" }
 
+
+/*   const isFocus = useIsFocused();
+  const images = ["https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920", "https://images.unsplash.com/photo-1571590946238-a0ba990d12a9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2FzdGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8bW92aWV8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1601506521793-dc748fc80b67?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTN8fHNob290aW5nfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8c2hvb3Rpbmd8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1607692605098-2b3cd0ebdd08?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8c2VyaWV8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8bW92aWV8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fGV2ZW50fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8ZXZlbnR8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1559694204-61edb596dab1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fHN0eWxpc3R8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1501699169021-3759ee435d66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8c3R5bGlzdHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=400&q=60", "https://images.unsplash.com/photo-1632643871772-b68cfd34b303?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687", "https://images.unsplash.com/photo-1540320865252-e4abf9e80004?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Y2FzdGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=400&q=60"] */
   // * ___________________________ INITIALISATION DE LA PAGE ___________________________
   /* PREMIÈRE */
 
   useEffect(() => {
-    async function loadProjects() {
+    async function loadCasting() {
       var rawResponse = await fetch(`http://${expoUrlJoey}/displayProjects`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -58,7 +63,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
         AsyncStorage.setItem("userMessage", JSON.stringify(userChoiceUncheck))
       }
     });
-    loadProjects();
+    loadCasting();
   }, [])
   /* SECONDE */
 
@@ -72,7 +77,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
     setOverlayVisibility(false)
   }
 
-  const deleteProject = async (id, index) => {
+  const deleteFunction = async (id, index) => {
     await fetch(`http://${expoUrlJoey}/deleteProject?id=${id}`, {
       method: 'DELETE'
     })
@@ -104,7 +109,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
             <MenuOption onSelect={() => alert(`Not called`)} text='Voir les artistes correspondants' />
 
-            <MenuOption onSelect={() => deleteProject(element._id, index)} text='Supprimer' />
+            <MenuOption onSelect={() => deleteFunction(element._id, index)} text='Supprimer' />
 
           </MenuOptions>
         </Menu>
@@ -143,7 +148,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <CheckBox
                 center
-                checkedColor='#000000'
+                checkedColor='black'
                 onPress={() => { setCheckBoxStatus(checkBoxStatus === true ? false : true) }}
                 checked={checkBoxStatus === false ? false : true}
               />
@@ -170,14 +175,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
             type="solid"
             containerStyle={{ borderWidth: 2, borderRadius: 10, borderColor: 'transparent', width: "30%", marginTop: 20, }}
             buttonStyle={{ borderRadius: 8, height: 100, backgroundColor: '#1ADBAC' }}
-            onPress={() => { props.navigation.navigate('ProjectCreationScreen1') }}
+            onPress={() => { props.navigation.navigate('CollaborateurDuProjetScreen') }}
           >
             <Ionicons
               style={styles.icon}
               color='white'
               name="add"
               size={50}
-              onPress={() => { props.navigation.navigate('ProjectCreationScreen1') }}
+              onPress={() => { props.navigation.navigate('CollaborateurDuProjetScreen') }}
             />
           </Button>
         </View>
@@ -223,6 +228,19 @@ const styles = StyleSheet.create({
   title: {
     ...title
   },
+  subTitle: {
+    ...subTitle
+  },
+  textRegular: {
+    ...textRegular
+  },
+  cardTitle: {
+    ...cardTitle
+  },
+  cardText: {
+    ...cardText
+  }
+
 });
 
 // * ___________________________ REDUX ___________________________
@@ -245,4 +263,4 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ProjectsScreen);
+)(CreationProjetScreen);
