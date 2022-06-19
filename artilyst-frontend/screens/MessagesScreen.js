@@ -11,7 +11,6 @@ import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } fro
 
 
 let { width: screenWidth, height: screenHeight } = Dimensions.get('screen')
-
 export default function MessagesScreen() {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________

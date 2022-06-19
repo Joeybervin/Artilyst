@@ -105,7 +105,7 @@ export function PostulerBtn(props) {
                     alignItems: 'center',
                     borderRadius: 16,
                     padding: 1,
-
+                    // margin: 3
                 }}>
                 <TouchableOpacity
                     activeOpacity={.7}

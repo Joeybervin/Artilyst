@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var projects_selected = mongoose.Schema({
     idProject:{type: mongoose.Schema.Types.ObjectId, ref: 'projects' },
     match : Boolean,
-});
+}, {_id : false});
 
 var userSchema = mongoose.Schema({
     name : String,
