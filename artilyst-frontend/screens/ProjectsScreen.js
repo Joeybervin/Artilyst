@@ -36,7 +36,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
   useEffect(() => {
     async function loadProjects() {
-      var rawResponse = await fetch(`http://${expoUrlJoey}/displayProjects`, {
+      var rawResponse = await fetch(`http://${expoUrlJoey}/users/displayProjects`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: `token=${props.user.token}`,

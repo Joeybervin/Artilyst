@@ -1,5 +1,7 @@
 var fileUpload = require('express-fileupload');
-require('./routes/bdd_connection')
+
+require('./models/bdd_connection'); // Pour la connexion à la base de données
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -8,6 +10,9 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var searchsRouter = require('./routes/searchs');
+var castingsRouter = require('./routes/castings');
+var databaseSeederRouter = require('./routes/databaseSeeder');
 
 var app = express();
 app.use(fileUpload());
@@ -23,6 +28,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/castings', castingsRouter);
+app.use('/searchs', searchsRouter);
+app.use('/databaseSeeder', databaseSeederRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

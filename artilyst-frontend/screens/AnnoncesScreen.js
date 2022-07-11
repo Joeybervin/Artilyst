@@ -66,7 +66,7 @@ function AnnoncesScreen(props) {
 
         // * Si un artiste se connecte => Visualisation de tous les projets le correspondant
         async function loadCasting() {
-            var rawResponse = await fetch(`http://${expoUrlJoey}/search_casting`, {
+            var rawResponse = await fetch(`http://${expoUrlJoey}/searchs/search_casting`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.user.token}`,

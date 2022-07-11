@@ -17,6 +17,7 @@ import {title} from '../components/GlobalStyles';
 import { connect } from 'react-redux';
 //import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { faker } from '@faker-js/faker';
 function ConnectionScreen(props) {
 
     // * ___________________________ VARIABLES & VARIABLES D'ÉTAT ___________________________
@@ -44,7 +45,8 @@ function ConnectionScreen(props) {
             }
           }); */
         async function loadData() {
-            const rawResponse = await fetch(`http://${expoUrlJoey}/user_profile`, {
+            
+            const rawResponse = await fetch(`http://${expoUrlJoey}/users/user_profile`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `token=WTBNc1Uk9qyA6QGRhlhyIqXbJygw3bdZ`
@@ -52,6 +54,7 @@ function ConnectionScreen(props) {
             let response = await rawResponse.json();
             let responseCopy = { ...response }
             setUserData(responseCopy)
+            console.log(userData)
             
 
         }
@@ -59,6 +62,64 @@ function ConnectionScreen(props) {
     }, []);
 
     // * ___________________________ FUNCTIONS ___________________________
+
+    /* Pour créer une fausse base de sonnées */
+    async function fakeData() {
+
+    const data = []
+    
+    for (let i = 0; i < 5 ; i++) {
+
+        let name = faker.name.firstName('female');
+        const clientId = "bmUwkCOfegLGk9HGqY9rRvUV20OPwFaaiasWlXYYDuI";
+
+        const url = "https://api.unsplash.com/search/photos?page=1&query=" + image + "&client_id=" + clientId;
+
+
+        let newData = {
+            name : faker.name.findName(`${name}`),
+            email :  name,
+            password :  "$2y$10$xMD/f9Nuhz3Qh8LilG4xqOs5dozUjPDhGJqz9fVvDzk79iwzCUIu6",
+            occupation : "modèle",
+            description: faker.lorem.lines(),
+            cv : faker.lorem.paragraphs(2),
+            profile_photo : [`${faker.image.imageUrl(undefined, undefined, 'woman', true )}`],
+            portfolio :  [
+            {
+            title : faker.random.word(),
+            images : [faker.image.imageUrl(undefined, undefined, 'model', true )]
+            }
+            ],
+            projects_selected :  [] , // Object => id du projet + match en booleen
+            projects_created : [],
+            insert_date: faker.datatype.datetime(1893456000000) ,
+            date_of_birth :  faker.date.birthdate({ min: 18, max: 40, mode: 'age' }),
+            characteristics : {
+                gender: faker.name.gender(true), 
+                ethnicGroup: faker.helpers.arrayElement(["afro","asiatique","caucasien/ne","hispanique","indien/ne","oriental/e"]),
+                hair: faker.helpers.arrayElement(["blond/e","brun/e","noir","gris","blanc","roux","chatain","couleur"]), 
+                eyes: faker.helpers.arrayElement(["bleu","marron","vairon","vert","noir","gris","autre"]), 
+                height: faker.datatype.number({ min: 1, max: 2, precision: 0.01 }), 
+                weight: faker.mersenne.rand(40, 100), 
+                corpulence: faker.helpers.arrayElement(["athnétique","enrobé/e","curvy","fin/e","maigre","musclé/e","moyen/ne","bodybuildé/e"]),
+                measurements: { 
+                    waist: faker.mersenne.rand(120, 40), 
+                    bust: faker.mersenne.rand(130, 65), 
+                    hips: faker.mersenne.rand(150, 40) },
+            },
+            location : faker.helpers.arrayElement(["Paris","Lille","Marseille","Bordeaux","Lyon"]),
+            token : faker.datatype.uuid(),
+            siren : null,
+        } 
+
+        data.push(newData)
+    }
+
+    console.log(data.length)
+    console.log(data)
+        
+
+    }
 
     /* Component pour afficher le logo */
     const SvgComponent = (props) => (
@@ -88,18 +149,25 @@ function ConnectionScreen(props) {
         <View style={styles.container}>
 
             <SvgComponent />
+            <Text h1 style={styles.title} onPress={() => fakeData()}>SAVE NEW USERS</Text>
             <Text style={styles.title}>Bienvenue sur Artilyst.</Text>
             
-            <BigOutlineButtonLieanerGradient title={"Se connecter"} 
+            <BigOutlineButtonLieanerGradient title={"Application"} 
                 onPressHandler={() => {
                     props.getUserInformations(userData)
                     props.navigation.navigate('PagesStacks')
                     //props.navigation.navigate('ConnectionFormScreen')
                 }} />
+                 <BigOutlineButtonLieanerGradient title={"Se connecter"} 
+                onPressHandler={() => {
+                    props.navigation.navigate('ConnectionFormScreen')
+                }} />
 
             <BigOutlineButtonLieanerGradient title={"Créer un compte"}
                 onPressHandler={() => props.navigation.navigate('RegisterFormScreen1')}
             />
+
+            <Text>Premier pas ? Venez ddécouvrir l'application</Text>
         
         </View>
     );

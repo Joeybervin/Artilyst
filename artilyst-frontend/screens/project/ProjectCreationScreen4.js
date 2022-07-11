@@ -40,7 +40,7 @@ function ProjectCreationScreen4(props) {
     /* fonction pour sauvegarder un utilisateur dans la base de données */
     const projectSave = async () => {
 
-        const rawResponse = await fetch(`http://${expoUrlJoey}/project`, {
+        const rawResponse = await fetch(`http://${expoUrlJoey}/CreateProject`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ projectInfos: projectInfos }),

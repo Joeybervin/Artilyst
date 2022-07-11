@@ -667,8 +667,6 @@ return (
         </ScrollView >
     </KeyboardAvoidingView >
 );
-   
-
 }
 
 // * ___________________________ STYLES ___________________________

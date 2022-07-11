@@ -6,16 +6,16 @@ var projectSchema = mongoose.Schema({
     owner : String, // token : de l'utilisateur qui la créé
     description : String,
     collaborators : String,
-    gender : String,
     insert_date : Date, 
     project_dates : Object, // début => fin
     category : String,
     remuneration : Boolean,
     photos : Array,
     users_selected : Array,
-    age_min: Number,
-    age_max: Number,
+    location : String,
     collaborators_characteristics : {
+        age_min: Number,
+        age_max: Number,
         gender: String, 
         ethnicGroup: String,
         hair: String, 
@@ -28,7 +28,6 @@ var projectSchema = mongoose.Schema({
             bust: Number, 
             hips: Number },
         },
-    location : String,
 })
 
 
