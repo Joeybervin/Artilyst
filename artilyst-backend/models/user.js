@@ -35,6 +35,7 @@ var userSchema = mongoose.Schema({
     location : String,
     token : String,
     siren : Number, // 14 chiffre
+    test : Boolean,
 })
 
 

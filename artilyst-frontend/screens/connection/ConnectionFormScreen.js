@@ -1,25 +1,27 @@
 import React, { useState } from 'react';
+// React navigation
+import { Link } from '@react-navigation/native';
 
 // & import des urls de chacune
 import { expoUrlJoey } from '../../ExpoUrl';
 
-// ^ Wanings messages
+// Wanings messages
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...', '[Unhandled promise rejection: TypeError: Network request failed]']);
 
-//^ Module de balise
+// components
 import { StyleSheet, View } from 'react-native';
-import { Text, Input, Button } from '@rneui/base';
-//^ module bonus (icons)
+import { Text, Input } from '@rneui/base';
 import { Ionicons } from '@expo/vector-icons';
+// custom components
+import { BigOutlineButtonLieanerGradient } from '../components/ButtonsComponent';
 
-// ^ React navigation
-import { Link } from '@react-navigation/native';
+// Style
+import {title } from '../components/GlobalStyles';
 
-// ^Redux
+// Redux
 import { connect } from 'react-redux';
-import { ConnexionBtn } from '../components/ButtonsComponent';
-import { pageBackground, subTitle, textRegular, title, cardTitle, cardText } from '../components/GlobalStyles';
+
 
 function ConnectionFormScreen(props) {
 
@@ -71,7 +73,7 @@ function ConnectionFormScreen(props) {
     /* Appuie sur le boutton connexion : envoie des données à la database */
     const signInUser = async () => {
 
-        handleSubmit() // BOOLEAN :  Vérifications des inputs ==> Je n'envoie les données que si mes input sont bons
+    handleSubmit() // BOOLEAN :  Vérifications des inputs ==> Je n'envoie les données que si mes input sont bons
 
         if (login) {
             const rawResponse = await fetch(`http://${expoUrlJoey}/sign-in`, {
@@ -101,7 +103,7 @@ function ConnectionFormScreen(props) {
 
             <View style={styles.container}>
 
-            <Text style={styles.title}>Connexion à votre compte</Text>
+            <Text style={styles.title}>Connectez-vous</Text>
             {/* Email */}
             <Input
                 placeholder='Email'
@@ -124,8 +126,10 @@ function ConnectionFormScreen(props) {
             <Text>{newMemberMessage}</Text>
 
             {/* Bouton => envoyé */}
-            <ConnexionBtn onPressHandler={() => signInUser()} />
-
+            <BigOutlineButtonLieanerGradient title={"connexion"} 
+                onPressHandler={() =>  signInUser() }
+            />
+            
             <Link style={{ marginTop: 25 }} to={'/RegisterFormScreen1'}>Pas encore membre ? Créer un compte</Link>
 
             </View>
@@ -148,24 +152,11 @@ const styles = StyleSheet.create({
         width : '90%'
     },
     // -- GLOBAL STYLE ----------
-    pageBackground: {
-        ...pageBackground
-    },
+   
     title: {
         ...title
     },
-    subTitle: {
-        ...subTitle
-    },
-    textRegular: {
-        ...textRegular
-    },
-    cardTitle: {
-        ...cardTitle
-    },
-    cardText: {
-        ...cardText
-    }
+   
 });
 
 // * ___________________________ REDUX ___________________________

@@ -25,7 +25,7 @@ export default function ProjectCreationScreen3(props) {
 
 
     /* VARIABLES */
-    const categories = ["création textile", "défilé", "evenement / vernissage", "court métrage", "long métrage", "série", "spot publicitaire", "shooting"]
+    const categories = ["Création textile", "Défilé", "Évènement / Vernissage", "Court métrage", "Long métrage", "Série", "Spot publicitaire", "Shooting"]
 
     /* Params */
     let ParamsProject2 = props.route.params;

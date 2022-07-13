@@ -12,6 +12,7 @@ import Svg, { Path } from "react-native-svg"
 import { BigOutlineButtonLieanerGradient } from '../components/ButtonsComponent';
 // style
 import {title} from '../components/GlobalStyles';
+import {createFakeUserData, createFakeCastingData} from '../../databaseSeeder';
 
 // modules de stockage
 import { connect } from 'react-redux';
@@ -44,12 +45,13 @@ function ConnectionScreen(props) {
               console.log('Pas encore dans le local storage')
             }
           }); */
-        async function loadData() {
+          
+          async function loadData() {
             
             const rawResponse = await fetch(`http://${expoUrlJoey}/users/user_profile`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `token=WTBNc1Uk9qyA6QGRhlhyIqXbJygw3bdZ`
+                body: `token=IrCbKPujADIy7SWGLHsDizDKmUXAvYgR`
             })
             let response = await rawResponse.json();
             let responseCopy = { ...response }
@@ -68,12 +70,30 @@ function ConnectionScreen(props) {
 
     const data = []
     
-    for (let i = 0; i < 5 ; i++) {
+    for (let i = 0; i < 1 ; i++) {
 
-        let name = faker.name.firstName('female');
+        
+
+        const name = faker.name.firstName('female');
+
+        /* UNSLPASH */
         const clientId = "bmUwkCOfegLGk9HGqY9rRvUV20OPwFaaiasWlXYYDuI";
-
-        const url = "https://api.unsplash.com/search/photos?page=1&query=" + image + "&client_id=" + clientId;
+        const imageCategory = "model-girl"
+        let count = 1
+        const rawResponseUnsplash = await fetch(`https://api.unsplash.com/photos/random?count=${count}&query=${imageCategory}&client_id=${clientId}`, {});
+        let unsplashResponse = rawResponseUnsplash
+        if (unsplashResponse.length > 1) {
+            unsplashResponse = unsplashResponse[0].urls.raw
+        } else {
+            let photos = []
+            for (let i = 0; i < unsplashResponse.length; i++) {
+                photos.push(unsplashResponse[i].urls.raw)
+            }
+            unsplashResponse = photos
+        }
+        
+        let unsplashImage = unsplashResponse
+        /* Index = 0 , urls => raw */
 
 
         let newData = {
@@ -121,6 +141,9 @@ function ConnectionScreen(props) {
 
     }
 
+
+    
+
     /* Component pour afficher le logo */
     const SvgComponent = (props) => (
         <Svg
@@ -149,7 +172,10 @@ function ConnectionScreen(props) {
         <View style={styles.container}>
 
             <SvgComponent />
-            <Text h1 style={styles.title} onPress={() => fakeData()}>SAVE NEW USERS</Text>
+            <Text h1 style={styles.title} onPress={() => {
+                //createFakeCastingData("modèle","Défilé", true, "fashion show")
+                createFakeUserData("Female",true,"modèle","model-girl",3,"model-girl")
+                }}>SAVE NEW USERS</Text>
             <Text style={styles.title}>Bienvenue sur Artilyst.</Text>
             
             <BigOutlineButtonLieanerGradient title={"Application"} 
@@ -158,10 +184,10 @@ function ConnectionScreen(props) {
                     props.navigation.navigate('PagesStacks')
                     //props.navigation.navigate('ConnectionFormScreen')
                 }} />
-                 <BigOutlineButtonLieanerGradient title={"Se connecter"} 
-                onPressHandler={() => {
-                    props.navigation.navigate('ConnectionFormScreen')
-                }} />
+
+            <BigOutlineButtonLieanerGradient title={"Se connecter"} 
+                onPressHandler={() => props.navigation.navigate('ConnectionFormScreen') }
+            />
 
             <BigOutlineButtonLieanerGradient title={"Créer un compte"}
                 onPressHandler={() => props.navigation.navigate('RegisterFormScreen1')}

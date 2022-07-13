@@ -7,7 +7,10 @@ var projectSchema = mongoose.Schema({
     description : String,
     collaborators : String,
     insert_date : Date, 
-    project_dates : Object, // début => fin
+    project_dates : { 
+        start_date : Date,
+        end_date : Date,
+    }, 
     category : String,
     remuneration : Boolean,
     photos : Array,
@@ -16,18 +19,37 @@ var projectSchema = mongoose.Schema({
     collaborators_characteristics : {
         age_min: Number,
         age_max: Number,
-        gender: String, 
-        ethnicGroup: String,
-        hair: String, 
-        eyes: String, 
-        height: Number, 
-        weight: Number, 
-        corpulence: String,
-        measurements: { 
-            waist: Number, 
-            bust: Number, 
-            hips: Number },
+        gender: Array, 
+        ethnicGroup: Array,
+        hair: Array, 
+        eyes: Array,
+        height: {
+            min : Number,
+            max : Number,
+        }, 
+        weight: {
+            min : Number,
+            max : Number,
+        }, 
+        corpulence: {
+            min : Number,
+            max : Number,
         },
+        measurements: { 
+            waist: {
+                min : Number,
+                max : Number,
+            }, 
+            bust: {
+                min : Number,
+                max : Number,
+            }, 
+            hips: {
+                min : Number,
+                max : Number,
+            } },
+        },
+        test : Boolean,
 })
 
 
